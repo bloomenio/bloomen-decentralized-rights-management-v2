@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 53.2 (72643) - https://sketchapp.com -->
+    <title>FF37E487-1D3A-4F29-A6E4-830D807F18FB</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M11,0 C4.917,0 0,4.917 0,11 C0,17.083 4.917,22 11,22 C17.083,22 22,17.083 22,11 C22,4.917 17.083,0 11,0 Z M16.5,14.949 L14.949,16.5 L11,12.551 L7.051,16.5 L5.5,14.949 L9.449,11 L5.5,7.051 L7.051,5.5 L11,9.449 L14.949,5.5 L16.5,7.051 L12.551,11 L16.5,14.949 Z" id="path-1"></path>
+    </defs>
+    <g id="bloomen_desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets" transform="translate(-345.000000, -332.000000)">
+            <g id="material_icons" transform="translate(65.000000, 288.000000)">
+                <g id="ic_cancel" transform="translate(281.000000, 46.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

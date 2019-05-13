@@ -1,0 +1,168 @@
+{
+  "common": {
+    "confirm": "Confirmar",
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "yes": "Sí",
+    "no": "No",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "use": "Usar",
+    "next": "Siguiente",
+    "send": "Enviar",
+    "finalize": "Finalizar",
+    "back": "Volver",
+    "update": "Actualizar",
+    "showMore": "Ver más",
+    "loading": "Cargando",
+    "open": "Abrir",
+    "restore": "Recuperar",
+    "invalid_mnemonic": "Mnemonic no valido",
+    "logout": "Salir",
+    "copy_mnemonic": "Copiar Mnemonic"
+  },
+  "add_member_dialog": {
+    "add_member": "Añadir miembro",
+    "cmo": "CMO",
+    "member": "Miembro",
+    "image_url": "Introduzca la URL de la imagen",
+    "country": "País",
+    "preview_image": "Vista previa de la imagen",
+    "color_template": "Elige el color de tu plantilla."
+  },
+  "claim_dialog": {
+    "claim_id": "CLAIM ID",
+    "right_holder_name": "Nombre del titular correcto",
+    "right_holder_IPI_name_number": "Numero IPI del titual correcto",
+    "right_holder_proprietary_ID": "ID del propietario",
+    "right_holder_role": "Role del titular",
+    "original_publisher_name": "Nombre del publicador original",
+    "original_publisher_IPI_name_number": "Numero IPI del publicador original",
+    "start_date": "Fecha de inicio",
+    "end_date": "Fecha final",
+    "mechanical": "",
+    "performance": "",
+    "synchronisation": "Sincronización",
+    "affiliation": "Afiliación",
+    "ownership_split": "",
+    "collection_split": "",
+    "right_owner": "",
+    "right_owner_proprietary_ID": "",
+    "split": "",
+    "countries": "Países",
+    "use_types": "",
+    "add_country": "Agregar pais"
+  },
+  "user_dialog": {
+    "name": "Nombre",
+    "last_name": "Apellido",
+    "company": "Compañia",
+    "id": "ID",
+    "member": "Member",
+    "title": "Datos de usuario"
+  },
+  "user_diaog": {
+    "role": "Rol"
+  },
+  "claims": {
+    "table": {
+      "type": "Tipo",
+      "id": "ID",
+      "status": "Estado"
+    }
+  },
+  "inbox": {
+    "title_no_message": "No tienes mensajes",
+    "message_pick": "¡Elige un mensaje!"
+  },
+  "inbox_detail": {
+    "get_Access": "Obtener acceso",
+    "member_Access": "Quiero acceder a este miembro como",
+    "reject": "Rechazar",
+    "approve": "Aprobar"
+  },
+  "claimStatus": {
+    "0": "pendiente",
+    "1": "en progreso",
+    "2": "conflicto",
+    "3": "resuelto",
+    "4": "rechazado"
+  },
+  "login": {
+    "create_new_account": "CREA UNA CUENTA NUEVA",
+    "restore_new_account": "RESTAURAR UNA CUENTA"
+  },
+  "company_management": {
+    "table": {
+      "companyName": "Nombre de la compañia",
+      "image": "Imagen",
+      "cmo": "CMO",
+      "country": "País",
+      "creationDate": "Fecha de creación"
+    }
+  },
+  "rejected_user": {
+    "request_rejected": "Solicitud rechazada",
+    "contact-member": "Por favor, póngase en contacto con el administrador para obtener más información.",
+    "back_login": "Volver para iniciar sesión"
+  },
+  "repertoire": {
+    "search": "Busqueda de repertorio",
+    "id": "ID",
+    "ISRC": "Codigo ISRC",
+    "title": "Título",
+    "versionTitle": "versión Título",
+    "ISWC": "código ISWC",
+    "originalTitle": "Titulo original",
+    "creators": "creadores",
+    "alternativetTitle": "títulos alternativos",
+    "associatedPerformers": "artistas asociados",
+    "associateISRCCodes": "Códigos ISRC",
+    "mainArtist": "Página del artista",
+    "featuredArtists": "Artista destacado",
+    "duration": "Duración",
+    "yearOfRecording": "Año de grabación",
+    "territoryOfRecording": "Territorio de la grabación",
+    "languageOfPerformance": "Idioma de los resultados",
+    "originalReleaseDate": "datos de lanzamiento original",
+    "originalReleaseLabel": "etiqueta de lanzamiento original",
+    "isVideo": "es vídeo",
+    "releases": "comunicados"
+  },
+  "release": {
+    "artist": "Artista",
+    "ICPN": "ICPN",
+    "numberOfTracks": "Número de pistas",
+    "label": "Etiqueta",
+    "isCompilation": "es Compilación",
+    "name": "Nombre",
+    "IPINameNumber": "Número IPI",
+    "role": "Rol"
+  },
+  "user_form": {
+    "placeholder": {
+      "firstName": "Nombre",
+      "LastName": "Apellido"
+    },
+    "label": {
+      "CMO": "CMO",
+      "member": "Member",
+      "role": "Rol"
+    }
+  },
+  "user_management": {
+    "table": {
+      "firstName": "Nombre",
+      "email": "Email",
+      "id": "ID",
+      "company": "Compañia",
+      "role": "Rol",
+      "creationDate": "Fecha de creación"
+    }
+  },
+  "waiting_aprove": {
+    "title_request": "Nombre",
+    "for": "Para",
+    "attended": "Su solicitud será atendida lo antes posible."
+  }
+}

@@ -1,0 +1,33 @@
+@import "~scss/variables.scss";
+
+.card {
+  border-radius: 0;
+  border-bottom: 1px solid #80808063;
+
+  .date {
+    font-size: $font-size-xxs;
+    font-weight: $font_medium;
+    letter-spacing: 0.09px;
+    line-height: 14px;
+  }
+
+  .text-box {
+    margin-left: 15px;
+
+    .title {
+      font-size: $font-size-l;
+      font-weight: bold;
+      line-height: 24px;
+    }
+
+    .subtitle {
+      font-size: $font-size-s;
+      font-weight: $font_medium;
+      line-height: 24px;
+    }
+  }
+
+  .active {
+    background-color: #3974C0;
+  }
+}

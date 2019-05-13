@@ -1,0 +1,5 @@
+<div class="loader" *ngIf="isLoading" fxFlex fxLayoutAlign="center center">
+    <lottie-animation-view [options]="lottieConfig" [width]="300" [height]="300"
+        (animCreated)="handleAnimation($event)">
+    </lottie-animation-view>
+</div>

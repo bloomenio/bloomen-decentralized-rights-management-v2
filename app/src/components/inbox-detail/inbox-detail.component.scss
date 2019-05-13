@@ -1,0 +1,127 @@
+@import "~scss/variables.scss";
+
+.inbox-detail-wrapper {
+  padding: 28px;
+  border-radius: 0;
+  height: auto;
+  min-height: 100%;
+  .header-wrapper {
+    margin-bottom: 20px;
+
+    .info-wrapper {
+      margin-bottom: 20px;
+
+      .username {
+        font-size: $font-size-xl;
+        font-weight: $font_medium;
+      }
+
+      .date {
+        color: #808080;
+        font-size: $font-size-s;
+      }
+    }
+  }
+
+  .sender-box {
+    text-align: right;
+    margin-right: 20px;
+
+    .sender-wrapper {
+      margin: 10px;
+
+      .sender-title {
+        font-size: $font-size-xxs;
+        font-weight: $font_medium;
+      }
+
+      .sender-name {
+        font-size: $font-size-l;
+        font-weight: $font_medium;
+      }
+    }
+  }
+
+  .sender-logo {
+    height: 80px;
+    width: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .claim-info {
+    margin: 20px 0;
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .affiliaton-wrapper {
+      margin-top: 20px;
+    }
+
+    .info-wrapper {
+      .group-wrapper {
+        margin-bottom: 10px;
+
+        .sender-title {
+          font-size: $font-size-xxs;
+          line-height: 12px;
+          font-weight: $font_medium;
+        }
+
+        .sender-name {
+          font-size: $font-size-l;
+          line-height: 16px;
+          font-weight: $font_medium;
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+
+  .message-info {
+    margin: 20px 0;
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  }
+
+  .actions-wrapper {
+    margin-top: 20px;
+    .title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .form-wrapper {
+      .button-action {
+        margin-top: 40px;
+      }
+    }
+  }
+
+  .subject {
+    font-size: $font-size-xxl;
+    font-weight: $font_medium;
+    line-height: 24px;
+    margin: 16px 0px;
+  }
+
+  .message {
+    color: #808080;
+    font-size: $font-size-s;
+    line-height: 16px;
+    margin: 20px 0px;
+  }
+
+  button {
+    margin-right: 5px;
+    border-radius: 0;
+    border: black solid 1px;
+  }
+}

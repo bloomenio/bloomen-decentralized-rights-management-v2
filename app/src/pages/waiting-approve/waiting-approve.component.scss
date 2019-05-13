@@ -1,0 +1,50 @@
+@import "~scss/variables.scss";
+
+.waiting-approve-wrapper {
+  height: 100%;
+  width: 100%;
+  background-image: url("assets/img_bg_login.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .waiting-approve-box {
+    height: 440px;
+    width: 395px;
+    background-color: white;
+    box-shadow: 0px 0px 29px -1px rgba(0, 0, 0, 0.75);
+    padding: 32px 16px 0 16px;
+
+    .brand {
+      background-image: url("assets/logo_bloomen.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      height: 100px;
+      width: 300px;
+      margin-bottom: 60px;
+    }
+
+    .queue-wrapper {
+      height: 200px;
+      width: 250px;
+      .title-request {
+        color: #3974C0;
+        font-size: 16px;
+        line-height: 12px;
+        margin-bottom: 10px;
+      }
+      .request-value {
+        font-size: 24px;
+        line-height: 16px;
+        margin-bottom: 15px;
+      }
+    }
+
+    .request-text {
+      width: 250px;
+      font-size: 16px;
+      line-height: 19px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+}

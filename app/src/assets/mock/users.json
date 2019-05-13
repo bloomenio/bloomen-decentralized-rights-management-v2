@@ -1,0 +1,86 @@
+{
+    "0": [
+        {
+            "name": "Bartlett, Angelique",
+            "email": "angelique82@email.com",
+            "id": "0123456789",
+            "company": "Warner Spain",
+            "role": "Admin",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "name": "Leonard, Wilson",
+            "email": "a.garner@email.com",
+            "id": "0123456789",
+            "company": "Warner Spain",
+            "role": "Admin",
+            "creationDate": "2018/09/16"
+        },
+        {
+            "name": "Garner, Alexandra",
+            "email": "angelique82@email.com",
+            "id": "0123456789",
+            "company": "Sony Music",
+            "role": "User",
+            "creationDate": "2018/11/6"
+        },
+        {
+            "name": "Friedman, Cordell",
+            "email": "cordellfriedman73@email.com",
+            "id": "0123456789",
+            "company": "Blanco y Negro",
+            "role": "Admin",
+            "creationDate": "2019/01/10"
+        },
+        {
+            "name": "Dillon, Karma",
+            "email": "dillon_78@email.com",
+            "id": "0123456789",
+            "company": "Sony Music",
+            "role": "Super Admin",
+            "creationDate": "2018/07/23"
+        }
+    ],
+    "1": [
+        {
+            "name": "Hood, Markus",
+            "email": "markus.hood@email.com",
+            "id": "0123456789",
+            "company": "Sony Music",
+            "role": "User",
+            "creationDate": "2018/04/28"
+        },
+        {
+            "name": "Palmer, Tori",
+            "email": "tori.palmer70@email.com",
+            "id": "0123456789",
+            "company": "Blanco y Negro",
+            "role": "User",
+            "creationDate": "2018/5/15"
+        },
+        {
+            "name": "Abbott, Davis",
+            "email": "davis.abbott80@email.com",
+            "id": "0123456789",
+            "company": "Warner Spain",
+            "role": "User",
+            "creationDate": "2018/02/17"
+        },
+        {
+            "name": "Dillon, Karma",
+            "email": "dillon_78@email.com",
+            "id": "0123456789",
+            "company": "User",
+            "role": "User",
+            "creationDate": "2018/5/15"
+        },
+        {
+            "name": "Wiley, Eliana",
+            "email": "eliana74@email.com",
+            "id": "0123456789",
+            "company": "Blanco y Negro",
+            "role": "User",
+            "creationDate": "2018/12/20"
+        }
+    ]
+}

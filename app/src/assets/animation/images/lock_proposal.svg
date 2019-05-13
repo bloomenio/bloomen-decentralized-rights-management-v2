@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 35"
+	 style="enable-background:new 0 0 26 35;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#ffffff;}
+</style>
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<g>
+			<path class="st0" d="M11.28,26.58c0,0.95,0.77,1.72,1.72,1.72c0.95,0,1.72-0.77,1.72-1.72v-2.26c0.5-0.47,0.78-1.13,0.78-1.82
+				c0-1.38-1.12-2.5-2.5-2.5c-1.38,0-2.5,1.12-2.5,2.5c0,0.68,0.28,1.35,0.78,1.82V26.58z"/>
+			<path class="st0" d="M22.44,13.83h-1.59V8.38c0-4.33-3.52-7.85-7.85-7.85c-4.33,0-7.85,3.52-7.85,7.85v5.45H3.56
+				c-1.7,0-3.09,1.39-3.09,3.09v14.47c0,1.7,1.39,3.09,3.09,3.09h18.88c1.7,0,3.09-1.39,3.09-3.09V16.92
+				C25.53,15.21,24.14,13.83,22.44,13.83z M8.21,13.83V8.38c0-2.64,2.15-4.79,4.79-4.79s4.79,2.15,4.79,4.79v5.45H8.21z
+				 M22.47,16.92v14.47l-0.03,0.03L3.53,31.38l0.03-14.5L22.47,16.92z"/>
+		</g>
+	</g>
+</switch>
+</svg>

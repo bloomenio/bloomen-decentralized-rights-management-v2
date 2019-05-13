@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 53.2 (72643) - https://sketchapp.com -->
+    <title>9D343388-CB1C-4B96-A641-DE8959B587BF</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M1,22.0001308 C0.448,22.0001308 0,21.5531308 0,21.0001308 C0,20.4471308 0.448,20.0001308 1,20.0001308 L14.334,20.0001308 C14.887,20.0001308 15.334,20.4471308 15.334,21.0001308 C15.334,21.5531308 14.887,22.0001308 14.334,22.0001308 L1,22.0001308 Z M8.351,0.293130837 L13.69,5.70813084 C14.631,6.65113084 13.221,8.06513084 12.28,7.12313084 L9.137,3.97013084 C8.874,3.70713084 8.665,3.79313084 8.665,4.16113084 L8.665,15.0831308 C8.665,15.6361308 8.218,16.0831308 7.667,16.0831308 C7.116,16.0831308 6.67,15.6361308 6.67,15.0831308 L6.67,4.16113084 C6.67,3.79413084 6.458,3.70813084 6.197,3.97013084 L3.054,7.12313084 C2.114,8.06513084 0.703,6.65113084 1.644,5.70813084 L6.948,0.297130837 C7.334,-0.096869163 7.963,-0.099869163 8.351,0.293130837 L8.351,0.293130837 Z" id="path-1"></path>
+    </defs>
+    <g id="bloomen_desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets" transform="translate(-109.000000, -333.000000)">
+            <g id="material_icons" transform="translate(65.000000, 288.000000)">
+                <g id="ic_export_mnemonic" transform="translate(48.000000, 46.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use fill="#000000" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

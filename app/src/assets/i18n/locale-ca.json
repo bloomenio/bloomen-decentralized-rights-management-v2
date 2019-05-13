@@ -1,0 +1,168 @@
+{
+  "common": {
+    "confirm": "Confirmar",
+    "accept": "Acceptar",
+    "cancel": "Cancel·lar",
+    "yes": "Sí",
+    "no": "No",
+    "close": "Tancar",
+    "search": "Cercar",
+    "use": "Utilizar",
+    "next": "Següent",
+    "send": "Enviar",
+    "finalize": "Finalitzar",
+    "back": "Tornar",
+    "update": "Actualitzar",
+    "showMore": "Veure més",
+    "loading": "",
+    "open": "Obrir",
+    "restore": "Recuperar",
+    "invalid_mnemonic": "Mnemonic no valid",
+    "logout": "Sortir",
+    "copy_mnemonic": "Copiar Mnemonic"
+  },
+  "add_member_dialog": {
+    "add_member": "Afegir membre",
+    "cmo": "CMO",
+    "member": "Membre",
+    "image_url": "Introduïu l’URL de la imatge",
+    "country": "País",
+    "preview_image": "Vista de la imatge",
+    "color_template": "Trieu el color de la vostra plantilla"
+  },
+  "claim_dialog": {
+    "claim_id": "CLAIM ID",
+    "right_holder_name": "Nom del titular correcte",
+    "right_holder_IPI_name_number": "",
+    "right_holder_proprietary_ID": "ID del propietari",
+    "right_holder_role": "Rol del titular",
+    "original_publisher_name": "Nom del publicador original",
+    "original_publisher_IPI_name_number": "",
+    "start_date": "Data d'inici.",
+    "end_date": "Data final",
+    "mechanical": "",
+    "performance": "",
+    "synchronisation": "Sincronització",
+    "affiliation": "Afiliació",
+    "ownership_split": "",
+    "collection_split": "",
+    "right_owner": "",
+    "right_owner_proprietary_ID": "",
+    "split": "",
+    "countries": "Països",
+    "use_types": "",
+    "add_country": "Afegeix un país"
+  },
+  "user_dialog": {
+    "name": "Nom",
+    "last_name": "Cognom",
+    "company": "Companyia",
+    "id": "ID",
+    "member": "Member",
+    "title": "Dades del usuari"
+  },
+  "user_diaog": {
+    "role": "Rol"
+  },
+  "claims": {
+    "table": {
+      "type": "Tipus",
+      "id": "ID",
+      "status": "Estat"
+    }
+  },
+  "inbox": {
+    "title_no_message": "No tens cap missatge",
+    "message_pick": "Trieu un missatge."
+  },
+  "inbox_detail": {
+    "get_Access": "Accediu",
+    "member_Access": "Vull accedir a aquest membre com",
+    "reject": "Rebutjar",
+    "approve": "Aprovar"
+  },
+  "claimStatus": {
+    "0": "pendent",
+    "1": "en progres",
+    "2": "conflicte",
+    "3": "resolt",
+    "4": "rebutjat"
+  },
+  "login": {
+    "create_new_account": "CREAR UN COMPTE NOU",
+    "restore_new_account": "RESTAUREN UN COMPTE"
+  },
+  "company_management": {
+    "table": {
+      "companyName": "Nom de la compañia",
+      "image": "Imatge",
+      "cmo": "CMO",
+      "country": "País",
+      "creationDate": "Data de creació"
+    }
+  },
+  "rejected_user": {
+    "request_rejected": "Sol·licitud rebutjada",
+    "contact-member": "Poseu-vos en contacte amb l’administrador per obtenir més informació.",
+    "back_login": "Tornar al login"
+  },
+  "repertoire": {
+    "search": "Buscar repertori",
+    "id": "ID",
+    "ISRC": "Codi ISRC",
+    "title": "Títol",
+    "versionTitle": "Títol versió",
+    "ISWC": "Codi ISWC",
+    "originalTitle": "Títol original",
+    "creators": "Creadors",
+    "alternativetTitle": "Títols alternatius",
+    "associatedPerformers": "Artistas associats",
+    "associateISRCCodes": "Codi ISRC",
+    "mainArtist": "Pagina del artista",
+    "featuredArtists": "Artista destacat",
+    "duration": "Duració",
+    "yearOfRecording": "Any de grabació",
+    "territoryOfRecording": "Territori de la grabació",
+    "languageOfPerformance": "Idioma dels resultats",
+    "originalReleaseDate": "Dades del llençament original",
+    "originalReleaseLabel": "Etiqueta de llençament original",
+    "isVideo": "Es video",
+    "releases": "Comunicats"
+  },
+  "release": {
+    "artist": "Artista",
+    "ICPN": "ICPN",
+    "numberOfTracks": "Numero de pistas",
+    "label": "Etiqueta",
+    "isCompilation": "Es Compilació",
+    "name": "Nom",
+    "IPINameNumber": "Numero IPI",
+    "role": "Rol"
+  },
+  "user_form": {
+    "placeholder": {
+      "firstName": "Nom",
+      "LastName": "Cognom"
+    },
+    "label": {
+      "CMO": "CMO",
+      "member": "Member",
+      "role": "Rol"
+    }
+  },
+  "user_management": {
+    "table": {
+      "firstName": "Nom",
+      "email": "Email",
+      "id": "ID",
+      "company": "Companyia",
+      "role": "Rol",
+      "creationDate": "Data de creació"
+    }
+  },
+  "waiting_aprove": {
+    "title_request": "Nom",
+    "for": "Per",
+    "attended": "La vostra sol·licitud s’atendrà al més aviat possible."
+  }
+}

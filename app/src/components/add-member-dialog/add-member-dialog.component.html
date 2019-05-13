@@ -1,0 +1,63 @@
+<div mat-dialog-title class="dialog-title">{{ 'add_member_dialog.add_member' | translate }}</div>
+<div mat-dialog-content>
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" fxLayout="column">
+    <div fxLayout="row">
+      <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="space-between">
+        <mat-form-field fxFlex="45">
+          <mat-label>{{'add_member_dialog.cmo' | translate | uppercase}}</mat-label>
+          <mat-select formControlName="cmo">
+            <mat-option *ngFor="let cmo of (cmos$ | async)" [value]="cmo">
+              {{ cmo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="45">
+          <input matInput placeholder="{{ 'add_member_dialog.member' | translate }}" formControlName="member">
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+          <input matInput placeholder="{{ 'add_member_dialog.image_url' | translate }}" formControlName="url">
+        </mat-form-field>
+        <mat-form-field fxFlex="45">
+            <input placeholder="{{'Country' | translate}}" matInput formControlName="country" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
+                {{country.label}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+      </div>
+      <div fxFlex="40" fxLayoutAlign="center center">
+        <div *ngIf="!memberForm.get('url').value; else Image">
+          <div class="empty-image" fxLayoutAlign="center center">
+              {{'add_member_dialog.preview_image' | translate | uppercase}}
+          </div>
+        </div>
+        <ng-template #Image>
+          <img [src]="memberForm.get('url').value" width="150"/>
+        </ng-template>
+      </div>
+    </div>
+    <div class="title-themes">{{'add_member_dialog.color_template' | translate}}</div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-radio-group formControlName="theme">
+        <mat-radio-button class="radio-button" [value]="'blue'">
+          <img src="assets/img/themes/img_template_blue.png">
+        </mat-radio-button>
+        <mat-radio-button class="radio-button" [value]="'green'">
+          <img src="assets/img/themes/img_template_green.png">
+        </mat-radio-button>
+        <mat-radio-button class="radio-button" [value]="'lilac'">
+          <img src="assets/img/themes/img_template_lilac.png">
+        </mat-radio-button>
+        <mat-radio-button class="radio-button" [value]="'orange'">
+          <img src="assets/img/themes/img_template_orange.png">
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="actions-wrapper" fxLayout="row" fxLayoutAlign="end">
+      <button mat-button type="button" (click)="onCancel()"
+        color="primary">{{ 'common.cancel' | translate | uppercase }}</button>
+      <button mat-button [disabled]="!memberForm.valid" color="accent">{{ 'common.submit' | translate | uppercase }}</button>
+    </div>
+  </form>
+</div>

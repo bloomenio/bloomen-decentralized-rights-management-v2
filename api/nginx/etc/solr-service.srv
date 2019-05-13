@@ -1,0 +1,11 @@
+    location /solr {
+         
+		 proxy_set_header Host $http_host;
+         proxy_set_header X-NginX-Proxy true;
+         proxy_set_header X-Real-IP $remote_addr;
+		 proxy_set_header Referer $http_referer;
+		 proxy_set_header X-Forwarded-For $remote_addr;
+		 proxy_set_header X-Forwarded-Proto $scheme;
+		 
+         proxy_pass http://solr:8983;
+     }

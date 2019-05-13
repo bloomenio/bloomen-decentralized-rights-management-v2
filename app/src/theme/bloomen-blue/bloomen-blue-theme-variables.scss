@@ -1,0 +1,36 @@
+// Angular Material custom theme
+// The mixins below must be included once so we separated them from the variables
+@import "~@angular/material/theming";
+
+$mat-bloomen-blue: (
+  50 : #e7ebf0,
+  100 : #c3cdda,
+  200 : #9bacc2,
+  300 : #728aaa,
+  400 : #547197,
+  500 : #365885,
+  600 : #30507d,
+  700 : #294772,
+  800 : #223d68,
+  900 : #162d55,
+  A100 : #90b5ff,
+  A200 : #5d92ff,
+  A400 : #2a70ff,
+  A700 : #115fff,
+  contrast: (
+    50: $light-primary-text,
+    100: $light-primary-text,
+    200: $light-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $light-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);

@@ -1,0 +1,69 @@
+{
+    "0": [
+        {
+            "companyName": "Warner Music Spain",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Universal Music Spain",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Subterfuge Records",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Sony Music Spain",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Mushroom Pillow",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        }
+    ],
+    "1": [
+        {
+            "companyName": "Limbostarr",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Atlantic Records",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Elefant Records",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        },
+        {
+            "companyName": "Blanco y Negro",
+            "image": "https://warnermusic.es/wp-content/uploads/2015/07/logo.png",
+            "id": "0123456789",
+            "country": "Spain",
+            "creationDate": "2019/01/04"
+        }
+    ]
+}

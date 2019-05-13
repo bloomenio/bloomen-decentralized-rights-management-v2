@@ -1,0 +1,46 @@
+@import "~scss/variables.scss";
+
+.img-nomessage {
+  height: 105px;
+  width: 120px;
+  background-image: url("../../assets/img/img_inbox_empty.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+mat-card {
+  border-radius: 0;
+}
+
+.list-wrapper {
+  border-right: 1px solid #80808063;
+}
+
+.reload-header {
+  height: 20px !important;
+  min-height: 20px !important;
+}
+
+.detail-wrapper {
+  overflow: auto;
+}
+
+.title-nomessage {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 18px 0px;
+  text-align: center;
+}
+
+.text-nomessage {
+  font-size: 16px;
+  text-align: center;
+  margin: 0 10%;
+}
+
+.large-icon {
+  font-size: 150px;
+  height: 150px;
+  width: 150px;
+}

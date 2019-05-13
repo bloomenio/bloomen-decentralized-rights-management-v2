@@ -1,0 +1,12 @@
+:host {
+  width: 100%;
+}
+
+.form {
+  min-width: 150px;
+  width: 100%;
+
+  .search-field {
+    padding-bottom: 0;
+  }
+}

@@ -1,0 +1,73 @@
+<mat-sidenav-container fxFill>
+  <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" [disableClose]="!isMobile">
+    <blo-loader [isLoading]="isLoading"></blo-loader>
+    <nav>
+      <div class="banner" *ngIf="backgroundImage"
+        [ngStyle]="{'background-image': 'url(assets/img/banners/' + backgroundImage + ')'}" 
+        fxLayout="column" fxLayoutAlign="center end">
+        <img *ngIf="imgToolbar" class="icon-img" [src]="imgToolbar" />
+        <img *ngIf="powered" class="icon-powered" src="./assets/img_by_bloomen.png" />
+      </div>
+      <mat-list>
+        <mat-list-item routerLink="/inbox" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+          <div class="icon-bar ic-inbox"></div>
+          <span class="text-bar" translate>Inbox</span>
+        </mat-list-item>
+        <mat-list-item routerLink="/repertoire" routerLinkActive="active" (click)="isMobile && sidenav.close()"
+          *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">
+          <div class="icon-bar ic-dashboard"></div>
+          <span class="text-bar" translate>Repertoire</span>
+        </mat-list-item>
+        <mat-list-item routerLink="/claims" routerLinkActive="active" (click)="isMobile && sidenav.close()"
+          *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">
+          <div class="icon-bar ic-claim"></div>
+          <span class="text-bar" translate>Claims</span>
+        </mat-list-item>
+        <mat-list-item routerLink="/user-management" routerLinkActive="active" (click)="isMobile && sidenav.close()"
+          *ngIf="user?.role === roles.ADMIN">
+          <div class="icon-bar ic-userm"></div>
+          <span class="text-bar" translate>User Management</span>
+        </mat-list-item>
+        <mat-list-item routerLink="/member-management" routerLinkActive="active" (click)="isMobile && sidenav.close()"
+          *ngIf="user?.role === roles.SUPER_USER">
+          <div class="icon-bar ic-member_management"></div>
+          <span class="text-bar" translate>Member Management</span>
+        </mat-list-item>
+      </mat-list>
+    </nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="banner-content">
+      <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" class="title-enviroment" fxLayoutAlign="start center">
+          <div [hidden]="!isMobile">
+            <ng-template bloBackButtonHost></ng-template>
+          </div>
+          <button *ngIf="!showMenu" class="menu-button" mat-icon-button (click)="sidenav.toggle()" fxHide.gt-sm>
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <div fxLayout="row">
+          <div class="user-profile" fxLayout="row">
+            <button class="user-pic" mat-mini-fab color="primary"
+              fxLayoutAlign="center center">{{ userInitials }}</button>
+            <div class="user-text" fxLayout="column">
+              <div class="user-name">{{ userName }}</div>
+              <div class="user-rol">{{ user?.role }}</div>
+            </div>
+          </div>
+          <ng-template bloButtonsHost></ng-template>
+        </div>
+      </mat-toolbar>
+      <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+        {{title}}
+        <div *ngIf="currentPageRoute === 'Member management'">
+          <button mat-button (click)="openDialogAddMember()">{{'Add member' | translate | uppercase}}</button>
+        </div>
+      </mat-toolbar>
+    </div>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,13 @@
+<div class="login-wrapper" fxLayout="column" fxLayoutAlign="center center">
+    <div class="login-box" fxLayout="column" fxLayoutAlign="start center">
+        <div class="brand"></div>
+        <div class="button" fxLayout="column" fxLayoutAlign="center center" (click)="onCreateAccount()">
+            <mat-icon>person_add</mat-icon>
+            <div>{{ 'login.create_new_account' | translate | uppercase }}</div>
+        </div>
+        <div class="button" fxLayout="column" fxLayoutAlign="center center" (click)="onRestoreAccount()">
+            <mat-icon>replay</mat-icon>
+            <div>{{ 'login.restore_new_account' | translate | uppercase }}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+@import "~scss/variables.scss";
+
+.member-management-wrapper {
+  width: 100%;
+  padding: 16px;
+
+  table {
+    width: 100%;
+    td {
+      text-align: center;
+      .img-logo {
+        height: 15px;
+      }
+    }
+    th {
+      text-align: center;
+    }
+  }
+
+  button {
+    height: 45px;
+    margin-left: 26px;
+  }
+
+  /* Structure */
+  .container {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .table-container {
+    position: relative;
+    max-height: 400px;
+    overflow: auto;
+  }
+
+  .loading {
+    min-height: 280px;
+  }
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Column Widths */
+  .mat-column-number,
+  .mat-column-state {
+    max-width: 64px;
+  }
+
+  .mat-column-created {
+    max-width: 124px;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  } 
+}
+
+::ng-deep.bloomen-app-theme .mat-header-cell {
+  background-color: #3974C0;
+  color: white;
+}
+
+::ng-deep.bloomen-app-theme .mat-sort-header-arrow {
+  color: white;
+}
+

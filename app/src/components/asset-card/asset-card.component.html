@@ -1,0 +1,189 @@
+<mat-accordion class="headers-align">
+    <mat-expansion-panel hideToggle [(expanded)]="expanded" class="main-panel-wrapper">
+        <mat-expansion-panel-header [collapsedHeight]="'190px'" [expandedHeight]="'190px'">
+            <mat-panel-title>
+                <div *ngIf="asset.image" class="image-asset" [style.backgroundImage]="'url('+ asset.image +')'"></div>
+                <div *ngIf="!asset.image" class="image-asset"
+                     [style.backgroundImage]="'url(assets/asset_placeholder.png)'"></div>
+            </mat-panel-title>
+
+
+            <mat-panel-description>
+                <div fxFlex fxLayout="column">
+                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.type === 'Sound Recording'">
+                        <div class="sections-container" *ngIf="asset.ISRC">
+                            <div class="data-section-title">{{'repertoire.ISRC' | translate | uppercase}}</div>
+                            <div>{{asset.ISRC}}</div>
+                        </div>
+                        <mat-icon>speaker</mat-icon>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.type === 'Musical Work'">
+                        <div class="sections-container" *ngIf="asset.ISWC">
+                            <div class="data-section-title">{{'repertoire.ISWC' | translate}}</div>
+                            <div>{{asset.ISWC}}</div>
+                        </div>
+                        <mat-icon>headset</mat-icon>
+                    </div>
+                    <div fxFlex fxLayout="row" *ngIf="asset.type === 'Sound Recording'">
+                        <div fxFlex fxLayout="column">
+                            <div class="sections-container" *ngIf="asset.mainArtist">
+                                <div class="data-section-title">{{'repertoire.mainArtist' | translate | uppercase}}</div>
+                                <div>{{asset.mainArtist}}</div>
+                            </div>
+                            <div class="sections-container" *ngIf="asset.title">
+                                <div class="data-section-title">{{'repertoire.title' | translate | uppercase}}</div>
+                                <div>{{asset.title}}</div>
+                            </div>
+                        </div>
+                        <div fxFlex fxLayout="column">
+                            <div class="sections-container" *ngIf="asset.featuredArtists">
+                                <div class="data-section-title">{{'repertoire.featuredArtists' | translate | uppercase}}</div>
+                                <div>{{asset.featuredArtists}}</div>
+                            </div>
+                            <div class="sections-container" *ngIf="asset.versionTitle">
+                                <div class="data-section-title">{{'repertoire.versionTitle' | translate | uppercase}}</div>
+                                <div>{{asset.versionTitle}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxFlex fxLayout="row" *ngIf="asset.type === 'Musical Work'">
+                        <div fxFlex fxLayout="column">
+                            <div class="sections-container" *ngIf="asset.originalTitle">
+                                <div class="data-section-title">{{'repertoire.originalTitle' | translate}}</div>
+                                <div>{{asset.originalTitle}}</div>
+                            </div>
+                            <div class="sections-container" *ngIf="asset.id">
+                                <div class="data-section-title">{{'repertoire.id' | translate}}</div>
+                                <div>{{asset.id}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.type === 'Sound Recording'">
+            <div fxFlex fxLayout="column">
+
+                <div class="sections-container" *ngIf="asset.duration">
+                    <div class="data-section-title">{{'repertoire.duration' | translate | uppercase}}</div>
+                    <div>{{asset.duration}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.territoryOfRecording">
+                    <div class="data-section-title">{{'repertoire.territoryOfRecording' | translate | uppercase}}</div>
+                    <div>{{asset.territoryOfRecording}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.originalReleaseDate">
+                    <div class="data-section-title">{{'repertoire.originalReleaseDate' | translate | uppercase}}</div>
+                    <div>{{asset.originalReleaseDate}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.creators">
+                    <div class="data-section-title">{{'repertoire.creators' | translate | uppercase}}</div>
+                    <div *ngFor="let creator of asset.creators">
+                        {{creator}}
+                    </div>
+                </div>
+
+            </div>
+            <div fxFlex fxLayout="column">
+
+                <div class="sections-container" *ngIf="asset.yearOfRecording">
+                    <div class="data-section-title">{{'repertoire.yearOfRecording' | translate | uppercase}}</div>
+                    <div>{{asset.yearOfRecording}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.languageOfPerformance">
+                    <div class="data-section-title">{{'repertoire.languageOfPerformance' | translate | uppercase}}</div>
+                    <div>{{asset.languageOfPerformance}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.originalReleaseLabel">
+                    <div class="data-section-title">{{'repertoire.originalReleaseLabel' | translate | uppercase}}</div>
+                    <div>{{asset.originalReleaseLabel}}</div>
+                </div>
+                <div class="sections-container" *ngIf="asset.isVideo">
+                    <div class="data-section-title">{{'repertoire.isVideo' | translate | uppercase}}</div>
+                    <div>{{asset.isVideo}}</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div fxLayout="row"  style="padding-left: 184px;">
+            <div fxFlex class="sections-container" *ngIf="asset.releases">
+                <div class="data-section-title" >{{'repertoire.releases' | translate | uppercase}}</div>
+                <div>
+                    <div fxFlex class="table-value">{{'repertoire.title' | translate }}</div>
+                    <div fxFlex class="table-value">{{'release.artist' | translate }}</div>
+                    <div fxFlex class="table-value">{{'release.ICPN' | translate }}</div>
+                    <div fxFlex class="table-value">{{'release.numberOfTracks' | translate }}</div>
+                    <div fxFlex class="table-value">{{'release.label' | translate }}</div>
+                    <div fxFlex class="table-value">{{'repertoire.duration' | translate }}</div>
+                    <div fxFlex class="table-value">{{'release.isCompilation' | translate }}</div>
+                </div>
+                <div fxLayout="row" *ngFor="let release of asset.releases" >
+                    <div fxFlex>{{release.title}}</div>
+                    <div fxFlex>{{release.artist}}</div>
+                    <div fxFlex>{{release.ICPN}}</div>
+                    <div fxFlex>{{release.numberOfTracks}}</div>
+                    <div fxFlex>{{release.label}}</div>
+                    <div fxFlex>{{release.duration}}</div>
+                    <div fxFlex>{{release.isCompilation}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.type === 'Musical Work'">
+            <div fxFlex fxLayout="column">
+                <div class="sections-container" *ngIf="asset.creators">
+                    <div class="data-section-title">{{'repertoire.creators' | translate | uppercase}}</div>
+
+                    <div>
+                        <div fxFlex class="table-value">{{'repertoire.name' | translate }}</div>
+                        <div fxFlex class="table-value">{{'release.IPINameNumber' | translate }}</div>
+                        <div fxFlex class="table-value">{{'repertoire.role' | translate }}</div>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let creator of asset.creators">
+
+                        <div fxFlex>{{creator.name}}</div>
+                        <div fxFlex>{{creator.IPINameNumber}}</div>
+                        <div fxFlex>{{creator.role}}</div>
+                    </div>
+                </div>
+                <div class="sections-container" *ngIf="asset.alternativeTitles">
+                    <div class="data-section-title">{{'repertoire.alternativetTitle' | translate | uppercase}}</div>
+                    <div *ngFor="let alternativeTitle of asset.alternativeTitles">
+                        {{alternativeTitle}}
+                    </div>
+                </div>
+
+                <div class="sections-container" *ngIf="asset.associatedPerformers">
+                    <div class="data-section-title">{{'repertoire.associatedPerformers' | translate | uppercase}}</div>
+                    <div *ngFor="let associatedPerformer of asset.associatedPerformers">
+                        {{associatedPerformer}}
+                    </div>
+                </div>
+
+                <div class="sections-container" *ngIf="asset.associatedISRCs">
+                    <div class="data-section-title">{{'repertoire.associatedISRCs' | translate | uppercase}}</div>
+                    <div *ngFor="let associatedISRC of asset.associatedISRCs">
+                        {{associatedISRC}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle class="action-panel-wrapper" [expanded]="false" #actionExpansionPanel>
+        <mat-expansion-panel-header (click)="expandPanel(actionExpansionPanel, $event)">
+            <div class="action-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
+                <button mat-stroked-button color="primary"
+                        (click)="claim()">{{'claim' | translate | uppercase}}</button>
+                <button *ngIf="!expanded" mat-button color="primary"
+                        (click)="changeStateAccordion($event)">{{'See more' | translate}}</button>
+                <button *ngIf="expanded" mat-button color="primary"
+                        (click)="changeStateAccordion($event)">{{'See less' | translate}}</button>
+            </div>
+        </mat-expansion-panel-header>
+    </mat-expansion-panel>
+</mat-accordion>

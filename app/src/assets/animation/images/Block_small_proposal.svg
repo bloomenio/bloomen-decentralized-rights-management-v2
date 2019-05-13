@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 76 75"
+	 style="enable-background:new 0 0 76 75;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#ffffff;}
+</style>
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<path class="st0" d="M52.74,3v14.27c0,2.59,2.11,4.7,4.7,4.7h7.93c1.16,0,2.28,0.34,3.25,0.99c1.83,1.23,2.82,3.36,2.57,5.54
+			c-0.33,2.9-3,5.18-6.08,5.18h-7.67c-2.59,0-4.7,2.11-4.7,4.7v14.35H38.41c-2.59,0-4.7,2.11-4.7,4.7l0,7.59
+			c0,3.23-2.38,5.92-5.43,6.14c-0.14,0.01-0.29,0.02-0.43,0.02c-2.12,0-4.09-1.17-5.13-3.05C22.24,67.24,22,66.3,22,65.31v-7.89
+			c0-2.59-2.11-4.7-4.7-4.7H3V39.68h6.3c6.19,0,11.37-4.52,12.04-10.51c0.5-4.42-1.49-8.7-5.18-11.19c-1.96-1.32-4.24-2.02-6.6-2.02
+			H3V3l13.19,0l34.61,0L52.74,3 M54.05,0c-5.61,0-24.07,0-37.86,0C9.73,0,4.3,0,1.69,0C0.75,0,0,0.76,0,1.7v15.58
+			c0,0.94,0.76,1.7,1.7,1.7h7.87c1.82,0,3.51,0.56,4.92,1.5c2.63,1.77,4.27,4.9,3.88,8.37c-0.51,4.52-4.51,7.84-9.06,7.84H1.7
+			c-0.94,0-1.7,0.76-1.7,1.7v15.65c0,0.94,0.76,1.7,1.7,1.7H17.3c0.94,0,1.7,0.76,1.7,1.7v7.89c0,1.54,0.4,2.99,1.1,4.26
+			c1.51,2.73,4.43,4.6,7.76,4.6c0.21,0,0.43-0.01,0.64-0.02c4.69-0.34,8.21-4.44,8.21-9.13l0-7.59c0-0.94,0.76-1.7,1.7-1.7h15.63
+			c0.94,0,1.7-0.76,1.7-1.7V38.38c0-0.94,0.76-1.7,1.7-1.7h7.67c4.55,0,8.55-3.32,9.06-7.84c0.39-3.46-1.25-6.6-3.88-8.37
+			c-1.41-0.95-3.1-1.5-4.92-1.5h-7.93c-0.94,0-1.7-0.76-1.7-1.7V1.7C55.74,0.76,54.99,0,54.05,0L54.05,0z"/>
+	</g>
+</switch>
+
+</svg>

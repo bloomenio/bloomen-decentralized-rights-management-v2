@@ -1,0 +1,168 @@
+{
+  "common": {
+    "confirm": "Confirm",
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "search": "Search",
+    "use": "Use",
+    "next": "Next",
+    "send": "Send",
+    "finalize": "Finalize",
+    "back": "Back",
+    "update": "Update",
+    "showMore": "Show more",
+    "loading": "Loading",
+    "open": "Open",
+    "restore": "Restore",
+    "invalid_mnemonic": "Invalid mnemonic",
+    "logout": "Logout",
+    "copy_mnemonic": "Copy Mnemonic"
+  },
+  "add_member_dialog": {
+    "add_member": "Add member",
+    "cmo": "CMO",
+    "member": "Member",
+    "image_url": "Enter Image URL",
+    "country": "Country",
+    "preview_image": "Preview image",
+    "color_template": "Choose the color of your template"
+  },
+  "claim_dialog": {
+    "claim_id": "CLAIM ID",
+    "right_holder_name": "Right Holder Name",
+    "right_holder_IPI_name_number": "Right Holder IPI Name Number",
+    "right_holder_proprietary_ID": "Right Holder Proprietary ID",
+    "right_holder_role": "Right Holder Role",
+    "original_publisher_name": "Original Publisher Name",
+    "original_publisher_IPI_name_number": "Original Publisher IPI Name Number",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "mechanical": "Mechanical",
+    "performance": "Performance",
+    "synchronisation": "Synchronisation",
+    "affiliation": "Affiliation",
+    "ownership_split": "Ownership Split",
+    "collection_split": "Collection Split",
+    "right_owner": "Right Owner",
+    "right_owner_proprietary_ID": "Right Owner Proprietary ID",
+    "split": "Split",
+    "countries": "Countries",
+    "use_types": "Use Types",
+    "add_country": "Add Country"
+  },
+  "user_dialog": {
+    "name": "Name",
+    "last_name": "Last Name",
+    "company": "Company",
+    "id": "ID",
+    "member": "Member",
+    "title": "User data"
+  },
+  "user_diaog": {
+    "role": "Role"
+  },
+  "claims": {
+    "table": {
+      "type": "Type",
+      "id": "ID",
+      "status": "Status"
+    }
+  },
+  "inbox": {
+    "title_no_message": "You have no messages",
+    "message_pick": "Pick a message!"
+  },
+  "inbox_detail": {
+    "get_Access": "Get access",
+    "member_Access": "I want to get access to this member as",
+    "reject": "Reject",
+    "approve": "Approve"
+  },
+  "claimStatus": {
+    "0": "pending",
+    "1": "In progress",
+    "2": "conflict",
+    "3": "resolved",
+    "4": "rejected"
+  },
+  "login": {
+    "create_new_account": "CREATE A NEW ACCOUNT",
+    "restore_new_account": "RESTORE AN ACCOUNT"
+  },
+  "company_management": {
+    "table": {
+      "companyName": "Company Name",
+      "image": "Image",
+      "cmo": "CMO",
+      "country": "Country",
+      "creationDate": "Creation Date"
+    }
+  },
+  "rejected_user": {
+    "request_rejected": "Request rejected",
+    "contact-member": "Please contact with the admin of the member for more information.",
+    "back_login": "BACK TO LOGIN"
+  },
+  "repertoire": {
+    "search": "Repertoire search",
+    "id": "ID",
+    "ISRC": "ISRC Code",
+    "title": "Title",
+    "versionTitle": "Version Title",
+    "ISWC": "ISWC code",
+    "originalTitle": "Original Title",
+    "creators": "Creators",
+    "alternativetTitle": "Alternative titles",
+    "associatedPerformers": "Associated performers",
+    "associateISRCCodes": "ISRC Codes",
+    "mainArtist": "Main artist",
+    "featuredArtists": "Featured artist",
+    "duration": "Duration",
+    "yearOfRecording": "Year of recording",
+    "territoryOfRecording": "Territory of recording",
+    "languageOfPerformance": "Lenguage of performance",
+    "originalReleaseDate": "Original release data",
+    "originalReleaseLabel": "Original release label",
+    "isVideo": "Is Video",
+    "releases": "Releases"
+  },
+  "release": {
+    "artist": "Artist",
+    "ICPN": "ICPN",
+    "numberOfTracks": "Number Of Tracks",
+    "label": "Label",
+    "isCompilation": "Is Compilation",
+    "name": "Name",
+    "IPINameNumber": "IPI Name Number",
+    "role": "Role"
+  },
+  "user_form": {
+    "placeholder": {
+      "firstName": "First Name",
+      "LastName": "Last Name"
+    },
+    "label": {
+      "CMO": "CMO",
+      "member": "Member",
+      "role": "Role"
+    }
+  },
+  "user_management": {
+    "table": {
+      "firstName": "First Name",
+      "email": "Email",
+      "id": "ID",
+      "company": "Company",
+      "role": "Role",
+      "creationDate": "Creation Date"
+    }
+  },
+  "waiting_aprove": {
+    "title_request": "Request ID",
+    "for": "For",
+    "attended": "Your request will be attended as soon as possible."
+  }
+}

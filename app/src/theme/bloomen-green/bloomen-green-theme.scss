@@ -1,0 +1,48 @@
+
+// Angular Material custom theme
+// See https://material.angular.io/guide/theming for more details.
+//
+// You can also read https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
+// for more insight about Angular Material theming.
+
+@import "~@angular/material/theming";
+// Theme variables, must be included before the libraries to allow overriding defaults
+@import "./bloomen-green-theme-variables.scss";
+
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+
+// stylelint-disable-next-line selector-max-universal
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$bloomen-green-primary: mat-palette($mat-green);
+
+//$bloomen-app-accent: mat-palette(palette, default, ligther, darker)
+//$bloomen-app-accent: mat-palette($mat-pink, A200, A100, A400);
+$bloomen-green-accent: mat-palette($mat-green, 900, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$bloomen-green-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$bloomen-green-theme-light: mat-light-theme(
+  $bloomen-green-primary,
+  $bloomen-green-accent,
+  $bloomen-green-warn
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+.bloomen-green-app-theme-light {
+  @include angular-material-theme($bloomen-green-theme-light);
+}

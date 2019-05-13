@@ -1,0 +1,43 @@
+<div class="user-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+    <div class="user-form-box" fxLayout="column" fxLayoutAlign="start center">
+        <div class="brand"></div>
+        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between" (ngSubmit)="onSubmit()">
+            <mat-form-field fxFlex="45">
+                <mat-label>{{ 'user_form.label.CMO' | translate }}</mat-label>
+                <mat-select formControlName="cmo" (selectionChange)="onChange()">
+                    <mat-option *ngFor="let cmo of cmos" [value]="cmo">
+                        {{ cmo }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+                <mat-label>{{ 'user_form.label.member' | translate }}</mat-label>
+                <mat-select formControlName="member">
+                    <mat-option *ngFor="let member of membersFiltered" [value]="member.memberId">
+                        {{ member.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+                <input matInput placeholder="{{ 'user_form.placeholder.firstName' | translate }}" formControlName="firstName">
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+                <input matInput placeholder="{{ 'user_form.placeholder.LastName' | translate }}" formControlName="lastName">
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+                <mat-label>{{ 'user_form.label.role' | translate }}</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                        {{ role }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="actions-wrapper" fxFlex fxLayout="row" fxLayoutAlign="end">
+                <button mat-button type="button" (click)="onCancel()"
+                    color="primary">{{ 'common.cancel' | translate | uppercase }}</button>
+                <button mat-button [disabled]="!userForm.valid"
+                    color="accent">{{ 'common.accept' | translate | uppercase }}</button>
+            </div>
+        </form>
+    </div>
+</div>

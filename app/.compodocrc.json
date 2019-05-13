@@ -1,0 +1,7 @@
+{
+  "name": "Bloomen Registry Tool",
+  "output": "./docs/internal",
+  "tsconfig": "./src/tsconfig.app.json",
+  "customFavicon": "./src/favicon.ico",
+  "hideGenerator": true
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 53.2 (72643) - https://sketchapp.com -->
+    <title>7665E3B7-AAE1-45FD-9824-FEF29DFF4B73</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M19.033,0.141928871 C18.87,0.0119288709 18.643,-0.0210711291 18.448,0.0119288709 L6.561,3.03292887 C6.268,3.09792887 6.041,3.38992887 6.041,3.71492887 L6.041,15.4079289 C5.391,14.8869289 4.579,14.5949289 3.702,14.5949289 C1.657,14.5949289 0,16.2509289 0,18.2979289 C0,20.3439289 1.657,21.9999289 3.702,21.9999289 C5.749,21.9999289 7.405,20.3439289 7.405,18.2979289 L7.405,8.26192887 L17.929,5.59892887 L17.929,12.3859289 C17.279,11.8669289 16.467,11.5749289 15.59,11.5749289 C13.544,11.5749289 11.887,13.2309289 11.887,15.2769289 C11.887,17.3239289 13.544,18.9799289 15.59,18.9799289 C17.637,18.9799289 19.293,17.3239289 19.293,15.2769289 L19.293,0.693928871 C19.293,0.466928871 19.195,0.271928871 19.033,0.141928871" id="path-1"></path>
+    </defs>
+    <g id="bloomen_desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets" transform="translate(-70.000000, -496.000000)">
+            <g id="material_icons" transform="translate(72.000000, 454.000000)">
+                <g id="ic_song_recording" transform="translate(0.000000, 44.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use fill="#000000" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,87 @@
+{
+  "extends": [
+    "tslint-angular",
+    "codelyzer"
+  ],
+  "rules": {
+    "angular-whitespace": [
+      true,
+      "check-interpolation",
+      "check-semicolon"
+    ],
+    "max-line-length": [
+      true,
+      160
+    ],
+    "banana-in-box": true,
+    "templates-no-negated-async": true,
+    "directive-selector": [
+      true,
+      "attribute",
+      "blo",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "blo",
+      "kebab-case"
+    ],
+    "deprecation": false,
+    "max-inline-declarations": true,
+    "no-life-cycle-call": true,
+    "prefer-output-readonly": true,
+    "no-conflicting-life-cycle-hooks": true,
+    "enforce-component-selector": true,
+    "no-queries-parameter": true,
+    "prefer-inline-decorator": true,
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "use-view-encapsulation": true,
+    "no-attribute-parameter-decorator": true,
+    "no-output-named-after-standard-event": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-output-on-prefix": true,
+    "no-forward-ref": true,
+    "no-unused-css": true,
+    "use-life-cycle-interface": true,
+    "contextual-life-cycle": true,
+    "trackBy-function": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "pipe-impure": true,
+    "i18n": [
+      true,
+      "check-id"
+    ],
+    "template-cyclomatic-complexity": [
+      false,
+      10
+    ],
+    "template-conditional-complexity": [
+      true,
+      4
+    ],
+    "linebreak-style": false,
+    "member-access": [
+      true,
+      "check-parameter-property"
+    ],
+    "align": [
+      true,
+      "statements",
+      "members",
+      "elements"
+    ],
+    "trailing-comma": false,
+    "no-floating-promises": false,
+    "ordered-imports":false,
+    "no-import-side-effect": false,
+    "no-unsafe-finally": false,
+    "ban-types": false,
+    "max-classes-per-file": false
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "bloomen-decentralized-rights-management-truffle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nps"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "copyfiles": "^2.1.0",
+    "dotenv": "6.0.0",
+    "inquirer": "^6.2.2",
+    "openzeppelin-solidity": "2.0.0",
+    "rlp": "2.1.0",
+    "solidity-rlp": "1.1.0",
+    "truffle": "4.1.14",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "1.0.0-beta.36"
+  },
+  "devDependencies": {
+    "nps": "^5.9.3",
+    "ganache-cli": "6.1.8"
+  }
+}

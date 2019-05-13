@@ -1,0 +1,18 @@
+<div class="restore-account-wrapper" fxLayout="column" fxLayoutAlign="center center">
+    <div class="restore-account-box" fxLayout="column" fxLayoutAlign="start center">
+        <div class="brand"></div>
+        <form [formGroup]="mnemonicForm" class="form-wrapper" fxLayout="column" (ngSubmit)="onRestore()">
+            <mat-form-field class="mnemonic-textarea" appearance="outline">
+                <mat-label>Mnemonic</mat-label>
+                <textarea matInput placeholder="Textarea" formControlName="mnemonic"></textarea>
+            </mat-form-field>
+            
+            <div class="actions-wrapper" fxLayout="row" fxLayoutAlign="end">
+                <button mat-button type="button" (click)="doBack()"
+                    color="accent">{{ 'common.back' | translate | uppercase }}</button>
+                <button mat-button [disabled]="!mnemonicForm.valid"
+                    color="accent">{{ 'common.restore' | translate | uppercase }}</button>
+            </div>
+        </form>
+    </div>
+</div>

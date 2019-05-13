@@ -1,0 +1,212 @@
+<mat-card class="inbox-detail-wrapper" fxFill fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.USER">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div fxLayout="column" class="header-wrapper">
+            <div class="info-wrapper">
+                <div class="username">{{ message.firstName + " " + message.lastName }}</div>
+                <div class="date">{{ message.creationDate | date }}</div>
+            </div>
+            <mat-chip-list>
+                <mat-chip>{{ inboxEnum.STATUS[message.status] | translate }}</mat-chip>
+            </mat-chip-list>
+        </div>
+        <div fxLayout="row" *ngIf="member">
+            <div fxLayout="column" class="sender-box" fxLayoutAlign="space-between">
+                <div fxLayout="column" class="sender-wrapper">
+                    <div class="sender-title">{{'company_management.table.cmo' | translate}}</div>
+                    <div class="sender-name">{{ member.cmo }}</div>
+                </div>
+                <div fxLayout="column" class="sender-wrapper">
+                    <div class="sender-title">{{'user_dialog.member' | translate }}</div>
+                    <div class="sender-name">{{ member.name }}</div>
+                </div>
+            </div>
+            <div class="sender-logo" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
+        </div>
+    </div>
+    <div fxLayout="column">
+        <div class="subject">{{ 'inbox_detail.get_Access' | translate }}</div>
+        <div class="message">{{ 'inbox_detail.member_Access' | translate }} {{message.role}}</div>
+        <div fxLayout="row" class="button-action">
+            <button mat-flat-button color="primary" fxLayoutAlign="center center"
+                (click)="onReject()">{{'inbox_detail.reject' | translate | uppercase}}</button>
+            <button mat-flat-button fxLayoutAlign="center center"
+                (click)="onAccept()">{{'inbox_detail.approve' | translate | uppercase}}</button>
+        </div>
+    </div>
+</mat-card>
+<mat-card class="inbox-detail-wrapper" fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.CLAIM">
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div fxLayout="column" class="header-wrapper">
+            <div class="info-wrapper">
+                <div class="username">{{ message.claimData.title }}</div>
+                <div class="date">{{ message.lastChange | date }}</div>
+            </div>
+            <mat-chip-list>
+                <mat-chip>{{'claimStatus.' + message.status | translate | uppercase}}</mat-chip>
+            </mat-chip-list>
+        </div>
+        <div fxLayout="row" *ngIf="member">
+            <div fxLayout="column" class="sender-box" fxLayoutAlign="space-between">
+                <div fxLayout="column" class="sender-wrapper">
+                    <div class="sender-title">{{'company_management.table.cmo' | translate}}</div>
+                    <div class="sender-name">{{ member.cmo }}</div>
+                </div>
+                <div fxLayout="column" class="sender-wrapper">
+                    <div class="sender-title">{{'user_dialog.member' | translate }}</div>
+                    <div class="sender-name">{{ member.name }}</div>
+                </div>
+            </div>
+            <div class="sender-logo" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
+        </div>
+    </div>
+    <div fxLayout="column" class="claim-info">
+        <div class="title">{{ 'inbox.claim.information' | translate | uppercase }}</div>
+        <div *ngIf="message.claimType === claimType.MUSICAL_WORK">
+            <div fxLayout="row" fxLayoutAlign="space-between">
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.ISWC' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.ISWC }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.rightHolderProprietaryID' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.rightHolderProprietaryID }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.rightHolderRole' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.rightHolderRole }}</div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.startDate' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.startDate | date }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.endDate' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.endDate | date }}</div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="affiliaton-wrapper">
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.affiliationMec' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.affiliationMec }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.affiliationPer' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.affiliationPer }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.affiliationSynchro' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.affiliationSynchro }}</div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.mechCollec' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.mechCollec }}%</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.perforCollec' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.perforCollec }}%</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.perforOwner' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.perforOwner }}%</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.syncOwner' | translate}}</div>
+                        <div class="sender-name">{{ message.claimData.syncOwner }}% </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between" class="affiliaton-wrapper">
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class="sender-title">{{'claimData.countries' | translate}}</div>
+                        <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="message.claimType === claimType.SOUND_RECORDING">
+            <div fxLayout="column" class="info-wrapper">
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.ISRC' | translate}}</div>
+                    <div class="sender-name">{{ message.claimData.ISRC }}</div>
+                </div>
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.sliderValue' | translate}}</div>
+                    <div class="sender-name">{{ message.claimData.sliderValue }}%</div>
+                </div>
+            </div>
+            <div fxLayout="column" class="info-wrapper">
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.startDate' | translate}}</div>
+                    <div class="sender-name">{{ message.claimData.startDate | date }}</div>
+                </div>
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.endDate' | translate}}</div>
+                    <div class="sender-name">{{ message.claimData.endDate | date }}</div>
+                </div>
+            </div>
+            <div fxLayout="column" class="info-wrapper">
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.countries' | translate}}</div>
+                    <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}</div>
+                </div>
+            </div>
+            <div fxLayout="column" class="info-wrapper">
+                <div fxLayout="column" class="group-wrapper">
+                    <div class="sender-title">{{'claimData.useTypes' | translate}}</div>
+                    <div class="sender-name" *ngFor="let useType of message.claimData.useTypes">{{ useType }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="column" *ngIf="message.messageLog.length" class="message-info">
+        <div class="title">{{ 'inbox.claim.messages' | translate | uppercase }}</div>
+        <mat-list *ngFor="let message of message.messageLog">
+            <mat-list-item>
+                <img [src]="message?.memberLogo" alt="member logo" width="50px">
+                <h4 mat-line>{{message.message}}</h4>
+                <p mat-line> {{message.time | date}} </p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </div>
+    <div class="actions-wrapper">
+        <div class="title">{{ 'inbox.claim.actions' | translate | uppercase }}</div>
+        <form [formGroup]="messageForm" fxLayout="column" class="form-wrapper" (ngSubmit)="onAccept()">
+            <mat-form-field>
+                <mat-label>{{'Change state' | translate}}</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option *ngFor="let status of inboxEnum.STATUS_CLAIM; let i = index" [value]="i">
+                        {{status}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <textarea matInput placeholder="Leave a comment" formControlName="message"></textarea>
+            </mat-form-field>
+            <div fxLayout="row" class="button-action" fxLayoutAlign="end">
+                <button mat-flat-button fxLayoutAlign="center center" [disabled]="!messageForm.valid">
+                    {{'inbox_detail.send' | translate | uppercase}}
+                </button>
+            </div>
+        </form>
+    </div>
+</mat-card>

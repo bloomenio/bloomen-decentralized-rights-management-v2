@@ -1,0 +1,65 @@
+version: '2'
+services:
+    nginx:
+        build:
+            context: ./nginx
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5" 
+        volumes:
+            - ./ssl:/etc/nginx/ssl         
+        expose:
+            - 80
+            - 443
+            - 8000
+        ports:
+            - "80:80"     
+            - "443:443"   
+            - "8000:8000"
+        environment:
+            - TZ=${TZ}
+            - SSL_ENABLED=${SSL_ENABLED}
+            - LETSENCRYPT=${LETSENCRYPT}
+            - LE_EMAIL=${LE_EMAIL}
+            - LE_FQDN=${LE_FQDN}
+            - PORTAL_USER=${PORTAL_USER}
+            - PORTAL_PASSWORD=${PORTAL_PASSWORD}
+        links:
+            - api
+            - solr
+    api:
+        build:
+            context: ./api
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"   
+        expose:
+            - 3000
+        ports:
+            - "3000:3000"             
+        links:
+            - solr
+        depends_on:                        
+            - solr
+        command: ["./wait-for-it.sh", "solr:8983", "--", "npm", "start"]
+    solr:
+        build:
+            context: ./solr
+        logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"   
+        expose:
+            - 8983
+        ports:
+            - "8983:8983" 
+        entrypoint:
+            - docker-entrypoint.sh
+            - solr-precreate
+            - demo-bloomen-registry-claim-D3.2    
+         

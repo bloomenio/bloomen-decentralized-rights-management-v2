@@ -1,0 +1,56 @@
+/* ################################ *
+ * ############ COLORS ############ *
+ * ################################ */
+
+$blue-background: #d4dce5;
+$blue: #28527d;
+$grey: #666;
+
+$white: #fff;
+$black: #000;
+
+/* ################################ *
+ * ############# FONTS ############ *
+ * ################################ */
+$font-family-roboto: "Roboto" !default;
+
+/* ################################ *
+ * ############ WEIGHT ############ *
+ * ################################ */
+
+$font-light: 300;
+$font_regular: 400;
+$font_medium: 500;
+$font_bold: 700;
+
+/* ################################ *
+ * ############# SIZES ############ *
+ * ################################ */
+
+$font-size-xxxxs: 10px;
+$font-size-xxxs: 11px;
+$font-size-xxs: 12px;
+$font-size-xs: 13px;
+$font-size-s: 14px;
+$font-size-m: 15px;
+$font-size-l: 16px;
+$font-size-xl: 18px;
+$font-size-xxl: 20px;
+$font-size-xxxl: 24px;
+$font-size-xxxxl: 32px;
+
+/* ################################ *
+ * ########## BREAKPOINTS ######### *
+ * ################################ */
+$toolbar-breakpoint: 600px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+//Specific app variables
+$credit-header-height: 48px;

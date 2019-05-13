@@ -1,0 +1,9 @@
+<div class="repertoire-wrapper">
+    <blo-repertoire-search (filter)="applyFilter($event)"></blo-repertoire-search>
+    <div fxLayout="column">
+        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
+    </div>
+    <mat-paginator [length]="repertoireCount$ | async" [pageSize]="3" [pageSizeOptions]="[3,6,9]"
+        [ngClass]="{ 'hide': !(repertoireCount$ | async) }">
+    </mat-paginator>
+</div>

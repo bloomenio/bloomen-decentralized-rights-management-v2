@@ -1,0 +1,110 @@
+<div mat-dialog-title class="dialog-title">Sound Recording Claim</div>
+<mat-tab-group dynamicHeight="true" class="tabs-wrapper">
+    <mat-tab label="{{'claim info' | translate | uppercase}}">
+
+        <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
+
+            <div fxLayout="row">
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
+                    <mat-select formControlName="rightHolderName">
+                        <mat-option *ngFor="let member of members" [value]="member.memberId">
+                            {{ member.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>
+                    <mat-select formControlName="rightOwner">
+                        <mat-option *ngFor="let member of members" [value]="member.memberId">
+                            {{ member.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row">
+                <mat-form-field fxFlex="33">
+                    <input matInput [max]="maxDate" [matDatepicker]="pickerStart"
+                        placeholder="{{'Start Date' | translate}}" formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field fxFlex="33">
+                    <input matInput [min]="minDate" [matDatepicker]="pickerEnd" placeholder="{{'End Date' | translate}}"
+                        formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                </mat-form-field>
+                <div fxLayout="column" fxFlex="33">
+                    <div class="slider-label">{{'Split' | translate}}</div>
+                    <div fxLayout="row">
+                        <mat-slider fxFlex formControlName="sliderValue" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
+                        <div fxFlex="15" *ngIf="!data.isEditable">
+                            {{ claimForm.get('sliderValue').value }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div fxLayout="row">
+                <mat-form-field fxFlex>
+                    <mat-chip-list #chipList formControlName="countries">
+                        <mat-chip *ngFor="let country of countries" [selectable]="false"
+                            [removable]="data.isEditable" (removed)="remove(country)">
+                            {{country}}
+                            <mat-icon matChipRemove *ngIf="data.isEditable">cancel</mat-icon>
+                        </mat-chip>
+                        <input #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
+                            {{country.label}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row">
+                <mat-form-field fxFlex>
+                    <mat-label>{{'Use Types' | translate}}</mat-label>
+                    <mat-select formControlName="useTypes" multiple>
+                        <mat-select-trigger>
+                            <mat-chip-list *ngIf="claimForm.get('useTypes')">
+                                <mat-chip *ngFor="let useType of claimForm.get('useTypes').value">{{useType}}</mat-chip>
+                            </mat-chip-list>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let useTypes of useTypesAll" [value]="useTypes">
+                            {{ useTypes }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div mat-dialog-actions fxLayoutAlign="end center">
+                <button mat-button type="button" (click)="dialogRef.close()">
+                    {{'close' | translate | uppercase}}
+                </button>
+                <button *ngIf="data.isEditable" color="primary" [disabled]="!claimForm.valid || !countries.length"
+                    mat-button>
+                    {{'submit' | translate | uppercase}}
+                </button>
+            </div>
+
+        </form>
+    </mat-tab>
+    <mat-tab [disabled]="!data.disableMemberEdit || !messages.length"
+        label="{{'claim messages' | translate | uppercase}}">
+        <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">
+            <mat-list *ngFor="let message of messages">
+                <mat-list-item>
+                    <img [src]="message?.memberLogo" alt="member logo" width="50px">
+                    <h4 mat-line>{{message.message}}</h4>
+                    <p mat-line> {{message.time | date}} </p>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
+        </div>
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,105 @@
+<div class="claims-wrapper">
+    <div class="container mat-elevation-z8">
+        <div class="loading-shade" *ngIf="dataSource.loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div>
+        <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$ | async) }">
+            <table mat-table [dataSource]="dataSource" class="table" matSort matSortDirection="asc" matSortDisableClear>
+
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'claims.table.type' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon *ngIf="element.claimType === claimType.MUSICAL_WORK">headset</mat-icon>
+                        <mat-icon *ngIf="element.claimType === claimType.SOUND_RECORDING">speaker</mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- Code Column -->
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'claims.table.code' | translate | uppercase }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.claimData.ISWC">
+                            {{element.claimData.ISWC}}
+                        </div>
+                        <div *ngIf="element.claimData.ISRC">
+                            {{element.claimData.ISRC}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'claims.table.title' | translate | uppercase }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.claimData.title}}
+                    </td>
+                </ng-container>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'claims.table.id' | translate | uppercase }}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.claimId}}
+                    </td>
+                </ng-container>
+
+
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'claims.table.status' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="width: 50px">
+                        <mat-chip-list fxLayoutAlign="center">
+                            <mat-chip>{{'claimStatus.' + element.status | translate | uppercase}}</mat-chip>
+                        </mat-chip-list>
+                    </td>
+                </ng-container>
+
+                <!-- Creation date Column -->
+                <ng-container matColumnDef="creationDate">
+                    <th mat-header-cell *matHeaderCellDef>
+                        {{'user_management.table.creationDate' | translate}}
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.creationDate | date: 'dd/MM/yyyy'}}
+                    </td>
+                </ng-container>
+
+                <!-- Edit Column -->
+                <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef disableClear></th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon [class.disabled]="element.status === '3' || element.status === '4'"
+                            (click)="element.status !== '3' && element.status !== '4' && clickEdit(element, true)">
+                            edit
+                        </mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- View Column -->
+                <ng-container matColumnDef="view">
+                    <th mat-header-cell *matHeaderCellDef disableClear></th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon (click)="clickEdit(element, false)">visibility</mat-icon>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <mat-paginator [length]="usersPageNumber" [pageSize]="10"></mat-paginator>
+    </div>
+</div>

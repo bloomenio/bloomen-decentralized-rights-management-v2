@@ -1,0 +1,229 @@
+{
+    "0": [
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "012345678349",
+            "status": "In Progress",
+            "memberOwner": "632",
+            "memberReceptor": "10584",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": { 
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "countries": ["spain"],
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "useTypes": ["Public Performance", "Radio Broadcasting", "TV Broadcasting"],
+                "sliderValue": 20
+            },
+            "claimType": "SR"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        },
+        {
+            "creationDate": "04/04/2019",
+            "claimId": "0123456789",
+            "status": "In Progress",
+            "memberOwner": "10584",
+            "memberReceptor": "632",
+            "messageLog": [
+                "test",
+                "test2"
+            ],
+            "claimData": {
+                "rightHolderProprietaryID": "WC1926C",
+                "rightHolderRole": "Subpublisher",
+                "startDate": "2019/01/04",
+                "endDate": "2019/01/05",
+                "affiliationMec": "cmo1",
+                "affiliationPer": "cmo1",
+                "affiliationSynchro": "cmo1",
+                "code": "ISRC BER181131702",
+                "title": "La cucaracha",
+                "countries": [
+                    "Europe",
+                    "Belgium",
+                    "URS"
+                ],
+                "mechOwner": 50,
+                "mechCollec": 10,
+                "perforOwner": 10,
+                "perforCollec": 10,
+                "syncOwner": 10,
+                "syncCollec": 10
+            },
+            "claimType": "MW"
+        }
+    ]
+}

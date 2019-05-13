@@ -1,0 +1,30 @@
+
+<div class="reload-header" fxFill fxLayout="row" fxLayoutAlign="end start"  >
+    <mat-icon (click)="refreshInbox()">autorenew</mat-icon>
+</div>
+<div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length">
+    <mat-icon class="large-icon" >inbox</mat-icon>
+    <div class="title-nomessage">{{'inbox.title_no_message' | translate}}</div>
+    <div class="text-nomessage">Vestibulum cursus turpis ligula, a semper ex placerat ullamcorper. Morbi eu rutrum
+        mauris, vitae maximus felis. Nulla pretium massa ac commodo luctus. </div>
+</div>
+
+<div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length">
+    <div fxFill fxFlex="30" fxLayout="column" class="detail-wrapper list-wrapper">
+        <ng-container  *ngFor="let messageItem of inbox">
+            <blo-inbox-item-list [message]="messageItem" [isActive]="messageItem?.claimId === message?.claimId"
+                (messageSelected)="onMessageSelected($event)">
+            </blo-inbox-item-list>
+        </ng-container>
+    </div>
+    <div fxFlex fxFill class="detail-wrapper">
+        <blo-inbox-detail [message]="message" (acceptEvent)="onAcceptEvent($event)"
+            (rejectEvent)="onRejectEvent($event)" *ngIf="message; else NoMessage"></blo-inbox-detail>
+        <ng-template #NoMessage>
+            <mat-card fxLayout="column" fxFill fxLayoutAlign="center center">
+                <mat-icon class="large-icon"  >inbox</mat-icon>
+                <h1>{{'inbox.message_pick' | translate}}</h1>
+            </mat-card>
+        </ng-template>
+    </div>
+</div>

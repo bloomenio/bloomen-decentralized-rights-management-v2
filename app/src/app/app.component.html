@@ -1,0 +1,4 @@
+<div [class]="'theme-wrapper ' + (theme$ | async)">
+    <blo-loader [isLoading]="isLoading"></blo-loader>
+    <router-outlet></router-outlet>
+</div>

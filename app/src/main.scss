@@ -1,0 +1,36 @@
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+
+// 3rd party libraries
+@import "~material-design-icons-iconfont/dist/fonts/material-icons.css";
+
+// Angular Material custom theme
+// The mixins below must be included once so we separated them from the variables
+@import "~@angular/material/theming";
+
+// App theme customization
+@import "theme/bloomen-blue/bloomen-blue-theme.scss";
+@import "theme/bloomen-lilac/bloomen-lilac-theme.scss";
+@import "theme/bloomen-green/bloomen-green-theme.scss";
+@import "theme/bloomen-orange/bloomen-orange-theme.scss";
+
+// Roboto fontface
+@import "~roboto-fontface/css/roboto/roboto-fontface.css";
+
+// App global scss
+@import "src/scss/global.scss";
+
+// App hacks scss - Changes that overrides the angular material classes
+@import "src/scss/hacks.scss";
+
+
+.bloomen-card-dialog {
+    .mat-dialog-container {
+        box-shadow: none;
+        background: transparent;
+        padding: 0;   
+    }
+
+}

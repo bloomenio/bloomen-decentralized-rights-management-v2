@@ -1,0 +1,39 @@
+// Angular Material custom theme
+// The mixins below must be included once so we separated them from the variables
+@import "~@angular/material/theming";
+
+/*
+ * Lilac palette
+ */
+ $mat-lilac: (
+  50 : #ede7f6,
+  100 : #d1c4e9,
+  200 : #b39ddb,
+  300 : #9575cd,
+  400 : #7e58c2,
+  500 : #673ab7,
+  600 : #5f34b0,
+  700 : #542ca7,
+  800 : #4a259f,
+  900 : #391890,
+  A100 : #d4c7ff,
+  A200 : #ad94ff,
+  A400 : #8661ff,
+  A700 : #7347ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text
+  )
+);

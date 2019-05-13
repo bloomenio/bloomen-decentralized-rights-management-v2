@@ -1,0 +1,74 @@
+{
+    "12387123": {
+        "name": "Ben",
+        "lastname": "Christopherson",
+        "img": "https://material.angular.io/assets/img/examples/shiba1.jpg",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "New user request",
+        "id": "12387123",
+        "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus dui mi, nec dictum tellus ornare convallis. Morbi venenatis interdum dignissim. Curabitur pellentesque quis metus et equm tincidunt. Etiam urna nisi, ullamcorper vestibulum erat eget, dictum pharetra dolor. Maecenas nec tortor nec urna molestie consequat.",
+        "read": true
+    },
+    "2342343": {
+        "name": "Eric",
+        "lastname": "Torrestopherson",
+        "img": "https://gamepedia.cursecdn.com/arksurvivalevolved_gamepedia/9/9f/Baked_Bread_Loaf_%28Primitive_Plus%29.png",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "Fuera Gluten",
+        "id": "2342343",
+        "message": "Silvia F.G. tiene una relación extraña con el gluten: cada vez que toma alimentos con esta proteína, siente molestias intestinales e incluso cansancio, pero el médico ha descartado que sea celiaca, ya que todas las pruebas médicas han resultado negativas. Esta contradicción la convierte en candidata a padecer sensibilidad al gluten no celiaca, una afección recogida en la última Clasificación Internacional de Enfermedades sobre la que aún planean algunas sombras.",
+        "read": false
+    },
+    "4643534": {
+        "name": "Kilian",
+        "lastname": "Pereatopherson",
+        "img": "https://pm1.narvii.com/6721/53839a16930a09f1b7eec0c0d720ce78a95724f7_hq.jpg",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "Soi el megor",
+        "id": "4643534",
+        "message": "Eric programas fatal",
+        "read": true
+    },
+    "4234234": {
+        "name": "Ben",
+        "lastname": "Christopherson",
+        "img": "https://material.angular.io/assets/img/examples/shiba1.jpg",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "New user request",
+        "id": "4234234",
+        "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus dui mi, nec dictum tellus ornare convallis. Morbi venenatis interdum dignissim. Curabitur pellentesque quis metus et equm tincidunt. Etiam urna nisi, ullamcorper vestibulum erat eget, dictum pharetra dolor. Maecenas nec tortor nec urna molestie consequat.",
+        "read": true
+    },
+    "9879789": {
+        "name": "Eric",
+        "lastname": "Torrestopherson",
+        "img": "https://gamepedia.cursecdn.com/arksurvivalevolved_gamepedia/9/9f/Baked_Bread_Loaf_%28Primitive_Plus%29.png",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "Fuera Gluten",
+        "id": "9879789",
+        "message": "Silvia F.G. tiene una relación extraña con el gluten: cada vez que toma alimentos con esta proteína, siente molestias intestinales e incluso cansancio, pero el médico ha descartado que sea celiaca, ya que todas las pruebas médicas han resultado negativas. Esta contradicción la convierte en candidata a padecer sensibilidad al gluten no celiaca, una afección recogida en la última Clasificación Internacional de Enfermedades sobre la que aún planean algunas sombras.",
+        "read": false
+    },
+    "5734524": {
+        "name": "Kilian",
+        "lastname": "Pereatopherson",
+        "img": "https://pm1.narvii.com/6721/53839a16930a09f1b7eec0c0d720ce78a95724f7_hq.jpg",
+        "date": "1553530238",
+        "state": "PENDING",
+        "memberId": "123123",
+        "subject": "Soi el megor",
+        "id": "5734524",
+        "message": "Eric programas fatal",
+        "read": true
+    }
+}

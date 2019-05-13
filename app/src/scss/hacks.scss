@@ -1,0 +1,50 @@
+@import "./variables.scss";
+
+div.app-layout {
+  width: 100%;
+  margin-top: 112px;
+  height: calc(100vh - 112px);
+}
+
+@media (min-width: $toolbar-breakpoint) {
+  div.app-layout {
+    margin-top: 120px;
+    height: calc(100vh - 120px);
+  }
+}
+
+.mat-toolbar {
+  z-index: 2;
+
+  &.app-bar {
+    position: relative;
+  }
+}
+
+.mat-card.card-wrapper {
+  color: black;
+}
+
+div.card-wrapper .mat-card {
+  color: black;
+}
+
+[class$="theme-dark"] {
+  .icon-bar {
+    filter: invert(100%);
+  }
+
+  .img-nomessage {
+    filter: invert(100%);
+  }
+
+  .active {
+    background-color: #555454
+  }
+}
+
+[class$="theme-light"] {
+  .active {
+    background-color: #e2e2e2
+  }
+}

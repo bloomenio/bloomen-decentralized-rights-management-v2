@@ -1,0 +1,7 @@
+<div>
+    <form [formGroup]="searchForm" class="form" (ngSubmit)="doNothing()">
+        <mat-form-field class="search-field" fxFill>
+            <input color="primary" matInput placeholder="{{'repertoire.search' | translate}}" #input formControlName="search">
+        </mat-form-field>
+    </form>
+</div>
