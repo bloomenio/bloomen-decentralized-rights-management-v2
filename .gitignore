@@ -1,0 +1,5 @@
+.idea/
+app/node_modules/
+api/api/package-lock.json
+app/package-lock.json
+truffle/package-lock.json
