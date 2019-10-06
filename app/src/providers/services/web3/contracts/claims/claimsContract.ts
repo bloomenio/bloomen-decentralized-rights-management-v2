@@ -34,7 +34,7 @@ export class ClaimsContract extends Contract {
     public addClaim(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerClaim(claim.creationDate, encodeData, claim.claimType, claim.memberReceptor).send(this.args);
+            return this.contract.methods.registerClaim(claim.creationDate, encodeData, claim.claimType/*, claim.memberReceptor*/).send(this.args);
             });
     }
 

@@ -108,7 +108,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromUserActions.AcceptUser(event));
     } else {
       this.store.dispatch(new fromClaimActions.ChangeState(event));
-      if (this.message.type === INBOX.TYPES.CLAIM && this.message.memberReceptor === this.message.memberOwner) {
+      if (this.message.type === INBOX.TYPES.CLAIM /*&& this.message.memberReceptor === this.message.memberOwner*/) {
         this.message = undefined;
       }
     }
