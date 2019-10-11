@@ -79,9 +79,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.4.24;\n\nimport \"../Roles.sol\";\n\ncontract SignerRole {\n  using Roles for Roles.Role;\n\n  event SignerAdded(address indexed account);\n  event SignerRemoved(address indexed account);\n\n  Roles.Role private signers;\n\n  constructor() internal {\n    _addSigner(msg.sender);\n  }\n\n  modifier onlySigner() {\n    require(isSigner(msg.sender));\n    _;\n  }\n\n  function isSigner(address account) public view returns (bool) {\n    return signers.has(account);\n  }\n\n  function addSigner(address account) public onlySigner {\n    _addSigner(account);\n  }\n\n  function renounceSigner() public {\n    _removeSigner(msg.sender);\n  }\n\n  function _addSigner(address account) internal {\n    signers.add(account);\n    emit SignerAdded(account);\n  }\n\n  function _removeSigner(address account) internal {\n    signers.remove(account);\n    emit SignerRemoved(account);\n  }\n}\n",
-  "sourcePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
+  "sourcePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
   "ast": {
-    "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
+    "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
     "exportedSymbols": {
       "SignerRole": [
         2595
@@ -102,7 +102,7 @@
         "src": "0:24:7"
       },
       {
-        "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/node_modules/openzeppelin-solidity/contracts/access/Roles.sol",
+        "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/node_modules/openzeppelin-solidity/contracts/access/Roles.sol",
         "file": "../Roles.sol",
         "id": 2495,
         "nodeType": "ImportDirective",
@@ -1287,7 +1287,7 @@
     "src": "0:860:7"
   },
   "legacyAST": {
-    "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
+    "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol",
     "exportedSymbols": {
       "SignerRole": [
         2595
@@ -1308,7 +1308,7 @@
         "src": "0:24:7"
       },
       {
-        "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/node_modules/openzeppelin-solidity/contracts/access/Roles.sol",
+        "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/node_modules/openzeppelin-solidity/contracts/access/Roles.sol",
         "file": "../Roles.sol",
         "id": 2495,
         "nodeType": "ImportDirective",
@@ -2498,5 +2498,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-05-13T10:49:28.961Z"
+  "updatedAt": "2019-10-11T09:48:18.134Z"
 }
