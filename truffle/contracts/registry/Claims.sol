@@ -11,11 +11,8 @@ contract Claims is Users {
   using RLPReader for RLPReader.RLPItem;
 
   enum StatusClaimEnum {
-    PENDING,
-    IN_PROGRESS,
-    CONFLICT,
-    RESOLVED,
-    REJECTED
+    CLAIMED,
+    CONFLICT
   }
 
   enum ClaimTypeEnum {
@@ -61,7 +58,7 @@ contract Claims is Users {
 
       string[] memory messageLog = new string[](0);
 
-      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.PENDING), _creationDate);
+      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.CONFLICT), _creationDate);
       _addClaimIdToMemberOwner(_memberOwner, _claimId);
       _addClaimFromInbox(_memberReceptor, _claimId);
   }
@@ -80,7 +77,7 @@ contract Claims is Users {
 
         bool isClaimIntoReceptorInbox = _isClaimIntoReceptorInbox(claims_[_claimId].memberReceptor, _claimId);
 
-        if(_status == uint(StatusClaimEnum.RESOLVED) || _status == uint(StatusClaimEnum.REJECTED)) {
+        if(_status == uint(StatusClaimEnum.CLAIMED) || _status == uint(StatusClaimEnum.CONFLICT)) {
           if(isClaimIntoReceptorInbox) {
             _removeClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
           } else {
@@ -170,7 +167,7 @@ contract Claims is Users {
   // MODIFIERS
 
   modifier checkValidStatus(uint256 _status) {
-    require(_status >= 0 || _status <= 4, "status not allowed");
+    require(_status >= 0 || _status <= 1, "status not allowed");
     _;
   }
 

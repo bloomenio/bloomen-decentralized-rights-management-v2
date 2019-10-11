@@ -84,7 +84,7 @@ export class AssetCardComponent implements OnInit {
               memberOwner: this.user.memberId,
               creationDate: new Date().getTime(),
               claimType: ClaimModel.ClaimTypeEnum.MUSICAL_WORK,
-              status: ClaimModel.StatusClaimEnum.PENDING,
+              status: ClaimModel.StatusClaimEnum.CONFLICT,
               messageLog: [],
               claimData: {
                 ISWC: this.asset.ISWC,
@@ -107,7 +107,7 @@ export class AssetCardComponent implements OnInit {
               memberOwner: this.user.memberId,
               creationDate: new Date().getTime(),
               claimType: ClaimModel.ClaimTypeEnum.SOUND_RECORDING,
-              status: ClaimModel.StatusClaimEnum.PENDING,
+              status: ClaimModel.StatusClaimEnum.CONFLICT,
               messageLog: [],
               claimData: {
                 ISRC: this.asset.ISRC,

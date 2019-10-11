@@ -6,9 +6,9 @@
   "sourceMap": "27:421:5:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:421:5;;;;;;;",
   "deployedSourceMap": "27:421:5:-;;;;;",
   "source": "pragma solidity ^0.4.24;\n\n\ncontract Random {\n\n  function rand(uint seed) internal pure returns (uint) {\n    bytes32 data;\n    if (seed % 2 == 0){\n      data = keccak256(abi.encodePacked(seed)); \n    }else{\n      data = keccak256(abi.encodePacked(keccak256(abi.encodePacked(seed))));\n    }\n    uint sum;\n    for(uint i;i < 32;i++){\n      sum += uint(data[i]);\n    }\n    return uint(data[sum % data.length])*uint(data[(sum + 2) % data.length]);\n  }\n}",
-  "sourcePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/contracts/utils/random.sol",
+  "sourcePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/contracts/utils/random.sol",
   "ast": {
-    "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/contracts/utils/random.sol",
+    "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/contracts/utils/random.sol",
     "exportedSymbols": {
       "Random": [
         2398
@@ -1243,7 +1243,7 @@
     "src": "0:448:5"
   },
   "legacyAST": {
-    "absolutePath": "/home/jordi/ws/worldline_bloomen_registryTool/bloomen-registry-tool-truffle/contracts/utils/random.sol",
+    "absolutePath": "/home/komodo/newUI/bloomen-decentralized-rights-management-v2/truffle/contracts/utils/random.sol",
     "exportedSymbols": {
       "Random": [
         2398

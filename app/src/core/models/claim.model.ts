@@ -18,10 +18,7 @@ export namespace ClaimModel {
     }
 
     export enum StatusClaimEnum {
-        PENDING,
-        IN_PROGRESS,
-        CONFLICT,
-        RESOLVED,
-        REJECTED
+        CLAIMED,
+        CONFLICT
     }
 }

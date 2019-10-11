@@ -82,11 +82,8 @@
     "approve": "Approve"
   },
   "claimStatus": {
-    "0": "pending",
-    "1": "In progress",
-    "2": "conflict",
-    "3": "resolved",
-    "4": "rejected"
+    "0": "claimed",
+    "1": "conflict"
   },
   "login": {
     "create_new_account": "CREATE A NEW ACCOUNT",

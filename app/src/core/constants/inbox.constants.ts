@@ -9,11 +9,8 @@ export const INBOX = {
         2: 'ACCEPTED'
     },
     STATUS_CLAIM: [
-        'PENDING',
-        'IN_PROGRESS',
-        'CONFLICT',
-        'RESOLVED',
-        'REJECTED'
+        'CLAIMED',
+        'CONFLICT'
     ]
 
 };
