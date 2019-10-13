@@ -75,22 +75,11 @@ contract Claims is Users {
 
      if(claims_[_claimId].status != StatusClaimEnum(_status)) {
 
-        bool isClaimIntoReceptorInbox = _isClaimIntoReceptorInbox(claims_[_claimId].memberReceptor, _claimId);
-
-        if(_status == uint(StatusClaimEnum.CLAIMED) || _status == uint(StatusClaimEnum.CONFLICT)) {
-          if(isClaimIntoReceptorInbox) {
-            _removeClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
-          } else {
+        if(_status == uint(StatusClaimEnum.CLAIMED)) {
             _removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
           }
-        } else {
-          if(isClaimIntoReceptorInbox) {
+        else {
             _addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-            _removeClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
-          } else {
-            _addClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
-            _removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-          }
         }
         claims_[_claimId].status = StatusClaimEnum(_status);
      }

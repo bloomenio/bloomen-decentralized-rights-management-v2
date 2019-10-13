@@ -83,7 +83,10 @@
   },
   "claimStatus": {
     "0": "claimed",
-    "1": "conflict"
+    "1": "conflict",
+    "2": "conflict",
+    "3": "claimed",
+    "4": "conflict"
   },
   "login": {
     "create_new_account": "CREATE A NEW ACCOUNT",

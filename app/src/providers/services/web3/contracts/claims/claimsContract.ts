@@ -73,6 +73,7 @@ export class ClaimsContract extends Contract {
                             } else {
                                 data[dataItem[0]] = dataItem[1];
                             }
+                            console.log('\n DATAITEM\n', dataItem);
                         });
                         claim.claimData = data;
                         return claim;
