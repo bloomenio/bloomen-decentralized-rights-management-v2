@@ -17,7 +17,8 @@ import { UserManagementComponent } from './user-management.component';
 import { UserManagementDataSource } from './user-management.datasource';
 import { UserProfileShellModule } from '@components/user-profile-shell/user-profile-shell.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
+// import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
+import {DialogUserDataModule} from '@components/dialog-user-data/dialog-user-data.module';
 
 /**
  * Module to import and export all the components for the home page.
@@ -32,10 +33,11 @@ import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-
     UserManagementRoutingModule,
     ShellModule,
     UserProfileShellModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DialogUserDataModule
   ],
-  declarations: [UserManagementComponent, DialogUserDataComponent],
+  declarations: [UserManagementComponent], // DialogUserDataComponent],
   providers: [UserManagementDataSource, DatePipe],
-  entryComponents: [DialogUserDataComponent]
+  // entryComponents: [DialogUserDataComponent]
 })
 export class UserManagementModule { }
