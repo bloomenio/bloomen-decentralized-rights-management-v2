@@ -6,6 +6,4 @@ truffle/package-lock.json
 dist/
 build/
 yarn.lock
-.gitignore
-
 
