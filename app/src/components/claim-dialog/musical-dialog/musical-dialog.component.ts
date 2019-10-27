@@ -81,7 +81,7 @@ export class MusicalDialogComponent implements OnInit {
 
         });
 
-        this.claimForm.get('rightHolderName').disable();
+        // this.claimForm.get('rightHolderName').disable();
 
         if (this.data.disableMemberEdit) {
             // this.claimForm.get('originalPublisherName').disable();

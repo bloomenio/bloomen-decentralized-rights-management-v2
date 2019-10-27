@@ -46,8 +46,8 @@
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "node postinstall-web && npm run electron:serve-tsc && npm run build:web:prod && electron .",
     "electron:linux": "node postinstall-web && npm run electron:serve-tsc && npm run build:web:development && electron-builder build --linux",
-    "electron:windows": "npm run build:web:prod && electron-builder build --windows",
-    "electron:mac": "npm run build:web:prod && electron-builder build --mac",
+    "electron:windows": "node postinstall-web && npm run electron:serve-tsc && npm run build:web:development && electron-builder build --windows",
+    "electron:mac": "node postinstall-web && npm run electron:serve-tsc && npm run build:web:development && electron-builder build  --mac",
     "package-linux": "electron-packager . Bloomen_Decentralized_Rights_Management_App_Linux --overwrite --platform=linux --icon=../../assets/256x256.png --out=../../desktop-apps --ignore=\"node_modules|package-lock.json|.gitignore\" --prune=true --asar",
     "package-win": "electron-packager . Bloomen_Decentralized_Rights_Management_App_Windows --overwrite --platform=win32 --icon=../../assets/256x256.ico --out=../../desktop-apps --ignore=\"node_modules|package-lock.json|.gitignore\" --prune=true --asar --arch=ia32 --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Bloomen Decentralized Rights Management App Windows\"",
     "package-mac": "electron-packager . Bloomen_Decentralized_Rights_Management_App_macOS --overwrite --platform=darwin --icon=../../assets/256x256.icns --out=../../desktop-apps --ignore=\"node_modules|package-lock.json|.gitignore\" --prune=true"
@@ -85,6 +85,7 @@
     "ng-lottie": "0.3.2",
     "ngforage": "4.0.1",
     "ngx-clipboard": "^11.1.9",
+    "npm-watch": "^0.6.0",
     "phonegap-plugin-barcodescanner": "8.0.1",
     "rlp": "^2.2.3",
     "roboto-fontface": "0.10.0",

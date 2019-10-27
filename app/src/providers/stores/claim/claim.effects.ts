@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 
 // Actions
 import * as fromClaimActions from './claim.actions';
-import * as fromMemberActions from '@stores/member/member.actions';
 import { Logger } from '@services/logger/logger.service';
 
 import { Store } from '@ngrx/store';
@@ -29,12 +28,38 @@ export class ClaimEffects {
         ofType(fromClaimActions.ClaimActionTypes.CHANGE_CLAIM_STATE),
         map((action) => {
             this.web3Service.ready(() => {
-                this.claimsContract.changeState(action.payload.claimsId, action.payload.status, action.payload.message,
+                this.claimsContract.changingState(action.payload.claimsId, action.payload.status, action.payload.message,
                     action.payload.memberId, action.payload.memberLogo).then(() => {
-                        this.store.dispatch(new fromMemberActions.InitMember());
+                        this.store.dispatch(new fromClaimActions.ChangeState(action.payload));
                     }, (error) => {
                         log.error(error);
                     });
+            });
+        })
+    );
+
+    @Effect({ dispatch: false }) public addClaim = this.actions$.pipe(
+        ofType(fromClaimActions.ClaimActionTypes.ADD_CLAIM),
+        map((action) => {
+            this.web3Service.ready(() => {
+                this.claimsContract.addClaim(action.payload).then(() => {
+                    this.store.dispatch(new fromClaimActions.AddClaim(action.payload));
+                }, (error) => {
+                    log.error(error);
+                });
+            });
+        })
+    );
+
+    @Effect({ dispatch: false }) public updateClaim = this.actions$.pipe(
+        ofType(fromClaimActions.ClaimActionTypes.UPDATE_CLAIM),
+        map((action) => {
+            this.web3Service.ready(() => {
+                this.claimsContract.updateCl(action.payload).then(() => {
+                    this.store.dispatch(new fromClaimActions.UpdateClaim(action.payload));
+                }, (error) => {
+                    log.error(error);
+                });
             });
         })
     );

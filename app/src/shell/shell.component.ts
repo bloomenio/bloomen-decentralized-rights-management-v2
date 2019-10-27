@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material';
 import { AddMemberDialogComponent } from '@components/add-member-dialog/add-member-dialog.component';
 import { UserModel } from '@core/models/user.model';
 import { Subscription } from 'rxjs';
+import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
 
 const log = new Logger('blo-shell');
 
@@ -177,6 +178,11 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   public openDialogAddMember() {
     this.matDialog.open(AddMemberDialogComponent, {
+      width: '1100px',
+    });
+  }
+  public openDialogAddClaim() {
+    this.matDialog.open(AddClaimDialogComponent, {
       width: '1100px',
     });
   }

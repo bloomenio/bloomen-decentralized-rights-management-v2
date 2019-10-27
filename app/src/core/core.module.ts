@@ -40,7 +40,7 @@ import { reducers, metaReducers } from './core.state';
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([]),
     environment.production ? [] : StoreDevtoolsModule.instrument({
-      name: 'BloomeApp'
+      name: 'BloomenApp'
     }),
   ],
   providers: [

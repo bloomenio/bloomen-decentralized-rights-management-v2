@@ -56,7 +56,7 @@ export class SoundDialogComponent implements OnInit {
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
         });
 
-        this.claimForm.get('rightHolderName').disable();
+        // this.claimForm.get('rightHolderName').disable();
 
         if (this.data.disableMemberEdit) {
             // this.claimForm.get('rightOwner').disable();
@@ -83,8 +83,6 @@ export class SoundDialogComponent implements OnInit {
             startWith(null),
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
-
-
     }
 
     public add(event: MatChipInputEvent) {

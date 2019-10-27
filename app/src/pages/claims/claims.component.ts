@@ -68,7 +68,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public ngAfterViewInit() {
 
         // Simulate get number of items from the server
-        this.claimsContract.getClaimsCountByMemberId().then((count) => {
+        this.claimsContract.getClaimsCountByMemId().then((count) => {
             this.usersPageNumber = count;
         });
 
@@ -120,7 +120,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         dialog.afterClosed().subscribe(value => {
             if (value) {
-                this.claimsContract.updateClaim(value).then(() => {
+                this.claimsContract.updateCl(value).then(() => {
                     this.loadClaimsPage();
                 });
             }

@@ -6,7 +6,8 @@ export enum MemberActionTypes {
     INIT_MEMBER_SUCCESS = '[member] init member success',
     SELECT_MEMBER = '[member] select member',
     UNSELECT_MEMBER = '[member] unselect member',
-    ADD_MEMBER = '[member] add member'
+    ADD_MEMBER = '[member] add member',
+    GET_MEMBERS = '[member] get members'
 }
 
 export class InitMember implements Action {
@@ -31,4 +32,9 @@ export class AddMember implements Action {
     constructor(public readonly payload: MemberModel) { }
 }
 
-export type MemberActions = InitMember | InitMemberSuccess | SelectMember | UnselectMember | AddMember;
+export class GetMembers implements Action {
+    public readonly type = MemberActionTypes.GET_MEMBERS;
+    constructor(public readonly payload: MemberModel[]) { }
+}
+
+export type MemberActions = InitMember | InitMemberSuccess | SelectMember | UnselectMember | AddMember | GetMembers;

@@ -3,6 +3,7 @@
     "confirm": "Confirm",
     "accept": "Accept",
     "cancel": "Cancel",
+    "submit": "Submit",
     "yes": "Yes",
     "no": "No",
     "close": "Close",
@@ -31,7 +32,8 @@
     "color_template": "Choose the color of your template"
   },
   "claim_dialog": {
-    "claim_id": "CLAIM ID",
+    "claim_id": "Claim ID",
+    "add_claim": "Add claim",
     "right_holder_name": "Right Holder Name",
     "right_holder_IPI_name_number": "Right Holder IPI Name Number",
     "right_holder_proprietary_ID": "Right Holder Proprietary ID",
@@ -51,7 +53,10 @@
     "split": "Split",
     "countries": "Countries",
     "use_types": "Use Types",
-    "add_country": "Add Country"
+    "add_country": "Add Country",
+    "title": "Title",
+    "messageLog": "First message (optional)",
+    "ISRC": "International Standard Recording Code"
   },
   "user_dialog": {
     "name": "Name",
@@ -59,10 +64,10 @@
     "company": "Company",
     "id": "ID",
     "member": "Member",
-    "title": "User data"
+    "title": "User data",
+    "role": "Role"
   },
   "user_diaog": {
-    "role": "Role"
   },
   "claims": {
     "table": {
@@ -83,10 +88,7 @@
   },
   "claimStatus": {
     "0": "claimed",
-    "1": "conflict",
-    "2": "conflict",
-    "3": "claimed",
-    "4": "conflict"
+    "1": "conflict"
   },
   "login": {
     "create_new_account": "CREATE A NEW ACCOUNT",

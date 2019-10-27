@@ -4,7 +4,7 @@ export interface ClaimModel {
     claimData: any;
     claimType: ClaimModel.ClaimTypeEnum;
     memberOwner?: number;
-    // memberReceptor?: number;
+    memberReceptor?: number;
     messageLog?: string[];
     status?: ClaimModel.StatusClaimEnum;
     lastChange?: number;

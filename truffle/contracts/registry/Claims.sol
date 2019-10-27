@@ -6,6 +6,8 @@ import "./Users.sol";
 
 contract Claims is Users {
 
+//  event SavingClaimInfo(uint256 _status);
+
   using RLPReader for bytes;
   using RLPReader for uint;
   using RLPReader for RLPReader.RLPItem;
@@ -19,22 +21,22 @@ contract Claims is Users {
     MUSICAL_WORK,
     SOUND_RECORDING
   }
-  
-  struct NameValue{ 
+
+  struct NameValue{
     string name;
     string value;
   }
 
-  struct Claim {   
+  struct Claim {
     uint256 creationDate;
     uint256 claimId;
     NameValue[] claimData;
-    ClaimTypeEnum claimType;    
+    ClaimTypeEnum claimType;
     uint256 memberOwner;
     uint256 memberReceptor;
     string[] messageLog;
     StatusClaimEnum status;
-    uint256 lastChange;   
+    uint256 lastChange;
   }
 
   uint256 constant private PAGE_SIZE = 10;
@@ -58,36 +60,46 @@ contract Claims is Users {
 
       string[] memory messageLog = new string[](0);
 
-      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.CONFLICT), _creationDate);
+      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.CLAIMED), _creationDate);
       _addClaimIdToMemberOwner(_memberOwner, _claimId);
       _addClaimFromInbox(_memberReceptor, _claimId);
   }
 
   function updateClaim(uint256 _claimId, bytes _claimData, uint _lastChange) checkMemberOwnership(_claimId) public {
     require(claims_[_claimId].claimId > 0, "Claim not exists");
-
-    _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, uint(claims_[_claimId].claimType), 
+    _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, uint(claims_[_claimId].claimType),
       claims_[_claimId].memberOwner, claims_[_claimId].memberReceptor, claims_[_claimId].messageLog, uint(claims_[_claimId].status), _lastChange);
   }
 
   function changeState(uint256 _claimId, uint _status, string _messageLog, uint256 _lastChange) checkValidStatus(_status) public {
     require(claims_[_claimId].claimId > 0, "Claim not exists");
 
-     if(claims_[_claimId].status != StatusClaimEnum(_status)) {
+    if(claims_[_claimId].status != StatusClaimEnum(_status)) {
 
-        if(_status == uint(StatusClaimEnum.CLAIMED)) {
+        bool isClaimIntoReceptorInbox = _isClaimIntoReceptorInbox(claims_[_claimId].memberReceptor, _claimId);
+
+        if(_status == uint(StatusClaimEnum.CLAIMED) || _status == uint(StatusClaimEnum.CONFLICT)) {
+          if(isClaimIntoReceptorInbox) {
+            _removeClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
+          } else {
             _removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
           }
-        else {
+        } else {
+          if(isClaimIntoReceptorInbox) {
             _addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+            _removeClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
+          } else {
+            _addClaimFromInbox(claims_[_claimId].memberReceptor, _claimId);
+            _removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+          }
         }
         claims_[_claimId].status = StatusClaimEnum(_status);
-     }
-      if (keccak256(abi.encodePacked((_messageLog))) != keccak256(abi.encodePacked(("")))) {
-          claims_[_claimId].messageLog.push(_messageLog);
-      }
+    }
+    if (keccak256(abi.encodePacked((_messageLog))) != keccak256(abi.encodePacked(("")))) {
+       claims_[_claimId].messageLog.push(_messageLog);
+    }
 
-      claims_[_claimId].lastChange = _lastChange;
+    claims_[_claimId].lastChange = _lastChange;
   }
 
   function getClaim(uint256 _claimId) checkMemberOwnership(_claimId) view public returns (Claim) {
@@ -125,7 +137,7 @@ contract Claims is Users {
   }
 
   // Private
-  function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, uint256 _claimType, 
+  function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, uint256 _claimType,
     uint _memberOwner, uint _memberReceptor, string[] memory _messageLog, uint256 _status, uint256 _lastChange) internal {
 
       RLPReader.RLPItem memory item = _claimData.toRlpItem();
@@ -145,12 +157,25 @@ contract Claims is Users {
       claims_[_claimId].memberReceptor = _memberReceptor;
       claims_[_claimId].lastChange = _lastChange;
 
-      
-
       claims_[_claimId].messageLog = _messageLog;
 
+      if (_status <= 0) {
+        _status = 0;
+      }
+      else if (_status <= 1) {
+        _status = 1;
+      }
+      else if(_status <= 2) {
+        _status = 1;
+      }
+      else if (_status <= 3) {
+        _status = 0;
+      }
+      else if (_status <= 4) {
+        _status = 1;
+      }
+//      emit SavingClaimInfo(_status);
       claims_[_claimId].status = StatusClaimEnum(_status);
-      
   }
 
   // MODIFIERS
@@ -161,7 +186,7 @@ contract Claims is Users {
   }
 
   modifier checkMemberOwnership(uint256 _claimId) {
-    require(claims_[_claimId].memberOwner == _memberIdFromCurrentAddress() || claims_[_claimId].memberReceptor == _memberIdFromCurrentAddress(), 
+    require(claims_[_claimId].memberOwner == _memberIdFromCurrentAddress() || claims_[_claimId].memberReceptor == _memberIdFromCurrentAddress(),
       "not allowed to get this claim");
     _;
   }

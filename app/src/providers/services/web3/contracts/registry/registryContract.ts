@@ -29,5 +29,4 @@ export class RegistryContract extends Contract {
     public getCMOs(): Promise<any> {
         return this.contract.methods.getCMOs().call(this.args);
     }
-
 }

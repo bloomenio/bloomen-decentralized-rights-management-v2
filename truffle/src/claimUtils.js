@@ -29,7 +29,7 @@ const contractInstance = new web3.eth.Contract(contractJSON.abi, contractJSON.ne
 function doStuff() {
     switch (process.argv[2]) {
         case 'getByMember':
-            getClaimsByMemberId();
+            getClaimsByMemId();
             break;
         case 'getById':
             getClaimById(process.argv[3]);
@@ -41,7 +41,7 @@ function doStuff() {
             addClaim();
             break;
         case 'count':
-            getClaimsCountByMemberId();
+            getClaimsCountByMemId();
             break;
         default:
             console.log('no command... get|set')
@@ -50,7 +50,7 @@ function doStuff() {
 }
 
 // GET
-function getClaimsByMemberId() {
+function getClaimsByMemId() {
     contractInstance.methods.getClaimsByMemberId(0).call(transactionObject).then(
         (result) => {
             console.log('GET:', result)
@@ -99,7 +99,7 @@ async function update() {
 
 
 // COUNT
-async function getClaimsCountByMemberId() {
+async function getClaimsCountByMemId() {
     contractInstance.methods.getClaimsCountByMemberId().call(transactionObject).then(checkCount);
 }
 

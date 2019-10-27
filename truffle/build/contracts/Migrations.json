@@ -193,7 +193,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3242,
+                        "referencedDeclaration": 3284,
                         "src": "150:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -279,7 +279,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3242,
+                        "referencedDeclaration": 3284,
                         "src": "201:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -843,7 +843,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3242,
+                        "referencedDeclaration": 3284,
                         "src": "150:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -929,7 +929,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3242,
+                        "referencedDeclaration": 3284,
                         "src": "201:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -1375,19 +1375,13 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {
-    "82584648528": {
-      "events": {},
-      "links": {},
-      "address": "0xcba73bb9dcd1f42df5b868371354f06d86390d3f",
-      "transactionHash": "0xd3be6a66a46b0896f609979d04173805eccf17184bd898897a256d7bfa742ede"
-    },
     "83584648538": {
       "events": {},
       "links": {},
-      "address": "0xcee757ebc0b214e8af33e4d6b0cc9215c15871be",
-      "transactionHash": "0xf497da4fef87a59fe9543dd57231655ddf97fe8e9c605bcf5634c5e472c13bcb"
+      "address": "0x8f175e59f8527f3b2499e7eb8786198125b81597",
+      "transactionHash": "0x5e2bf6dd19affd8bd6277a4c6d115c4e8aaeafaf70c53d821df0aa1135be364f"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-10-11T09:48:18.132Z"
+  "updatedAt": "2019-10-25T11:34:25.875Z"
 }

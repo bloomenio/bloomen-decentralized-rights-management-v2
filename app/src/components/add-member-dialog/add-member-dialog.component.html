@@ -4,7 +4,7 @@
     <div fxLayout="row">
       <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="space-between">
         <mat-form-field fxFlex="45">
-          <mat-label>{{'add_member_dialog.cmo' | translate | uppercase}}</mat-label>
+          <mat-label>{{ 'add_member_dialog.cmo' | translate | uppercase }}</mat-label>
           <mat-select formControlName="cmo">
             <mat-option *ngFor="let cmo of (cmos$ | async)" [value]="cmo">
               {{ cmo }}
@@ -21,7 +21,7 @@
             <input placeholder="{{'Country' | translate}}" matInput formControlName="country" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
-                {{country.label}}
+                {{ country.label }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -29,7 +29,7 @@
       <div fxFlex="40" fxLayoutAlign="center center">
         <div *ngIf="!memberForm.get('url').value; else Image">
           <div class="empty-image" fxLayoutAlign="center center">
-              {{'add_member_dialog.preview_image' | translate | uppercase}}
+              {{ 'add_member_dialog.preview_image' | translate | uppercase }}
           </div>
         </div>
         <ng-template #Image>
@@ -37,7 +37,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="title-themes">{{'add_member_dialog.color_template' | translate}}</div>
+    <div class="title-themes">{{ 'add_member_dialog.color_template' | translate }}</div>
     <div fxLayout="row" fxLayoutAlign="center center">
       <mat-radio-group formControlName="theme">
         <mat-radio-button class="radio-button" [value]="'blue'">

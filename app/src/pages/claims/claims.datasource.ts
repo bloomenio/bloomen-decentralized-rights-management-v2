@@ -28,7 +28,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
     public loadClaims(filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
         // Remove mock and do the request paginated
         this.loadingSubject.next(true);
-        this.claimsContract.getClaimsByMemberId(pageIndex).then((claims) => {
+        this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {
             this.claims$.next(claims);
             this.loadingSubject.next(false);
         });

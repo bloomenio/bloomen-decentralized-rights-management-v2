@@ -1,4 +1,4 @@
-import { MemberActions, MemberActionTypes } from './member.actions';
+import {InitMemberSuccess, MemberActions, MemberActionTypes} from './member.actions';
 import { MemberModel } from '@core/models/member.model';
 
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
@@ -6,6 +6,10 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 export interface MemberState extends EntityState<MemberModel> {
     currentMember: string;
 }
+
+// export interface InitMemberSuccess extends EntityState<MemberModel>[] {
+//     members: ;
+// }
 
 export const memberAdapter = createEntityAdapter<MemberModel>({
     selectId: (member: MemberModel) => member.memberId
@@ -36,3 +40,5 @@ export function memberReducer(state: MemberState = memberInitialState, action: M
 }
 
 export const getCurrentMember = (state: MemberState) => state.entities[state.currentMember];
+
+// export const getMembers = (state: InitMemberSuccess) => state.payload;
