@@ -5,7 +5,7 @@
         <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
 
             <div fxLayout="row">
-                <mat-form-field fxFlex="100">
+                <mat-form-field fxFlex="50">
                     <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
                     <mat-select formControlName="rightHolderName">
                         <mat-option *ngFor="let member of members" [value]="member.memberId">
@@ -13,26 +13,26 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-<!--                <mat-form-field fxFlex="50">-->
-<!--                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>-->
-<!--                    <mat-select formControlName="rightOwner">-->
-<!--                        <mat-option *ngFor="let member of members" [value]="member.memberId">-->
-<!--                            {{ member.name }}-->
-<!--                        </mat-option>-->
-<!--                    </mat-select>-->
-<!--                </mat-form-field>-->
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>
+                    <mat-select formControlName="rightOwner">
+                        <mat-option *ngFor="let member of members" [value]="member.memberId">
+                            {{ member.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div fxLayout="row">
                 <mat-form-field fxFlex="33">
                     <input matInput [max]="maxDate" [matDatepicker]="pickerStart"
-                        placeholder="{{'Start Date' | translate}}" formControlName="startDate">
+                           placeholder="{{'Start Date' | translate}}" formControlName="startDate">
                     <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                     <mat-datepicker #pickerStart></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field fxFlex="33">
                     <input matInput [min]="minDate" [matDatepicker]="pickerEnd" placeholder="{{'End Date' | translate}}"
-                        formControlName="endDate">
+                           formControlName="endDate">
                     <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                     <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
@@ -51,13 +51,13 @@
                 <mat-form-field fxFlex>
                     <mat-chip-list #chipList formControlName="countries">
                         <mat-chip *ngFor="let country of countries" [selectable]="false"
-                            [removable]="data.isEditable" (removed)="remove(country)">
+                                  [removable]="data.isEditable" (removed)="remove(country)">
                             {{country}}
                             <mat-icon matChipRemove *ngIf="data.isEditable">cancel</mat-icon>
                         </mat-chip>
                         <input #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
-                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
+                               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                         <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
@@ -87,15 +87,15 @@
                     {{'close' | translate | uppercase}}
                 </button>
                 <button *ngIf="data.isEditable" color="primary" [disabled]="!claimForm.valid || !countries.length"
-                    mat-button>
+                        mat-button>
                     {{'submit' | translate | uppercase}}
                 </button>
             </div>
 
         </form>
     </mat-tab>
-    <mat-tab [disabled]="!data.disableMemberEdit || !messages.length"
-        label="{{'claim messages' | translate | uppercase}}">
+    <mat-tab [disabled]="!data.isEditable || !messages.length"
+             label="{{'claim messages' | translate | uppercase}}">
         <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">
             <mat-list *ngFor="let message of messages">
                 <mat-list-item>

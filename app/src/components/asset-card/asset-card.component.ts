@@ -130,7 +130,7 @@ export class AssetCardComponent implements OnInit {
     dialog.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
       if (result) {
-        this.claimsContract.addClaim(result);
+        this.claimsContract.addClaim(result).then();
       }
     });
   }

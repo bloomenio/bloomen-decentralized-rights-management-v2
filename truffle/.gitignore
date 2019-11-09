@@ -1,4 +1,8 @@
 .env
+compile_contracts.sh
+addMembers.sh
+package-lock.json
+contracts/registry/TheLib.sol
 
 # Node files #
 node_modules/

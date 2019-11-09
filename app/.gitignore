@@ -1,4 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+/src/providers/services/web3/contracts/json/TheLib.json
 
 # Compiled output
 /dist

@@ -15,6 +15,7 @@ module.exports = {
       provider: () =>{ 
         return new HDWalletProvider(process.env.DEVELOPMENT_MNEMONIC, process.env.DEVELOPMENT_URL);     
       },
+      // gas: 20000000,
       gasPrice: 0,
       network_id: '*',
     }

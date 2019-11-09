@@ -1,0 +1,104 @@
+<div mat-dialog-title class="dialog-title">{{ 'claim_dialog.add_claim' | translate | uppercase }}</div>
+<div mat-dialog-content>
+    <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" fxLayout="column">
+        <div fxLayout="row">
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between">
+                <mat-form-field fxFlex="60">
+                    <mat-label>ISRC</mat-label>
+                    <input matInput placeholder="{{ 'claim_dialog.ISWC' | translate }}" formControlName="ISWC">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{ 'claim_dialog.title' | translate }}</mat-label>
+                    <input matInput placeholder="{{ 'claim_dialog.title' | translate }}" formControlName="title">
+                </mat-form-field>
+                <mat-form-field fxFlex="45">
+                    <mat-label>{{ 'claim_dialog.claim_id' | translate }}</mat-label>
+                    <input matInput placeholder="{{ 'claim_dialog.claim_id' | translate }}" formControlName="claimId">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{ 'claim_dialog.right_holder_name' | translate }}</mat-label>
+                    <mat-select formControlName="rightHolderName">
+<!--                        <mat-option *ngIf="member.name" [value]="member.name">-->
+<!--                            {{ member.name }}-->
+<!--                        </mat-option>-->
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="45">
+                    <mat-chip-list #chipList formControlName="countries">
+                        <mat-chip *ngFor="let country of countries" [selectable]="false"
+                                  (removed)="remove(country)">
+                            {{country}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Country" #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
+                               [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                               (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
+                            {{country.label}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{'claim_dialog.use_types' | translate}}</mat-label>
+                    <mat-select formControlName="useTypes" multiple>
+                        <mat-select-trigger>
+                            <mat-chip-list *ngIf="claimForm.get('useTypes')">
+                                <mat-chip *ngFor="let useType of claimForm.get('useTypes').value">{{useType}}</mat-chip>
+                            </mat-chip-list>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let useTypes of useTypesAll" [value]="useTypes">
+                            {{ useTypes }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="45">
+                    <input matInput [max]="maxDate" [matDatepicker]="pickerStart"
+                           placeholder="{{'Start Date' | translate}}" formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field fxFlex="37">
+                    <input matInput [min]="minDate" [matDatepicker]="pickerEnd" placeholder="{{'End Date' | translate}}"
+                           formControlName="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                </mat-form-field>
+                <div class="slider-label">{{'Split' | translate}}</div>
+                <mat-slider fxFlex formControlName="sliderValue" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
+                <div fxFlex="15"> {{ claimForm.get('sliderValue').value }}% </div>
+                <mat-form-field fxFlex="70">
+                    <mat-label>{{ 'claim_dialog.messageLog' | translate }}</mat-label>
+                    <input matInput placeholder="{{ 'claim_dialog.messageLog' | translate }}" formControlName="messageLog">
+                </mat-form-field>
+            </div>
+        </div>
+
+<!--        <div class="title-themes">{{ 'add_member_dialog.color_template' | translate }}</div>-->
+<!--        <div fxLayout="row" fxLayoutAlign="center center">-->
+<!--            <mat-radio-group formControlName="useTypes">-->
+<!--                <mat-radio-button class="radio-button" [value]="'blue'">-->
+<!--                    <img src="assets/img/themes/img_template_blue.png">-->
+<!--                </mat-radio-button>-->
+<!--                <mat-radio-button class="radio-button" [value]="'green'">-->
+<!--                    <img src="assets/img/themes/img_template_green.png">-->
+<!--                </mat-radio-button>-->
+<!--                <mat-radio-button class="radio-button" [value]="'lilac'">-->
+<!--                    <img src="assets/img/themes/img_template_lilac.png">-->
+<!--                </mat-radio-button>-->
+<!--                <mat-radio-button class="radio-button" [value]="'orange'">-->
+<!--                    <img src="assets/img/themes/img_template_orange.png">-->
+<!--                </mat-radio-button>-->
+<!--            </mat-radio-group>-->
+<!--        </div>-->
+        <div class="actions-wrapper" fxLayout="row" fxLayoutAlign="end">
+            <button mat-button type="button" (click)="dialogRef.close()" color="primary">
+                {{ 'common.cancel' | translate | uppercase }}
+            </button>
+            <button mat-button [disabled]="!claimForm.valid || !countries.length" color="primary">
+                {{ 'common.submit' | translate | uppercase }}
+            </button>
+        </div>
+    </form>
+</div>

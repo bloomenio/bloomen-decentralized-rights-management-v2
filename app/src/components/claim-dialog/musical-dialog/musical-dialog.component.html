@@ -4,7 +4,7 @@
     <mat-tab label="{{'claim info' | translate | uppercase}}">
         <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <mat-form-field fxFlex="100">
+                <mat-form-field fxFlex="50">
                     <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
                     <mat-select formControlName="rightHolderName">
                         <mat-option *ngFor="let member of members" [value]="member.memberId">
@@ -12,20 +12,20 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-<!--                <mat-form-field fxFlex="50">-->
-<!--                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>-->
-<!--                    <mat-select formControlName="originalPublisherName">-->
-<!--                        <mat-option *ngFor="let member of members" [value]="member.memberId">-->
-<!--                            {{ member.name }}-->
-<!--                        </mat-option>-->
-<!--                    </mat-select>-->
-<!--                </mat-form-field>-->
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>
+                    <mat-select formControlName="originalPublisherName">
+                        <mat-option *ngFor="let member of members" [value]="member.memberId">
+                            {{ member.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <div fxLayout="row">
                 <mat-form-field fxFlex="50">
                     <input matInput placeholder="{{'Right Holder Proprietary ID' | translate}}"
-                        formControlName="rightHolderProprietaryID" />
+                           formControlName="rightHolderProprietaryID" />
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
                     <mat-select placeholder="{{'Right Holder Role' | translate}}" formControlName="rightHolderRole">
@@ -39,13 +39,13 @@
             <div fxLayout="row">
                 <mat-form-field fxFlex="50">
                     <input matInput [max]="maxDate" [matDatepicker]="pickerStart"
-                        placeholder="{{'Start Date' | translate}}" formControlName="startDate">
+                           placeholder="{{'Start Date' | translate}}" formControlName="startDate">
                     <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                     <mat-datepicker #pickerStart></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
                     <input matInput [min]="minDate" [matDatepicker]="pickerEnd" placeholder="{{'End Date' | translate}}"
-                        formControlName="endDate">
+                           formControlName="endDate">
                     <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                     <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
@@ -57,13 +57,13 @@
                     <mat-form-field fxFlex>
                         <mat-chip-list #chipList formControlName="countries">
                             <mat-chip *ngFor="let country of countries" [selectable]="false"
-                                [removable]="data.isEditable" (removed)="remove(country)">
+                                      [removable]="data.isEditable" (removed)="remove(country)">
                                 {{country}}
                                 <mat-icon matChipRemove *ngIf="data.isEditable">cancel</mat-icon>
                             </mat-chip>
                             <input #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
-                                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
+                                   [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                   [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
                         </mat-chip-list>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                             <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
@@ -102,7 +102,7 @@
                         <div class="slider-label">{{'Collection Split' | translate}}</div>
                         <div fxLayout="row">
                             <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                formControlName="mechCollec">
+                                        formControlName="mechCollec">
                             </mat-slider>
                             <div fxFlex="15" *ngIf="!data.isEditable">
                                 {{ claimForm.get('mechCollec').value }}%
@@ -127,7 +127,7 @@
                         <div class="slider-label">{{'Ownership Split' | translate}}</div>
                         <div fxLayout="row">
                             <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                formControlName="perforOwner">
+                                        formControlName="perforOwner">
                             </mat-slider>
                             <div fxFlex="15" *ngIf="!data.isEditable">
                                 {{ claimForm.get('perforOwner').value }}%
@@ -140,7 +140,7 @@
                         <div class="slider-label">{{'Collection Split' | translate}}</div>
                         <div fxLayout="row">
                             <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                formControlName="perforCollec">
+                                        formControlName="perforCollec">
                             </mat-slider>
                             <div fxFlex="15" *ngIf="!data.isEditable">
                                 {{ claimForm.get('perforCollec').value }}%
@@ -179,7 +179,7 @@
                         <div class="slider-label">{{'Collection Split' | translate}}</div>
                         <div fxLayout="row">
                             <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                formControlName="syncCollec">
+                                        formControlName="syncCollec">
                             </mat-slider>
                             <div fxFlex="15" *ngIf="!data.isEditable">
                                 {{ claimForm.get('syncCollec').value }}%
@@ -193,7 +193,7 @@
             <div mat-dialog-actions fxLayoutAlign="end center">
                 <button mat-button type="button" (click)="dialogRef.close()"> {{'CLOSE' | translate}}</button>
                 <button *ngIf="data.isEditable" color="primary" [disabled]="!claimForm.valid || !countries.length"
-                    mat-button>
+                        mat-button>
                     {{'SUBMIT' | translate}}
                 </button>
             </div>
@@ -201,7 +201,7 @@
         </form>
     </mat-tab>
     <mat-tab [disabled]="!data.disableMemberEdit || !messages.length"
-        label="{{'claim messages' | translate | uppercase}}">
+             label="{{'claim messages' | translate | uppercase}}">
         <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">
             <mat-list *ngFor="let message of messages">
                 <mat-list-item>

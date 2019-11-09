@@ -6,7 +6,7 @@ var mnemonic = process.env.DEVELOPMENT_MNEMONIC;
 
 var fs = require('fs');
 var contractJSON = JSON.parse(fs.readFileSync('./build/contracts/Registry.json', 'utf8'));
-const GAS = 990000;
+const GAS = 9999999; // 990000
 
 const Web3 = require('web3');
 

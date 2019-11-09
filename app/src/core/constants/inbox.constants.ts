@@ -12,5 +12,4 @@ export const INBOX = {
         'CLAIMED',
         'CONFLICT'
     ]
-
 };

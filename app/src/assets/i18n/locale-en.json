@@ -20,7 +20,8 @@
     "restore": "Restore",
     "invalid_mnemonic": "Invalid mnemonic",
     "logout": "Logout",
-    "copy_mnemonic": "Copy Mnemonic"
+    "copy_mnemonic": "Copy Mnemonic",
+    "add": "Add"
   },
   "add_member_dialog": {
     "add_member": "Add member",

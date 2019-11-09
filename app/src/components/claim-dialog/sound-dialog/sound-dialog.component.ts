@@ -47,7 +47,7 @@ export class SoundDialogComponent implements OnInit {
     public ngOnInit() {
         this.claimForm = this.fb.group({
             rightHolderName: [this.data.claim.memberOwner, [Validators.required]],
-            // rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
+            rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
             sliderValue: [this.data.claim.claimData.sliderValue, [Validators.required]],
@@ -56,14 +56,14 @@ export class SoundDialogComponent implements OnInit {
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
         });
 
-        // this.claimForm.get('rightHolderName').disable();
+        this.claimForm.get('rightHolderName').disable();
 
         if (this.data.disableMemberEdit) {
-            // this.claimForm.get('rightOwner').disable();
+            this.claimForm.get('rightOwner').disable();
         }
 
         if (!this.data.isEditable) {
-            // this.claimForm.get('rightOwner').disable();
+            this.claimForm.get('rightOwner').disable();
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
             this.claimForm.get('sliderValue').disable();
@@ -83,6 +83,8 @@ export class SoundDialogComponent implements OnInit {
             startWith(null),
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
+
+
     }
 
     public add(event: MatChipInputEvent) {
@@ -118,6 +120,10 @@ export class SoundDialogComponent implements OnInit {
     }
 
     public onSubmit() {
+        this.countries = this.countries.sort((one, two) => (one < two ? -1 : 1)); // sort ascending
+        const x = (names) => names.filter((v, i) => names.indexOf(v) === i); // remove duplicates
+        this.countries = x(this.countries);
+        // console.log(this.claimForm.get('useTypes').value);
         const claim: ClaimModel = {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
@@ -134,7 +140,7 @@ export class SoundDialogComponent implements OnInit {
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('rightOwner').value
+            memberReceptor: this.claimForm.get('rightOwner').value
         };
         this.dialogRef.close(claim);
     }

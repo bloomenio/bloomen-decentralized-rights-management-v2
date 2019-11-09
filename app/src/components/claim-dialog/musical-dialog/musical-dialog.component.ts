@@ -55,7 +55,7 @@ export class MusicalDialogComponent implements OnInit {
         this.claimForm = this.fb.group({
 
             rightHolderName: [this.data.claim.memberOwner],
-            // originalPublisherName: [this.data.claim.memberReceptor],
+            originalPublisherName: [this.data.claim.memberReceptor],
 
             rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
             rightHolderRole: [this.data.claim.claimData.rightHolderRole, [Validators.required]],
@@ -81,14 +81,14 @@ export class MusicalDialogComponent implements OnInit {
 
         });
 
-        // this.claimForm.get('rightHolderName').disable();
+        this.claimForm.get('rightHolderName').disable();
 
         if (this.data.disableMemberEdit) {
-            // this.claimForm.get('originalPublisherName').disable();
+            this.claimForm.get('originalPublisherName').disable();
         }
 
         if (!this.data.isEditable) {
-            // this.claimForm.get('originalPublisherName').disable();
+            this.claimForm.get('originalPublisherName').disable();
 
             this.claimForm.get('rightHolderProprietaryID').disable();
             this.claimForm.get('rightHolderRole').disable();
@@ -159,6 +159,9 @@ export class MusicalDialogComponent implements OnInit {
     }
 
     public onSubmit() {
+        this.countries = this.countries.sort((one, two) => (one < two ? -1 : 1)); // sort ascending
+        const x = (names) => names.filter((v, i) => names.indexOf(v) === i); // remove duplicates
+        this.countries = x(this.countries);
         const claim: ClaimModel = {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
@@ -184,7 +187,7 @@ export class MusicalDialogComponent implements OnInit {
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('originalPublisherName').value
+            memberReceptor: this.claimForm.get('originalPublisherName').value
         };
         this.dialogRef.close(claim);
     }

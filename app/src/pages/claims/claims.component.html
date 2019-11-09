@@ -80,10 +80,11 @@
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef disableClear></th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon [class.disabled]="element.status === '0'"
-                            (click)="element.status !== '0' && clickEdit(element, true)">
+                        <mat-icon [class.disabled]="element.status === '2'"
+                                (click)="element.status !== '2' && clickEdit(element, true)">
                             edit
                         </mat-icon>
+<!--                        temporarily "if status === 1" for testing with ease-->
                     </td>
                 </ng-container>
 

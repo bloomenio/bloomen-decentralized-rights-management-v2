@@ -108,7 +108,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromUserActions.AcceptUser(event));
     } else {
       this.store.dispatch(new fromClaimActions.ChangeState(event));
-      if (this.message.type === INBOX.TYPES.CLAIM /*&& this.message.memberReceptor === this.message.memberOwner*/) {
+      if (this.message.type === INBOX.TYPES.CLAIM && this.message.memberReceptor === this.message.memberOwner) {
         this.message = undefined;
       }
     }
@@ -133,6 +133,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   private async fillInboxSuperUser() {
+    console.log('this is fillInboxSuperUser');
     const userArray: any[] = await from(this.userContract.getUsersOwner()).pipe(
       map((users) => {
         return users.filter((user) => INBOX.STATUS[user.status] === INBOX.STATUS[1] && user.role === ROLES.ADMIN);
@@ -163,7 +164,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         messages.push(JSON.parse(element));
       });
       claim.messageLog = messages;
-
+      // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
     }
     if (this.user && this.user.role === ROLES.ADMIN) {

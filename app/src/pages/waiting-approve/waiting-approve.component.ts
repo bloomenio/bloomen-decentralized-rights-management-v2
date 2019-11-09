@@ -73,6 +73,7 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
               });
             }
           }
+          console.log(this.user.owner);
         }, (error) => {
           log.debug('waiting user...');
         });

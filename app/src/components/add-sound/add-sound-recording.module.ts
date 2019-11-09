@@ -10,9 +10,7 @@ import { MaterialModule } from '@app/material.module';
 
 // Services
 import { ReactiveFormsModule } from '@angular/forms';
-import { AddClaimDialogComponent } from '@components/add-claim-dialog/add-claim-dialog.component';
-import {AddSoundRecordingModule} from '@components/add-sound/add-sound-recording.module';
-import {AddMusicalWorkModule} from '@components/add-musical/add-musical-work.module';
+import { AddSoundRecordingComponent } from '@components/add-sound/add-sound-recording.component';
 
 /**
  * Module to import and export all the components for the home page.
@@ -24,12 +22,10 @@ import {AddMusicalWorkModule} from '@components/add-musical/add-musical-work.mod
     SharedModule,
     FlexLayoutModule,
     MaterialModule,
-    ReactiveFormsModule,
-    AddMusicalWorkModule,
-    AddSoundRecordingModule
+    ReactiveFormsModule
   ],
-  declarations: [AddClaimDialogComponent],
-  providers: [AddClaimDialogComponent],
-  entryComponents: [AddClaimDialogComponent]
+  declarations: [AddSoundRecordingComponent],
+  providers: [AddSoundRecordingComponent],
+  entryComponents: [AddSoundRecordingComponent]
 })
-export class AddClaimDialogModule { }
+export class AddSoundRecordingModule { }

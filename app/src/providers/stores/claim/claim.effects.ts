@@ -38,31 +38,31 @@ export class ClaimEffects {
         })
     );
 
-    @Effect({ dispatch: false }) public addClaim = this.actions$.pipe(
-        ofType(fromClaimActions.ClaimActionTypes.ADD_CLAIM),
-        map((action) => {
-            this.web3Service.ready(() => {
-                this.claimsContract.addClaim(action.payload).then(() => {
-                    this.store.dispatch(new fromClaimActions.AddClaim(action.payload));
-                }, (error) => {
-                    log.error(error);
-                });
-            });
-        })
-    );
-
-    @Effect({ dispatch: false }) public updateClaim = this.actions$.pipe(
-        ofType(fromClaimActions.ClaimActionTypes.UPDATE_CLAIM),
-        map((action) => {
-            this.web3Service.ready(() => {
-                this.claimsContract.updateCl(action.payload).then(() => {
-                    this.store.dispatch(new fromClaimActions.UpdateClaim(action.payload));
-                }, (error) => {
-                    log.error(error);
-                });
-            });
-        })
-    );
+    // @Effect({ dispatch: false }) public addclaim = this.actions$.pipe(
+    //     ofType(fromClaimActions.ClaimActionTypes.ADD_CLAIM),
+    //     map((action) => {
+    //         this.web3Service.ready(() => {
+    //             this.claimsContract.addClaim(action.payload).then(() => {
+    //                 this.store.dispatch(new fromClaimActions.AddClaim(action.payload));
+    //             }, (error) => {
+    //                 log.error(error);
+    //             });
+    //         });
+    //     })
+    // );
+    //
+    // @Effect({ dispatch: false }) public updateclaim = this.actions$.pipe(
+    //     ofType(fromClaimActions.ClaimActionTypes.UPDATE_CLAIM),
+    //     map((action) => {
+    //         this.web3Service.ready(() => {
+    //             this.claimsContract.updateCl(action.payload).then(() => {
+    //                 this.store.dispatch(new fromClaimActions.UpdateClaim(action.payload));
+    //             }, (error) => {
+    //                 log.error(error);
+    //             });
+    //         });
+    //     })
+    // );
 }
 
 

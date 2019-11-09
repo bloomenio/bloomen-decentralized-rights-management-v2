@@ -6,7 +6,7 @@ var mnemonic = process.env.DEVELOPMENT_MNEMONIC;
 
 var fs = require('fs');
 var contractJSON = JSON.parse(fs.readFileSync('./build/contracts/Registry.json', 'utf8'));
-const GAS = 900000;
+const GAS = 9999999; // 900000
 
 const Web3 = require('web3');
 
@@ -77,6 +77,7 @@ async function addMember() {
 
     contractInstance.methods.addMember(creationDate, answer.name, answer.logo, answer.country, answer.cmo, answer.theme)
         .send(transactionObject).then(checkTransaction);
+
 }
 
 //COUNT
