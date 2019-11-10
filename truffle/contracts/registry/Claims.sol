@@ -45,7 +45,7 @@ contract Claims is Users {
   // METHODS
 
   // Public
-  function checkClaimStatus(uint256 _claimId, uint256 _claimType, uint _memberOwner) public {
+  function checkClaimStatus(uint256 _claimId, uint256 _claimType, bytes _claimData) internal {
 //     -browse all (getClaimsByISRC or ISWC) = claims_
 //     -check if conflict with region, period, useTypes
 //        -if CONFLICT with split
@@ -56,30 +56,31 @@ contract Claims is Users {
     require(claimIdCounter_ > 0, "There is no claim in the system");
 
     // Push in messageLog of _claimId==1 the _claimData of each claim that is input in this function
-//    RLPReader.RLPItem memory item = _claimData.toRlpItem();
-//    RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
+    RLPReader.RLPItem memory item = _claimData.toRlpItem();
+    RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
 //    for(uint j = 0; j < itemList.length; ++j) {
-//      RLPReader.RLPItem[] memory itemListClaim = itemList[j].toList(); // (name0, value0)
-////      string memory data = string(itemListClaim[1].toBytes());
-////      claims_[1].messageLog.push(data);
+////      RLPReader.RLPItem[] memory itemListClaim = itemList[j].toList(); // (name0, value0)
+//      string memory data = string(itemList[j].toList()[1].toBytes());
+//      claims_[1].messageLog.push(data);
 //    }
-//    claims_[1].messageLog.push("  ");
+//    claims_[1].messageLog.push("__NEXT__");
     //ISRC
     for(uint256 i = 1; i <= claimIdCounter_; i++) {
 //      claims_[1].messageLog.push(claims_[i].claimData[0].value);
 //      claims_[1].messageLog.push(claims_[_claimId].claimData[3].value);
       // Sound Recording
       if (_claimType == 1 && uint256(claims_[i].claimType) == 1 && _claimId != i) {
-        if (keccak256(abi.encodePacked(claims_[_claimId].claimData[6].value)) == keccak256(abi.encodePacked(claims_[i].claimData[6].value)) // same ISRC
-          && keccak256(abi.encodePacked(claims_[_claimId].claimData[3].value)) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same countries
-//          && keccak256(abi.encodePacked(claims_[_claimId].claimData[4].value)) == keccak256(abi.encodePacked(claims_[i].claimData[4].value))  // same useTypes
+        if (keccak256(abi.encodePacked(string(itemList[6].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[6].value)) // same ISRC
+         && keccak256(abi.encodePacked(string(itemList[3].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same countries
+         && keccak256(abi.encodePacked(string(itemList[4].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes
+//         && keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same startDate
+//         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same endDate
         ){
 
             claims_[_claimId].status = StatusClaimEnum.CONFLICT;
             claims_[i].status = StatusClaimEnum.CONFLICT;
-////              if (keccak256(abi.encodePacked(claims_[_claimId].claimData[0].value)) == keccak256(abi.encodePacked(claims_[i].claimData[0].value))
-////               && keccak256(abi.encodePacked(claims_[_claimId].claimData[1].value)) == keccak256(abi.encodePacked(claims_[i].claimData[1].value))) { // same period
-//                if (uint256(parseInt(claims_[_claimId].claimData[2].value, 0)) + uint256(parseInt(claims_[i].claimData[2].value, 0)) > 100) { // check if their splits> 100% (checking between combinations missing!)
+//                if (uint256(parseInt(claims_[_claimId].claimData[2].value, 0)) + uint256(parseInt(claims_[i].claimData[2].value, 0)) > 100) {
+            //      // check if their splits> 100% (checking between combinations missing!)
 //
 //                }
 ////              }
@@ -88,11 +89,12 @@ contract Claims is Users {
       }
       // Musical Work
       else if (_claimType == 0 && uint256(claims_[i].claimType) == 0 && _claimId != i) {
-
+//        if (keccak256(abi.encodePacked(string(itemList[15].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[15].value)) // same ISWC
+//        ){
+//
+//        }
       }
     }
-    claims_[1].messageLog.push("__NEXT__");
-    _memberOwner=1;
   }
 
   function registerClaim(uint256 _creationDate, bytes _claimData, uint256 _claimType, uint _memberReceptor) public {
@@ -103,7 +105,7 @@ contract Claims is Users {
     uint256 _claimId = ++claimIdCounter_;
 //    uint256 _claimId = Random.rand(_creationDate);
 
-    require(claims_[_claimId].claimId == 0, "Claim already exists");
+//    require(claims_[_claimId].claimId == 0, "Claim already exists");
     require(_memberExists(_memberReceptor), "Member do not exists");
 
     uint256 _memberOwner = _memberIdFromCurrentAddress();
@@ -113,17 +115,17 @@ contract Claims is Users {
     _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.CLAIMED), _creationDate);
     _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
-    if (_claimId > 1) {
-      checkClaimStatus(_claimId, _claimType, _memberOwner);
+    if (claimIdCounter_ > 1) {
+      checkClaimStatus(_claimId, _claimType, _claimData);
     }
 
     if (claims_[_claimId].status == StatusClaimEnum.CONFLICT) {
       // addClaimFromInbox for every relevant member
-      _addClaimFromInbox(_memberReceptor, _claimId);
+      _addClaimFromInbox(_memberOwner, _claimId);
     }
 
   }
-
+//
   function updateClaim(uint256 _claimId, bytes _claimData, uint _lastChange) public {
     require(claims_[_claimId].claimId > 0, "Claim not exists");
 
