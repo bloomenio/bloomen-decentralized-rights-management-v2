@@ -1,18 +1,17 @@
-import { default as JSON } from '../json/Registry.json';
-import { Contract } from '../contract';
-
+import {default as JSON} from '../json/Registry.json';
+import {Contract} from '../contract';
 // Environment
-import { environment } from '@env/environment';
-
+import {environment} from '@env/environment';
 // Services
-import { Logger } from '@services/logger/logger.service';
-import { Web3Service } from '@services/web3/web3.service';
-import { TransactionService } from '@services/web3/transactions/transaction.service';
-import { ClaimModel } from '@core/models/claim.model.js';
+import {Logger} from '@services/logger/logger.service';
+import {Web3Service} from '@services/web3/web3.service';
+import {TransactionService} from '@services/web3/transactions/transaction.service';
+import {ClaimModel} from '@core/models/claim.model.js';
 
 import * as RLP from 'rlp';
-import { map } from 'rxjs/operators';
-import { from } from 'rxjs';
+import {map} from 'rxjs/operators';
+import {from} from 'rxjs';
+import ClaimTypeEnum = ClaimModel.ClaimTypeEnum;
 
 const log = new Logger('member.contract');
 
@@ -33,8 +32,14 @@ export class ClaimsContract extends Contract {
     public addClaim(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
         console.log('in addClaim, contract address is ', ClaimsContract.ADDRESS);
+        let claimType: boolean;
+        if (claim.claimType === ClaimTypeEnum.MUSICAL_WORK) {
+            claimType = false;
+        } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
+            claimType = true;
+        }
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerClaim(claim.creationDate, encodeData, claim.claimType, claim.memberReceptor).send(this.args);
+            return this.contract.methods.registerClaim(claim.creationDate, encodeData, claimType, claim.memberOwner).send(this.args);
             });
     }
 

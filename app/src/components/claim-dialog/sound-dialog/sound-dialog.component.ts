@@ -47,7 +47,7 @@ export class SoundDialogComponent implements OnInit {
     public ngOnInit() {
         this.claimForm = this.fb.group({
             rightHolderName: [this.data.claim.memberOwner, [Validators.required]],
-            rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
+            // rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
             sliderValue: [this.data.claim.claimData.sliderValue, [Validators.required]],
@@ -58,12 +58,12 @@ export class SoundDialogComponent implements OnInit {
 
         this.claimForm.get('rightHolderName').disable();
 
-        if (this.data.disableMemberEdit) {
-            this.claimForm.get('rightOwner').disable();
-        }
+        // if (this.data.disableMemberEdit) {
+        //     this.claimForm.get('rightOwner').disable();
+        // }
 
         if (!this.data.isEditable) {
-            this.claimForm.get('rightOwner').disable();
+            // this.claimForm.get('rightOwner').disable();
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
             this.claimForm.get('sliderValue').disable();
@@ -140,7 +140,7 @@ export class SoundDialogComponent implements OnInit {
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,
-            memberReceptor: this.claimForm.get('rightOwner').value
+            // memberReceptor: this.claimForm.get('rightOwner').value
         };
         this.dialogRef.close(claim);
     }

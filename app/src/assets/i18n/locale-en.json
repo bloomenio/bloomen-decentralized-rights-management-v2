@@ -88,8 +88,8 @@
     "approve": "Approve"
   },
   "claimStatus": {
-    "0": "claimed",
-    "1": "conflict"
+    "false": "claimed",
+    "true": "conflict"
   },
   "login": {
     "create_new_account": "CREATE A NEW ACCOUNT",

@@ -188,25 +188,25 @@
             <mat-divider></mat-divider>
         </mat-list>
     </div>
-    <div class="actions-wrapper">
-        <div class="title">{{ 'inbox.claim.actions' | translate | uppercase }}</div>
-        <form [formGroup]="messageForm" fxLayout="column" class="form-wrapper" (ngSubmit)="onAccept()">
-            <mat-form-field>
-                <mat-label>{{'Change state' | translate}}</mat-label>
-                <mat-select formControlName="status">
-                    <mat-option *ngFor="let status of inboxEnum.STATUS_CLAIM; let i = index" [value]="i">
-                        {{status}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-                <textarea matInput placeholder="Leave a comment" formControlName="message"></textarea>
-            </mat-form-field>
-            <div fxLayout="row" class="button-action" fxLayoutAlign="end">
-                <button mat-flat-button fxLayoutAlign="center center" [disabled]="!messageForm.valid">
-                    {{'inbox_detail.send' | translate | uppercase}}
-                </button>
-            </div>
-        </form>
-    </div>
+<!--    <div class="actions-wrapper">-->
+<!--        <div class="title">{{ 'inbox.claim.actions' | translate | uppercase }}</div>-->
+<!--        <form [formGroup]="messageForm" fxLayout="column" class="form-wrapper" (ngSubmit)="onAccept()">-->
+<!--            <mat-form-field>-->
+<!--                <mat-label>{{'Change state' | translate}}</mat-label>-->
+<!--                <mat-select formControlName="status">-->
+<!--                    <mat-option *ngFor="let status of inboxEnum.STATUS_CLAIM; let i = index" [value]="i">-->
+<!--                        {{status}}-->
+<!--                    </mat-option>-->
+<!--                </mat-select>-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field>-->
+<!--                <textarea matInput placeholder="Leave a comment" formControlName="message"></textarea>-->
+<!--            </mat-form-field>-->
+<!--            <div fxLayout="row" class="button-action" fxLayoutAlign="end">-->
+<!--                <button mat-flat-button fxLayoutAlign="center center" [disabled]="!messageForm.valid">-->
+<!--                    {{'inbox_detail.send' | translate | uppercase}}-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
 </mat-card>

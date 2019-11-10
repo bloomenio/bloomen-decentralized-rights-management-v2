@@ -5,7 +5,7 @@
         <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
 
             <div fxLayout="row">
-                <mat-form-field fxFlex="50">
+                <mat-form-field fxFlex="100">
                     <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
                     <mat-select formControlName="rightHolderName">
                         <mat-option *ngFor="let member of members" [value]="member.memberId">
@@ -13,14 +13,14 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field fxFlex="50">
-                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>
-                    <mat-select formControlName="rightOwner">
-                        <mat-option *ngFor="let member of members" [value]="member.memberId">
-                            {{ member.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+<!--                <mat-form-field fxFlex="50">-->
+<!--                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>-->
+<!--                    <mat-select formControlName="rightOwner">-->
+<!--                        <mat-option *ngFor="let member of members" [value]="member.memberId">-->
+<!--                            {{ member.name }}-->
+<!--                        </mat-option>-->
+<!--                    </mat-select>-->
+<!--                </mat-form-field>-->
             </div>
 
             <div fxLayout="row">

@@ -12,8 +12,8 @@
                         {{'claims.table.type' | translate}}
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon *ngIf="element.claimType === claimType.MUSICAL_WORK">headset</mat-icon>
-                        <mat-icon *ngIf="element.claimType === claimType.SOUND_RECORDING">speaker</mat-icon>
+                        <mat-icon *ngIf="element.claimType === false">headset</mat-icon>
+                        <mat-icon *ngIf="element.claimType === true">speaker</mat-icon>
                     </td>
                 </ng-container>
 

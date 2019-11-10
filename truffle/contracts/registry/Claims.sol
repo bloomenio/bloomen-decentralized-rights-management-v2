@@ -11,15 +11,15 @@ contract Claims is Users {
   using RLPReader for uint;
   using RLPReader for RLPReader.RLPItem;
 
-  enum StatusClaimEnum {
-    CLAIMED,
-    CONFLICT
-  }
+//  enum StatusClaimEnum {
+//    CLAIMED, // = false, means there is NO CONFLICT
+//    CONFLICT // = true, means there IS a CONFLICT
+//  }
 
-  enum ClaimTypeEnum {
-    MUSICAL_WORK,
-    SOUND_RECORDING
-  }
+//  enum ClaimTypeEnum {
+//    MUSICAL_WORK,   // false for Musical Works
+//    SOUND_RECORDING // true for Sound Recordings
+//  }
   
   struct NameValue{ 
     string name;
@@ -30,12 +30,12 @@ contract Claims is Users {
     uint256 creationDate;
     uint256 claimId;
     NameValue[] claimData;
-    ClaimTypeEnum claimType;    
+    bool claimType;
     uint256 memberOwner;    //  replace with 'member'
-    uint256 memberReceptor; // remove
+//    uint256 memberReceptor; // remove
     string[] messageLog;
-    StatusClaimEnum status;
-    uint256 lastChange;   
+    bool status;
+    uint256 lastChange;
   }
 
   uint256 constant private PAGE_SIZE = 10;
@@ -45,7 +45,7 @@ contract Claims is Users {
   // METHODS
 
   // Public
-  function checkClaimStatus(uint256 _claimId, uint256 _claimType, bytes _claimData) internal {
+  function checkClaimStatus(uint256 _claimId, bool _claimType, bytes _claimData) internal {
 //     -browse all (getClaimsByISRC or ISWC) = claims_
 //     -check if conflict with region, period, useTypes
 //        -if CONFLICT with split
@@ -68,17 +68,17 @@ contract Claims is Users {
     for(uint256 i = 1; i <= claimIdCounter_; i++) {
 //      claims_[1].messageLog.push(claims_[i].claimData[0].value);
 //      claims_[1].messageLog.push(claims_[_claimId].claimData[3].value);
-      // Sound Recording
-      if (_claimType == 1 && uint256(claims_[i].claimType) == 1 && _claimId != i) {
+      // Sound Recording, _claimType = true
+      if (_claimType && claims_[i].claimType && _claimId != i) {
         if (keccak256(abi.encodePacked(string(itemList[6].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[6].value)) // same ISRC
          && keccak256(abi.encodePacked(string(itemList[3].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same countries
          && keccak256(abi.encodePacked(string(itemList[4].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes
-//         && keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same startDate
+         && keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same startDate
 //         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same endDate
         ){
 
-            claims_[_claimId].status = StatusClaimEnum.CONFLICT;
-            claims_[i].status = StatusClaimEnum.CONFLICT;
+            claims_[_claimId].status = true;
+            claims_[i].status = true;
 //                if (uint256(parseInt(claims_[_claimId].claimData[2].value, 0)) + uint256(parseInt(claims_[i].claimData[2].value, 0)) > 100) {
             //      // check if their splits> 100% (checking between combinations missing!)
 //
@@ -87,39 +87,40 @@ contract Claims is Users {
 //            }
         }
       }
-      // Musical Work
-      else if (_claimType == 0 && uint256(claims_[i].claimType) == 0 && _claimId != i) {
-//        if (keccak256(abi.encodePacked(string(itemList[15].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[15].value)) // same ISWC
-//        ){
-//
-//        }
-      }
+      // Musical Work, _claimType = false
+//      else if (!_claimType && !claims_[i].claimType && _claimId != i) {
+////        if (keccak256(abi.encodePacked(string(itemList[15].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[15].value)) // same ISWC
+////        ){
+////
+////        }
+//      }
     }
   }
 
-  function registerClaim(uint256 _creationDate, bytes _claimData, uint256 _claimType, uint _memberReceptor) public {
+  function registerClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint _memberOwner) public {
 
     require(_creationDate > 0, "CreationDate is mandatory");
-    require(_claimType >= 0 || _claimType <= 1, "Incorrect Claim Type");
+//    require(_claimType || !_claimType, "Incorrect Claim Type");
 
     uint256 _claimId = ++claimIdCounter_;
 //    uint256 _claimId = Random.rand(_creationDate);
 
 //    require(claims_[_claimId].claimId == 0, "Claim already exists");
-    require(_memberExists(_memberReceptor), "Member do not exists");
+    require(_memberExists(_memberOwner), "Member do not exists");
 
-    uint256 _memberOwner = _memberIdFromCurrentAddress();
+//    uint256
+    _memberOwner = _memberIdFromCurrentAddress();
 
     string[] memory messageLog = new string[](0);
 
-    _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, _memberReceptor, messageLog, uint(StatusClaimEnum.CLAIMED), _creationDate);
+    _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, messageLog, false, _creationDate);
     _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
     if (claimIdCounter_ > 1) {
       checkClaimStatus(_claimId, _claimType, _claimData);
     }
 
-    if (claims_[_claimId].status == StatusClaimEnum.CONFLICT) {
+    if (claims_[_claimId].status) {       // if status == true, which means there IS a CONFLICT
       // addClaimFromInbox for every relevant member
       _addClaimFromInbox(_memberOwner, _claimId);
     }
@@ -129,8 +130,8 @@ contract Claims is Users {
   function updateClaim(uint256 _claimId, bytes _claimData, uint _lastChange) public {
     require(claims_[_claimId].claimId > 0, "Claim not exists");
 
-    _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, uint(claims_[_claimId].claimType),
-              claims_[_claimId].memberOwner, claims_[_claimId].memberReceptor, claims_[_claimId].messageLog, uint(claims_[_claimId].status), _lastChange);
+    _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, claims_[_claimId].claimType,
+              claims_[_claimId].memberOwner, claims_[_claimId].messageLog, claims_[_claimId].status, _lastChange);
   }
 
 //  EXCLUDE FUNCTION SO THAT SIZE OF CONTRACT (AND BYTECODE) REDUCES; IF NOT ENOUGH, MOVE FUNCTIONS TO DIFFERENT CONTRACT.
@@ -198,15 +199,15 @@ contract Claims is Users {
   }
 
   // Private
-  function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, uint256 _claimType,
-    uint _memberOwner, uint _memberReceptor, string[] memory _messageLog, uint256 _status, uint256 _lastChange) internal {
+  function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, bool _claimType,
+    uint _memberOwner, string[] memory _messageLog, bool _status, uint256 _lastChange) internal {
 
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList(); // ((name, value), (name, value), (name, value), ...)
 
     claims_[_claimId].claimId = _claimId;
     claims_[_claimId].creationDate = _creationDate;
-    claims_[_claimId].claimType = ClaimTypeEnum(_claimType);
+    claims_[_claimId].claimType = _claimType;
 
     delete claims_[_claimId].claimData;
     for(uint i = 0; i < itemList.length; ++i) {
@@ -215,10 +216,10 @@ contract Claims is Users {
     }
 
     claims_[_claimId].memberOwner = _memberOwner;
-    claims_[_claimId].memberReceptor = _memberReceptor;
+//    claims_[_claimId].memberReceptor = _memberReceptor;
     claims_[_claimId].lastChange = _lastChange;
     claims_[_claimId].messageLog = _messageLog;
-    claims_[_claimId].status = StatusClaimEnum(_status);
+    claims_[_claimId].status = _status;
   }
 
   // MODIFIERS
