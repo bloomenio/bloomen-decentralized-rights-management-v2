@@ -33,7 +33,7 @@ contract Claims is Users {
     bool claimType;
     uint256 memberOwner;    //  replace with 'member'
 //    uint256 memberReceptor; // remove
-    string[] messageLog;
+//    string[] messageLog;
     bool status;
     uint256 lastChange;
   }
@@ -58,12 +58,12 @@ contract Claims is Users {
     // Push in messageLog of _claimId==1 the _claimData of each claim that is input in this function
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
+//    claims_[1].claimData.push(NameValue("__NEXT__", "__CLAIM"));
 //    for(uint j = 0; j < itemList.length; ++j) {
-////      RLPReader.RLPItem[] memory itemListClaim = itemList[j].toList(); // (name0, value0)
-//      string memory data = string(itemList[j].toList()[1].toBytes());
-//      claims_[1].messageLog.push(data);
+//      //      RLPReader.RLPItem[] memory itemListClaim = itemList[j].toList(); // (name0, value0)
+//    string memory data = string(itemList[j].toList()[1].toBytes());
+//    claims_[1].claimData.push(NameValue(string(itemList[j].toList()[0].toBytes()), string(itemList[j].toList()[1].toBytes())));
 //    }
-//    claims_[1].messageLog.push("__NEXT__");
     //ISRC
     for(uint256 i = 1; i <= claimIdCounter_; i++) {
 //      claims_[1].messageLog.push(claims_[i].claimData[0].value);
@@ -74,7 +74,7 @@ contract Claims is Users {
          && keccak256(abi.encodePacked(string(itemList[3].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same countries
          && keccak256(abi.encodePacked(string(itemList[4].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes
          && keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same startDate
-//         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same endDate
+         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same endDate
         ){
 
             claims_[_claimId].status = true;
@@ -88,6 +88,7 @@ contract Claims is Users {
         }
       }
       // Musical Work, _claimType = false
+      // here we are positive to changing the algorithm such that values of ISRC and ISWC are in same claimData position number.
 //      else if (!_claimType && !claims_[i].claimType && _claimId != i) {
 ////        if (keccak256(abi.encodePacked(string(itemList[15].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[15].value)) // same ISWC
 ////        ){
@@ -111,9 +112,9 @@ contract Claims is Users {
 //    uint256
     _memberOwner = _memberIdFromCurrentAddress();
 
-    string[] memory messageLog = new string[](0);
+//    string[] memory messageLog = new string[](0);
 
-    _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, messageLog, false, _creationDate);
+    _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
     _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
     if (claimIdCounter_ > 1) {
@@ -128,10 +129,10 @@ contract Claims is Users {
   }
 //
   function updateClaim(uint256 _claimId, bytes _claimData, uint _lastChange) public {
-    require(claims_[_claimId].claimId > 0, "Claim not exists");
+//    require(claims_[_claimId].claimId > 0, "Claim not exists");
 
     _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, claims_[_claimId].claimType,
-              claims_[_claimId].memberOwner, claims_[_claimId].messageLog, claims_[_claimId].status, _lastChange);
+              claims_[_claimId].memberOwner, claims_[_claimId].status, _lastChange);
   }
 
 //  EXCLUDE FUNCTION SO THAT SIZE OF CONTRACT (AND BYTECODE) REDUCES; IF NOT ENOUGH, MOVE FUNCTIONS TO DIFFERENT CONTRACT.
@@ -200,7 +201,7 @@ contract Claims is Users {
 
   // Private
   function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, bool _claimType,
-    uint _memberOwner, string[] memory _messageLog, bool _status, uint256 _lastChange) internal {
+    uint _memberOwner, bool _status, uint256 _lastChange) internal {
 
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList(); // ((name, value), (name, value), (name, value), ...)
@@ -218,7 +219,7 @@ contract Claims is Users {
     claims_[_claimId].memberOwner = _memberOwner;
 //    claims_[_claimId].memberReceptor = _memberReceptor;
     claims_[_claimId].lastChange = _lastChange;
-    claims_[_claimId].messageLog = _messageLog;
+//    claims_[_claimId].messageLog = _messageLog; // string[] memory
     claims_[_claimId].status = _status;
   }
 

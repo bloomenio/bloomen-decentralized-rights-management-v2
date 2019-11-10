@@ -31,7 +31,7 @@ export class SoundDialogComponent implements OnInit {
     public countriesAll: any;
     public filteredCountries: Observable<string[]>;
 
-    public messages: object[];
+    // public messages: object[];
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -73,8 +73,8 @@ export class SoundDialogComponent implements OnInit {
 
         this.countries = this.data.claim.claimData.countries || [];
 
-        this.messages = [];
-        this.data.claim.messageLog.forEach(element => this.messages.push(JSON.parse(element)));
+        // this.messages = [];
+        // this.data.claim.messageLog.forEach(element => this.messages.push(JSON.parse(element)));
 
         this.countriesAll = COUNTRIES;
         this.members = this.data.members;
@@ -128,7 +128,7 @@ export class SoundDialogComponent implements OnInit {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
             status: this.data.claim.status,
-            messageLog: this.data.claim.messageLog,
+            // messageLog: this.data.claim.messageLog,
             claimData: [
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],

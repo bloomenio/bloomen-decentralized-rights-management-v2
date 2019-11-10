@@ -29,7 +29,7 @@ export class MusicalDialogComponent implements OnInit {
     public affiliations: string[];
     public members: MemberModel[];
 
-    public messages: object[];
+    // public messages: object[];
 
     public countries: string[];
     public countriesAll: any;
@@ -117,8 +117,8 @@ export class MusicalDialogComponent implements OnInit {
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
 
-        this.messages = [];
-        this.data.claim.messageLog.forEach(element => this.messages.push(JSON.parse(element)));
+        // this.messages = [];
+        // this.data.claim.messageLog.forEach(element => this.messages.push(JSON.parse(element)));
 
         this.countries = this.data.claim.claimData.countries || [];
         this.countriesAll = COUNTRIES;
@@ -166,7 +166,7 @@ export class MusicalDialogComponent implements OnInit {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
             status: this.data.claim.status,
-            messageLog: this.data.claim.messageLog,
+            // messageLog: this.data.claim.messageLog,
             claimData: [
                 ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['rightHolderRole', this.claimForm.get('rightHolderRole').value],

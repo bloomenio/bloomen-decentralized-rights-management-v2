@@ -160,10 +160,10 @@ export class InboxComponent implements OnInit, OnDestroy {
       claim.type = INBOX.TYPES.CLAIM;
 
       const messages = [];
-      claim.messageLog.forEach(element => {
-        messages.push(JSON.parse(element));
-      });
-      claim.messageLog = messages;
+      // claim.messageLog.forEach(element => {
+      //   messages.push(JSON.parse(element));
+      // });
+      // claim.messageLog = messages;
       // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
     }

@@ -94,17 +94,17 @@
 
         </form>
     </mat-tab>
-    <mat-tab [disabled]="!data.isEditable || !messages.length"
-             label="{{'claim messages' | translate | uppercase}}">
-        <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">
-            <mat-list *ngFor="let message of messages">
-                <mat-list-item>
-                    <img [src]="message?.memberLogo" alt="member logo" width="50px">
-                    <h4 mat-line>{{message.message}}</h4>
-                    <p mat-line> {{message.time | date}} </p>
-                </mat-list-item>
-                <mat-divider></mat-divider>
-            </mat-list>
-        </div>
-    </mat-tab>
+<!--    <mat-tab [disabled]="!data.isEditable || !messages.length"-->
+<!--             label="{{'claim messages' | translate | uppercase}}">-->
+<!--        <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">-->
+<!--            <mat-list *ngFor="let message of messages">-->
+<!--                <mat-list-item>-->
+<!--                    <img [src]="message?.memberLogo" alt="member logo" width="50px">-->
+<!--                    <h4 mat-line>{{message.message}}</h4>-->
+<!--                    <p mat-line> {{message.time | date}} </p>-->
+<!--                </mat-list-item>-->
+<!--                <mat-divider></mat-divider>-->
+<!--            </mat-list>-->
+<!--        </div>-->
+<!--    </mat-tab>-->
 </mat-tab-group>

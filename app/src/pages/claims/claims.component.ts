@@ -90,7 +90,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         let dialog;
 
         switch (element.claimType) {
-            case ClaimModel.ClaimTypeEnum.MUSICAL_WORK:
+            case false:
                 dialog = this.dialog.open(MusicalDialogComponent, {
                     data: {
                         claim: element,
@@ -102,7 +102,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     height: '810px'
                 });
                 break;
-            case ClaimModel.ClaimTypeEnum.SOUND_RECORDING:
+            case true:
                 dialog = this.dialog.open(SoundDialogComponent, {
                     data: {
                         claim: element,
