@@ -49,7 +49,7 @@
                 "code": "ISRC BER181131702",
                 "title": "La cucaracha",
                 "useTypes": ["Public Performance", "Radio Broadcasting", "TV Broadcasting"],
-                "sliderValue": 20
+                "split": 20
             },
             "claimType": "SR"
         },

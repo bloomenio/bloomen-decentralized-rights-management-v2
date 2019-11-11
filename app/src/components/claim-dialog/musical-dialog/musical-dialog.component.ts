@@ -35,8 +35,11 @@ export class MusicalDialogComponent implements OnInit {
     public countriesAll: any;
     public filteredCountries: Observable<string[]>;
 
-    public holderRoles = ['Subpublisher', 'Publisher', 'Admin']; // REMOVE THIS
+    public holderRoles =
+        ['Adapter', 'Arranger', 'Lyricist', 'Composer', 'Composer Lyricist', 'SubArranger', 'SubAuthor', 'Translator',
+         'Income Participant', 'Original Publisher', 'SubPublisher', 'Royalty Administrator'];
 
+    public rightTypesAll = ['Mechanical', 'Performance', 'Synchronization'];
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -63,21 +66,23 @@ export class MusicalDialogComponent implements OnInit {
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
 
-            affiliationMec: [this.data.claim.claimData.affiliationMec, [Validators.required]],
-            affiliationPer: [this.data.claim.claimData.affiliationPer, [Validators.required]],
-            affiliationSynchro: [this.data.claim.claimData.affiliationSynchro, [Validators.required]],
+            // affiliationMec: [this.data.claim.claimData.affiliationMec, [Validators.required]],
+            // affiliationPer: [this.data.claim.claimData.affiliationPer, [Validators.required]],
+            // affiliationSynchro: [this.data.claim.claimData.affiliationSynchro, [Validators.required]],
+            rightTypes: [this.data.claim.claimData.rightTypes, [Validators.required]],
 
             countriesAutocomplete: [''],
             countries: [''],
 
-            mechOwner: [this.data.claim.claimData.mechOwner],
-            mechCollec: [this.data.claim.claimData.mechCollec],
-
-            perforOwner: [this.data.claim.claimData.perforOwner],
-            perforCollec: [this.data.claim.claimData.perforCollec],
-
-            syncOwner: [this.data.claim.claimData.syncOwner],
-            syncCollec: [this.data.claim.claimData.syncCollec],
+            // mechOwner: [this.data.claim.claimData.mechOwner],
+            // mechCollec: [this.data.claim.claimData.mechCollec],
+            //
+            // perforOwner: [this.data.claim.claimData.perforOwner],
+            // perforCollec: [this.data.claim.claimData.perforCollec],
+            //
+            // syncOwner: [this.data.claim.claimData.syncOwner],
+            // syncCollec: [this.data.claim.claimData.syncCollec],
+            split: [this.data.claim.claimData.split, [Validators.required]],
 
         });
 
@@ -96,20 +101,22 @@ export class MusicalDialogComponent implements OnInit {
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
 
-            this.claimForm.get('affiliationMec').disable();
-            this.claimForm.get('affiliationPer').disable();
-            this.claimForm.get('affiliationSynchro').disable();
+            // this.claimForm.get('affiliationMec').disable();
+            // this.claimForm.get('affiliationPer').disable();
+            // this.claimForm.get('affiliationSynchro').disable();
+            this.claimForm.get('rightTypes').disable();
 
             this.claimForm.get('countries').disable();
 
-            this.claimForm.get('mechOwner').disable();
-            this.claimForm.get('mechCollec').disable();
-
-            this.claimForm.get('perforOwner').disable();
-            this.claimForm.get('perforCollec').disable();
-
-            this.claimForm.get('syncOwner').disable();
-            this.claimForm.get('syncCollec').disable();
+            // this.claimForm.get('mechOwner').disable();
+            // this.claimForm.get('mechCollec').disable();
+            //
+            // this.claimForm.get('perforOwner').disable();
+            // this.claimForm.get('perforCollec').disable();
+            //
+            // this.claimForm.get('syncOwner').disable();
+            // this.claimForm.get('syncCollec').disable();
+            this.claimForm.get('split').disable();
         }
 
         this.filteredCountries = this.claimForm.get('countriesAutocomplete').valueChanges.pipe(
@@ -168,22 +175,24 @@ export class MusicalDialogComponent implements OnInit {
             status: this.data.claim.status,
             // messageLog: this.data.claim.messageLog,
             claimData: [
-                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
-                ['rightHolderRole', this.claimForm.get('rightHolderRole').value],
+                ['ISWC', this.data.claim.claimData.ISWC],
+                ['countries',  this.countries.join(',')],
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
-                ['affiliationMec', this.claimForm.get('affiliationMec').value],
-                ['affiliationPer', this.claimForm.get('affiliationPer').value],
-                ['affiliationSynchro', this.claimForm.get('affiliationSynchro').value],
-                ['countries',  this.countries.join(',')],
-                ['mechOwner', this.claimForm.get('mechOwner').value.toString()],
-                ['mechCollec', this.claimForm.get('mechCollec').value.toString()],
-                ['perforOwner', this.claimForm.get('perforOwner').value.toString()],
-                ['perforCollec', this.claimForm.get('perforCollec').value.toString()],
-                ['syncOwner', this.claimForm.get('syncOwner').value.toString()],
-                ['syncCollec', this.claimForm.get('syncCollec').value.toString()],
-                ['title', this.data.claim.claimData.title],
-                ['ISWC', this.data.claim.claimData.ISWC]
+                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
+                ['rightTypes', this.claimForm.get('rightTypes').value],
+                ['split', this.claimForm.get('split').value],
+                ['rightHolderRole', this.claimForm.get('rightHolderRole').value],
+                // ['affiliationMec', this.claimForm.get('affiliationMec').value],
+                // ['affiliationPer', this.claimForm.get('affiliationPer').value],
+                // ['affiliationSynchro', this.claimForm.get('affiliationSynchro').value],
+                // ['mechOwner', this.claimForm.get('mechOwner').value.toString()],
+                // ['mechCollec', this.claimForm.get('mechCollec').value.toString()],
+                // ['perforOwner', this.claimForm.get('perforOwner').value.toString()],
+                // ['perforCollec', this.claimForm.get('perforCollec').value.toString()],
+                // ['syncOwner', this.claimForm.get('syncOwner').value.toString()],
+                // ['syncCollec', this.claimForm.get('syncCollec').value.toString()],
+                ['title', this.data.claim.claimData.title]
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,

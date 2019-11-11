@@ -75,120 +75,147 @@
             </div>
 
 
-            <div class="section-title">{{'Mechanical' | translate}}</div>
 
             <div fxLayout="row">
-                <mat-form-field fxFlex="33">
-                    <mat-select fxFlex placeholder="Affiliation" formControlName="affiliationMec">
-                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">
-                            {{affiliation}}
+                <mat-form-field fxFlex>
+                    <mat-label>{{ 'Right Types' | translate }}</mat-label>
+                    <mat-select formControlName="rightTypes" multiple>
+                        <mat-select-trigger>
+                            <mat-chip-list *ngIf="claimForm.get('rightTypes')">
+                                <mat-chip *ngFor="let rightType of claimForm.get('rightTypes').value">{{ rightType }}</mat-chip>
+                            </mat-chip-list>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let rightTypes of rightTypesAll" [value]="rightTypes">
+                            {{ rightTypes }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Ownership Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true" formControlName="mechOwner">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('mechOwner').value }}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Collection Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                        formControlName="mechCollec">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('mechCollec').value }}%
-                            </div>
+
+                <div fxLayout="column" fxFlex="33">
+                    <div class="slider-label">{{ 'Split' | translate }}</div>
+                    <div fxLayout="row">
+                        <mat-slider fxFlex formControlName="split" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
+                        <div fxFlex="15" *ngIf="!data.isEditable">
+                            {{ claimForm.get('split').value }}%
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="section-title">{{'Performance' | translate}}</div>
+<!--            <div class="section-title">{{'Mechanical' | translate}}</div>-->
 
-            <div fxLayout="row">
-                <mat-form-field fxFlex="33">
-                    <mat-select placeholder="Affiliation" formControlName="affiliationPer">
-                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">
-                            {{affiliation}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Ownership Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                        formControlName="perforOwner">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('perforOwner').value }}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Collection Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                        formControlName="perforCollec">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('perforCollec').value }}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--            <div fxLayout="row">-->
+<!--                <mat-form-field fxFlex="33">-->
+<!--                    <mat-select fxFlex placeholder="Affiliation" formControlName="affiliationMec">-->
+<!--                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">-->
+<!--                            {{affiliation}}-->
+<!--                        </mat-option>-->
+<!--                    </mat-select>-->
+<!--                </mat-form-field>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Ownership Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true" formControlName="mechOwner">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('mechOwner').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Collection Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"-->
+<!--                                        formControlName="mechCollec">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('mechCollec').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="section-title">{{'Performance' | translate}}</div>-->
+
+<!--            <div fxLayout="row">-->
+<!--                <mat-form-field fxFlex="33">-->
+<!--                    <mat-select placeholder="Affiliation" formControlName="affiliationPer">-->
+<!--                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">-->
+<!--                            {{affiliation}}-->
+<!--                        </mat-option>-->
+<!--                    </mat-select>-->
+<!--                </mat-form-field>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Ownership Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"-->
+<!--                                        formControlName="perforOwner">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('perforOwner').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Collection Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"-->
+<!--                                        formControlName="perforCollec">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('perforCollec').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
 
-            <div class="section-title">{{'Synchronisation' | translate}}</div>
+<!--            <div class="section-title">{{'Synchronisation' | translate}}</div>-->
 
 
-            <div fxLayout="row" class="items-container">
-                <mat-form-field fxFlex="33">
-                    <mat-select placeholder="Affiliation" formControlName="affiliationSynchro">
-                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">
-                            {{affiliation}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Ownership Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true" formControlName="syncOwner">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('syncOwner').value }}%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div fxFlex="33">
-                    <div fxFlex fxLayout="column">
-                        <div class="slider-label">{{'Collection Split' | translate}}</div>
-                        <div fxLayout="row">
-                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"
-                                        formControlName="syncCollec">
-                            </mat-slider>
-                            <div fxFlex="15" *ngIf="!data.isEditable">
-                                {{ claimForm.get('syncCollec').value }}%
-                            </div>
-                        </div>
+<!--            <div fxLayout="row" class="items-container">-->
+<!--                <mat-form-field fxFlex="33">-->
+<!--                    <mat-select placeholder="Affiliation" formControlName="affiliationSynchro">-->
+<!--                        <mat-option *ngFor="let affiliation of affiliations" [value]="affiliation">-->
+<!--                            {{affiliation}}-->
+<!--                        </mat-option>-->
+<!--                    </mat-select>-->
+<!--                </mat-form-field>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Ownership Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true" formControlName="syncOwner">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('syncOwner').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div fxFlex="33">-->
+<!--                    <div fxFlex fxLayout="column">-->
+<!--                        <div class="slider-label">{{'Collection Split' | translate}}</div>-->
+<!--                        <div fxLayout="row">-->
+<!--                            <mat-slider fxFlex min="0" max="100" step="5" thumbLabel="true"-->
+<!--                                        formControlName="syncCollec">-->
+<!--                            </mat-slider>-->
+<!--                            <div fxFlex="15" *ngIf="!data.isEditable">-->
+<!--                                {{ claimForm.get('syncCollec').value }}%-->
+<!--                            </div>-->
+<!--                        </div>-->
 
-                    </div>
-                </div>
-            </div>
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div mat-dialog-actions fxLayoutAlign="end center">
                 <button mat-button type="button" (click)="dialogRef.close()"> {{'CLOSE' | translate}}</button>

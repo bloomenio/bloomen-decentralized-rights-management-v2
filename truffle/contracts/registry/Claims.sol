@@ -64,37 +64,35 @@ contract Claims is Users {
 //    string memory data = string(itemList[j].toList()[1].toBytes());
 //    claims_[1].claimData.push(NameValue(string(itemList[j].toList()[0].toBytes()), string(itemList[j].toList()[1].toBytes())));
 //    }
-    //ISRC
+    uint8 _split;
     for(uint256 i = 1; i <= claimIdCounter_; i++) {
-//      claims_[1].messageLog.push(claims_[i].claimData[0].value);
-//      claims_[1].messageLog.push(claims_[_claimId].claimData[3].value);
       // Sound Recording, _claimType = true
-      if (_claimType && claims_[i].claimType && _claimId != i) {
-        if (keccak256(abi.encodePacked(string(itemList[6].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[6].value)) // same ISRC
-         && keccak256(abi.encodePacked(string(itemList[3].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same countries
-         && keccak256(abi.encodePacked(string(itemList[4].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes
-         && keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same startDate
-         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same endDate
+      if (_claimType == claims_[i].claimType && _claimId != i) {
+        if (keccak256(abi.encodePacked(string(itemList[0].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
+         && keccak256(abi.encodePacked(string(itemList[1].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
+         && keccak256(abi.encodePacked(string(itemList[2].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
+         && keccak256(abi.encodePacked(string(itemList[3].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
+         && keccak256(abi.encodePacked(string(itemList[4].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same rightHolderProprietaryID
         ){
-
+          if (_claimType) {   //ISRC: _claimType == true for Sound Recordings
+//            string(itemList[5].toList()[1].toBytes()); // split
             claims_[_claimId].status = true;
+            if (!claims_[i].status) {
+              _addClaimFromInbox(claims_[i].memberOwner, _claimId);
+            }
             claims_[i].status = true;
 //                if (uint256(parseInt(claims_[_claimId].claimData[2].value, 0)) + uint256(parseInt(claims_[i].claimData[2].value, 0)) > 100) {
             //      // check if their splits> 100% (checking between combinations missing!)
 //
 //                }
 ////              }
-//            }
+          } else {
+
+            claims_[_claimId].status = true;
+            claims_[i].status = true;
+          }
         }
       }
-      // Musical Work, _claimType = false
-      // here we are positive to changing the algorithm such that values of ISRC and ISWC are in same claimData position number.
-//      else if (!_claimType && !claims_[i].claimType && _claimId != i) {
-////        if (keccak256(abi.encodePacked(string(itemList[15].toList()[1].toBytes()))) == keccak256(abi.encodePacked(claims_[i].claimData[15].value)) // same ISWC
-////        ){
-////
-////        }
-//      }
     }
   }
 

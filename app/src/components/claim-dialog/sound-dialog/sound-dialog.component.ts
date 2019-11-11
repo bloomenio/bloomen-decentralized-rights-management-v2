@@ -26,7 +26,10 @@ export class SoundDialogComponent implements OnInit {
     public claimForm: FormGroup;
     public members: MemberModel[];
 
-    public useTypesAll: string[] = ['Public Performance', 'Airlines', 'Radio Broadcasting', 'Radio Dubbing', 'TV Broadcasting'];
+    public useTypesAll: string[] =
+        ['Public Performance', 'Airlines', 'Radio Broadcasting', 'Radio Dubbing', 'TV Broadcasting', 'TV Dubbing', 'Background Music',
+         'Background Music Dubbing', 'Karaoke Public Performance', 'Karaoke Dubbing', 'Karaoke On Demand',
+         'Karaoke On Demand Dubbing', 'Cable Retransmission', 'Radio Simulcast', 'Webcast', 'TV Simulcast', 'CatchUp TV', 'Private Copying', 'Ringback Tones'];
     public countries: string[];
     public countriesAll: any;
     public filteredCountries: Observable<string[]>;
@@ -48,9 +51,10 @@ export class SoundDialogComponent implements OnInit {
         this.claimForm = this.fb.group({
             rightHolderName: [this.data.claim.memberOwner, [Validators.required]],
             // rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
+            rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
-            sliderValue: [this.data.claim.claimData.sliderValue, [Validators.required]],
+            split: [this.data.claim.claimData.split, [Validators.required]],
             countriesAutocomplete: [''],
             countries: [''],
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
@@ -64,9 +68,10 @@ export class SoundDialogComponent implements OnInit {
 
         if (!this.data.isEditable) {
             // this.claimForm.get('rightOwner').disable();
+            this.claimForm.get('rightHolderProprietaryID').disable();
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
-            this.claimForm.get('sliderValue').disable();
+            this.claimForm.get('split').disable();
             this.claimForm.get('countries').disable();
             this.claimForm.get('useTypes').disable();
         }
@@ -130,13 +135,14 @@ export class SoundDialogComponent implements OnInit {
             status: this.data.claim.status,
             // messageLog: this.data.claim.messageLog,
             claimData: [
+                ['ISRC', this.data.claim.claimData.ISRC],
+                ['countries', this.countries.join(',')],
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
-                ['sliderValue', this.claimForm.get('sliderValue').value.toString()],
-                ['countries', this.countries.join(',')],
+                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['useTypes', this.claimForm.get('useTypes').value.join(',')],
-                ['title', this.data.claim.claimData.title],
-                ['ISRC', this.data.claim.claimData.ISRC]
+                ['split', this.claimForm.get('split').value.toString()],
+                ['title', this.data.claim.claimData.title]
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,

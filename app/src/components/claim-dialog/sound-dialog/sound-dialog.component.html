@@ -5,13 +5,17 @@
         <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
 
             <div fxLayout="row">
-                <mat-form-field fxFlex="100">
+                <mat-form-field fxFlex="50">
                     <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
                     <mat-select formControlName="rightHolderName">
                         <mat-option *ngFor="let member of members" [value]="member.memberId">
                             {{ member.name }}
                         </mat-option>
                     </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="{{'Right Holder Proprietary ID' | translate}}"
+                           formControlName="rightHolderProprietaryID" />
                 </mat-form-field>
 <!--                <mat-form-field fxFlex="50">-->
 <!--                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>-->
@@ -37,11 +41,11 @@
                     <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
                 <div fxLayout="column" fxFlex="33">
-                    <div class="slider-label">{{'Split' | translate}}</div>
+                    <div class="slider-label">{{ 'Split' | translate }}</div>
                     <div fxLayout="row">
-                        <mat-slider fxFlex formControlName="sliderValue" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
+                        <mat-slider fxFlex formControlName="split" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
                         <div fxFlex="15" *ngIf="!data.isEditable">
-                            {{ claimForm.get('sliderValue').value }}%
+                            {{ claimForm.get('split').value }}%
                         </div>
                     </div>
                 </div>
@@ -52,7 +56,7 @@
                     <mat-chip-list #chipList formControlName="countries">
                         <mat-chip *ngFor="let country of countries" [selectable]="false"
                                   [removable]="data.isEditable" (removed)="remove(country)">
-                            {{country}}
+                            {{ country }}
                             <mat-icon matChipRemove *ngIf="data.isEditable">cancel</mat-icon>
                         </mat-chip>
                         <input #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
@@ -61,18 +65,18 @@
                     </mat-chip-list>
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                         <mat-option *ngFor="let country of filteredCountries | async" [value]="country.label">
-                            {{country.label}}
+                            {{ country.label }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
             <div fxLayout="row">
                 <mat-form-field fxFlex>
-                    <mat-label>{{'Use Types' | translate}}</mat-label>
+                    <mat-label>{{ 'Use Types' | translate }}</mat-label>
                     <mat-select formControlName="useTypes" multiple>
                         <mat-select-trigger>
                             <mat-chip-list *ngIf="claimForm.get('useTypes')">
-                                <mat-chip *ngFor="let useType of claimForm.get('useTypes').value">{{useType}}</mat-chip>
+                                <mat-chip *ngFor="let useType of claimForm.get('useTypes').value">{{ useType }}</mat-chip>
                             </mat-chip-list>
                         </mat-select-trigger>
                         <mat-option *ngFor="let useTypes of useTypesAll" [value]="useTypes">
@@ -84,11 +88,11 @@
 
             <div mat-dialog-actions fxLayoutAlign="end center">
                 <button mat-button type="button" (click)="dialogRef.close()">
-                    {{'close' | translate | uppercase}}
+                    {{ 'close' | translate | uppercase }}
                 </button>
                 <button *ngIf="data.isEditable" color="primary" [disabled]="!claimForm.valid || !countries.length"
                         mat-button>
-                    {{'submit' | translate | uppercase}}
+                    {{ 'submit' | translate | uppercase }}
                 </button>
             </div>
 

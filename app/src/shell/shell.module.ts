@@ -12,7 +12,7 @@ import { DirectivesModule } from '@directives/directives.module';
 
 import { BackButtonShellModule } from '@components/back-button-shell/back-button-shell.module';
 import { AddMemberDialogModule } from '@components/add-member-dialog/add-member-dialog.module';
-import { AddClaimDialogModule } from '@components/add-claim-dialog/add-claim-dialog.module';
+// import { AddClaimDialogModule } from '@components/add-claim-dialog/add-claim-dialog.module';
 
 @NgModule({
   imports: [
@@ -25,7 +25,7 @@ import { AddClaimDialogModule } from '@components/add-claim-dialog/add-claim-dia
     SharedModule,
     DirectivesModule,
     AddMemberDialogModule,
-    AddClaimDialogModule
+    // AddClaimDialogModule
   ],
   declarations: [ShellComponent]
 })
