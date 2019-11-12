@@ -179,10 +179,12 @@ export class MusicalDialogComponent implements OnInit {
                 ['countries',  this.countries.join(',')],
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
-                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['rightTypes', this.claimForm.get('rightTypes').value],
                 ['split', this.claimForm.get('split').value],
                 ['rightHolderRole', this.claimForm.get('rightHolderRole').value],
+                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
+                ['title', this.data.claim.claimData.title]
+
                 // ['affiliationMec', this.claimForm.get('affiliationMec').value],
                 // ['affiliationPer', this.claimForm.get('affiliationPer').value],
                 // ['affiliationSynchro', this.claimForm.get('affiliationSynchro').value],
@@ -192,7 +194,6 @@ export class MusicalDialogComponent implements OnInit {
                 // ['perforCollec', this.claimForm.get('perforCollec').value.toString()],
                 // ['syncOwner', this.claimForm.get('syncOwner').value.toString()],
                 // ['syncCollec', this.claimForm.get('syncCollec').value.toString()],
-                ['title', this.data.claim.claimData.title]
             ],
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value,

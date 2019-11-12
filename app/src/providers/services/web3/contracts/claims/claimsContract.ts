@@ -82,9 +82,9 @@ export class ClaimsContract extends Contract {
                             } else {
                                 data[dataItem[0]] = dataItem[1];
                             }
-                            // console.log(dataItem, ' \n');
                         });
                         claim.claimData = data;
+                        console.log(claim);
                         return claim;
                     })
                 ).toPromise().then(resolve, reject);
@@ -104,32 +104,13 @@ export class ClaimsContract extends Contract {
                     map((claims) => {
                         return claims.map(claim => {
                             const data = {};
-                            // console.log('claim.claimData by MemberId \n');
-                            // console.log('oldClaimStatus: ', claim.status);
                             console.log('In getClaimByMemId contract address is ', ClaimsContract.ADDRESS);
-                            // const event = contractInstance.allEvents(function (error, res) {
-                            //     if (!error) {
-                            //         console.log(res);
-                            //     }
-                            // });
-
-                            // if (claim.status == 2) {
-                            //     claim.status = 1;
-                            // } else if (claim.status == 3) {
-                            //     claim.status = 0;
-                            // } else if (claim.status == 4) {
-                            //     claim.status = 1;
-                            // }
-                            // console.log('newClaimStatus: ', claim.status, ' \n');
                             claim.claimData.forEach(dataItem => {
                                 if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes') {
                                     data[dataItem[0]] = dataItem[1].split(',');
                                 } else {
                                     data[dataItem[0]] = dataItem[1];
                                 }
-                                // if (dataItem[0] === 'ISRC' || dataItem[0] === 'ISWC' || dataItem[0] === 'title') {
-                                //     console.log(dataItem);
-                                // }
                             });
                             claim.claimData = data;
                             console.log(claim);

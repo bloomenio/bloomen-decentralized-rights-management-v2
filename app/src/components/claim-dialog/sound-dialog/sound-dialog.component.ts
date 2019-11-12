@@ -139,9 +139,9 @@ export class SoundDialogComponent implements OnInit {
                 ['countries', this.countries.join(',')],
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
-                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['useTypes', this.claimForm.get('useTypes').value.join(',')],
                 ['split', this.claimForm.get('split').value.toString()],
+                ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['title', this.data.claim.claimData.title]
             ],
             claimType: this.data.claim.claimType,

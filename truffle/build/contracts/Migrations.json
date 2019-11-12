@@ -1378,10 +1378,10 @@
     "83584648538": {
       "events": {},
       "links": {},
-      "address": "0x72894ed1db991275ef62b51aa71b0581243526ec",
-      "transactionHash": "0xcfec1364e53491a29447d3c04d683249606d742e77263e7df77ae9a0454129ca"
+      "address": "0xb722f0e5689bdafd3a3189b61b8cfac649695623",
+      "transactionHash": "0xa110ea3065c4d2f8174345a6268ef14f5587fa97c74af98db523fde252a40f89"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-11-11T12:34:59.472Z"
+  "updatedAt": "2019-11-12T11:56:37.246Z"
 }
