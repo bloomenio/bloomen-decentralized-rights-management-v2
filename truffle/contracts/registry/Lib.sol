@@ -28,44 +28,37 @@ contract Lib is Users {
 
   struct Claim {
     uint256 creationDate;
-    uint256 claimId;
+    uint256 claimId; // 2^48 ~ 100 trillion claims
     NameValue[] claimData;
     bool claimType;
-    uint256 memberOwner;    //  replace with 'member'
-    //    uint256 memberReceptor; // remove
-    //    string[] messageLog;
+    uint256 memberOwner;    // 2^24 ~ 16 million members
     bool status;
     uint256 lastChange;
+//    string[] log;
+//    uint16[] log2;
   }
 
-  uint256 constant private PAGE_SIZE = 10;
+//  uint256 constant private PAGE_SIZE = 10;
 
   mapping (uint256 => Claim) public claims_;
+  mapping (uint256 => uint16) private maxSplits_;
+
   uint256 public claimIdCounter_ = 0;
-//  // METHODS
+  // METHODS
 
   // Public
   function checkClaimStatus(uint256 _claimId, bool _claimType, bytes _claimData) public {
-    //     -browse all (getClaimsByISRC or ISWC) = claims_
-    //     -check if conflict with region, period, useTypes
-    //        -if CONFLICT with split
-    //            -change the status to conflict
-    //            -and if found is not CONFLICT status, then change as well
     //            -_addClaimFromInbox(member, _claimId)
-    //            -save memberId/_claimId locally (memory)
+    //            -save memberId/_claimId storage 'maxSplits_'
+    //            -change CONFLICT->CLAIMED if updateClaim() results like this.
 //    require(claimIdCounter_ > 0, "There is no claim in the system");
-//   if (_claimId == claimIdCounter_) {   // just registered
-    // Push in messageLog of _claimId==1 the _claimData of each claim that is input in this function
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
-    //    claims_[1].claimData.push(NameValue("__NEXT__", "__CLAIM"));
-    //    for(uint j = 0; j < itemList.length; ++j) {
-    //      //      RLPReader.RLPItem[] memory itemListClaim = itemList[j].toList(); // (name0, value0)
-    //    string memory data = string(itemList[j].toList()[1].toBytes());
-    //    claims_[1].claimData.push(NameValue(string(itemList[j].toList()[0].toBytes()), string(itemList[j].toList()[1].toBytes())));
-    //    }
-    uint8 split = uint8(itemList[5].toList()[1].toUint());
-    uint[] memory memberOwners;
+    uint16 split = uint16(itemList[5].toList()[1].toUint());
+//    claims_[_claimId].log.push(string(itemList[5].toList()[1].toBytes()));
+//    claims_[_claimId].log2.push(uint16(itemList[5].toList()[1].toUint()));
+//    maxSplits_[_claimId]=split;
+    bool tempMaxSplitOnce = true;
     for(uint256 i = 1; i <= claimIdCounter_; i++) {
       if (_claimType == claims_[i].claimType && _claimId != i) {
         if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
@@ -74,71 +67,43 @@ contract Lib is Users {
         && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
         && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes/rightTypes
         ){
-          // Sound Recording, _claimType = true for Sound Recordings
-//          if (_claimType) {   // split convert to uint8
-            uint8 split_i = 0; // bytesToUint8(bytes(claims_[i].claimData[5].value));
-            bytes b = bytes(claims_[i].claimData[5].value);
-            for(uint8 j=0;j<b.length;j++){
-//              split_i = uint8(split_i + uint8(b[j])*(2**(8*(b.length-(j+1)))));
-            }
+          // split convert to uint16
+//          claims_[i].log.push(split);
+//          claims_[i].log.push(maxSplits_[i]);
+//          claims_[i].log.push(maxSplits_[i]);
+//          claims_[i].log2.push(split);
+//          claims_[i].log.push(string(itemList[5].toList()[0].toBytes()));
+//          claims_[i].log.push(string(itemList[5].toList()[1].toBytes()));
 
-            if (split+split_i>100) {
-
-              claims_[_claimId].status = true; // true, means there IS a CONFLICT
-              if (!claims_[i].status) {
-                _addClaimFromInbox(claims_[i].memberOwner, _claimId);
-              }
-              claims_[i].status = true;
-              //                if (uint256(parseInt(claims_[_claimId].claimData[2].value, 0)) + uint256(parseInt(claims_[i].claimData[2].value, 0)) > 100) {
-              //      // check if their splits> 100% (checking between combinations missing!)
-              //
-              //                }
-            }
-            // Musical Work, _claimType = false for Musical Works
-//          } else if (keccak256(abi.encodePacked(itemList[6].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[6].value))) { // same rightHolderRole
-
-            claims_[_claimId].status = true;
+          maxSplits_[i]+=split;                // build maxSplits_[i]
+          if (tempMaxSplitOnce) {
+            maxSplits_[_claimId]=maxSplits_[i];
+            tempMaxSplitOnce=false;
+          }
+          if (maxSplits_[i]>100) {
+            claims_[_claimId].status = true; // true, means there IS a CONFLICT
             if (!claims_[i].status) {
               _addClaimFromInbox(claims_[i].memberOwner, _claimId);
+              claims_[i].status = true;
             }
-            claims_[i].status = true;
-
-//          }
+          }
         }
       }
     }
-//   } else {   // while updating
+//   } else {   // when updating
 //
 //   }
   }
 
-//  function bytesToUint8(bytes b) internal pure returns (uint8){
-//    uint8 number;
-//    for(uint8 i=0;i<b.length;i++){
-//      number = uint8(number + uint8(b[i])*(2**(8*(b.length-(i+1)))));
-//    }
-//    return number;
-//  }
+//  function updateClaimStatus(uint256 _claimId) {
 //
-//  function stringToUint(string s) public pure returns (uint8) {
-//    bytes memory b = bytes(s);
-//    uint8 result = 0;
-//    uint8 oldResult = 0;
-//    for (uint8 i = 0; i < b.length; i++) { // c = b[i] was not needed
-//      if (b[i] >= 48 && b[i] <= 57) {
-//        // store old value so we can check for overflows
-//        oldResult = result;
-//        result = result * 10 + (uint8(b[i]) - 48); // bytes and int are not compatible with the operator -.
-//        // prevent overflows
-////        if(oldResult > result ) {
-////          // we can only get here if the result overflowed and is smaller than last stored value
-////          hasError = true;
-////        }
-//      }
-////     else {
-////        hasError = true;
-////      }
+//    uint16 split_i = 0;
+//    bytes b = bytes(claims_[i].claimData[5].value);
+//    for(uint16 j=0;j<b.length;j++){
+//      split_i = uint16(split_i + uint16(b[j])*(2**(8*(b.length-(j+1)))));
 //    }
-//    return result;
+//    maxSplits_[_claimId]+=split_i;
+//
 //  }
+
 }

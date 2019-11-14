@@ -9,7 +9,7 @@ import "../utils/random.sol";
 contract Members is SignerRole, Random {
 
   struct Member { 
-    uint256 memberId;  
+    uint256 memberId;
     uint256 creationDate;
     string name;
     string logo;
@@ -52,7 +52,7 @@ contract Members is SignerRole, Random {
     }
     return memberPage;
   }
-  
+
   function getMembers(uint _page) public view returns (Member[] memory) {
     uint256 pageIndex = SafeMath.mul(PAGE_SIZE, _page);
     uint256 pageNumber = SafeMath.div(membersList_.length, PAGE_SIZE);
@@ -76,7 +76,7 @@ contract Members is SignerRole, Random {
   }
 
   // Private
-  
+
   function _saveMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) internal {
 
     require(bytes(_name).length != 0, "Name is mandatory");
@@ -94,7 +94,7 @@ contract Members is SignerRole, Random {
 
     members_[_memberId] = member;
     membersList_.push(_memberId);
-    
+
   }
 
   function _getClaimsIdByMember(uint _memberId) internal view returns(uint[])  {

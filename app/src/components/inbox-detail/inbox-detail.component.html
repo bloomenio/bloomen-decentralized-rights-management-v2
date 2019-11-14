@@ -60,30 +60,30 @@
         </div>
     </div>
     <div fxLayout="column" class="claim-info">
-        <div class="title">{{ 'inbox.claim.information' | translate | uppercase }}</div>
-        <div *ngIf="message.claimType === claimType.MUSICAL_WORK">
+        <div class="title">Inbox Claim Information</div>
+        <div *ngIf="!message.claimType">
             <div fxLayout="row" fxLayoutAlign="space-between">
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.ISWC' | translate}}</div>
+                        <div class="sender-title">International Standard Musical Work Code</div>
                         <div class="sender-name">{{ message.claimData.ISWC }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.rightHolderProprietaryID' | translate}}</div>
+                        <div class="sender-title">Right Holder Proprietary ID</div>
                         <div class="sender-name">{{ message.claimData.rightHolderProprietaryID }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.rightHolderRole' | translate}}</div>
+                        <div class="sender-title">Right Holder Role</div>
                         <div class="sender-name">{{ message.claimData.rightHolderRole }}</div>
                     </div>
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.startDate' | translate}}</div>
+                        <div class="sender-title">Start Date</div>
                         <div class="sender-name">{{ message.claimData.startDate | date }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.endDate' | translate}}</div>
+                        <div class="sender-title">End Date</div>
                         <div class="sender-name">{{ message.claimData.endDate | date }}</div>
                     </div>
                 </div>
@@ -91,87 +91,95 @@
             <div fxLayout="row" fxLayoutAlign="space-between" class="affiliaton-wrapper">
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.affiliationMec' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.affiliationMec }}</div>
+                        <div class="sender-title">Right Types</div>
+                        <div class="sender-name" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
                     </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.affiliationPer' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.affiliationPer }}</div>
-                    </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.affiliationSynchro' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.affiliationSynchro }}</div>
-                    </div>
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.affiliationMec' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.affiliationMec }}</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.affiliationPer' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.affiliationPer }}</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.affiliationSynchro' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.affiliationSynchro }}</div>-->
+<!--                    </div>-->
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.mechCollec' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.mechCollec }}%</div>
+                        <div class="sender-title">Split</div>
+                        <div class="sender-name">{{ message.claimData.splitPart }}%</div>
                     </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.perforCollec' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.perforCollec }}%</div>
-                    </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>
-                    </div>
-                </div>
-                <div fxLayout="column" class="info-wrapper">
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>
-                    </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.perforOwner' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.perforOwner }}%</div>
-                    </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.syncOwner' | translate}}</div>
-                        <div class="sender-name">{{ message.claimData.syncOwner }}% </div>
-                    </div>
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.mechCollec' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.mechCollec }}%</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.perforCollec' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.perforCollec }}%</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div fxLayout="column" class="info-wrapper">-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.perforOwner' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.perforOwner }}%</div>-->
+<!--                    </div>-->
+<!--                    <div fxLayout="column" class="group-wrapper">-->
+<!--                        <div class="sender-title">{{'claimData.syncOwner' | translate}}</div>-->
+<!--                        <div class="sender-name">{{ message.claimData.syncOwner }}% </div>-->
+<!--                    </div>-->
                 </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="affiliaton-wrapper">
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">{{'claimData.countries' | translate}}</div>
+                        <div class="sender-title">Territories</div>
                         <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="message.claimType === claimType.SOUND_RECORDING">
+        <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="message.claimType">
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.ISRC' | translate}}</div>
+                    <div class="sender-title">International Standard Recording Code</div>
                     <div class="sender-name">{{ message.claimData.ISRC }}</div>
                 </div>
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.split' | translate}}</div>
-                    <div class="sender-name">{{ message.claimData.split }}%</div>
+                    <div class="sender-title">Split</div>
+                    <div class="sender-name">{{ message.claimData.splitPart }}%</div>
                 </div>
             </div>
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.startDate' | translate}}</div>
+                    <div class="sender-title">Start Date</div>
                     <div class="sender-name">{{ message.claimData.startDate | date }}</div>
                 </div>
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.endDate' | translate}}</div>
+                    <div class="sender-title">End Date</div>
                     <div class="sender-name">{{ message.claimData.endDate | date }}</div>
                 </div>
             </div>
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.countries' | translate}}</div>
+                    <div class="sender-title">Territories</div>
                     <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}</div>
                 </div>
             </div>
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">{{'claimData.useTypes' | translate}}</div>
+                    <div class="sender-title">Use Types</div>
                     <div class="sender-name" *ngFor="let useType of message.claimData.useTypes">{{ useType }}</div>
                 </div>
             </div>

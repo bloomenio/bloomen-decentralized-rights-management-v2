@@ -17,14 +17,6 @@
                     <input matInput placeholder="{{'Right Holder Proprietary ID' | translate}}"
                            formControlName="rightHolderProprietaryID" />
                 </mat-form-field>
-<!--                <mat-form-field fxFlex="50">-->
-<!--                    <mat-label>{{'Original Publisher Name' | translate}}</mat-label>-->
-<!--                    <mat-select formControlName="rightOwner">-->
-<!--                        <mat-option *ngFor="let member of members" [value]="member.memberId">-->
-<!--                            {{ member.name }}-->
-<!--                        </mat-option>-->
-<!--                    </mat-select>-->
-<!--                </mat-form-field>-->
             </div>
 
             <div fxLayout="row">
@@ -43,9 +35,9 @@
                 <div fxLayout="column" fxFlex="33">
                     <div class="slider-label">{{ 'Split' | translate }}</div>
                     <div fxLayout="row">
-                        <mat-slider fxFlex formControlName="split" min="0" max="100" step="1" thumbLabel="true" value="0"></mat-slider>
-                        <div fxFlex="15" *ngIf="!data.isEditable">
-                            {{ claimForm.get('split').value }}%
+                        <mat-slider fxFlex formControlName="splitPart" min="0" max="100" step="1" thumbLabel="false" value="0"></mat-slider>
+                        <div fxFlex="15" *ngIf="claimForm.get('splitPart')">
+                            {{ claimForm.get('splitPart').value }}%
                         </div>
                     </div>
                 </div>
@@ -59,7 +51,7 @@
                             {{ country }}
                             <mat-icon matChipRemove *ngIf="data.isEditable">cancel</mat-icon>
                         </mat-chip>
-                        <input #countryInput formControlName="countriesAutocomplete" [matAutocomplete]="auto"
+                        <input #countryInput placeholder="Territories" formControlName="countriesAutocomplete" [matAutocomplete]="auto"
                                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                [matChipInputAddOnBlur]="data.isEditable" (matChipInputTokenEnd)="add($event)">
                     </mat-chip-list>

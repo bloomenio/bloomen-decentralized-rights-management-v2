@@ -59,7 +59,7 @@ contract Users is Members {
     require((users_[msg.sender].memberId == users_[_userToReject].memberId) || isSigner(msg.sender), "You cannot accept this user");
     require((uint(users_[msg.sender].status) == uint(StatusUserEnum.ACCEPTED)) || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToReject].status == StatusUserEnum.PENDING, "Only pending users can be rejected");
-    
+
     users_[_userToReject].status = StatusUserEnum.REJECTED;
     _clearUserFromMemberRequest(users_[_userToReject].memberId, _userToReject);
   }
@@ -70,7 +70,7 @@ contract Users is Members {
     require((users_[msg.sender].memberId == users_[_userToAccept].memberId) || isSigner(msg.sender), "You cannot accept this user");
     require((uint(users_[msg.sender].status) == uint(StatusUserEnum.ACCEPTED)) || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == StatusUserEnum.PENDING, "Only pending users can be accepted");
-    
+
     users_[_userToAccept].status = StatusUserEnum.ACCEPTED;
     _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
   }
@@ -78,7 +78,7 @@ contract Users is Members {
   function getcountUsers() public view returns(uint) {
     uint256 counter = 0;
     for (uint i = 0; i < usersList_.length; ++i) {
-      if(users_[usersList_[i]].memberId == users_[msg.sender].memberId 
+      if(users_[usersList_[i]].memberId == users_[msg.sender].memberId
         && users_[usersList_[i]].status == StatusUserEnum.ACCEPTED) {
         counter++;
       }
@@ -109,7 +109,7 @@ contract Users is Members {
     uint256 counterFinal = 0;
 
     for (uint j = pageIndex; j < usersList_.length; ++j) {
-      if(users_[usersList_[j]].memberId == users_[msg.sender].memberId 
+      if(users_[usersList_[j]].memberId == users_[msg.sender].memberId
         && users_[usersList_[j]].status == StatusUserEnum.ACCEPTED) {
         userPageBasic[counterFinal] = users_[usersList_[j]];
         ++counterFinal;
@@ -158,7 +158,7 @@ contract Users is Members {
     user.owner = owner;
 
     users_[owner] = user;
-    
+
     if(isCreate == 0) {
       usersList_.push(owner);
       _addUserToMemberRequest(_memberId);

@@ -6,7 +6,7 @@ contract Random {
   function rand(uint seed) internal pure returns (uint) {
     bytes32 data;
     if (seed % 2 == 0){
-      data = keccak256(abi.encodePacked(seed)); 
+      data = keccak256(abi.encodePacked(seed));
     }else{
       data = keccak256(abi.encodePacked(keccak256(abi.encodePacked(seed))));
     }

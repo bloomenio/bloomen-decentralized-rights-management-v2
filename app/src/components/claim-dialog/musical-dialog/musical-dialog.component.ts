@@ -39,7 +39,7 @@ export class MusicalDialogComponent implements OnInit {
         ['Adapter', 'Arranger', 'Lyricist', 'Composer', 'Composer Lyricist', 'SubArranger', 'SubAuthor', 'Translator',
          'Income Participant', 'Original Publisher', 'SubPublisher', 'Royalty Administrator'];
 
-    public rightTypesAll = ['Mechanical', 'Performance', 'Synchronization'];
+    public rightTypesAll: string[] = ['Mechanical', 'Performance', 'Synchronization'];
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -68,9 +68,7 @@ export class MusicalDialogComponent implements OnInit {
 
             // affiliationMec: [this.data.claim.claimData.affiliationMec, [Validators.required]],
             // affiliationPer: [this.data.claim.claimData.affiliationPer, [Validators.required]],
-            // affiliationSynchro: [this.data.claim.claimData.affiliationSynchro, [Validators.required]],
-            rightTypes: [this.data.claim.claimData.rightTypes, [Validators.required]],
-
+            // affiliationSynchro: [this.data.claim.claimData.affiliationSynchro, [Validators.required]],,
             countriesAutocomplete: [''],
             countries: [''],
 
@@ -82,8 +80,8 @@ export class MusicalDialogComponent implements OnInit {
             //
             // syncOwner: [this.data.claim.claimData.syncOwner],
             // syncCollec: [this.data.claim.claimData.syncCollec],
-            split: [this.data.claim.claimData.split, [Validators.required]],
-
+            splitPart: [this.data.claim.claimData.splitPart, [Validators.required]],
+            rightTypes: [this.data.claim.claimData.rightTypes, [Validators.required]]
         });
 
         this.claimForm.get('rightHolderName').disable();
@@ -116,7 +114,7 @@ export class MusicalDialogComponent implements OnInit {
             //
             // this.claimForm.get('syncOwner').disable();
             // this.claimForm.get('syncCollec').disable();
-            this.claimForm.get('split').disable();
+            this.claimForm.get('splitPart').disable();
         }
 
         this.filteredCountries = this.claimForm.get('countriesAutocomplete').valueChanges.pipe(
@@ -169,6 +167,7 @@ export class MusicalDialogComponent implements OnInit {
         this.countries = this.countries.sort((one, two) => (one < two ? -1 : 1)); // sort ascending
         const x = (names) => names.filter((v, i) => names.indexOf(v) === i); // remove duplicates
         this.countries = x(this.countries);
+        // console.log(this.claimForm.get('rightTypes').value);
         const claim: ClaimModel = {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
@@ -179,8 +178,8 @@ export class MusicalDialogComponent implements OnInit {
                 ['countries',  this.countries.join(',')],
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
-                ['rightTypes', this.claimForm.get('rightTypes').value],
-                ['split', this.claimForm.get('split').value],
+                ['rightTypes', this.claimForm.get('rightTypes').value.join(',')],
+                ['splitPart', this.claimForm.get('splitPart').value.toString()],
                 ['rightHolderRole', this.claimForm.get('rightHolderRole').value],
                 ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['title', this.data.claim.claimData.title]
@@ -199,6 +198,7 @@ export class MusicalDialogComponent implements OnInit {
             memberOwner: this.claimForm.get('rightHolderName').value,
             // memberReceptor: this.claimForm.get('originalPublisherName').value
         };
+        console.log(claim);
         this.dialogRef.close(claim);
     }
 

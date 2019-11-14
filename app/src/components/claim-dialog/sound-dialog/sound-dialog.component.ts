@@ -54,7 +54,7 @@ export class SoundDialogComponent implements OnInit {
             rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
-            split: [this.data.claim.claimData.split, [Validators.required]],
+            splitPart: [this.data.claim.claimData.splitPart, [Validators.required]],
             countriesAutocomplete: [''],
             countries: [''],
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
@@ -71,7 +71,7 @@ export class SoundDialogComponent implements OnInit {
             this.claimForm.get('rightHolderProprietaryID').disable();
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
-            this.claimForm.get('split').disable();
+            this.claimForm.get('splitPart').disable();
             this.claimForm.get('countries').disable();
             this.claimForm.get('useTypes').disable();
         }
@@ -140,7 +140,7 @@ export class SoundDialogComponent implements OnInit {
                 ['startDate', this.claimForm.get('startDate').value.getTime().toString()],
                 ['endDate', this.claimForm.get('endDate').value.getTime().toString()],
                 ['useTypes', this.claimForm.get('useTypes').value.join(',')],
-                ['split', this.claimForm.get('split').value.toString()],
+                ['splitPart', this.claimForm.get('splitPart').value.toString()],
                 ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['title', this.data.claim.claimData.title]
             ],
@@ -148,6 +148,7 @@ export class SoundDialogComponent implements OnInit {
             memberOwner: this.claimForm.get('rightHolderName').value,
             // memberReceptor: this.claimForm.get('rightOwner').value
         };
+        console.log(claim);
         this.dialogRef.close(claim);
     }
 

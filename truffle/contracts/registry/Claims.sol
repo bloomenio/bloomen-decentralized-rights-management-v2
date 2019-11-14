@@ -30,9 +30,7 @@ contract Claims is Users, Lib {
     _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
     _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
-    if (claimIdCounter_ > 1) {
-      checkClaimStatus(_claimId, _claimType, _claimData);
-    }
+    checkClaimStatus(_claimId, _claimType, _claimData);
 
     if (claims_[_claimId].status) {       // if status == true, which means there IS a CONFLICT
       // addClaimFromInbox for every relevant member
@@ -103,9 +101,7 @@ contract Claims is Users, Lib {
     }
 
     claims_[_claimId].memberOwner = _memberOwner;
-    //    claims_[_claimId].memberReceptor = _memberReceptor;
     claims_[_claimId].lastChange = _lastChange;
-    //    claims_[_claimId].messageLog = _messageLog; // string[] memory
     claims_[_claimId].status = _status;
   }
 

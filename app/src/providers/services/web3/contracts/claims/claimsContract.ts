@@ -77,7 +77,7 @@ export class ClaimsContract extends Contract {
                         const data = {};
                         console.log('In getClaimById contract address is ', ClaimsContract.ADDRESS);
                         claim.claimData.forEach(dataItem => {
-                            if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes') {
+                            if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes' || dataItem[0] === 'rightTypes') {
                                 data[dataItem[0]] = dataItem[1].split(',');
                             } else {
                                 data[dataItem[0]] = dataItem[1];
@@ -106,7 +106,7 @@ export class ClaimsContract extends Contract {
                             const data = {};
                             console.log('In getClaimByMemId contract address is ', ClaimsContract.ADDRESS);
                             claim.claimData.forEach(dataItem => {
-                                if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes') {
+                                if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes' || dataItem[0] === 'rightTypes') {
                                     data[dataItem[0]] = dataItem[1].split(',');
                                 } else {
                                     data[dataItem[0]] = dataItem[1];
