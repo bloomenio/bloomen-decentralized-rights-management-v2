@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "../../node_modules/solidity-rlp/contracts/RLPReader.sol";
 import "./Users.sol";
 import "./Lib.sol";
+//import "./Lib2.sol";
 
 contract Claims is Users, Lib {
 
@@ -13,40 +14,37 @@ contract Claims is Users, Lib {
 
   uint256 constant private PAGE_SIZE = 10;
 
-  function registerClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint _memberOwner) public {
+  function computeClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint _memberOwner, bool reg_update,
+    uint256 _claimId, bytes _oldClaimData, uint _lastChange) public {
 
-    require(_creationDate > 0, "CreationDate is mandatory");
-    //    require(_claimType || !_claimType, "Incorrect Claim Type");
+    if (reg_update) {
+  //    require(_creationDate > 0, "CreationDate is mandatory");
+      //    require(_claimType || !_claimType, "Incorrect Claim Type");
 
-    uint256 _claimId = ++claimIdCounter_;
-    //    uint256 _claimId = Random.rand(_creationDate);
+      _claimId = ++claimIdCounter_;
+      //    uint256 _claimId = Random.rand(_creationDate);
 
-    //    require(claims_[_claimId].claimId == 0, "Claim already exists");
-    require(_memberExists(_memberOwner), "Member do not exists");
+      //    require(claims_[_claimId].claimId == 0, "Claim already exists");
+      require(_memberExists(_memberOwner), "Member do not exists");
 
-    //    uint256
-    _memberOwner = _memberIdFromCurrentAddress();
+      //    uint256
+      _memberOwner = _memberIdFromCurrentAddress();
 
-    _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
-    _addClaimIdToMemberOwner(_memberOwner, _claimId);
+      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
+      _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
-    checkClaimStatus(_claimId, _claimType, _claimData);
+      checkClaimStatus(_claimId, _claimType, _claimData, true);
+    } else {
+  //  //
+  //  function updateClaim(uint256 _claimId, bytes _claimData, bytes _oldClaimData, uint _lastChange) internal {
 
-    if (claims_[_claimId].status) {       // if status == true, which means there IS a CONFLICT
-      // addClaimFromInbox for every relevant member
-      _addClaimFromInbox(_memberOwner, _claimId);
+  //    updateClaimStatus(_claimId, claims_[_claimId].claimType, _oldClaimData);
+      checkClaimStatus(_claimId, claims_[_claimId].claimType, _oldClaimData, false);
+      checkClaimStatus(_claimId, claims_[_claimId].claimType, _claimData, true);
+
+      _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, claims_[_claimId].claimType,
+        claims_[_claimId].memberOwner, claims_[_claimId].status, _lastChange);
     }
-
-  }
-  //
-  function updateClaim(uint256 _claimId, bytes _claimData, uint _lastChange) public {
-    //    require(claims_[_claimId].claimId > 0, "Claim not exists");
-
-    if (claimIdCounter_ > 1) {
-      checkClaimStatus(_claimId, claims_[_claimId].claimType, _claimData);
-    }
-    _saveClaim(_claimId, claims_[_claimId].creationDate, _claimData, claims_[_claimId].claimType,
-      claims_[_claimId].memberOwner, claims_[_claimId].status, _lastChange);
   }
 
   function getClaim(uint256 _claimId) view public returns (Claim) {

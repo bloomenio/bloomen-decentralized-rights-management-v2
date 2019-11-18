@@ -173,6 +173,17 @@ export class MusicalDialogComponent implements OnInit {
             claimId: this.data.claim.claimId,
             status: this.data.claim.status,
             // messageLog: this.data.claim.messageLog,
+            oldClaimData: [
+                ['ISWC', this.data.claim.claimData.ISWC],
+                ['countries',  this.data.claim.claimData.countries],
+                ['startDate', this.data.claim.claimData.startDate],
+                ['endDate', this.data.claim.claimData.endDate],
+                ['rightTypes', this.data.claim.claimData.rightTypes],
+                ['splitPart', this.data.claim.claimData.splitPart],
+                ['rightHolderRole', this.data.claim.claimData.rightHolderRole],
+                ['rightHolderProprietaryID', this.data.claim.claimData.rightHolderProprietaryID],
+                ['title', this.data.claim.claimData.title]
+            ],
             claimData: [
                 ['ISWC', this.data.claim.claimData.ISWC],
                 ['countries',  this.countries.join(',')],

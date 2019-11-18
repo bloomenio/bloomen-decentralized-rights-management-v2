@@ -31,31 +31,40 @@ export class ClaimsContract extends Contract {
 
     public addClaim(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
-        console.log('in addClaim, contract address is ', ClaimsContract.ADDRESS);
+        const encodeOldData = RLP.encode(claim.claimData);
         let claimType: boolean;
         if (claim.claimType === ClaimTypeEnum.MUSICAL_WORK) {
             claimType = false;
         } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
             claimType = true;
         }
+        console.log('ClaimsContract.addClaim');
+        console.log(claim.creationDate, claim.claimData, claimType, claim.memberOwner, true,
+            0, claim.claimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerClaim(claim.creationDate, encodeData, claimType, claim.memberOwner).send(this.args);
+            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType, claim.memberOwner, true,
+                0, encodeOldData, new Date().getTime()
+            ).send(this.args);
             });
     }
 
     public updateCl(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
-        console.log('in updateCl, contract address is ', ClaimsContract.ADDRESS);
-        console.log(claim);
+        const encodeOldData = RLP.encode(claim.oldClaimData);
+        console.log('ClaimsContract.updateCl');
+        console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
+            claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateClaim(claim.claimId, encodeData, new Date().getTime()).send(this.args);
+            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
+                claim.claimId, encodeOldData, new Date().getTime()
+            ).send(this.args);
         });
     }
 
     public changingState(claimId: string, state: number, message: string, memberId: string, memberLogo: string) {
         return this.transactionService.addTransaction(this.args.gas, () => {
             // Change this when contract message claims changed
-            console.log('in changingState, contract address is ', ClaimsContract.ADDRESS);
+            console.log('ClaimsContract.changingState');
             const lastUpdate = new Date().getTime();
             const messageItem = {
                 memberId,
@@ -72,10 +81,10 @@ export class ClaimsContract extends Contract {
     public getClaimById(claimId: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
+                console.log('ClaimsContract.getClaimById');
                 return from(this.contract.methods.getClaim(claimId).call(this.args)).pipe(
                     map((claim: ClaimModel) => {
                         const data = {};
-                        console.log('In getClaimById contract address is ', ClaimsContract.ADDRESS);
                         claim.claimData.forEach(dataItem => {
                             if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes' || dataItem[0] === 'rightTypes') {
                                 data[dataItem[0]] = dataItem[1].split(',');
@@ -95,6 +104,7 @@ export class ClaimsContract extends Contract {
     public getClaimsByMemId(page): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
+                console.log('ClaimsContract.getClaimByMemId');
                 return from(this.contract.methods.getClaimsByMemberId(page).call(this.args)).pipe(
                     map((claims: ClaimModel[]) => {
                         return claims.filter((claim: ClaimModel) => {
@@ -104,7 +114,6 @@ export class ClaimsContract extends Contract {
                     map((claims) => {
                         return claims.map(claim => {
                             const data = {};
-                            console.log('In getClaimByMemId contract address is ', ClaimsContract.ADDRESS);
                             claim.claimData.forEach(dataItem => {
                                 if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes' || dataItem[0] === 'rightTypes') {
                                     data[dataItem[0]] = dataItem[1].split(',');
@@ -113,6 +122,7 @@ export class ClaimsContract extends Contract {
                                 }
                             });
                             claim.claimData = data;
+
                             console.log(claim);
                             return claim;
                         });

@@ -1,6 +1,7 @@
 export interface ClaimModel {
     creationDate?: number;
     claimId?: number;
+    oldClaimData: any;
     claimData: any;
     claimType: ClaimModel.ClaimTypeEnum;
     memberOwner?: number;

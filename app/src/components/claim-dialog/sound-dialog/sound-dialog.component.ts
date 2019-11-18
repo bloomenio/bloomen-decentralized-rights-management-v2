@@ -34,7 +34,14 @@ export class SoundDialogComponent implements OnInit {
     public countriesAll: any;
     public filteredCountries: Observable<string[]>;
 
-    // public messages: object[];
+    public oldISRC: any;
+    public oldCountries: string[];
+    public oldStartDate: any;
+    public oldEndDate: any;
+    public oldUseTypes: string[];
+    public oldSplitPart: any;
+    public oldRightHolderProprietaryID: any;
+    public oldTitle: any;
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -59,6 +66,16 @@ export class SoundDialogComponent implements OnInit {
             countries: [''],
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
         });
+
+
+        this.oldISRC = this.data.claim.claimData.ISRC;
+        this.oldCountries = (this.data.claim.claimData.countries) ? this.data.claim.claimData.countries.join(',') : [];
+        this.oldStartDate = (this.data.claim.claimData.startDate) ? this.data.claim.claimData.startDate.toString() : 0;
+        this.oldEndDate = (this.data.claim.claimData.endDate) ? this.data.claim.claimData.endDate.toString() : 0;
+        this.oldUseTypes = (this.data.claim.claimData.useTypes) ? this.data.claim.claimData.useTypes : [];
+        this.oldSplitPart = (this.data.claim.claimData.splitPart) ? this.data.claim.claimData.splitPart.toString() : '';
+        this.oldRightHolderProprietaryID = (this.data.claim.claimData.rightHolderProprietaryID) ? this.data.claim.claimData.rightHolderProprietaryID : '';
+        this.oldTitle = this.data.claim.claimData.title;
 
         this.claimForm.get('rightHolderName').disable();
 
@@ -88,8 +105,6 @@ export class SoundDialogComponent implements OnInit {
             startWith(null),
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
-
-
     }
 
     public add(event: MatChipInputEvent) {
@@ -112,7 +127,6 @@ export class SoundDialogComponent implements OnInit {
 
     public remove(country: string) {
         const index = this.countries.indexOf(country);
-
         if (index >= 0) {
             this.countries.splice(index, 1);
         }
@@ -133,7 +147,16 @@ export class SoundDialogComponent implements OnInit {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
             status: this.data.claim.status,
-            // messageLog: this.data.claim.messageLog,
+            oldClaimData: [
+                ['ISRC', this.data.claim.claimData.ISRC],
+                ['countries', this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['useTypes', this.oldUseTypes.join(',')],
+                ['splitPart', this.oldSplitPart],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
+            ],
             claimData: [
                 ['ISRC', this.data.claim.claimData.ISRC],
                 ['countries', this.countries.join(',')],
@@ -148,6 +171,7 @@ export class SoundDialogComponent implements OnInit {
             memberOwner: this.claimForm.get('rightHolderName').value,
             // memberReceptor: this.claimForm.get('rightOwner').value
         };
+        console.log('SoundDialogComponent.onSubmit');
         console.log(claim);
         this.dialogRef.close(claim);
     }
