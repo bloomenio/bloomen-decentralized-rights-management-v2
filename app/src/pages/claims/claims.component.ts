@@ -15,6 +15,7 @@ import { MemberModel } from '@core/models/member.model';
 import { Subscription } from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
+import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 
 
 const log = new Logger('claims.component');
@@ -59,7 +60,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.members = members;
         });
 
-        this.displayedColumns = ['type', 'code', 'title', 'id', 'status', 'creationDate', 'edit', 'view'];
+        this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
@@ -121,6 +122,24 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         dialog.afterClosed().subscribe(value => {
             if (value) {
                 this.claimsContract.updateCl(value).then(() => {
+                    this.loadClaimsPage();
+                });
+            }
+        });
+    }
+
+    public delClaim(element) {
+
+        let dialog;
+        dialog = this.dialog.open(DeleteClaimComponent, {
+            data: {
+                claim: element
+            }
+        });
+
+        dialog.afterClosed().subscribe(value => {
+            if (value) {
+                this.claimsContract.delClaim(value).then(() => {
                     this.loadClaimsPage();
                 });
             }

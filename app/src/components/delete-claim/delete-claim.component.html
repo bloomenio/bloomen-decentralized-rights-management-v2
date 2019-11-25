@@ -1,0 +1,9 @@
+<div mat-dialog-title class="dialog-title">Confirm deleting this claim?</div>
+<div mat-dialog-actions fxLayoutAlign="center">
+    <button mat-button type="button" (click)="dialogRef.close()">
+        {{ 'close' | translate | uppercase }}
+    </button>
+    <button mat-button color="primary" (click)="onSubmit()">
+        {{ 'CONFIRM' | translate | uppercase }}
+    </button>
+</div>

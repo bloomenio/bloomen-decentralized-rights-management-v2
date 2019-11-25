@@ -42,18 +42,6 @@
                     </td>
                 </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef>
-<!--                        {{'claims.table.id' | translate | uppercase }}-->
-                    </th>
-                    <td mat-cell *matCellDef="let element">
-<!--                        {{element.claimId}}-->
-                    </td>
-                </ng-container>
-
-
-
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef>
@@ -96,6 +84,16 @@
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <mat-icon (click)="clickEdit(element, false)">visibility</mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- Delete Column -->
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Delete
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon (click)="delClaim(element)">delete</mat-icon>
                     </td>
                 </ng-container>
 

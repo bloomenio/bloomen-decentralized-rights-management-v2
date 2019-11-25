@@ -18,7 +18,7 @@ contract Claims is Users, Lib {
     uint256 _claimId, bytes _oldClaimData, uint _lastChange) public {
 
     if (reg_update) {
-  //    require(_creationDate > 0, "CreationDate is mandatory");
+      //    require(_creationDate > 0, "CreationDate is mandatory");
       //    require(_claimType || !_claimType, "Incorrect Claim Type");
 
       _claimId = ++claimIdCounter_;
@@ -35,10 +35,10 @@ contract Claims is Users, Lib {
 
       checkClaimStatus(_claimId, _claimType, _claimData, true);
     } else {
-  //  //
-  //  function updateClaim(uint256 _claimId, bytes _claimData, bytes _oldClaimData, uint _lastChange) internal {
+      //  //
+      //  function updateClaim(uint256 _claimId, bytes _claimData, bytes _oldClaimData, uint _lastChange) internal {
 
-  //    updateClaimStatus(_claimId, claims_[_claimId].claimType, _oldClaimData);
+      //    updateClaimStatus(_claimId, claims_[_claimId].claimType, _oldClaimData);
       checkClaimStatus(_claimId, claims_[_claimId].claimType, _oldClaimData, false);
       checkClaimStatus(_claimId, claims_[_claimId].claimType, _claimData, true);
 

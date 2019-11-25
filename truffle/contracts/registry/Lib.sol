@@ -25,10 +25,10 @@ contract Lib is Users {
     bool status;
     uint256 lastChange;
 //    string[] log;
-//    uint16[] log2;
+    //    uint16[] log2;
   }
 
-//  uint256 constant private PAGE_SIZE = 10;
+  //  uint256 constant private PAGE_SIZE = 10;
 
   mapping (uint256 => Claim) internal claims_;
   mapping (uint256 => uint16) internal maxSplits_;
@@ -38,14 +38,20 @@ contract Lib is Users {
 
   // Public
   function checkClaimStatus(uint256 _claimId, bool _claimType, bytes _claimData, bool newClaim) internal {
-
+// scenario claimData sto app, multiple variables sto blockchain
+//   change integration tou claimsContracts.ts (eisagwgh sto blockchain) EASY kai opou ginetai exagwgh apo blockchain
+//   struct Claim {
+//    countries: string[]
+//    startDate, endDate: uint
+//    types (useTypes/rightTypes): string[]
+//    rightHolderRoles: string or not
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
     uint16 split = uint16(itemList[5].toList()[1].toUint());
-    // Translation
+    // Split .toUint() Translation
     if (split > 12591) {
-//      uint16 dec = (split-48)/256-48;
-//      split = ((split-48)/256-48)*10+split-12544-(((split-48)/256-48)-1)*256-48;
+      //      uint16 dec = (split-48)/256-48;
+      //      split = ((split-48)/256-48)*10+split-12544-(((split-48)/256-48)-1)*256-48;
       split = split -246*((split-48)/256-48)-12336;
     } else if (split < 58) {
       split-=48;
@@ -60,8 +66,8 @@ contract Lib is Users {
       if (_claimType == claims_[i].claimType && _claimId != i) {
         if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
         && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
-        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
-        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
+        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // end1 >= start2
+        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // start1 <= end2
         && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes/rightTypes
         ){
           if (newClaim) {

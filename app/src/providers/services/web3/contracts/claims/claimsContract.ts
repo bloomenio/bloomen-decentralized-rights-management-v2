@@ -61,6 +61,23 @@ export class ClaimsContract extends Contract {
         });
     }
 
+    // _this.contract.methods.deleteClaim
+    public delClaim(claim: ClaimModel): Promise<any> {
+        const encodeData = RLP.encode(claim.claimData);
+        let claimType: boolean;
+        if (claim.claimType === ClaimTypeEnum.MUSICAL_WORK) {
+            claimType = false;
+        } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
+            claimType = true;
+        }
+        console.log('ClaimsContract.delClaim');
+        console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
+            claim.claimId, claim.oldClaimData, new Date().getTime());
+        return this.transactionService.addTransaction(this.args.gas, () => {
+            return this.contract.methods.deleteClaim(claim.claimId, claimType, encodeData).send(this.args);
+        });
+    }
+
     public changingState(claimId: string, state: number, message: string, memberId: string, memberLogo: string) {
         return this.transactionService.addTransaction(this.args.gas, () => {
             // Change this when contract message claims changed
@@ -79,9 +96,9 @@ export class ClaimsContract extends Contract {
     }
 
     public getClaimById(claimId: string): Promise<any> {
+        console.log('ClaimsContract.getClaimById');
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
-                console.log('ClaimsContract.getClaimById');
                 return from(this.contract.methods.getClaim(claimId).call(this.args)).pipe(
                     map((claim: ClaimModel) => {
                         const data = {};

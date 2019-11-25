@@ -1,0 +1,26 @@
+@import "~scss/variables.scss";
+
+.tabs-wrapper {
+  .form-wrapper {
+    height: 350px;
+    margin-top: 10px;
+    .section-title {
+      font-size: $font-size-xl;
+      font-weight: $font_bold;
+      margin-top: 10px;
+    }
+
+    .slider-label {
+      font-size: 12px;
+    }
+
+    mat-form-field {
+      margin-right: 5px;
+    }
+
+    .list-wrapper {
+      overflow: auto;
+      height: 650px;
+    }
+  }
+}

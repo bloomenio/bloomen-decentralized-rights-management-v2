@@ -26,7 +26,7 @@
     <div fxLayout="column">
         <div class="subject">{{ 'inbox_detail.get_Access' | translate }}</div>
         <div class="message">{{ 'inbox_detail.member_Access' | translate }} {{message.role}}</div>
-        <div fxLayout="row" class="button-action">
+        <div fxLayout="row" class="button-action"   *ngIf="!currentMember">
             <button mat-flat-button color="primary" fxLayoutAlign="center center"
                 (click)="onReject()">{{'inbox_detail.reject' | translate | uppercase}}</button>
             <button mat-flat-button fxLayoutAlign="center center"

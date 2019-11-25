@@ -78,6 +78,16 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.refreshInbox();
+
+    // console.log('Refreshed Inbox');
+    // if (this.user.role === ROLES.SUPER_USER) {
+    //   console.log('Refreshed Inbox ROLES>SUPER_USER');
+    //   this.fillInboxSuperUser();
+    // } else {
+    //   console.log('Refreshed Inbox ROLES>ADMIN/USER');
+    //   this.store.dispatch(new fromMemberActions.InitMember());
+    // }
     // this.intervalUser$ = interval(1500).pipe(
     //   switchMap(() => this.store.select(fromUserSelectors.getUser)),
     //   skipWhile((user) => !user),
@@ -152,6 +162,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   private async fillInbox() {
+    console.log('this is fillInbox');
     const claimsArray = [];
     const usersArray = [];
 
