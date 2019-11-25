@@ -46,7 +46,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private store: Store<any>,
+    public store: Store<any>,
     public snackBar: MatSnackBar,
     public router: Router,
     public claimsContract: ClaimsContract,
@@ -132,7 +132,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.message = { ...event };
   }
 
-  private refreshInbox() {
+  public refreshInbox() {
     console.log('Works!');
 
     if (this.user.role === ROLES.SUPER_USER) {

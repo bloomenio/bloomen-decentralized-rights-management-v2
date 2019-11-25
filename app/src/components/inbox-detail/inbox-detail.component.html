@@ -183,6 +183,11 @@
                     <div class="sender-name" *ngFor="let useType of message.claimData.useTypes">{{ useType }}</div>
                 </div>
             </div>
+            <div>
+                <mat-icon (click)="onUpdate(message)">
+                    edit
+                </mat-icon>
+            </div>
         </div>
     </div>
 <!--    <div fxLayout="column" *ngIf="message.messageLog.length" class="message-info">-->

@@ -12,6 +12,10 @@ import { Subscription } from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@services/logger/logger.service';
+import {ClaimsComponent} from '@pages/claims/claims.component';
+import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
+import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
+import {InboxComponent} from '@pages/inbox/inbox.component';
 
 const log = new Logger('inbox-detail.component');
 
@@ -39,7 +43,9 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public claimsComponent: ClaimsComponent,
+    public inboxComponent: InboxComponent
   ) { }
 
   public ngOnInit() {
@@ -83,5 +89,9 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   public onReject() {
     this.rejectEvent.emit(this.message.owner);
+  }
+
+  public onUpdate(message) {
+    this.claimsComponent.clickEdit(message, true);
   }
 }

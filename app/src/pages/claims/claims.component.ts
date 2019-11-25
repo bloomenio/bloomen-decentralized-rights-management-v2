@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
+import {InboxComponent} from '@pages/inbox/inbox.component';
+import * as fromMemberActions from "@stores/member/member.actions";
 
 
 const log = new Logger('claims.component');
@@ -50,7 +52,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         public router: Router,
         public dialog: MatDialog,
         private claimsContract: ClaimsContract,
-        private store: Store<any>
+        private store: Store<any>,
+        public inboxComponent: InboxComponent
     ) {
     }
 
@@ -79,12 +82,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public loadClaimsPage() {
-        this.dataSource.loadClaims(
-            '',
-            'asc',
-            this.paginator.pageIndex,
-            this.paginator.pageSize
-        );
+        if (this.dataSource) {
+            this.dataSource.loadClaims(
+                '',
+                'asc',
+                this.paginator.pageIndex,
+                this.paginator.pageSize
+            );
+        }
     }
 
     public clickEdit(element, isEdit) {
@@ -123,6 +128,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (value) {
                 this.claimsContract.updateCl(value).then(() => {
                     this.loadClaimsPage();
+                    this.inboxComponent.store.dispatch(new fromMemberActions.InitMember());
                 });
             }
         });
