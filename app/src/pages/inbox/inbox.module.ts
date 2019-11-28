@@ -19,6 +19,7 @@ import { UserProfileShellModule } from '@components/user-profile-shell/user-prof
 // Components
 import { InboxItemListModule } from '@components/inbox-item-list/inbox-item-list.module';
 import { InboxDetailModule } from '@components/inbox-detail/inbox-detail.module';
+import {ShellComponent} from '@shell/shell.component';
 
 /**
  * Module to import and export all the components for the home page.
@@ -36,6 +37,7 @@ import { InboxDetailModule } from '@components/inbox-detail/inbox-detail.module'
     UserProfileShellModule,
     InboxDetailModule
   ],
-  declarations: [InboxComponent]
+  declarations: [InboxComponent],
+  providers: [ShellComponent]
 })
 export class InboxModule { }

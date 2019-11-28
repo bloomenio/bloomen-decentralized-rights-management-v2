@@ -35,6 +35,7 @@ const log = new Logger('blo-shell');
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
+  public newMessages = false;
   public imgToolbar: string;
   public backgroundImage: string;
   public powered: boolean;
@@ -119,6 +120,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
   }
 
+  public newMessagesSetter() {
+    this.newMessages = false;
+  }
 
   public ngOnDestroy() {
     this.theme$.unsubscribe();

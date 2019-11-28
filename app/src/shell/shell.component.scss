@@ -96,7 +96,19 @@
 }
 
 .ic-inbox {
-  background-image: url("../assets/icons/ic_inbox.svg");
+  background-image: url("../assets/icons/inbox.svg");
+}
+
+.ic-inbox-new-message {
+  background-image: url("../assets/icons/inbox_new_message.svg");
+}
+
+.sup {
+  vertical-align: super;
+  font-size: smaller;
+  font-weight: bold;
+  color: #fa3e3e;
+  font-style: italic;
 }
 
 .ic-dashboard {
@@ -105,10 +117,6 @@
 
 .ic-claim {
   background-image: url("../assets/icons/ic_claim.svg");
-}
-
-.ic-userm {
-  background-image: url("../assets/icons/ic_user_management.svg");
 }
 
 .ic-userm {

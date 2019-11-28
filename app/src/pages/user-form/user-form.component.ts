@@ -53,11 +53,17 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.userForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      cmo: ['', [Validators.required]],
-      member: ['', [Validators.required]],
-      role: ['', [Validators.required]],
+      // firstName: ['', [Validators.required]],
+      // lastName: ['', [Validators.required]],
+      // cmo: ['', [Validators.required]],
+      // member: ['', [Validators.required]],
+      // role: ['', [Validators.required]]
+
+      firstName: [''],
+      lastName: [''],
+      cmo: [''],
+      member: [''],
+      role: ['']
     });
 
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe((members) => {
@@ -69,12 +75,16 @@ export class UserFormComponent implements OnInit, OnDestroy {
     });
 
     this.roles = [ROLES.USER, ROLES.ADMIN];
+    console.log('ngOnInit member value is ' + this.userForm.get('member').value);
   }
 
   public onChange() {
+    console.log('onChange_1 member value is ' + this.userForm.get('member').value);
+
     of(this.members).pipe(
       map((members) => {
-        const cmo = this.userForm.get('cmo').value;
+        // const cmo = this.userForm.get('cmo').value; // onSubmit()
+        const cmo = 'cmo1';                            // onSubmitAutoFill()
         if (!cmo) {
           return [];
         } else {
@@ -87,9 +97,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.membersFiltered = members;
       this.userForm.get('member').setValue(undefined);
     });
+    console.log('onChange_2 member value is ' + this.userForm.get('member').value);
   }
 
   public onSubmit() {
+    console.log('onSubmit membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
+    console.log('onSubmit membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+    console.log('onSubmit_1 member value is ' + this.userForm.get('member').value);
     const user: UserModel = {
       creationDate: new Date().getTime(),
       firstName: this.userForm.get('firstName').value,
@@ -99,6 +113,45 @@ export class UserFormComponent implements OnInit, OnDestroy {
     };
     this.store.dispatch(new fromUserActions.SendUser(user));
     this.router.navigate(['waiting-approve']);
+    console.log('onSubmit_2 member value is ' + this.userForm.get('member').value);
+
+  }
+
+  public onSubmitAutoFill() {
+    // @ts-ignore
+    const isFirefox = typeof InstallTrigger !== 'undefined';
+    console.log(isFirefox);
+    if (isFirefox) {
+      const user: UserModel = {
+        creationDate: new Date().getTime(),
+        firstName: 'Gonçal',
+        lastName: 'Calvo',
+        memberId: this.membersFiltered[0].memberId.toString(),
+        role: 'Admin'
+      };
+      console.log(user);
+      this.store.dispatch(new fromUserActions.SendUser(user));
+      this.router.navigate(['waiting-approve']);
+
+      console.log('AutoFill_ended');
+      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
+      console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+    } else { // Opera
+      const user: UserModel = {
+        creationDate: new Date().getTime(),
+        firstName: 'Cm',
+        lastName: 'O1',
+        memberId: this.membersFiltered[0].memberId.toString(),
+        role: 'Admin'
+      };
+      console.log(user);
+      this.store.dispatch(new fromUserActions.SendUser(user));
+      this.router.navigate(['waiting-approve']);
+
+      console.log('AutoFill_ended');
+      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
+      console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+    }
   }
 
   public onCancel() {

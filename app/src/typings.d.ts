@@ -2,6 +2,9 @@
  * Extra typings definitions
  */
 
+// // @ts-ignore
+// declare var lastInboxLengthClaims = 0;
+
 // Allow .json files imports
 declare module '*.json';
 

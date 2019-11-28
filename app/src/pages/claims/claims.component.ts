@@ -17,7 +17,7 @@ import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
-import * as fromMemberActions from "@stores/member/member.actions";
+import * as fromMemberActions from '@stores/member/member.actions';
 
 
 const log = new Logger('claims.component');

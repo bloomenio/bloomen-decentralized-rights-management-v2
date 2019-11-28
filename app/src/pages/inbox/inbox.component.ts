@@ -8,7 +8,7 @@ import { Subscription, interval, from } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { skipWhile, takeWhile, map, switchMap, first } from 'rxjs/operators';
 import { THEMES } from '@core/constants/themes.constants';
-
+// import {lastInboxLengthClaims} from 'typings.d';
 
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import * as fromUserSelectors from '@stores/user/user.selectors';
@@ -22,7 +22,10 @@ import { UserContract, ClaimsContract } from '@core/core.module';
 import { INBOX } from '@core/constants/inbox.constants';
 import { UserModel } from '@core/models/user.model';
 import { ROLES } from '@core/constants/roles.constants';
-
+import {ShellComponent} from '@shell/shell.component';
+// import {getType} from '@angular/flex-layout/typings/extended/style/style-transforms';
+// import {type} from "os";
+export let lastInboxLengthClaims: number;
 
 const log = new Logger('inbox.component');
 
@@ -44,13 +47,17 @@ export class InboxComponent implements OnInit, OnDestroy {
   public inbox: any[];
   public message: any;
 
+  public lastInboxLengthUsers = 0;
+  // public lastInboxLengthClaims = 0;
+  public lastInboxLengthUserRequests = 0;
 
   constructor(
     public store: Store<any>,
     public snackBar: MatSnackBar,
     public router: Router,
     public claimsContract: ClaimsContract,
-    public userContract: UserContract
+    public userContract: UserContract,
+    public shellComponent: ShellComponent
   ) { }
 
   public ngOnInit() {
@@ -135,7 +142,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   public refreshInbox() {
     console.log('Works!');
 
-    if (this.user.role === ROLES.SUPER_USER) {
+    if (/*this.user &&*/ this.user.role === ROLES.SUPER_USER) {
       this.fillInboxSuperUser();
     } else {
       this.store.dispatch(new fromMemberActions.InitMember());
@@ -207,6 +214,25 @@ export class InboxComponent implements OnInit, OnDestroy {
       const isDeletedMessageSelected = !this.inbox.find((message) => message.creationDate === this.message.creationDate);
       if (isDeletedMessageSelected) {
         this.message = undefined;
+      }
+    }
+
+    // console.log('synthiki: ' + ((typeof lastInboxLengthClaims).toString() === 'undefined').toString());
+    // console.log(typeof lastInboxLengthClaims);
+    if ((typeof lastInboxLengthClaims).toString() === 'undefined') {
+      console.log('lastInboxLengthClaims typeof: ' + typeof lastInboxLengthClaims);
+      lastInboxLengthClaims = 0;
+      console.log('lastInboxLengthClaims  value: ' + lastInboxLengthClaims);
+    }
+    if (this.member && this.member.claimInbox) {
+      console.log('this.member.claimInbox.length is ' + this.member.claimInbox.length);
+      console.log('this.lastInboxLengthClaims    is ' + lastInboxLengthClaims);
+      if (this.member.claimInbox.length !== lastInboxLengthClaims) {
+        if (this.member.claimInbox.length > lastInboxLengthClaims) {
+          console.log('You have new CONFLICT messages.');
+          this.shellComponent.newMessages = true;
+        }
+        lastInboxLengthClaims = this.member.claimInbox.length;
       }
     }
   }

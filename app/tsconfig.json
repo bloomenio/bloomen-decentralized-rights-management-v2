@@ -34,7 +34,7 @@
       "@constants/*": ["core/constants/*"],
       "@i18n/*": ["assets/i18n/*"],
       "@env/*": ["environments/*"],
-      "@directives/*": ["directives/*"],
+      "@directives/*": ["directives/*"]
     }
   }
 }
