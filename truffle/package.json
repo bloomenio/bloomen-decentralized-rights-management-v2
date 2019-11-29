@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "start": "nps"
+    "start": "nps",
+    "install": "napa Arachnid/solidity-stringutils"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +24,8 @@
     "web3": "1.0.0-beta.36"
   },
   "devDependencies": {
-    "nps": "^5.9.3",
-    "ganache-cli": "6.1.8"
+    "ganache-cli": "6.1.8",
+    "napa": "^3.0.0",
+    "nps": "^5.9.3"
   }
 }
