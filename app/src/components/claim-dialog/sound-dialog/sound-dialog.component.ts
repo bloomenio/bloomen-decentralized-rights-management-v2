@@ -176,6 +176,39 @@ export class SoundDialogComponent implements OnInit {
         this.dialogRef.close(claim);
     }
 
+    public onDelete() {
+
+        const claim: ClaimModel = {
+            creationDate: this.data.claim.creationDate,
+            claimId: this.data.claim.claimId,
+            status: this.data.claim.status,
+            oldClaimData: [
+                ['ISRC', this.data.claim.claimData.ISRC],
+                ['countries', this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['useTypes', this.oldUseTypes.join(',')],
+                ['splitPart', this.oldSplitPart],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
+            ],
+            claimData: [
+                ['ISRC', this.data.claim.claimData.ISRC],
+                ['countries', this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['useTypes', this.oldUseTypes.join(',')],
+                ['splitPart', this.oldSplitPart],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
+            ],
+            claimType: this.data.claim.claimType,
+            memberOwner: this.claimForm.get('rightHolderName').value,
+            // memberReceptor: this.claimForm.get('rightOwner').value
+        };
+        this.dialogRef.close(claim);
+    }
+
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
         return this.countriesAll.filter(country => country.label.toLowerCase().indexOf(filterValue) === 0);

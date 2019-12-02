@@ -102,10 +102,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         claim: element,
                         members: this.members,
                         disableMemberEdit: true,
-                        isEditable: isEdit
+                        isEditable: isEdit,
+                        toDelete: false
                     },
                     width: '900px',
-                    height: '810px'
+                    height: '610px'
                 });
                 break;
             case true:
@@ -114,7 +115,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         claim: element,
                         members: this.members,
                         disableMemberEdit: true,
-                        isEditable: isEdit
+                        isEditable: isEdit,
+                        toDelete: false
                     },
                     width: '900px',
                     height: '510px'
@@ -128,25 +130,51 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (value) {
                 this.claimsContract.updateCl(value).then(() => {
                     this.loadClaimsPage();
-                    this.inboxComponent.store.dispatch(new fromMemberActions.InitMember());
+                    this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the inbox
                 });
             }
         });
     }
 
     public delClaim(element) {
-
         let dialog;
-        dialog = this.dialog.open(DeleteClaimComponent, {
-            data: {
-                claim: element
-            }
-        });
+
+        switch (element.claimType) {
+            case false:
+                dialog = this.dialog.open(MusicalDialogComponent, {
+                    data: {
+                        claim: element,
+                        members: this.members,
+                        disableMemberEdit: true,
+                        isEditable: false,
+                        toDelete: true
+                    },
+                    width: '900px',
+                    height: '610px'
+                });
+                break;
+            case true:
+                dialog = this.dialog.open(SoundDialogComponent, {
+                    data: {
+                        claim: element,
+                        members: this.members,
+                        disableMemberEdit: true,
+                        isEditable: false,
+                        toDelete: true
+                    },
+                    width: '900px',
+                    height: '510px'
+                });
+                break;
+            default:
+                break;
+        }
 
         dialog.afterClosed().subscribe(value => {
             if (value) {
                 this.claimsContract.delClaim(value).then(() => {
                     this.loadClaimsPage();
+                    this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the inbox
                 });
             }
         });

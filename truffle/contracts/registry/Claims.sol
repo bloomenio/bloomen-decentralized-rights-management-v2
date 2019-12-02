@@ -4,7 +4,6 @@ pragma experimental ABIEncoderV2;
 import "../../node_modules/solidity-rlp/contracts/RLPReader.sol";
 import "./Users.sol";
 import "./Lib.sol";
-//import "./Lib2.sol";
 
 contract Claims is Users, Lib {
 
@@ -14,10 +13,12 @@ contract Claims is Users, Lib {
 
   uint256 constant private PAGE_SIZE = 10;
 
+//  uint256[] internal claimIdIndex;
+
   function computeClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint _memberOwner, bool reg_update,
     uint256 _claimId, bytes _oldClaimData, uint _lastChange) public {
 
-    if (reg_update) {
+    if (reg_update) { // Register new claim.
       //    require(_creationDate > 0, "CreationDate is mandatory");
       //    require(_claimType || !_claimType, "Incorrect Claim Type");
 
@@ -34,7 +35,8 @@ contract Claims is Users, Lib {
       _addClaimIdToMemberOwner(_memberOwner, _claimId);
 
       checkClaimStatus(_claimId, _claimType, _claimData, true);
-    } else {
+//      claimIdIndex.push(_claimId);
+    } else {        // Update existing claim.
       //  //
       //  function updateClaim(uint256 _claimId, bytes _claimData, bytes _oldClaimData, uint _lastChange) internal {
 

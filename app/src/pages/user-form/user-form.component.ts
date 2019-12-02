@@ -53,17 +53,17 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.userForm = this.fb.group({
-      // firstName: ['', [Validators.required]],
-      // lastName: ['', [Validators.required]],
-      // cmo: ['', [Validators.required]],
-      // member: ['', [Validators.required]],
-      // role: ['', [Validators.required]]
-
-      firstName: [''],
-      lastName: [''],
-      cmo: [''],
-      member: [''],
-      role: ['']
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      cmo: ['', [Validators.required]],
+      member: ['', [Validators.required]],
+      role: ['', [Validators.required]]
+      //
+      // firstName: [''],
+      // lastName: [''],
+      // cmo: [''],
+      // member: [''],
+      // role: ['']
     });
 
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe((members) => {
@@ -83,8 +83,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     of(this.members).pipe(
       map((members) => {
-        // const cmo = this.userForm.get('cmo').value; // onSubmit()
-        const cmo = 'cmo1';                            // onSubmitAutoFill()
+        const cmo = this.userForm.get('cmo').value; // onSubmit()
+        // const cmo = 'cmo1';                            // onSubmitAutoFill()
         if (!cmo) {
           return [];
         } else {

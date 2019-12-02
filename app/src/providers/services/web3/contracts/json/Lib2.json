@@ -43,7 +43,7 @@
         "id": 874,
         "nodeType": "ImportDirective",
         "scope": 1060,
-        "sourceUnit": 5224,
+        "sourceUnit": 5248,
         "src": "60:61:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -94,10 +94,10 @@
               "id": 877,
               "name": "strings",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5223,
+              "referencedDeclaration": 5247,
               "src": "183:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_strings_$5223",
+                "typeIdentifier": "t_contract$_strings_$5247",
                 "typeString": "library strings"
               }
             },
@@ -126,7 +126,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -198,10 +198,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "268:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -215,7 +215,7 @@
                     "nodeType": "FunctionCall",
                     "src": "268:21:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -237,7 +237,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -309,10 +309,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "304:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -326,7 +326,7 @@
                     "nodeType": "FunctionCall",
                     "src": "304:21:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -348,7 +348,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -387,10 +387,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "343:11:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -404,7 +404,7 @@
                     "nodeType": "FunctionCall",
                     "src": "343:13:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -461,7 +461,7 @@
                               "referencedDeclaration": 899,
                               "src": "397:5:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             }
@@ -469,7 +469,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             ],
@@ -482,7 +482,7 @@
                               "referencedDeclaration": 885,
                               "src": "388:2:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             },
@@ -493,10 +493,10 @@
                             "lValueRequested": false,
                             "memberName": "count",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5038,
+                            "referencedDeclaration": 5062,
                             "src": "388:8:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                               "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                             }
                           },
@@ -647,7 +647,7 @@
                               "referencedDeclaration": 899,
                               "src": "449:5:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             }
@@ -655,7 +655,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             ],
@@ -668,7 +668,7 @@
                               "referencedDeclaration": 892,
                               "src": "440:2:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             },
@@ -679,10 +679,10 @@
                             "lValueRequested": false,
                             "memberName": "count",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5038,
+                            "referencedDeclaration": 5062,
                             "src": "440:8:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                               "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                             }
                           },
@@ -919,7 +919,7 @@
                                       "referencedDeclaration": 899,
                                       "src": "540:5:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     }
@@ -927,7 +927,7 @@
                                   "expression": {
                                     "argumentTypes": [
                                       {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     ],
@@ -940,7 +940,7 @@
                                       "referencedDeclaration": 885,
                                       "src": "531:2:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     },
@@ -951,10 +951,10 @@
                                     "lValueRequested": false,
                                     "memberName": "count",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5038,
+                                    "referencedDeclaration": 5062,
                                     "src": "531:8:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                       "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                                     }
                                   },
@@ -1111,7 +1111,7 @@
                                       "referencedDeclaration": 899,
                                       "src": "590:5:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     }
@@ -1119,7 +1119,7 @@
                                   "expression": {
                                     "argumentTypes": [
                                       {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     ],
@@ -1132,7 +1132,7 @@
                                       "referencedDeclaration": 892,
                                       "src": "581:2:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     },
@@ -1143,10 +1143,10 @@
                                     "lValueRequested": false,
                                     "memberName": "count",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5038,
+                                    "referencedDeclaration": 5062,
                                     "src": "581:8:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                       "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                                     }
                                   },
@@ -1330,7 +1330,7 @@
                                     "referencedDeclaration": 899,
                                     "src": "772:5:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   }
@@ -1338,7 +1338,7 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   ],
@@ -1351,7 +1351,7 @@
                                     "referencedDeclaration": 885,
                                     "src": "763:2:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   },
@@ -1362,10 +1362,10 @@
                                   "lValueRequested": false,
                                   "memberName": "split",
                                   "nodeType": "MemberAccess",
-                                  "referencedDeclaration": 4894,
+                                  "referencedDeclaration": 4918,
                                   "src": "763:8:2",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                     "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (struct strings.slice memory)"
                                   }
                                 },
@@ -1379,7 +1379,7 @@
                                 "nodeType": "FunctionCall",
                                 "src": "763:15:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                   "typeString": "struct strings.slice memory"
                                 }
                               },
@@ -1390,10 +1390,10 @@
                               "lValueRequested": false,
                               "memberName": "toString",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 3773,
+                              "referencedDeclaration": 3797,
                               "src": "763:24:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                 "typeString": "function (struct strings.slice memory) pure returns (string memory)"
                               }
                             },
@@ -1565,7 +1565,7 @@
                                                 "referencedDeclaration": 899,
                                                 "src": "1052:5:2",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               }
@@ -1573,7 +1573,7 @@
                                             "expression": {
                                               "argumentTypes": [
                                                 {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               ],
@@ -1586,7 +1586,7 @@
                                                 "referencedDeclaration": 892,
                                                 "src": "1043:2:2",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               },
@@ -1597,10 +1597,10 @@
                                               "lValueRequested": false,
                                               "memberName": "split",
                                               "nodeType": "MemberAccess",
-                                              "referencedDeclaration": 4894,
+                                              "referencedDeclaration": 4918,
                                               "src": "1043:8:2",
                                               "typeDescriptions": {
-                                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                                 "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (struct strings.slice memory)"
                                               }
                                             },
@@ -1614,7 +1614,7 @@
                                             "nodeType": "FunctionCall",
                                             "src": "1043:15:2",
                                             "typeDescriptions": {
-                                              "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                              "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                               "typeString": "struct strings.slice memory"
                                             }
                                           },
@@ -1625,10 +1625,10 @@
                                           "lValueRequested": false,
                                           "memberName": "toString",
                                           "nodeType": "MemberAccess",
-                                          "referencedDeclaration": 3773,
+                                          "referencedDeclaration": 3797,
                                           "src": "1043:24:2",
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                            "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                             "typeString": "function (struct strings.slice memory) pure returns (string memory)"
                                           }
                                         },
@@ -2362,7 +2362,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5232,
+                        "referencedDeclaration": 5256,
                         "src": "1330:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_sha3_pure$__$returns$_t_bytes32_$",
@@ -2413,7 +2413,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5232,
+                        "referencedDeclaration": 5256,
                         "src": "1352:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_sha3_pure$__$returns$_t_bytes32_$",
@@ -2628,7 +2628,7 @@
         "id": 874,
         "nodeType": "ImportDirective",
         "scope": 1060,
-        "sourceUnit": 5224,
+        "sourceUnit": 5248,
         "src": "60:61:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2679,10 +2679,10 @@
               "id": 877,
               "name": "strings",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5223,
+              "referencedDeclaration": 5247,
               "src": "183:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_strings_$5223",
+                "typeIdentifier": "t_contract$_strings_$5247",
                 "typeString": "library strings"
               }
             },
@@ -2711,7 +2711,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -2783,10 +2783,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "268:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -2800,7 +2800,7 @@
                     "nodeType": "FunctionCall",
                     "src": "268:21:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -2822,7 +2822,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -2894,10 +2894,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "304:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -2911,7 +2911,7 @@
                     "nodeType": "FunctionCall",
                     "src": "304:21:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -2933,7 +2933,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                         "typeString": "struct strings.slice"
                       },
                       "typeName": null,
@@ -2972,10 +2972,10 @@
                       "lValueRequested": false,
                       "memberName": "toSlice",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3595,
+                      "referencedDeclaration": 3619,
                       "src": "343:11:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_string_memory_ptr_$",
+                        "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_string_memory_ptr_$",
                         "typeString": "function (string memory) pure returns (struct strings.slice memory)"
                       }
                     },
@@ -2989,7 +2989,7 @@
                     "nodeType": "FunctionCall",
                     "src": "343:13:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                       "typeString": "struct strings.slice memory"
                     }
                   },
@@ -3046,7 +3046,7 @@
                               "referencedDeclaration": 899,
                               "src": "397:5:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             }
@@ -3054,7 +3054,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             ],
@@ -3067,7 +3067,7 @@
                               "referencedDeclaration": 885,
                               "src": "388:2:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             },
@@ -3078,10 +3078,10 @@
                             "lValueRequested": false,
                             "memberName": "count",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5038,
+                            "referencedDeclaration": 5062,
                             "src": "388:8:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                               "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                             }
                           },
@@ -3232,7 +3232,7 @@
                               "referencedDeclaration": 899,
                               "src": "449:5:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             }
@@ -3240,7 +3240,7 @@
                           "expression": {
                             "argumentTypes": [
                               {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             ],
@@ -3253,7 +3253,7 @@
                               "referencedDeclaration": 892,
                               "src": "440:2:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                 "typeString": "struct strings.slice memory"
                               }
                             },
@@ -3264,10 +3264,10 @@
                             "lValueRequested": false,
                             "memberName": "count",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 5038,
+                            "referencedDeclaration": 5062,
                             "src": "440:8:2",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                              "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                               "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                             }
                           },
@@ -3504,7 +3504,7 @@
                                       "referencedDeclaration": 899,
                                       "src": "540:5:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     }
@@ -3512,7 +3512,7 @@
                                   "expression": {
                                     "argumentTypes": [
                                       {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     ],
@@ -3525,7 +3525,7 @@
                                       "referencedDeclaration": 885,
                                       "src": "531:2:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     },
@@ -3536,10 +3536,10 @@
                                     "lValueRequested": false,
                                     "memberName": "count",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5038,
+                                    "referencedDeclaration": 5062,
                                     "src": "531:8:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                       "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                                     }
                                   },
@@ -3696,7 +3696,7 @@
                                       "referencedDeclaration": 899,
                                       "src": "590:5:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     }
@@ -3704,7 +3704,7 @@
                                   "expression": {
                                     "argumentTypes": [
                                       {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     ],
@@ -3717,7 +3717,7 @@
                                       "referencedDeclaration": 892,
                                       "src": "581:2:2",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                        "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                         "typeString": "struct strings.slice memory"
                                       }
                                     },
@@ -3728,10 +3728,10 @@
                                     "lValueRequested": false,
                                     "memberName": "count",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 5038,
+                                    "referencedDeclaration": 5062,
                                     "src": "581:8:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                      "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_uint256_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                       "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (uint256)"
                                     }
                                   },
@@ -3915,7 +3915,7 @@
                                     "referencedDeclaration": 899,
                                     "src": "772:5:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   }
@@ -3923,7 +3923,7 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   ],
@@ -3936,7 +3936,7 @@
                                     "referencedDeclaration": 885,
                                     "src": "763:2:2",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                      "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                       "typeString": "struct strings.slice memory"
                                     }
                                   },
@@ -3947,10 +3947,10 @@
                                   "lValueRequested": false,
                                   "memberName": "split",
                                   "nodeType": "MemberAccess",
-                                  "referencedDeclaration": 4894,
+                                  "referencedDeclaration": 4918,
                                   "src": "763:8:2",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                    "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                     "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (struct strings.slice memory)"
                                   }
                                 },
@@ -3964,7 +3964,7 @@
                                 "nodeType": "FunctionCall",
                                 "src": "763:15:2",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                   "typeString": "struct strings.slice memory"
                                 }
                               },
@@ -3975,10 +3975,10 @@
                               "lValueRequested": false,
                               "memberName": "toString",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 3773,
+                              "referencedDeclaration": 3797,
                               "src": "763:24:2",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                 "typeString": "function (struct strings.slice memory) pure returns (string memory)"
                               }
                             },
@@ -4150,7 +4150,7 @@
                                                 "referencedDeclaration": 899,
                                                 "src": "1052:5:2",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               }
@@ -4158,7 +4158,7 @@
                                             "expression": {
                                               "argumentTypes": [
                                                 {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               ],
@@ -4171,7 +4171,7 @@
                                                 "referencedDeclaration": 892,
                                                 "src": "1043:2:2",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                                   "typeString": "struct strings.slice memory"
                                                 }
                                               },
@@ -4182,10 +4182,10 @@
                                               "lValueRequested": false,
                                               "memberName": "split",
                                               "nodeType": "MemberAccess",
-                                              "referencedDeclaration": 4894,
+                                              "referencedDeclaration": 4918,
                                               "src": "1043:8:2",
                                               "typeDescriptions": {
-                                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$_t_struct$_slice_$3535_memory_ptr_$returns$_t_struct$_slice_$3535_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                                "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$_t_struct$_slice_$3559_memory_ptr_$returns$_t_struct$_slice_$3559_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                                 "typeString": "function (struct strings.slice memory,struct strings.slice memory) pure returns (struct strings.slice memory)"
                                               }
                                             },
@@ -4199,7 +4199,7 @@
                                             "nodeType": "FunctionCall",
                                             "src": "1043:15:2",
                                             "typeDescriptions": {
-                                              "typeIdentifier": "t_struct$_slice_$3535_memory_ptr",
+                                              "typeIdentifier": "t_struct$_slice_$3559_memory_ptr",
                                               "typeString": "struct strings.slice memory"
                                             }
                                           },
@@ -4210,10 +4210,10 @@
                                           "lValueRequested": false,
                                           "memberName": "toString",
                                           "nodeType": "MemberAccess",
-                                          "referencedDeclaration": 3773,
+                                          "referencedDeclaration": 3797,
                                           "src": "1043:24:2",
                                           "typeDescriptions": {
-                                            "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3535_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3535_memory_ptr_$",
+                                            "typeIdentifier": "t_function_internal_pure$_t_struct$_slice_$3559_memory_ptr_$returns$_t_string_memory_ptr_$bound_to$_t_struct$_slice_$3559_memory_ptr_$",
                                             "typeString": "function (struct strings.slice memory) pure returns (string memory)"
                                           }
                                         },
@@ -4947,7 +4947,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5232,
+                        "referencedDeclaration": 5256,
                         "src": "1330:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_sha3_pure$__$returns$_t_bytes32_$",
@@ -4998,7 +4998,7 @@
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5232,
+                        "referencedDeclaration": 5256,
                         "src": "1352:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_sha3_pure$__$returns$_t_bytes32_$",
@@ -5183,5 +5183,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-11-29T19:16:54.234Z"
+  "updatedAt": "2019-12-02T14:47:49.593Z"
 }

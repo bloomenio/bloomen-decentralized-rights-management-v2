@@ -64,17 +64,14 @@ export class ClaimsContract extends Contract {
     // _this.contract.methods.deleteClaim
     public delClaim(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
-        let claimType: boolean;
-        if (claim.claimType === ClaimTypeEnum.MUSICAL_WORK) {
-            claimType = false;
-        } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
-            claimType = true;
-        }
+        const encodeOldData = RLP.encode(claim.oldClaimData);
         console.log('ClaimsContract.delClaim');
         console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
             claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.deleteClaim(claim.claimId, claimType, encodeData).send(this.args);
+            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
+                claim.claimId, encodeOldData, new Date().getTime()
+            ).send(this.args);
         });
     }
 

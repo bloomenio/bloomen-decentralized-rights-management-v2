@@ -23,23 +23,20 @@ contract Lib is Users, Lib2 {
     uint256 claimId;        // 2^48 ~ 100 trillion claims
     NameValue[] claimData;
     bool claimType;
-    uint256 memberOwner;    // 2^24 ~ 16 million membersnpm
+    uint256 memberOwner;    // 2^24 ~ 16 million members
     bool status;
     uint256 lastChange;
+//    bool deleted;
 //    uint48[] log;
 //    uint16 log2;
 //    string[] log3;
   }
 
-  //  uint256 constant private PAGE_SIZE = 10;
-
   mapping (uint256 => Claim) internal claims_;
   mapping (uint256 => uint16) internal maxSplits_;
 
-  uint256 internal claimIdCounter_ = 0;
-  // METHODS
+  uint256 internal claimIdCounter_ = 0; // has the number of claims
 
-  // Public
   function checkClaimStatus(uint256 _claimId, bool _claimType, bytes _claimData, bool newClaim) internal {
 // scenario claimData sto app, multiple variables sto blockchain
 //   change integration tou claimsContracts.ts (eisagwgh sto blockchain) EASY kai opou ginetai exagwgh apo blockchain
@@ -48,15 +45,15 @@ contract Lib is Users, Lib2 {
 //    startDate, endDate: uint
 //    types (useTypes/rightTypes): string[]
 //    rightHolderRoles: string or not
+//    if (newClaim) {
+//      claims_[_claimId].deleted = false;
+//    }
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
     uint16 split = uint16(bytesToUint(itemList[5].toList()[1].toBytes()));
     uint48 startDate = uint48(bytesToUint(itemList[2].toList()[1].toBytes()));
     uint48 endDate = uint48(bytesToUint(itemList[3].toList()[1].toBytes()));
 
-//    claims_[_claimId].log3.push(string(hasOverlap(itemList[1].toList()[1].toBytes())));
-//    claims_[_claimId].log.push(uint48(bytesToUint(string(itemList[2].toList()[1].toBytes()))));
-//    claims_[_claimId].log.push(uint48(bytesToUint(string(itemList[3].toList()[1].toBytes()))));
     maxSplits_[_claimId]=split;
     bool prevStatus = claims_[_claimId].status;
     bool tempMaxSplitOnce = true;

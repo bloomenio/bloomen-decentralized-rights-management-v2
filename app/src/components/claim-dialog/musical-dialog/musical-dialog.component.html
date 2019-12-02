@@ -2,7 +2,7 @@
 <mat-tab-group dynamicHeight="true" class="tabs-wrapper">
     <mat-tab label="{{'claim info' | translate | uppercase}}">
 
-        <form [formGroup]="claimForm" (ngSubmit)="onSubmit()" class="form-wrapper">
+        <form [formGroup]="claimForm" (ngSubmit)="data.toDelete ? onDelete() : onSubmit()"  class="form-wrapper">
 
             <div fxLayout="row">
                 <mat-form-field fxFlex="50">
@@ -213,6 +213,10 @@
                 <button *ngIf="data.isEditable" color="primary" [disabled]="!claimForm.valid || !countries.length"
                         mat-button>
                     {{'SUBMIT' | translate}}
+                </button>
+                <button *ngIf="data.toDelete" color="primary" [disabled]="!claimForm.valid || !countries.length"
+                        mat-button>
+                    DELETE
                 </button>
             </div>
 
