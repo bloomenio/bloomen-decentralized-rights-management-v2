@@ -20,33 +20,28 @@ contract Lib is Users, Lib2 {
 
   struct Claim {
     uint256 creationDate;
-    uint256 claimId;        // 2^48 ~ 100 trillion claims
+    uint256 claimId;        // should be 2^48 ~ 100 trillion claims
     NameValue[] claimData;
     bool claimType;
-    uint256 memberOwner;    // 2^24 ~ 16 million members
+    uint256 memberOwner;    // should be 2^24 ~ 16 million members
     bool status;
     uint256 lastChange;
-//    bool deleted;
-//    uint48[] log;
-//    uint16 log2;
-//    string[] log3;
+//    string[] log;
+    //    uint48[] log;
+    //    uint16 log2;
   }
 
   mapping (uint256 => Claim) internal claims_;
   mapping (uint256 => uint16) internal maxSplits_;
+  uint256 constant internal PAGE_SIZE = 10;
 
-  uint256 internal claimIdCounter_ = 0; // has the number of claims
+  uint256 internal claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones
+//  uint256[] private claimIdIndex;
 
   function checkClaimStatus(uint256 _claimId, bool _claimType, bytes _claimData, bool newClaim) internal {
-// scenario claimData sto app, multiple variables sto blockchain
-//   change integration tou claimsContracts.ts (eisagwgh sto blockchain) EASY kai opou ginetai exagwgh apo blockchain
-//   struct Claim {
-//    countries: string[]
-//    startDate, endDate: uint
-//    types (useTypes/rightTypes): string[]
-//    rightHolderRoles: string or not
+
 //    if (newClaim) {
-//      claims_[_claimId].deleted = false;
+//      claimIdIndex.push(_claimId);
 //    }
     RLPReader.RLPItem memory item = _claimData.toRlpItem();
     RLPReader.RLPItem[] memory itemList = item.toList();  // ((name0, value0), (name, value), (name, value), ...)
@@ -64,8 +59,6 @@ contract Lib is Users, Lib2 {
         && endDate >= uint48(bytesToUint(bytes(claims_[i].claimData[2].value))) // end1 >= start2
         && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
         ){
-//          claims_[i].log.push(uint48(bytesToUint(bytes(claims_[i].claimData[2].value))));
-//          claims_[i].log.push(uint48(bytesToUint(bytes(claims_[i].claimData[3].value))));
           hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // have at least one common useTypes/rightTypes
           if (hasOverlapResult) {
             hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // contain at least one common territory
@@ -119,4 +112,5 @@ contract Lib is Users, Lib2 {
       }
     }
   }
+
 }

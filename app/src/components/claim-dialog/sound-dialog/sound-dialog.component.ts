@@ -67,7 +67,6 @@ export class SoundDialogComponent implements OnInit {
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
         });
 
-
         this.oldISRC = this.data.claim.claimData.ISRC;
         this.oldCountries = (this.data.claim.claimData.countries) ? this.data.claim.claimData.countries.join(',') : [];
         this.oldStartDate = (this.data.claim.claimData.startDate) ? this.data.claim.claimData.startDate.toString() : 0;
@@ -168,8 +167,7 @@ export class SoundDialogComponent implements OnInit {
                 ['title', this.data.claim.claimData.title]
             ],
             claimType: this.data.claim.claimType,
-            memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('rightOwner').value
+            memberOwner: this.claimForm.get('rightHolderName').value
         };
         console.log('SoundDialogComponent.onSubmit');
         console.log(claim);
@@ -177,7 +175,6 @@ export class SoundDialogComponent implements OnInit {
     }
 
     public onDelete() {
-
         const claim: ClaimModel = {
             creationDate: this.data.claim.creationDate,
             claimId: this.data.claim.claimId,
@@ -198,13 +195,12 @@ export class SoundDialogComponent implements OnInit {
                 ['startDate', this.oldStartDate],
                 ['endDate', this.oldEndDate],
                 ['useTypes', this.oldUseTypes.join(',')],
-                ['splitPart', this.oldSplitPart],
+                ['splitPart', '0'],
                 ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
                 ['title', this.oldTitle]
             ],
             claimType: this.data.claim.claimType,
-            memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('rightOwner').value
+            memberOwner: this.claimForm.get('rightHolderName').value
         };
         this.dialogRef.close(claim);
     }

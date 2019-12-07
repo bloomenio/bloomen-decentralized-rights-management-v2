@@ -96,7 +96,7 @@ export class AssetCardComponent implements OnInit {
             isEditable: true
           },
           width: '900px',
-          height: '810px'
+          height: '500px'
         });
         break;
 
@@ -119,7 +119,7 @@ export class AssetCardComponent implements OnInit {
             isEditable: true
           },
           width: '900px',
-          height: '510px'
+          height: '500px'
         });
         break;
 

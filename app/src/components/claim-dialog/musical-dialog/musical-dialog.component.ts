@@ -29,8 +29,16 @@ export class MusicalDialogComponent implements OnInit {
     public affiliations: string[];
     public members: MemberModel[];
 
-    // public messages: object[];
 
+    public oldISWC: any;
+    public oldCountries: string[];
+    public oldStartDate: any;
+    public oldEndDate: any;
+    public oldRightTypes: string[];
+    public oldSplitPart: any;
+    public oldRightHolderRole: any;
+    public oldRightHolderProprietaryID: any;
+    public oldTitle: any;
     public countries: string[];
     public countriesAll: any;
     public filteredCountries: Observable<string[]>;
@@ -58,62 +66,37 @@ export class MusicalDialogComponent implements OnInit {
         this.claimForm = this.fb.group({
 
             rightHolderName: [this.data.claim.memberOwner],
-            // originalPublisherName: [this.data.claim.memberReceptor],
-
             rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
             rightHolderRole: [this.data.claim.claimData.rightHolderRole, [Validators.required]],
-
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
-
-            // affiliationMec: [this.data.claim.claimData.affiliationMec, [Validators.required]],
-            // affiliationPer: [this.data.claim.claimData.affiliationPer, [Validators.required]],
-            // affiliationSynchro: [this.data.claim.claimData.affiliationSynchro, [Validators.required]],,
             countriesAutocomplete: [''],
             countries: [''],
-
-            // mechOwner: [this.data.claim.claimData.mechOwner],
-            // mechCollec: [this.data.claim.claimData.mechCollec],
-            //
-            // perforOwner: [this.data.claim.claimData.perforOwner],
-            // perforCollec: [this.data.claim.claimData.perforCollec],
-            //
-            // syncOwner: [this.data.claim.claimData.syncOwner],
-            // syncCollec: [this.data.claim.claimData.syncCollec],
             splitPart: [this.data.claim.claimData.splitPart, [Validators.required]],
             rightTypes: [this.data.claim.claimData.rightTypes, [Validators.required]]
         });
 
+        this.oldISWC = this.data.claim.claimData.ISWC;
+        this.oldCountries = (this.data.claim.claimData.countries) ? this.data.claim.claimData.countries.join(',') : [];
+        this.oldStartDate = (this.data.claim.claimData.startDate) ? this.data.claim.claimData.startDate.toString() : 0;
+        this.oldEndDate = (this.data.claim.claimData.endDate) ? this.data.claim.claimData.endDate.toString() : 0;
+        this.oldRightTypes = (this.data.claim.claimData.rightTypes) ? this.data.claim.claimData.rightTypes : [];
+        this.oldSplitPart = (this.data.claim.claimData.splitPart) ? this.data.claim.claimData.splitPart.toString() : '';
+        this.oldRightHolderRole = (this.data.claim.claimData.rightHolderRole) ? this.data.claim.claimData.rightHolderRole : '';
+        this.oldRightHolderProprietaryID = (this.data.claim.claimData.rightHolderProprietaryID) ? this.data.claim.claimData.rightHolderProprietaryID : '';
+        this.oldTitle = this.data.claim.claimData.title;
+
         this.claimForm.get('rightHolderName').disable();
 
-        // if (this.data.disableMemberEdit) {
-        //     this.claimForm.get('originalPublisherName').disable();
-        // }
-
         if (!this.data.isEditable) {
-            // this.claimForm.get('originalPublisherName').disable();
 
             this.claimForm.get('rightHolderProprietaryID').disable();
             this.claimForm.get('rightHolderRole').disable();
 
             this.claimForm.get('startDate').disable();
             this.claimForm.get('endDate').disable();
-
-            // this.claimForm.get('affiliationMec').disable();
-            // this.claimForm.get('affiliationPer').disable();
-            // this.claimForm.get('affiliationSynchro').disable();
             this.claimForm.get('rightTypes').disable();
-
             this.claimForm.get('countries').disable();
-
-            // this.claimForm.get('mechOwner').disable();
-            // this.claimForm.get('mechCollec').disable();
-            //
-            // this.claimForm.get('perforOwner').disable();
-            // this.claimForm.get('perforCollec').disable();
-            //
-            // this.claimForm.get('syncOwner').disable();
-            // this.claimForm.get('syncCollec').disable();
             this.claimForm.get('splitPart').disable();
         }
 
@@ -175,14 +158,14 @@ export class MusicalDialogComponent implements OnInit {
             // messageLog: this.data.claim.messageLog,
             oldClaimData: [
                 ['ISWC', this.data.claim.claimData.ISWC],
-                ['countries',  this.data.claim.claimData.countries],
-                ['startDate', this.data.claim.claimData.startDate],
-                ['endDate', this.data.claim.claimData.endDate],
-                ['rightTypes', this.data.claim.claimData.rightTypes],
-                ['splitPart', this.data.claim.claimData.splitPart],
-                ['rightHolderRole', this.data.claim.claimData.rightHolderRole],
-                ['rightHolderProprietaryID', this.data.claim.claimData.rightHolderProprietaryID],
-                ['title', this.data.claim.claimData.title]
+                ['countries',  this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['rightTypes', this.oldRightTypes.join(',')],
+                ['splitPart', this.oldSplitPart],
+                ['rightHolderRole', this.oldRightHolderRole],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
             ],
             claimData: [
                 ['ISWC', this.data.claim.claimData.ISWC],
@@ -194,20 +177,9 @@ export class MusicalDialogComponent implements OnInit {
                 ['rightHolderRole', this.claimForm.get('rightHolderRole').value],
                 ['rightHolderProprietaryID', this.claimForm.get('rightHolderProprietaryID').value],
                 ['title', this.data.claim.claimData.title]
-
-                // ['affiliationMec', this.claimForm.get('affiliationMec').value],
-                // ['affiliationPer', this.claimForm.get('affiliationPer').value],
-                // ['affiliationSynchro', this.claimForm.get('affiliationSynchro').value],
-                // ['mechOwner', this.claimForm.get('mechOwner').value.toString()],
-                // ['mechCollec', this.claimForm.get('mechCollec').value.toString()],
-                // ['perforOwner', this.claimForm.get('perforOwner').value.toString()],
-                // ['perforCollec', this.claimForm.get('perforCollec').value.toString()],
-                // ['syncOwner', this.claimForm.get('syncOwner').value.toString()],
-                // ['syncCollec', this.claimForm.get('syncCollec').value.toString()],
             ],
             claimType: this.data.claim.claimType,
-            memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('originalPublisherName').value
+            memberOwner: this.claimForm.get('rightHolderName').value
         };
         console.log(claim);
         this.dialogRef.close(claim);
@@ -222,29 +194,28 @@ export class MusicalDialogComponent implements OnInit {
             // messageLog: this.data.claim.messageLog,
             oldClaimData: [
                 ['ISWC', this.data.claim.claimData.ISWC],
-                ['countries',  this.data.claim.claimData.countries],
-                ['startDate', this.data.claim.claimData.startDate],
-                ['endDate', this.data.claim.claimData.endDate],
-                ['rightTypes', this.data.claim.claimData.rightTypes],
-                ['splitPart', this.data.claim.claimData.splitPart],
-                ['rightHolderRole', this.data.claim.claimData.rightHolderRole],
-                ['rightHolderProprietaryID', this.data.claim.claimData.rightHolderProprietaryID],
-                ['title', this.data.claim.claimData.title]
+                ['countries',  this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['rightTypes', this.oldRightTypes.join(',')],
+                ['splitPart', this.oldSplitPart],
+                ['rightHolderRole', this.oldRightHolderRole],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
             ],
             claimData: [
                 ['ISWC', this.data.claim.claimData.ISWC],
-                ['countries',  this.data.claim.claimData.countries],
-                ['startDate', this.data.claim.claimData.startDate],
-                ['endDate', this.data.claim.claimData.endDate],
-                ['rightTypes', this.data.claim.claimData.rightTypes],
-                ['splitPart', this.data.claim.claimData.splitPart],
-                ['rightHolderRole', this.data.claim.claimData.rightHolderRole],
-                ['rightHolderProprietaryID', this.data.claim.claimData.rightHolderProprietaryID],
-                ['title', this.data.claim.claimData.title]
+                ['countries',  this.oldCountries],
+                ['startDate', this.oldStartDate],
+                ['endDate', this.oldEndDate],
+                ['rightTypes', this.oldRightTypes.join(',')],
+                ['splitPart', '0'],
+                ['rightHolderRole', this.oldRightHolderRole],
+                ['rightHolderProprietaryID', this.oldRightHolderProprietaryID],
+                ['title', this.oldTitle]
             ],
             claimType: this.data.claim.claimType,
-            memberOwner: this.claimForm.get('rightHolderName').value,
-            // memberReceptor: this.claimForm.get('originalPublisherName').value
+            memberOwner: this.claimForm.get('rightHolderName').value
         };
         this.dialogRef.close(claim);
     }

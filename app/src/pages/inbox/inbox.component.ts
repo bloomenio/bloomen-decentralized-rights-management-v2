@@ -173,6 +173,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     const claimsArray = [];
     const usersArray = [];
 
+    // // to exclude smart contract function getClaim()
     for (let i = 0; i < this.member.claimInbox.length; ++i) {
       const claim = await this.claimsContract.getClaimById(this.member.claimInbox[i]);
       claim.type = INBOX.TYPES.CLAIM;
@@ -185,6 +186,15 @@ export class InboxComponent implements OnInit, OnDestroy {
       // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
     }
+    // const clAr = await this.claimsContract.getClaimsByMemId(0);
+    // console.log(clAr.length);
+    // for (let i = 0; i < clAr.length; i++) {
+    //   if (this.member.claimInbox.includes(clAr[i])) {
+    //     clAr[i].type = INBOX.TYPES.CLAIM;
+    //     claimsArray.push(clAr[i]);
+    //   }
+    // }
+
     if (this.user && this.user.role === ROLES.ADMIN) {
       for (let i = 0; i < this.member.userRequests.length; ++i) {
         const user = await this.userContract.getUserByAddress(this.member.userRequests[i]);

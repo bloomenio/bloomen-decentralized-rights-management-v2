@@ -1,8 +1,8 @@
 <div mat-dialog-title class="dialog-title">Musical Work Claim</div>
-<mat-tab-group dynamicHeight="true" class="tabs-wrapper">
-    <mat-tab label="{{'claim info' | translate | uppercase}}">
+<!--<mat-tab-group dynamicHeight="true" class="tabs-wrapper">-->
+<!--    <mat-tab label="{{'claim info' | translate | uppercase}}">-->
 
-        <form [formGroup]="claimForm" (ngSubmit)="data.toDelete ? onDelete() : onSubmit()"  class="form-wrapper">
+        <form [formGroup]="claimForm" (ngSubmit)="data.toDelete ? onDelete() : onSubmit()" class="form-wrapper">
 
             <div fxLayout="row">
                 <mat-form-field fxFlex="50">
@@ -221,18 +221,5 @@
             </div>
 
         </form>
-    </mat-tab>
-<!--    <mat-tab [disabled]="!data.disableMemberEdit || !messages.length"-->
-<!--             label="{{'claim messages' | translate | uppercase}}">-->
-<!--        <div fxLayout="column" *ngIf="messages.length" class="list-wrapper">-->
-<!--            <mat-list *ngFor="let message of messages">-->
-<!--                <mat-list-item>-->
-<!--                    <img [src]="message?.memberLogo" alt="member logo" width="50px">-->
-<!--                    <h4 mat-line>{{message.message}}</h4>-->
-<!--                    <p mat-line> {{message.time | date}} </p>-->
-<!--                </mat-list-item>-->
-<!--                <mat-divider></mat-divider>-->
-<!--            </mat-list>-->
-<!--        </div>-->
 <!--    </mat-tab>-->
-</mat-tab-group>
+<!--</mat-tab-group>-->

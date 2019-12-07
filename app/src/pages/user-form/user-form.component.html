@@ -1,8 +1,8 @@
 <div class="user-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
     <div class="user-form-box" fxLayout="column" fxLayoutAlign="start center">
         <div class="brand"></div>
-<!--        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between"  (mousemove)="onChange()" (ngSubmit)="onSubmitAutoFill()">-->
-        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between" (ngSubmit)="onSubmit()">
+        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between"  (mouseover)="onChange()" (ngSubmit)="onSubmitAutoFill()">
+<!--        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between" (ngSubmit)="onSubmit()">-->
             <mat-form-field fxFlex="45">
                 <mat-label>{{ 'user_form.label.CMO' | translate }}</mat-label>
                 <mat-select formControlName="cmo" (selectionChange)="onChange()">

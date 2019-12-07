@@ -106,7 +106,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         toDelete: false
                     },
                     width: '900px',
-                    height: '610px'
+                    height: '500px'
                 });
                 break;
             case true:
@@ -119,7 +119,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         toDelete: false
                     },
                     width: '900px',
-                    height: '510px'
+                    height: '500px'
                 });
                 break;
             default:
@@ -150,7 +150,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         toDelete: true
                     },
                     width: '900px',
-                    height: '610px'
+                    height: '500px'
                 });
                 break;
             case true:
@@ -163,7 +163,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         toDelete: true
                     },
                     width: '900px',
-                    height: '510px'
+                    height: '500px'
                 });
                 break;
             default:

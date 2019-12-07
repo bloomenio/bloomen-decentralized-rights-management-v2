@@ -40,10 +40,10 @@ export class ClaimsContract extends Contract {
         }
         console.log('ClaimsContract.addClaim');
         console.log(claim.creationDate, claim.claimData, claimType, claim.memberOwner, true,
-            0, claim.claimData, new Date().getTime());
+            1, claim.claimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType, claim.memberOwner, true,
-                0, encodeOldData, new Date().getTime()
+                1, encodeOldData, new Date().getTime()
             ).send(this.args);
             });
     }
@@ -61,15 +61,20 @@ export class ClaimsContract extends Contract {
         });
     }
 
-    // _this.contract.methods.deleteClaim
     public delClaim(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
         const encodeOldData = RLP.encode(claim.oldClaimData);
+        let claimType: boolean;
+        if (claim.claimType === ClaimTypeEnum.MUSICAL_WORK) {
+            claimType = false;
+        } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
+            claimType = true;
+        }
         console.log('ClaimsContract.delClaim');
         console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
             claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
+            return this.contract.methods.computeClaim(0, encodeData, claimType, claim.memberOwner, false,
                 claim.claimId, encodeOldData, new Date().getTime()
             ).send(this.args);
         });

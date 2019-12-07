@@ -114,6 +114,19 @@ contract Members is SignerRole, Random {
     members_[_memberId].claims.push(_claimId);
   }
 
+  function _removeClaimIdFromMember(uint _memberId, uint _claimId) internal {
+    _rP(_memberId, _claimId);
+  }
+
+  function _rP(uint _memberId, uint _claimId) private {
+    uint claimCount = members_[_memberId].claims.length;
+    if (claimCount > 0) { // require(claimCount > 0, "not enough claims in member");
+      members_[_memberId].claims[_claimId] = members_[_memberId].claims[claimCount-1];
+      members_[_memberId].claims[claimCount-1] = _claimId;
+      members_[_memberId].claims.length--;
+    }
+  }
+
   function _addClaimFromInbox(uint _memberId, uint _claimId) internal {
     members_[_memberId].claimInbox.push(_claimId);
   }
@@ -152,12 +165,4 @@ contract Members is SignerRole, Random {
     members_[_memberId].userRequests.length--;
   }
 
-  function _isClaimIntoReceptorInbox(uint _memberId, uint _claimId) internal view returns(bool) {
-    for(uint256 i = 0; i < members_[_memberId].claimInbox.length; ++i) {
-      if(members_[_memberId].claimInbox[i] == _claimId) {
-        return true;
-      }
-    }
-    return false;
-  }
 }

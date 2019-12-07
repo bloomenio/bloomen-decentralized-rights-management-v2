@@ -10,7 +10,6 @@ contract Lib2 {
   using strings for *;
 
   function hasOverlap(bytes _b1, bytes _b2) internal {
-
     var s1 = string(_b1).toSlice();
     var s2 = string(_b2).toSlice();
     var delim = ",".toSlice();
@@ -35,14 +34,11 @@ contract Lib2 {
         break;
       }
     }
-
   }
 
   function compareHashes(string _parts1, string _parts2) private {
-
     if (keccak256(_parts1) == keccak256(_parts2)) {
       hasOverlapResult = true;
     }
   }
-
 }
