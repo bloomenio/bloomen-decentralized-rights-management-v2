@@ -6,4 +6,5 @@ truffle/package-lock.json
 dist/
 build/
 yarn.lock
-
+node_modules/
+package-lock.json
