@@ -65,8 +65,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
+        // console.log('claims.components.dataSource: ');
+        // console.log(this.dataSource);
+        // console.log('claims.components.dataSource.loadClaims: ');
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
+
     }
 
     public ngAfterViewInit() {
@@ -82,14 +86,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public loadClaimsPage() {
-        if (this.dataSource) {
+        // if (this.dataSource) {
             this.dataSource.loadClaims(
                 '',
                 'asc',
                 this.paginator.pageIndex,
                 this.paginator.pageSize
             );
-        }
+        // }
     }
 
     public clickEdit(element, isEdit) {

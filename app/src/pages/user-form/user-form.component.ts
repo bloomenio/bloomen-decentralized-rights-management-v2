@@ -44,6 +44,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   public member$: Subscription;
   public cmos$: Subscription;
 
+  public autoFill: boolean;
+
   constructor(
     public snackBar: MatSnackBar,
     public router: Router,
@@ -52,19 +54,25 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.userForm = this.fb.group({
-      // firstName: ['', [Validators.required]],  // onSubmit()
-      // lastName: ['', [Validators.required]],
-      // cmo: ['', [Validators.required]],
-      // member: ['', [Validators.required]],
-      // role: ['', [Validators.required]]
+    this.autoFill = false;
+    if (!this.autoFill) {
+      this.userForm = this.fb.group({
+        firstName: ['', [Validators.required]],      // onSubmit()
+        lastName: ['', [Validators.required]],
+        cmo: ['', [Validators.required]],
+        member: ['', [Validators.required]],
+        role: ['', [Validators.required]]
+      });
+    } else {
+      this.userForm = this.fb.group({
+        firstName: [''],                            // onSubmitAutoFill()
+        lastName: [''],
+        cmo: [''],
+        member: [''],
+        role: ['']
+      });
 
-      firstName: [''],                            // onSubmitAutoFill()
-      lastName: [''],
-      cmo: [''],
-      member: [''],
-      role: ['']
-    });
+    }
 
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe((members) => {
       this.members = members;
@@ -83,8 +91,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     of(this.members).pipe(
       map((members) => {
-        // const cmo = this.userForm.get('cmo').value; // onSubmit()
-        const cmo = 'cmo1';                            // onSubmitAutoFill()
+        let cmo = this.userForm.get('cmo').value; // onSubmit()
+        if (this.autoFill) {
+          cmo = 'cmo1';                            // onSubmitAutoFill()
+        }
         if (!cmo) {
           return [];
         } else {

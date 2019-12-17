@@ -18,7 +18,7 @@ import * as fromAppActions from '@stores/application-data/application-data.actio
 import * as fromClaimActions from '@stores/claim/claim.actions';
 
 import { MemberModel } from '@core/models/member.model';
-import { UserContract, ClaimsContract } from '@core/core.module';
+import { UserContract, ClaimsContract, FunctionsContract } from '@core/core.module';
 import { INBOX } from '@core/constants/inbox.constants';
 import { UserModel } from '@core/models/user.model';
 import { ROLES } from '@core/constants/roles.constants';
@@ -56,6 +56,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     public router: Router,
     public claimsContract: ClaimsContract,
+    public functionsContract: FunctionsContract,
     public userContract: UserContract,
     public shellComponent: ShellComponent
   ) { }
@@ -141,6 +142,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public refreshInbox() {
     console.log('Works!');
+    // console.log(this.user);
 
     if (/*this.user &&*/ this.user.role === ROLES.SUPER_USER) {
       this.fillInboxSuperUser();
@@ -173,7 +175,6 @@ export class InboxComponent implements OnInit, OnDestroy {
     const claimsArray = [];
     const usersArray = [];
 
-    // // to exclude smart contract function getClaim()
     for (let i = 0; i < this.member.claimInbox.length; ++i) {
       const claim = await this.claimsContract.getClaimById(this.member.claimInbox[i]);
       claim.type = INBOX.TYPES.CLAIM;
@@ -186,14 +187,6 @@ export class InboxComponent implements OnInit, OnDestroy {
       // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
     }
-    // const clAr = await this.claimsContract.getClaimsByMemId(0);
-    // console.log(clAr.length);
-    // for (let i = 0; i < clAr.length; i++) {
-    //   if (this.member.claimInbox.includes(clAr[i])) {
-    //     clAr[i].type = INBOX.TYPES.CLAIM;
-    //     claimsArray.push(clAr[i]);
-    //   }
-    // }
 
     if (this.user && this.user.role === ROLES.ADMIN) {
       for (let i = 0; i < this.member.userRequests.length; ++i) {

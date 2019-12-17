@@ -47,7 +47,7 @@ export class MusicalDialogComponent implements OnInit {
         ['Adapter', 'Arranger', 'Lyricist', 'Composer', 'Composer Lyricist', 'SubArranger', 'SubAuthor', 'Translator',
          'Income Participant', 'Original Publisher', 'SubPublisher', 'Royalty Administrator'];
 
-    public rightTypesAll: string[] = ['Mechanical', 'Performance', 'Synchronization'];
+    public rightTypesAll: string[] = ['Mechanical', 'Performance', 'Synchronisation'];
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -181,6 +181,7 @@ export class MusicalDialogComponent implements OnInit {
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value
         };
+        console.log('MusicalDialogComponent.onSubmit');
         console.log(claim);
         this.dialogRef.close(claim);
     }

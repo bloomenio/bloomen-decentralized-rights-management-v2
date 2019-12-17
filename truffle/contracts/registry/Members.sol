@@ -1,12 +1,11 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
+import "./SafeMath.sol";
+import "./random.sol";
+import "./Registry.sol";
 
-import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../../node_modules/openzeppelin-solidity/contracts/access/roles/SignerRole.sol";
-import "../utils/random.sol";
-
-contract Members is SignerRole, Random {
+contract Members is Random, Registry {
 
   struct Member { 
     uint256 memberId;
@@ -97,12 +96,12 @@ contract Members is SignerRole, Random {
 
   }
 
-  function _getClaimsIdByMember(uint _memberId) internal view returns(uint[])  {
+  function _getClaimsIdByMember(uint _memberId) public view returns(uint[])  {
     require(members_[_memberId].memberId > 0, "member not exists");
     return members_[_memberId].claims;
   }
 
-  function _getClaimsCountByMember(uint _memberId) internal view returns(uint) {
+  function _getClaimsCountByMember(uint _memberId) public view returns(uint) {
     return members_[_memberId].claims.length;
   }
 
@@ -110,15 +109,15 @@ contract Members is SignerRole, Random {
     members_[_memberId].userRequests.push(msg.sender);
   }
 
-  function _addClaimIdToMemberOwner(uint _memberId, uint _claimId) internal {
+  function _addClaimIdToMemberOwner(uint _memberId, uint _claimId) public {
     members_[_memberId].claims.push(_claimId);
   }
 
-  function _removeClaimIdFromMember(uint _memberId, uint _claimId) internal {
-    _rP(_memberId, _claimId);
-  }
-
-  function _rP(uint _memberId, uint _claimId) private {
+  function _removeClaimIdFromMember(uint _memberId, uint _claimId) public {
+//    _rP(_memberId, _claimId);
+//  }
+//
+//  function _rP(uint _memberId, uint _claimId) private {
     uint claimCount = members_[_memberId].claims.length;
     if (claimCount > 0) { // require(claimCount > 0, "not enough claims in member");
       members_[_memberId].claims[_claimId] = members_[_memberId].claims[claimCount-1];
@@ -127,15 +126,15 @@ contract Members is SignerRole, Random {
     }
   }
 
-  function _addClaimFromInbox(uint _memberId, uint _claimId) internal {
+  function _addClaimFromInbox(uint _memberId, uint _claimId) public {
     members_[_memberId].claimInbox.push(_claimId);
   }
 
-  function _memberExists(uint _memberId) internal view returns(bool) {
+  function _memberExists(uint _memberId) public view returns(bool) {
     return members_[_memberId].memberId > 0;
   }
 
-  function _removeClaimFromInbox(uint _memberId, uint _claimId) internal {
+  function _removeClaimFromInbox(uint _memberId, uint _claimId) public {
     bool found = false;
     // Remove index
     for (uint j = 0; j < members_[_memberId].claimInbox.length - 1; j++) {

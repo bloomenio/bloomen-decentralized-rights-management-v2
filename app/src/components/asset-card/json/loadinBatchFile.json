@@ -1,0 +1,73 @@
+[
+  {
+    "claimType": "MUSICAL_WORK",
+    "claimData": {
+      "ISWC": "T9212781141",
+      "countries": "Afghanistan,Madagascar",
+      "startDate": "1577916000000",
+      "endDate": "1578348000000",
+      "rightTypes": "Performance",
+      "splitPart": "80",
+      "rightHolderRole": "Arranger",
+      "rightHolderProprietaryID": "78910",
+      "title": "WHATEVER IT TAKES"
+    }
+  },
+  {
+    "claimType": "MUSICAL_WORK",
+    "claimData": {
+      "ISWC": "T9212781141",
+      "countries": "Bahamas,Madagascar",
+      "startDate": "1577829600000",
+      "endDate": "1579039200000",
+      "rightTypes": "Performance",
+      "splitPart": "70",
+      "rightHolderRole": "Composer",
+      "rightHolderProprietaryID": "111213",
+      "title": "WHATEVER IT TAKES"
+    }
+  },
+  {
+    "claimType": "SOUND_RECORDING",
+    "claimData": {
+      "ISRC": "ITHZ01301781",
+      "countries": "Bahamas,Madagascar",
+      "startDate": "1572123600000",
+      "endDate": "1572300000000",
+      "useTypes": "Public Performance,Airlines,Radio Broadcasting",
+      "splitPart": "90",
+      "rightHolderProprietaryID": "123456",
+      "title": "SWEET ECSTASY"
+    }
+  },
+  {
+    "claimType": "MUSICAL_WORK",
+    "claimData": {
+      "ISWC": "T9212781141",
+      "countries": "Afghanistan,Madagascar",
+      "startDate": "1573077600000",
+      "endDate": "1576706400000",
+      "rightTypes": "Mechanical",
+      "splitPart": "80",
+      "rightHolderRole": "Arranger",
+      "rightHolderProprietaryID": "78910",
+      "title": "WHATEVER IT TAKES"
+    }
+  },
+  {
+    "claimType": "MUSICAL_WORK",
+    "claimData": {
+      "ISWC": "T9212781141",
+      "countries": "Bahamas,Madagascar",
+      "startDate": "1573077600000",
+      "endDate": "1574978400000",
+      "rightTypes": "Mechanical",
+      "splitPart": "70",
+      "rightHolderRole": "Composer",
+      "rightHolderProprietaryID": "111213",
+      "title": "WHATEVER IT TAKES"
+    }
+  }
+
+
+]

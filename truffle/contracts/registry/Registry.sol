@@ -1,10 +1,10 @@
 pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
-import "./Claims.sol";
+import "./SignerRole.sol";
 
-contract Registry is Claims {
-  
+contract Registry is SignerRole {
+
   string[] private cmos_;
 
   function addCMO(string memory _cmo) onlySigner public {

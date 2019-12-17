@@ -2,9 +2,9 @@ pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
 import "./Members.sol";
+import "./Claims.sol";
 
 contract Users is Members {
-
 
   struct User {
     uint256 creationDate;
@@ -23,7 +23,7 @@ contract Users is Members {
     ACCEPTED
   }
 
-  mapping (address => User) private users_;
+  mapping (address => User) public users_;
   address[] private usersList_;
 
   uint256 constant private PAGE_SIZE = 10;
@@ -165,8 +165,8 @@ contract Users is Members {
     }
   }
 
-  function _memberIdFromCurrentAddress() view internal returns(uint256) {
-    return users_[msg.sender].memberId;
+  function _memberIdFromCurrentAddress(address addr) view public returns(uint256) {
+    return users_[addr].memberId;
   }
 
 }

@@ -7,7 +7,7 @@ var HDWalletProvider = require("truffle-hdwallet-provider");
 var mnemonic = process.env.DEVELOPMENT_MNEMONIC;
 
 var fs = require('fs');
-var contractJSON = JSON.parse(fs.readFileSync('./build/contracts/Registry.json', 'utf8'));
+var contractJSON = JSON.parse(fs.readFileSync('./build/contracts/Users.json', 'utf8'));
 const GAS = 99999999;
 
 const Web3 = require('web3');

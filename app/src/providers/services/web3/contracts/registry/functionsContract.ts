@@ -1,4 +1,4 @@
-import { default as JSON } from '../json/Users.json';
+import { default as JSON } from '../json/Claims.json';
 import { Contract } from '../contract';
 
 // Environment
@@ -8,11 +8,14 @@ import { environment } from '@env/environment';
 import { Logger } from '@services/logger/logger.service';
 import { Web3Service } from '@services/web3/web3.service';
 import { TransactionService } from '@services/web3/transactions/transaction.service';
+import {from} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {ClaimModel} from '@models/claim.model';
 
 const log = new Logger('member.contract');
 
 
-export class RegistryContract extends Contract {
+export class FunctionsContract extends Contract {
 
     constructor(
         public contractAddress: string,
@@ -26,7 +29,4 @@ export class RegistryContract extends Contract {
     public static get ABI() { return JSON.abi; }
     public static get ADDRESS() { return JSON.networks[environment.eth.contractConfig.networkId].address; }
 
-    public getCMOs(): Promise<any> {
-        return this.contract.methods.getCMOs().call(this.args);
-    }
 }

@@ -1,4 +1,4 @@
-import { default as JSON } from '../json/Registry.json';
+import { default as JSON } from '../json/Users.json';
 import { Contract } from '../contract';
 
 // Environment
@@ -72,6 +72,8 @@ export class UserContract extends Contract {
     public getUsersByMember(page: number): Promise<UserModel[]> {
         return new Promise<UserModel[]>((resolve, reject) => {
             this.web3Service.ready(() => {
+                console.log('UserContract');
+                console.log('page: ', page);
                 return from(this.contract.methods.getUsers(page).call(this.args)).pipe(
                     map((users: UserModel[]) => {
                         return users.filter((user: UserModel) => {

@@ -26,7 +26,7 @@ import { RouterStateSerializer } from '@ngrx/router-store';
 
 import { Web3Service } from '@services/web3/web3.service';
 import { TransactionService } from '@services/web3/transactions/transaction.service';
-import { MemberContract, UserContract, ClaimsContract, RegistryContract } from '@services/web3/contracts';
+import { MemberContract, UserContract, ClaimsContract, RegistryContract, FunctionsContract } from '@services/web3/contracts';
 
 import { reducers, metaReducers } from './core.state';
 
@@ -76,6 +76,11 @@ import { reducers, metaReducers } from './core.state';
     {
       provide: RegistryContract,
       useFactory: genericContractFactory(RegistryContract),
+      deps: [Web3Service, TransactionService]
+    },
+    {
+      provide: FunctionsContract,
+      useFactory: genericContractFactory(FunctionsContract),
       deps: [Web3Service, TransactionService]
     },
   ]

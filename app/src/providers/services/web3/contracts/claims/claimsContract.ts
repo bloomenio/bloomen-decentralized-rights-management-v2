@@ -1,4 +1,4 @@
-import {default as JSON} from '../json/Registry.json';
+import {default as JSON} from '../json/Claims.json';
 import {Contract} from '../contract';
 // Environment
 import {environment} from '@env/environment';
@@ -13,7 +13,7 @@ import {map} from 'rxjs/operators';
 import {from} from 'rxjs';
 import ClaimTypeEnum = ClaimModel.ClaimTypeEnum;
 
-const log = new Logger('member.contract');
+const log = new Logger('claims.contract');
 
 export class ClaimsContract extends Contract {
 
@@ -30,6 +30,9 @@ export class ClaimsContract extends Contract {
     public static get ADDRESS() { return JSON.networks[environment.eth.contractConfig.networkId].address; }
 
     public addClaim(claim: ClaimModel): Promise<any> {
+        // console.log('claim.claimData:');
+        // console.log(claim.claimData);
+        // console.log(claim.claimData[0][1]); // compare [1][1], [2][1], [3][1], [4][1] => if some differs then updateClaimId = true.
         const encodeData = RLP.encode(claim.claimData);
         const encodeOldData = RLP.encode(claim.claimData);
         let claimType: boolean;
@@ -43,7 +46,7 @@ export class ClaimsContract extends Contract {
             1, claim.claimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType, claim.memberOwner, true,
-                1, encodeOldData, new Date().getTime()
+                1, encodeOldData, new Date().getTime(), false
             ).send(this.args);
             });
     }
@@ -51,12 +54,19 @@ export class ClaimsContract extends Contract {
     public updateCl(claim: ClaimModel): Promise<any> {
         const encodeData = RLP.encode(claim.claimData);
         const encodeOldData = RLP.encode(claim.oldClaimData);
+        // If date, territories or types changed, then it is a new claim with new claimId.
+        let updateClaimId = false;
+        if (claim.oldClaimData[1][1] !== claim.claimData[1][1] || claim.oldClaimData[2][1] !== claim.claimData[2][1] ||
+            claim.oldClaimData[3][1] !== claim.claimData[3][1] || claim.oldClaimData[4][1] !== claim.claimData[4][1]) {
+            updateClaimId = true;
+        }
+        console.log('updateClaimId: ' + updateClaimId);
         console.log('ClaimsContract.updateCl');
         console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
-            claim.claimId, claim.oldClaimData, new Date().getTime());
+            claim.claimId, claim.oldClaimData, new Date().getTime(), updateClaimId);
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
-                claim.claimId, encodeOldData, new Date().getTime()
+                claim.claimId, encodeOldData, new Date().getTime(), false
             ).send(this.args);
         });
     }
@@ -75,7 +85,7 @@ export class ClaimsContract extends Contract {
             claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(0, encodeData, claimType, claim.memberOwner, false,
-                claim.claimId, encodeOldData, new Date().getTime()
+                claim.claimId, encodeOldData, new Date().getTime(), false   // oldClaimData==claimData
             ).send(this.args);
         });
     }
@@ -124,13 +134,17 @@ export class ClaimsContract extends Contract {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
                 console.log('ClaimsContract.getClaimByMemId');
+                // console.log('page: ' + page);
+                // console.log('this.args.from: ' + this.args.from);
                 return from(this.contract.methods.getClaimsByMemberId(page).call(this.args)).pipe(
                     map((claims: ClaimModel[]) => {
+                        // console.log('ClaimsContract.getClaimByMemId.map1');
                         return claims.filter((claim: ClaimModel) => {
                             return claim.claimId > 0;
                         });
                     }),
                     map((claims) => {
+                        // console.log('ClaimsContract.getClaimByMemId.map2');
                         return claims.map(claim => {
                             const data = {};
                             claim.claimData.forEach(dataItem => {
