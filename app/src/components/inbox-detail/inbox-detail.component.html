@@ -94,50 +94,17 @@
                         <div class="sender-title">Right Types</div>
                         <div class="sender-name" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
                     </div>
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.affiliationMec' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.affiliationMec }}</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.affiliationPer' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.affiliationPer }}</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.affiliationSynchro' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.affiliationSynchro }}</div>-->
-<!--                    </div>-->
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
                         <div class="sender-title">Split</div>
                         <div class="sender-name">{{ message.claimData.splitPart }}%</div>
                     </div>
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.mechCollec' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.mechCollec }}%</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.perforCollec' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.perforCollec }}%</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div fxLayout="column" class="info-wrapper">-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.mechOwner' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.mechOwner }}%</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.perforOwner' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.perforOwner }}%</div>-->
-<!--                    </div>-->
-<!--                    <div fxLayout="column" class="group-wrapper">-->
-<!--                        <div class="sender-title">{{'claimData.syncOwner' | translate}}</div>-->
-<!--                        <div class="sender-name">{{ message.claimData.syncOwner }}% </div>-->
-<!--                    </div>-->
+                </div>
+                <div>
+                    <mat-icon (click)="onUpdate(message)">
+                        edit
+                    </mat-icon>
                 </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-between" class="affiliaton-wrapper">
