@@ -51,8 +51,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         public snackBar: MatSnackBar,
         public router: Router,
         public dialog: MatDialog,
-        private claimsContract: ClaimsContract,
-        private store: Store<any>,
+        public claimsContract: ClaimsContract,
+        public store: Store<any>,
         public inboxComponent: InboxComponent
     ) {
     }
@@ -86,14 +86,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public loadClaimsPage() {
-        // if (this.dataSource) {
+        if (this.dataSource) {    // for when inbox detail call its claimsComponent
             this.dataSource.loadClaims(
                 '',
                 'asc',
                 this.paginator.pageIndex,
                 this.paginator.pageSize
             );
-        // }
+        }
     }
 
     public clickEdit(element, isEdit) {

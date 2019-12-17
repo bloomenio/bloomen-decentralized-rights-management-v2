@@ -16,6 +16,8 @@ import {ClaimsComponent} from '@pages/claims/claims.component';
 import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
 import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
+import {ClaimsDataSource} from "@pages/claims/claims.datasource";
+import * as fromMemberActions from "@stores/member/member.actions";
 
 const log = new Logger('inbox-detail.component');
 
@@ -93,5 +95,10 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   public onUpdate(message) {
     this.claimsComponent.clickEdit(message, true);
+    // this.claimsComponent.dataSource = new ClaimsDataSource(this.claimsComponent.claimsContract); // still useless
+    // this.claimsComponent.dataSource.loadClaims(); // still useless
+    // this.claimsComponent.store.dispatch(new fromMemberActions.InitMember()); // still useless
+    // tslint:disable-next-line:no-life-cycle-call
+    this.inboxComponent.ngOnInit();
   }
 }

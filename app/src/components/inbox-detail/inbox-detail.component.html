@@ -72,8 +72,8 @@
                         <div class="sender-name">{{ message.claimData.rightHolderProprietaryID }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Right Holder Role</div>
-                        <div class="sender-name">{{ message.claimData.rightHolderRole }}</div>
+                        <div class="sender-title">Right Types</div>
+                        <div class="sender-name" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
                     </div>
                 </div>
                 <div fxLayout="column" class="info-wrapper">
@@ -88,8 +88,8 @@
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Right Types</div>
-                        <div class="sender-name" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
+                        <div class="sender-title">Right Holder Role</div>
+                        <div class="sender-name">{{ message.claimData.rightHolderRole }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
                         <div class="sender-title">Territories</div>
