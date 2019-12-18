@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { UserModel } from '@core/models/user.model';
 import { Web3Service } from '@services/web3/web3.service';
 import { APPLICATION_DATA_CONSTANTS } from '@core/constants/application-data.constants';
+import {InboxComponent} from '@pages/inbox/inbox.component';
 
 const log = new Logger('user-data.effects');
 
@@ -26,7 +27,7 @@ export class UserEffects {
         private userContract: UserContract,
         private applicationDatabaseService: ApplicationDataDatabaseService,
         private store: Store<any>,
-        private web3Service: Web3Service
+        private web3Service: Web3Service,
     ) { }
 
     @Effect({ dispatch: false }) public initUser = this.actions$.pipe(

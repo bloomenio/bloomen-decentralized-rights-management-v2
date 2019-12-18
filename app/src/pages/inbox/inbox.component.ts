@@ -36,6 +36,7 @@ const log = new Logger('inbox.component');
 })
 export class InboxComponent implements OnInit, OnDestroy {
 
+  private interval$: Subscription;
   private member$: Subscription;
   // private intervalUser$: Subscription;
   // private intervalSuperUser$: Subscription;
@@ -46,6 +47,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public inbox: any[];
   public message: any;
+  public currentMember: MemberModel;
 
   public lastInboxLengthUsers = 0;
   // public lastInboxLengthClaims = 0;
@@ -62,6 +64,10 @@ export class InboxComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
+
+    this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).subscribe((member) => {
+      this.currentMember = member;
+    });
 
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).pipe(
       skipWhile((member) => !member),
@@ -119,11 +125,16 @@ export class InboxComponent implements OnInit, OnDestroy {
     // this.intervalSuperUser$.unsubscribe();
     // this.intervalUser$.unsubscribe();
     this.user$.unsubscribe();
+    if (this.interval$) {
+      this.interval$.unsubscribe();
+    }
   }
 
   public onAcceptEvent(event) {
     if (this.message.type === INBOX.TYPES.USER) {
       this.store.dispatch(new fromUserActions.AcceptUser(event));
+      // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
+      this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
     } else {
       this.store.dispatch(new fromClaimActions.ChangeState(event));
       if (this.message.type === INBOX.TYPES.CLAIM /* && this.message.memberReceptor === this.message.memberOwner */ ) {
@@ -134,6 +145,8 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public onRejectEvent(event) {
     this.store.dispatch(new fromUserActions.RejectUser(event));
+    // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
+    this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
   }
 
   public onMessageSelected(event) {
@@ -151,7 +164,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async fillInboxSuperUser() {
+  public async fillInboxSuperUser() {
     console.log('this is fillInboxSuperUser');
     const userArray: any[] = await from(this.userContract.getUsersOwner()).pipe(
       map((users) => {
@@ -212,7 +225,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.clearMessage();
   }
 
-  private clearMessage() {
+  public clearMessage() {
     if (this.message) {
       const isDeletedMessageSelected = !this.inbox.find((message) => message.creationDate === this.message.creationDate);
       if (isDeletedMessageSelected) {

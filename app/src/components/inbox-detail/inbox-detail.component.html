@@ -1,4 +1,4 @@
-<mat-card class="inbox-detail-wrapper" fxFill fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.USER">
+<mat-card class="inbox-detail-wrapper" fxFill fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.USER && !currentMember">
     <div fxLayout="row" fxLayoutAlign="space-between start">
         <div fxLayout="column" class="header-wrapper">
             <div class="info-wrapper">
@@ -26,7 +26,7 @@
     <div fxLayout="column">
         <div class="subject">{{ 'inbox_detail.get_Access' | translate }}</div>
         <div class="message">{{ 'inbox_detail.member_Access' | translate }} {{message.role}}</div>
-        <div fxLayout="row" class="button-action"   *ngIf="!currentMember">
+        <div fxLayout="row" class="button-action" *ngIf="!currentMember">
             <button mat-flat-button color="primary" fxLayoutAlign="center center"
                 (click)="onReject()">{{'inbox_detail.reject' | translate | uppercase}}</button>
             <button mat-flat-button fxLayoutAlign="center center"
@@ -149,36 +149,4 @@
             </div>
         </div>
     </div>
-<!--    <div fxLayout="column" *ngIf="message.messageLog.length" class="message-info">-->
-<!--        <div class="title">{{ 'inbox.claim.messages' | translate | uppercase }}</div>-->
-<!--        <mat-list *ngFor="let message of message.messageLog">-->
-<!--            <mat-list-item>-->
-<!--                <img [src]="message?.memberLogo" alt="member logo" width="50px">-->
-<!--                <h4 mat-line>{{message.message}}</h4>-->
-<!--                <p mat-line> {{message.time | date}} </p>-->
-<!--            </mat-list-item>-->
-<!--            <mat-divider></mat-divider>-->
-<!--        </mat-list>-->
-<!--    </div>-->
-<!--    <div class="actions-wrapper">-->
-<!--        <div class="title">{{ 'inbox.claim.actions' | translate | uppercase }}</div>-->
-<!--        <form [formGroup]="messageForm" fxLayout="column" class="form-wrapper" (ngSubmit)="onAccept()">-->
-<!--            <mat-form-field>-->
-<!--                <mat-label>{{'Change state' | translate}}</mat-label>-->
-<!--                <mat-select formControlName="status">-->
-<!--                    <mat-option *ngFor="let status of inboxEnum.STATUS_CLAIM; let i = index" [value]="i">-->
-<!--                        {{status}}-->
-<!--                    </mat-option>-->
-<!--                </mat-select>-->
-<!--            </mat-form-field>-->
-<!--            <mat-form-field>-->
-<!--                <textarea matInput placeholder="Leave a comment" formControlName="message"></textarea>-->
-<!--            </mat-form-field>-->
-<!--            <div fxLayout="row" class="button-action" fxLayoutAlign="end">-->
-<!--                <button mat-flat-button fxLayoutAlign="center center" [disabled]="!messageForm.valid">-->
-<!--                    {{'inbox_detail.send' | translate | uppercase}}-->
-<!--                </button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
 </mat-card>

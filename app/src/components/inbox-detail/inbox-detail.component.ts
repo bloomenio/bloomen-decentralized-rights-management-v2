@@ -69,6 +69,8 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
       status: ['', [Validators.required]],
       message: ['', [Validators.required]]
     });
+    // tslint:disable-next-line:no-life-cycle-call
+    // this.inboxComponent.refreshInbox();
   }
 
   public ngOnDestroy() {
@@ -78,6 +80,7 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
   public onAccept() {
     if (this.message.type === this.inboxEnum.TYPES.USER) {
       this.acceptEvent.emit(this.message.owner);
+      // this.inboxComponent.ngOnInit();
     } else {
       this.acceptEvent.emit({
         claimsId: this.message.claimId,
@@ -95,10 +98,11 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   public onUpdate(message) {
     this.claimsComponent.clickEdit(message, true);
+    // tslint:disable-next-line:no-life-cycle-call
+    this.inboxComponent.ngOnInit();
     // this.claimsComponent.dataSource = new ClaimsDataSource(this.claimsComponent.claimsContract); // still useless
     // this.claimsComponent.dataSource.loadClaims(); // still useless
     // this.claimsComponent.store.dispatch(new fromMemberActions.InitMember()); // still useless
-    // tslint:disable-next-line:no-life-cycle-call
-    this.inboxComponent.ngOnInit();
+    // this.ngOnInit();  // still useless
   }
 }
