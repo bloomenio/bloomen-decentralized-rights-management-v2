@@ -232,7 +232,6 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.message = undefined;
       }
     }
-
     // console.log('synthiki: ' + ((typeof lastInboxLengthClaims).toString() === 'undefined').toString());
     // console.log(typeof lastInboxLengthClaims);
     if ((typeof lastInboxLengthClaims).toString() === 'undefined') {

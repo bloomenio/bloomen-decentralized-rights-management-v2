@@ -7,7 +7,7 @@ import { MatSnackBar, MatPaginator } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
 
-import { Subscription, Observable } from 'rxjs';
+import {Subscription, Observable, pipe} from 'rxjs';
 import { AssetModel } from '@core/models/assets.model';
 import { tap } from 'rxjs/operators';
 
@@ -16,10 +16,12 @@ import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import { MemberModel } from '@core/models/member.model';
-
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+// import { NgxCsvParser } from 'ngx-csv-parser';
+// import { NgxCSVParserError } from 'ngx-csv-parser';
+import * as Papa from 'papaparse';
 
 const log = new Logger('repertoire.component');
-
 
 
 /**
@@ -35,6 +37,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
 
+  public uploadedCSV2JSON: any;
   public assetMock: AssetModel;
   public filter: string;
   public repertoire$: Observable<AssetModel[]>;
@@ -46,10 +49,14 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private page$: Subscription;
 
+  public csvRecords: any[] = [];
+  public header = false;
+
   constructor(
     private store: Store<AssetModel>,
     public snackBar: MatSnackBar,
-    public router: Router
+    public router: Router,
+    public assetCardComponent: AssetCardComponent
   ) { }
 
   public ngOnInit() {
@@ -59,6 +66,13 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     this.members$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe((members) => {
       this.members = members;
     });
+
+    this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
+      {filter: '',
+       pageIndex: 0,
+       pageSize: 300 }));
+    this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
+      {filter: ''}));
   }
 
   public ngAfterViewInit() {
@@ -67,17 +81,17 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe();
   }
 
-  private getAssets() {
-    if (this.filter.length === 0 ) {
-      this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
-    } else {
+  public getAssets() {
+    // if (this.filter.length === 0 ) {
+      // this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
+    // } else {
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
         {filter: this.filter,
          pageIndex: this.paginator.pageIndex,
          pageSize: this.paginator.pageSize }));
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
           {filter: this.filter}));
-    }
+    // }
   }
 
   public applyFilter(filterValue: string) {
@@ -90,4 +104,82 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
   }
 
+  public uploadFile(event) {
+    const file = event.target.files;
+    if (file.length > 0) {
+        console.log(file); // You will see the file
+      // Papaparse
+
+
+      // let formData: FormData = new FormData();
+      // formData.append('file', file, file.name);
+      // console.log('formData');
+      // console.log('formData');
+
+      // Parse the file you want to select for the operation along with the configuration
+      // @ts-ignore
+      // const ngxCsvParser: NgxCsvParser = NgxCsvParser;
+      // ngxCsvParser.parse(file[0], { header: this.header, delimiter: ',' })
+      //       .pipe().subscribe((result: Array<any>) => {
+      //           console.log('Result: \n', result);
+      //           this.csvRecords = result;
+      //       }, (error: NgxCSVParserError) => {
+      //           console.log('Error', error);
+      //       });
+      // this.uploadedCSV2JSON = this.csvRecords;
+
+        const f = new Blob(file, {type: 'text/plain'});
+        const reader = new FileReader();
+        reader.onload = () => {
+            const text = reader.result;
+            console.log('CSV file:\n', (text as string).substring(0, 1000) + '...');
+            // convert text to json here
+            // const results = [];
+            // this.uploadedCSV2JSON = this.csvJSON(text);
+            // Papaparse
+            // const papa = Papa.parse(text);
+            console.log('Papa');
+            // console.log(papa);
+            // this.uploadedCSV2JSON = papa;
+            // console.log('JSON file:\n', this.uploadedCSV2JSON);
+            const papa = Papa.parse(text, {
+                transform: function (value) {
+                    try {
+                        return JSON.parse(value);
+                    } catch (err) {
+                        return value;
+                    }
+                }
+            });
+            console.log('CSV.DATA PAPAPARSE:');
+            console.log(this.csvJSON(papa.data));
+            this.uploadedCSV2JSON = this.csvJSON(papa.data);
+              // tslint:disable-next-line:no-life-cycle-call
+            this.assetCardComponent.ngOnInit();
+            this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON);
+        };
+        reader.readAsText(f);
+    }
+  }
+
+  public csvJSON(csv) {
+      const result = [];
+      const line = csv;
+      const headers = line[0];
+      for (let i = 1; i < line.length; i++) {
+          const obj = {};
+          for (let j = 0; j < headers.length; j++) {
+              const currentline = line[i];
+              // console.log(currentline);
+              if (j === 2 || j === 3) {
+                  obj[headers[j]] = Date.parse(currentline[j]).toString();
+              } else {
+                  obj[headers[j]] = (currentline[j]).toString();
+              }
+          }
+          result.push(obj);
+      }
+      // return result; //JavaScript object
+      return JSON.stringify(result); // JSON
+  }
 }

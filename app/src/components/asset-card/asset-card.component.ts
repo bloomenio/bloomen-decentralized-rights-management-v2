@@ -13,7 +13,7 @@ import {ClaimsContract} from '@core/core.module';
 import {ASSET} from '@core/constants/assets.constants';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {first, skipWhile} from 'rxjs/operators';
+import {first, reduce, skipWhile} from 'rxjs/operators';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import {UserModel} from '@core/models/user.model';
 import ClaimTypeEnum = ClaimModel.ClaimTypeEnum;
@@ -63,7 +63,12 @@ export class AssetCardComponent implements OnInit {
       this.user = user;
     });
 
-    // Load in batch several claims.
+    /* Programmer enables loading in batch several claims by:
+    *   - filling claims as in 'loadinBatchFile.json' and
+    *   - setting below 'const loadInBatch = true'.
+    *  Now, when typing a letter in repertoire search, claims in 'loadinBatchFile.json'
+    *  are submitted on the blockchain one-by-one through 'this.user'.
+    */
     const loadInBatch = false;
     if (loadInBatch) {
       this.loadInBatch().then(); // check below
@@ -151,7 +156,7 @@ export class AssetCardComponent implements OnInit {
     });
   }
 
-  private async loadInBatch() {
+  public async loadInBatch() {
     console.log('this.members[0].memberId: ' + this.members[0].memberId);
     const memberOwner = this.members[0].memberId;
     // const res = await fetch(loadInBatchJSON);
@@ -232,7 +237,118 @@ export class AssetCardComponent implements OnInit {
     }
   }
 
-  public async delay(ms: number) {           // await this.delay(500);
+  public async repertoireBulkUpload(uploadedCSV2JSON: any) {
+    interface MyJSON {
+      ISC: string;
+      countries: string;
+      startDate: Number;
+      endDate: Number;
+      types: string;
+      splitPart: Number;
+      rightHolderRole: string;
+      rightHolderProprietaryID: Number;
+      title: string;
+    }
+    const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
+    // console.log(uploadedCSV2JSON);
+    // console.log('OBJS[1]: ', objs[1]);
+    // console.log('this.members[0].memberId: ' + this.user.memberId);
+    const memberOwner = Number(this.user.memberId);
+    const claimsArray = [];
+    for (const cl of objs) {
+      let c: ClaimModel;
+      // console.log('This is claim with ISC: ' + cl.ISC);
+      switch (cl.rightHolderRole.length) {
+        case 0: {
+          // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
+          c = {
+                creationDate: new Date().getTime(),
+                lastChange: new Date().getTime(),
+                messageLog: [''],
+                claimId: undefined,
+                claimType: ClaimTypeEnum.SOUND_RECORDING,
+                memberOwner: memberOwner,
+                status: ClaimModel.StatusClaimEnum.CONFLICT,
+                oldClaimData: [
+                  ['ISRC', cl.ISC],
+                  ['countries', cl.countries],
+                  ['startDate', cl.startDate],
+                  ['endDate', cl.endDate],
+                  ['useTypes', cl.types],
+                  ['splitPart', cl.splitPart],
+                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                  ['title', cl.title]
+                ],
+                claimData: [
+                  ['ISRC', cl.ISC],
+                  ['countries', cl.countries],
+                  ['startDate', cl.startDate],
+                  ['endDate', cl.endDate],
+                  ['useTypes', cl.types],
+                  ['splitPart', cl.splitPart],
+                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                  ['title', cl.title]
+                ]
+          };
+          break;
+        }
+        default: {
+          // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
+          c = {
+                creationDate: new Date().getTime(),
+                lastChange: new Date().getTime(),
+                messageLog: [''],
+                claimId: undefined,
+                claimType: ClaimTypeEnum.MUSICAL_WORK,
+                memberOwner: memberOwner,
+                status: ClaimModel.StatusClaimEnum.CONFLICT,
+                oldClaimData: [
+                  ['ISWC', cl.ISC],
+                  ['countries', cl.countries],
+                  ['startDate', cl.startDate],
+                  ['endDate', cl.endDate],
+                  ['rightTypes', cl.types],
+                  ['splitPart', cl.splitPart],
+                  ['rightHolderRole', cl.rightHolderRole],
+                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                  ['title', cl.title]
+                ],
+                claimData: [
+                  ['ISWC', cl.ISC],
+                  ['countries', cl.countries],
+                  ['startDate', cl.startDate],
+                  ['endDate', cl.endDate],
+                  ['rightTypes', cl.types],
+                  ['splitPart', cl.splitPart],
+                  ['rightHolderRole', cl.rightHolderRole],
+                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                  ['title', cl.title]
+                ]
+          };
+          break;
+        }
+      }
+      // console.log('PRINT CLAIM: ');
+      // console.log(c.creationDate, c.claimId, c.claimType, c.memberOwner, c.status);
+      // console.log('PRINT CLAIMDATA: ');
+      // console.log(c.claimData);
+      // await this.claimsContract.addClaim(c).then(
+      //     () => {i
+      //       console.log('TX-OK');
+      //     });
+      claimsArray.push(c);
+    }
+    console.log('claimsArray ');
+    console.log(claimsArray);
+    for (let j = 0; j < claimsArray.length; j++) {
+      await this.claimsContract.addClaim(claimsArray[j]).then();
+    }
+  }
+
+  private getClReadyFromJSON(obj: Object) {
+  }
+
+  public async delay(ms: number) {    // await this.delay(500);
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }

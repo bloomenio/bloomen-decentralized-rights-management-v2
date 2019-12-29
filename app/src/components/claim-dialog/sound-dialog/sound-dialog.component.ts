@@ -25,6 +25,7 @@ export class SoundDialogComponent implements OnInit {
 
     public claimForm: FormGroup;
     public members: MemberModel[];
+    private error: any = {isError: false, errorMessage: ''};
 
     public useTypesAll: string[] =
         ['Public Performance', 'Airlines', 'Radio Broadcasting', 'Radio Dubbing', 'TV Broadcasting', 'TV Dubbing', 'Background Music',
@@ -57,15 +58,34 @@ export class SoundDialogComponent implements OnInit {
     public ngOnInit() {
         this.claimForm = this.fb.group({
             rightHolderName: [this.data.claim.memberOwner, [Validators.required]],
-            // rightOwner: [this.data.claim.memberReceptor, [Validators.required]],
             rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
             startDate: [new Date(parseInt(this.data.claim.claimData.startDate, 10)), [Validators.required]],
             endDate: [new Date(parseInt(this.data.claim.claimData.endDate, 10)), [Validators.required]],
+            // compareDates: [this.compareStartEndDates(), Validators.requiredTrue('true')],
             splitPart: [this.data.claim.claimData.splitPart, [Validators.required]],
             countriesAutocomplete: [''],
             countries: [''],
             useTypes: [this.data.claim.claimData.useTypes, [Validators.required]]
         });
+
+        this.compareStartEndDates();
+        // const startDate = this.claimForm.get('startDate');
+        // console.log('startDate');
+        // console.log(startDate.get('Date'));
+        // // const endDate = this.claimForm.get('endDate');
+        // this.claimForm.get('endDate').valueChanges
+        //     .subscribe(endDate => {
+        //         console.log('endDate');
+        //         console.log(endDate);
+        //         if (endDate < startDate) {
+        //             this.claimForm.get('endDate').setValue(startDate);
+        //             console.log('MPHKE');
+        //         }
+        //         console.log('startDate.updateValueAndValidity()');
+        //         startDate.updateValueAndValidity();
+        //         // endDate.updateValueAndValidity();
+        //     }
+        // );
 
         this.oldISRC = this.data.claim.claimData.ISRC;
         this.oldCountries = (this.data.claim.claimData.countries) ? this.data.claim.claimData.countries.join(',') : [];
@@ -104,6 +124,14 @@ export class SoundDialogComponent implements OnInit {
             startWith(null),
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
+    }
+
+    private compareStartEndDates()  {
+        console.log('startDate');
+        console.log(this.claimForm.get('startDate').value);
+        console.log('endDate');
+        console.log(this.claimForm.get('endDate').value);
+        return true;
     }
 
     public add(event: MatChipInputEvent) {

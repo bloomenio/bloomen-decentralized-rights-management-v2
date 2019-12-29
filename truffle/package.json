@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nps",
-    "install": "napa Arachnid/solidity-stringutils"
+    "installUtils": "napa Arachnid/solidity-stringutils"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "web3": "1.0.0-beta.36"
   },
   "devDependencies": {
+    "csv-parser": "^2.3.2",
     "ganache-cli": "6.1.8",
     "napa": "^3.0.0",
     "nps": "^5.9.3"

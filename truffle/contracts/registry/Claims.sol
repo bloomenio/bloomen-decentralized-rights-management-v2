@@ -38,7 +38,7 @@ contract Claims {
   uint256 constant private PAGE_SIZE = 10;
 
   uint256 private claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones
-  //  uint256[] private claimIdIndex;
+  //   uint256[] private claimIdIndex;
   bool private hasOverlapResult;
   using strings for *;
 
@@ -75,6 +75,7 @@ contract Claims {
   function getClaim(uint256 _claimId) view public returns (Claim) {
     return claims_[_claimId];
   }
+
 
   function getClaimsByMemberId(uint _page) view public returns (Claim[] memory) {
 
@@ -180,12 +181,12 @@ contract Claims {
         && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
         ){
           if (newClaim) {
-            claims_[2].log.push('CHECK STATUS TRUE');
+            // claims_[2].log.push('CHECK STATUS TRUE');
           } else {
-            claims_[2].log.push('CHECK STATUS FALSE');
+            // claims_[2].log.push('CHECK STATUS FALSE');
           }
-          claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
-          claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
+          // claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
+          // claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
           hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // useTypes/rightTypes: have at least one common
           if (hasOverlapResult) {
             hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common

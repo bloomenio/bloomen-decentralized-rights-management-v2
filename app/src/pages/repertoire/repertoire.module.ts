@@ -9,6 +9,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from '@app/material.module';
 import { RepertoireRoutingModule } from './repertoire-routing.module';
 import { ShellModule } from '@shell/shell.module';
+// import { NgxCsvParserModule } from 'ngx-csv-parser';
 
 // Inbox
 import { RepertoireComponent } from './repertoire.component';
@@ -19,6 +20,7 @@ import { UserProfileShellModule } from '@components/user-profile-shell/user-prof
 
 // Components
 import { AssetCardModule } from '@components/asset-card/asset-card.module';
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 
 /**
  * Module to import and export all the components for the home page.
@@ -35,7 +37,9 @@ import { AssetCardModule } from '@components/asset-card/asset-card.module';
     ShellModule,
     UserProfileShellModule,
     AssetCardModule
+    // NgxCsvParserModule
   ],
-  declarations: [RepertoireComponent]
+  declarations: [RepertoireComponent],
+  providers: [AssetCardComponent]
 })
 export class RepertoireModule { }

@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.autoFill = false;
+    this.autoFill = true;
     if (!this.autoFill) {
       this.userForm = this.fb.group({
         firstName: ['', [Validators.required]],      // onSubmit()

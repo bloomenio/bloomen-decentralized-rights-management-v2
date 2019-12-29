@@ -69,8 +69,6 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
       status: ['', [Validators.required]],
       message: ['', [Validators.required]]
     });
-    // tslint:disable-next-line:no-life-cycle-call
-    // this.inboxComponent.refreshInbox();
   }
 
   public ngOnDestroy() {

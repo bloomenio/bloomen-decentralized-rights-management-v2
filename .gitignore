@@ -1,7 +1,7 @@
 .idea/
-app/node_modules/
 api/api/package-lock.json
 app/package-lock.json
+app/claims.csv
 truffle/package-lock.json
 dist/
 build/

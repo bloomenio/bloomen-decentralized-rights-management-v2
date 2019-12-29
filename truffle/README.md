@@ -10,10 +10,7 @@
  cp .env.example .env && vi .env
  ```
 
-2. Install dependencies :
- ```sh
- npm install
- ```
+2. Dependencies are already downloaded. 
 
 3. Launch development task in order to deploy on blockchain (ethereum) new version of contracts:
  ```sh

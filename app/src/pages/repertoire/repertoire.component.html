@@ -1,9 +1,10 @@
 <div class="repertoire-wrapper">
+	<input id="file-field" name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
     <blo-repertoire-search (filter)="applyFilter($event)"></blo-repertoire-search>
     <div fxLayout="column">
         <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
     </div>
-    <mat-paginator [length]="repertoireCount$ | async" [pageSize]="3" [pageSizeOptions]="[3,6,9]"
+    <mat-paginator [length]="repertoireCount$ | async" [pageSize]="300" [pageSizeOptions]="[300,600,900]"
         [ngClass]="{ 'hide': !(repertoireCount$ | async) }">
     </mat-paginator>
 </div>
