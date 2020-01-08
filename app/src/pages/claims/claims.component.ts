@@ -1,6 +1,5 @@
 // Basic
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-
 import { MatSnackBar, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
@@ -8,21 +7,18 @@ import { ClaimsDataSource } from './claims.datasource';
 import { tap } from 'rxjs/operators';
 import { MusicalDialogComponent } from '@components/claim-dialog/musical-dialog/musical-dialog.component';
 import { SoundDialogComponent } from '@components/claim-dialog/sound-dialog/sound-dialog.component';
-
 import { Store } from '@ngrx/store';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import { MemberModel } from '@core/models/member.model';
-import { Subscription } from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
-import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
 import * as fromMemberActions from '@stores/member/member.actions';
+import {ShellComponent} from '@shell/shell.component';
+import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 
-
-const log = new Logger('claims.component');
-
-
+const log = new Logger('claims.component')
 
 /**
  * Claims page
@@ -34,6 +30,7 @@ const log = new Logger('claims.component');
 })
 export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    public newMessagesInterval$: any;
     public displayedColumns: string[];
     public dataSource: ClaimsDataSource;
     public usersPageNumber: number;
@@ -53,7 +50,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         public dialog: MatDialog,
         public claimsContract: ClaimsContract,
         public store: Store<any>,
-        public inboxComponent: InboxComponent
+        public inboxComponent: InboxComponent,
+        public shellComponent: ShellComponent
     ) {
     }
 
@@ -65,11 +63,30 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
-        // console.log('claims.components.dataSource: ');
-        // console.log(this.dataSource);
-        // console.log('claims.components.dataSource.loadClaims: ');
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
+
+        this.newMessagesInterval$ = interval(5000).subscribe(() => {
+            // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+            // tslint:disable-next-line:no-life-cycle-call
+            this.inboxComponent.ngOnInit();
+            if (!this.shellComponent.newMessagesGet()) {
+                this.inboxComponent.checkNewMessages();
+            }
+            // tslint:disable-next-line:no-life-cycle-call
+            this.shellComponent.ngOnInit();
+        });
+
+        // console.log('claims.components.dataSource.loadClaims: ');
+        // console.log(this.dataSource);
+        // console.log('claims.components.dataSource: ');
+
+        // this.router.navigateByUrl('/inbox', { skipLocationChange: true }).then(() => {
+        //     console.log('NAVIGATE BY URL!');
+        // });
+        // this.router.navigateByUrl('/claims').then( () => {
+        //     console.log('NAVIGATE BY URL!');
+        // });
 
     }
 
@@ -94,6 +111,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.paginator.pageSize
             );
         }
+        // if (this.shellComponent.newMessagesGet()) {
+        //     console.log('You have new CONFLICT messages.');
+        // }
     }
 
     public clickEdit(element, isEdit) {
@@ -186,5 +206,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnDestroy() {
         this.members$.unsubscribe();
+        if (this.newMessagesInterval$) {
+            this.newMessagesInterval$.unsubscribe();
+        }
     }
 }

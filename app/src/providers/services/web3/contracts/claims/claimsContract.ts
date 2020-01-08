@@ -108,7 +108,7 @@ export class ClaimsContract extends Contract {
     }
 
     public getClaimById(claimId: string): Promise<any> {
-        console.log('ClaimsContract.getClaimById');
+        // console.log('ClaimsContract.getClaimById');
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
                 return from(this.contract.methods.getClaim(claimId).call(this.args)).pipe(
@@ -122,7 +122,7 @@ export class ClaimsContract extends Contract {
                             }
                         });
                         claim.claimData = data;
-                        console.log(claim);
+                        // console.log(claim);
                         return claim;
                     })
                 ).toPromise().then(resolve, reject);

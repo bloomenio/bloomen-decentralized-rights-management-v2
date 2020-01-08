@@ -61,4 +61,12 @@
     align-items: center;
     justify-content: center;
   }
+
+  .sup {
+    vertical-align: super;
+    font-size: smaller;
+    font-weight: bold;
+    color: #fa3e3e;
+    font-style: italic;
+  }
 }

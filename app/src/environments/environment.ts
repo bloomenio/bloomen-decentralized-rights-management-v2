@@ -16,7 +16,7 @@ export const environment = {
   eth: {
     httpUser: 'bloomen',
     httpPassword: '12345',
-    ethRpcUrl: 'https://0x.bloomen.io/rpc/telsius/kiki',
+    ethRpcUrl: 'https://0x.bloomen.io/rpc/telsius/iccsclaimtruffle',
     ethBlockPollingTime: 4000,
     transactionStatusPollingTime: 1000,
     transactionCallDelayTime: 2000,

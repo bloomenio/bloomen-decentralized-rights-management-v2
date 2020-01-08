@@ -11,7 +11,6 @@ export class AssetsApiService {
         private httpClient: HttpClient
     ) { }
 
-
     public getAssets(filter: string, pageIndex: number, pageSize: number): Observable<AssetModel[]> {
 
         const params = new HttpParams()

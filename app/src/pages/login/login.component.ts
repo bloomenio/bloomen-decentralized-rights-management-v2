@@ -1,6 +1,5 @@
 // Basic
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { MatSnackBar } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
@@ -11,7 +10,6 @@ import { MnemonicModel } from '@core/models/mnemonic.model';
 import { THEMES } from '@core/constants/themes.constants';
 
 const log = new Logger('login.component');
-
 
 /**
  * Login page

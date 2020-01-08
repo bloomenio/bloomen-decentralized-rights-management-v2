@@ -1,30 +1,26 @@
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-
 import * as fromSelectors from '@stores/application-data/application-data.selectors';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
-
-
 import { ApplicationDataStateModel } from '@core/models/application-data-state.model';
 import { BloButtonsHostDirective } from '@directives/shell-dapp-options.directive';
 import { BloBackButtonHostDirective } from '@directives/shell-back-button.directive';
-
 import { BackButtonShellComponent } from '@components/back-button-shell/back-button-shell.component';
-
 import { Router, NavigationEnd, ActivatedRoute, Route } from '@angular/router';
 import { filter, map, mergeMap, skipWhile, first, delay } from 'rxjs/operators';
 import { Logger } from '@services/logger/logger.service';
-
 import { ObservableMedia } from '@angular/flex-layout';
 import { ROLES } from '@core/constants/roles.constants';
 import { MatDialog } from '@angular/material';
 import { AddMemberDialogComponent } from '@components/add-member-dialog/add-member-dialog.component';
 import { UserModel } from '@core/models/user.model';
-import { Subscription } from 'rxjs';
+import {interval, Subscription} from 'rxjs';
+// import {newMessages} from '@pages/inbox/inbox.component';
 // import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
+
+export let newMessagesE: boolean;
 
 const log = new Logger('blo-shell');
 
@@ -35,7 +31,8 @@ const log = new Logger('blo-shell');
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
-  public newMessages = false;
+  public newMessagesInterval$: any;
+  // public newMessages = false;
   public imgToolbar: string;
   public backgroundImage: string;
   public powered: boolean;
@@ -62,6 +59,15 @@ export class ShellComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog
   ) {
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
+    // this.newMessagesInterval$ = this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     // Trick the Router into believing it's last link wasn't previously loaded
+    //     this.router.navigated = false;
+    //   }
+    // });
   }
 
   public ngOnInit() {
@@ -118,16 +124,36 @@ export class ShellComponent implements OnInit, OnDestroy {
       this.loadAuxiliarOptions(event);
       this.loadBackButton(event);
     });
+    // this.newMessagesInterval$ = interval(5000).subscribe(() => {    });
+    // if (this.newMessages) {
+    //   newMessagesE = true;
+    console.log('SHELL COMPONENT says newMessagesE: ', newMessagesE);
+    // } else {
+    //   newMessagesE = false;
+      // console.log('SHELL COMPONENT says \'You have NO NEW messages.\', newMessagesE: ', newMessagesE);
+    // }
   }
 
-  public newMessagesSetter() {
-    this.newMessages = false;
+  public newMessagesGet() {
+    return newMessagesE;
+  }
+
+  public newMessagesSetTrue() {
+    newMessagesE = true;
+  }
+
+  public newMessagesSetFalse() {
+    newMessagesE = false;
+    // this.newMessages = false;
   }
 
   public ngOnDestroy() {
     this.theme$.unsubscribe();
     this.user$.unsubscribe();
     this.member$.unsubscribe();
+    if (this.newMessagesInterval$) {
+      this.newMessagesInterval$.unsubscribe();
+    }
   }
 
   private findChildRoute(route): Route {

@@ -7,7 +7,7 @@ import { MatSnackBar, MatPaginator } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
 
-import {Subscription, Observable, pipe} from 'rxjs';
+import {Subscription, Observable, pipe, interval} from 'rxjs';
 import { AssetModel } from '@core/models/assets.model';
 import { tap } from 'rxjs/operators';
 
@@ -20,6 +20,8 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 // import { NgxCsvParser } from 'ngx-csv-parser';
 // import { NgxCSVParserError } from 'ngx-csv-parser';
 import * as Papa from 'papaparse';
+import {ShellComponent} from '@shell/shell.component';
+import {InboxComponent} from '@pages/inbox/inbox.component';
 
 const log = new Logger('repertoire.component');
 
@@ -37,6 +39,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
 
+  public newMessagesInterval$: any;
   public uploadedCSV2JSON: any;
   public assetMock: AssetModel;
   public filter: string;
@@ -56,7 +59,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store<AssetModel>,
     public snackBar: MatSnackBar,
     public router: Router,
-    public assetCardComponent: AssetCardComponent
+    public assetCardComponent: AssetCardComponent,
+    public inboxComponent: InboxComponent,
+    public shellComponent: ShellComponent
   ) { }
 
   public ngOnInit() {
@@ -73,6 +78,18 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
        pageSize: 300 }));
     this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
       {filter: ''}));
+
+
+    this.newMessagesInterval$ = interval(5000).subscribe(() => {
+      // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+      // tslint:disable-next-line:no-life-cycle-call
+      this.inboxComponent.ngOnInit();
+      if (!this.shellComponent.newMessagesGet()) {
+          this.inboxComponent.checkNewMessages();
+      }
+      // tslint:disable-next-line:no-life-cycle-call
+      this.shellComponent.ngOnInit();
+    });
   }
 
   public ngAfterViewInit() {
@@ -102,6 +119,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
   public ngOnDestroy() {
     this.page$.unsubscribe();
     this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
+    if (this.newMessagesInterval$) {
+      this.newMessagesInterval$.unsubscribe();
+    }
   }
 
   public uploadFile(event) {

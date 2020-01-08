@@ -10,7 +10,9 @@ import { MemberContract } from '@core/core.module';
 import { Store } from '@ngrx/store';
 
 import * as fromMemberSelector from '@stores/member/member.selectors';
-import { Subscription } from 'rxjs';
+import {interval, Subscription} from 'rxjs';
+import {InboxComponent} from "@pages/inbox/inbox.component";
+import {ShellComponent} from "@shell/shell.component";
 
 const log = new Logger('company-management.component');
 
@@ -24,6 +26,7 @@ const log = new Logger('company-management.component');
 })
 export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public newMessagesInterval$: any;
   public displayedColumns: string[];
   public dataSource: MemberManagementDataSource;
 
@@ -39,7 +42,9 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     public snackBar: MatSnackBar,
     public router: Router,
     private memberContract: MemberContract,
-    private store: Store<any>
+    private store: Store<any>,
+    public inboxComponent: InboxComponent,
+    public shellComponent: ShellComponent
   ) { }
 
   public ngOnInit() {
@@ -50,6 +55,17 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
       skipWhile((members) => !members)
     ).subscribe(() => {
       this.dataSource.loadCompanies();
+    });
+
+    this.newMessagesInterval$ = interval(5000).subscribe(() => {
+      // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+      // tslint:disable-next-line:no-life-cycle-call
+      this.inboxComponent.ngOnInit();
+      if (!this.shellComponent.newMessagesGet()) {
+        this.inboxComponent.checkNewMessages();
+      }
+      // tslint:disable-next-line:no-life-cycle-call
+      this.shellComponent.ngOnInit();
     });
   }
 
@@ -81,5 +97,8 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
 
   public ngOnDestroy() {
     this.member$.unsubscribe();
+    if (this.newMessagesInterval$) {
+      this.newMessagesInterval$.unsubscribe();
+    }
   }
 }

@@ -9,13 +9,15 @@
         <img *ngIf="powered" class="icon-powered" src="./assets/img_by_bloomen.png" />
       </div>
       <mat-list>
-        <mat-list-item routerLink="/inbox" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+        <mat-list-item routerLink="/inbox" routerLinkActive="active" (click)="newMessagesSetFalse() && isMobile && sidenav.close()" *ngIf="!newMessagesGet()">
           <div class="icon-bar ic-inbox"></div>
           <span class="text-bar" translate>Inbox</span>
-          <!--          <div *ngIf="!newMessages" id="noNewMessages" class="icon-bar ic-inbox"></div>-->
-          <!--          <div *ngIf="newMessages"  id="newMessages1"  class="icon-bar ic-inbox-new-message"></div>-->
-          <!--          refresh part of page is the key: ShellComponent.newMessages doen't have enough time to change its value when executing lines 12 and 13,14 (which have *ngIf)-->
-          <!--          <span class="text-bar" translate>Inbox <sup id="newMessages2" class="sup" *ngIf="newMessages">New!</sup></span>-->
+        </mat-list-item>
+        <mat-list-item routerLink="/inbox" routerLinkActive="active" (click)="newMessagesSetFalse() && isMobile && sidenav.close()" *ngIf="newMessagesGet()">
+<!--          <div *ngIf="!newMessages" id="noNewMessages" class="icon-bar ic-inbox"></div>-->
+<!--          refresh part of page is the key: ShellComponent.newMessages doesn't have enough time to change its value when executing lines 12 and 13,14 (which have *ngIf)-->
+          <div class="icon-bar ic-inbox-new-message"></div>
+          <span class="text-bar" translate>Inbox <sup class="sup">New!</sup></span>
         </mat-list-item>
         <mat-list-item routerLink="/repertoire" routerLinkActive="active" (click)="isMobile && sidenav.close()"
           *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">
@@ -64,9 +66,9 @@
         </div>
       </mat-toolbar>
       <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-        {{title}}
+        {{ title }}
         <div *ngIf="currentPageRoute === 'Member management'">
-          <button mat-button (click)="openDialogAddMember()">{{'Add member' | translate | uppercase}}</button>
+          <button mat-button (click)="openDialogAddMember()">{{ 'Add member' | translate | uppercase }}</button>
         </div>
 <!--        <div class="add-claim">-->
 <!--          <button mat-button (click)="openDialogAddClaim()">{{'Add claim' | translate | uppercase}}</button>-->

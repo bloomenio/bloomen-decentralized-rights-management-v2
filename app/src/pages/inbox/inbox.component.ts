@@ -1,6 +1,5 @@
 // Basic
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { MatSnackBar } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
@@ -8,15 +7,12 @@ import { Subscription, interval, from } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { skipWhile, takeWhile, map, switchMap, first } from 'rxjs/operators';
 import { THEMES } from '@core/constants/themes.constants';
-// import {lastInboxLengthClaims} from 'typings.d';
-
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import * as fromUserActions from '@stores/user/user.actions';
 import * as fromMemberActions from '@stores/member/member.actions';
 import * as fromAppActions from '@stores/application-data/application-data.actions';
 import * as fromClaimActions from '@stores/claim/claim.actions';
-
 import { MemberModel } from '@core/models/member.model';
 import { UserContract, ClaimsContract, FunctionsContract } from '@core/core.module';
 import { INBOX } from '@core/constants/inbox.constants';
@@ -25,6 +21,7 @@ import { ROLES } from '@core/constants/roles.constants';
 import {ShellComponent} from '@shell/shell.component';
 // import {getType} from '@angular/flex-layout/typings/extended/style/style-transforms';
 // import {type} from "os";
+
 export let lastInboxLengthClaims: number;
 
 const log = new Logger('inbox.component');
@@ -50,7 +47,6 @@ export class InboxComponent implements OnInit, OnDestroy {
   public currentMember: MemberModel;
 
   public lastInboxLengthUsers = 0;
-  // public lastInboxLengthClaims = 0;
   public lastInboxLengthUserRequests = 0;
 
   constructor(
@@ -92,7 +88,9 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.refreshInbox();
+    // this.refreshInbox();
+
+    this.interval$ = interval(5000).subscribe(() => {this.refreshInbox();});
 
     // console.log('Refreshed Inbox');
     // if (this.user.role === ROLES.SUPER_USER) {
@@ -134,7 +132,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     if (this.message.type === INBOX.TYPES.USER) {
       this.store.dispatch(new fromUserActions.AcceptUser(event));
       // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
-      this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
+      // this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
     } else {
       this.store.dispatch(new fromClaimActions.ChangeState(event));
       if (this.message.type === INBOX.TYPES.CLAIM /* && this.message.memberReceptor === this.message.memberOwner */ ) {
@@ -146,7 +144,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   public onRejectEvent(event) {
     this.store.dispatch(new fromUserActions.RejectUser(event));
     // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
-    this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
+    // this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
   }
 
   public onMessageSelected(event) {
@@ -196,6 +194,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       // claim.messageLog.forEach(element => {
       //   messages.push(JSON.parse(element));
       // });
+
       // claim.messageLog = messages;
       // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
@@ -232,20 +231,25 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.message = undefined;
       }
     }
-    // console.log('synthiki: ' + ((typeof lastInboxLengthClaims).toString() === 'undefined').toString());
+    this.checkNewMessages();
+  }
+
+  public checkNewMessages() {
+
     // console.log(typeof lastInboxLengthClaims);
     if ((typeof lastInboxLengthClaims).toString() === 'undefined') {
-      console.log('lastInboxLengthClaims typeof: ' + typeof lastInboxLengthClaims);
+      // console.log('lastInboxLengthClaims typeof: ' + typeof lastInboxLengthClaims);
       lastInboxLengthClaims = 0;
-      console.log('lastInboxLengthClaims  value: ' + lastInboxLengthClaims);
+      // console.log('lastInboxLengthClaims  value: ' + lastInboxLengthClaims);
     }
     if (this.member && this.member.claimInbox) {
-      console.log('this.member.claimInbox.length is ' + this.member.claimInbox.length);
-      console.log('this.lastInboxLengthClaims    is ' + lastInboxLengthClaims);
+      // console.log('this.member.claimInbox.length is ' + this.member.claimInbox.length);
+      // console.log('this.lastInboxLengthClaims    is ' + lastInboxLengthClaims);
       if (this.member.claimInbox.length !== lastInboxLengthClaims) {
         if (this.member.claimInbox.length > lastInboxLengthClaims) {
           console.log('You have new CONFLICT messages.');
-          this.shellComponent.newMessages = true;
+          // this.shellComponent.newMessages = true;
+          this.shellComponent.newMessagesSetTrue();
         }
         lastInboxLengthClaims = this.member.claimInbox.length;
       }

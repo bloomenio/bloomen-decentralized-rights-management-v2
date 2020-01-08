@@ -16,8 +16,10 @@ import * as fromMemberSelector from '@stores/member/member.selectors';
 import * as fromUserActions from '@stores/user/user.actions';
 
 
-import { Subscription } from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 import { MemberModel } from '@core/models/member.model.js';
+import {InboxComponent} from "@pages/inbox/inbox.component";
+import {ShellComponent} from "@shell/shell.component";
 
 const log = new Logger('user-management.component');
 
@@ -32,6 +34,7 @@ const log = new Logger('user-management.component');
 })
 export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public newMessagesInterval$: any;
   public displayedColumns: string[];
   public dataSource: UserManagementDataSource;
 
@@ -50,7 +53,9 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
     public router: Router,
     public dialog: MatDialog,
     private userContract: UserContract,
-    private store: Store<any>
+    private store: Store<any>,
+    public inboxComponent: InboxComponent,
+    public shellComponent: ShellComponent
   ) { }
 
   public ngOnInit() {
@@ -65,6 +70,17 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.member$ = this.store.select(fromMemberSelector.getCurrentMember).subscribe((member) => {
       this.member = member;
+    });
+
+    this.newMessagesInterval$ = interval(5000).subscribe(() => {
+      // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+      // tslint:disable-next-line:no-life-cycle-call
+      this.inboxComponent.ngOnInit();
+      if (!this.shellComponent.newMessagesGet()) {
+        this.inboxComponent.checkNewMessages();
+      }
+      // tslint:disable-next-line:no-life-cycle-call
+      this.shellComponent.ngOnInit();
     });
   }
 
@@ -104,6 +120,9 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
   public ngOnDestroy() {
     this.user$.unsubscribe();
     this.member$.unsubscribe();
+    if (this.newMessagesInterval$) {
+      this.newMessagesInterval$.unsubscribe();
+    }
   }
 
 }
