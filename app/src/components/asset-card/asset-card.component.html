@@ -10,21 +10,21 @@
 
             <mat-panel-description>
                 <div fxFlex fxLayout="column">
-                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.type === 'Sound Recording'">
+                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.ISRC || asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
                             <div>{{ asset.ISRC }}</div>
                         </div>
                         <mat-icon>speaker</mat-icon>
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.type === 'Musical Work'">
+                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.ISWC || asset.type === 'Musical Work'">
                         <div class="sections-container" *ngIf="asset.ISWC">
                             <div class="data-section-title">{{ 'repertoire.ISWC' | translate }}</div>
                             <div>{{ asset.ISWC }}</div>
                         </div>
                         <mat-icon>headset</mat-icon>
                     </div>
-                    <div fxFlex fxLayout="row" *ngIf="asset.type === 'Sound Recording'">
+                    <div fxFlex fxLayout="row" *ngIf="asset.ISRC || asset.type === 'Sound Recording'">
                         <div fxFlex fxLayout="column">
                             <div class="sections-container" *ngIf="asset.mainArtist">
                                 <div class="data-section-title">{{ 'repertoire.mainArtist' | translate | uppercase }}</div>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div fxFlex fxLayout="row" *ngIf="asset.type === 'Musical Work'">
+                    <div fxFlex fxLayout="row" *ngIf="asset.ISWC || asset.type === 'Musical Work'">
                         <div fxFlex fxLayout="column">
                             <div class="sections-container" *ngIf="asset.originalTitle">
                                 <div class="data-section-title">{{ 'repertoire.originalTitle' | translate }}</div>
@@ -62,7 +62,7 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.type === 'Sound Recording'">
+        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.ISRC || asset.type === 'Sound Recording'">
             <div fxFlex fxLayout="column">
 
                 <div class="sections-container" *ngIf="asset.duration">
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.type === 'Musical Work'">
+        <div fxLayout="row" style="padding-left: 184px;" *ngIf="asset.ISWC || asset.type === 'Musical Work'">
             <div fxFlex fxLayout="column">
                 <div class="sections-container" *ngIf="asset.creators">
                     <div class="data-section-title">{{ 'repertoire.creators' | translate | uppercase }}</div>

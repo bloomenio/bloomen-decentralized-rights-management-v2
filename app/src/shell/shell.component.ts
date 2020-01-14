@@ -124,14 +124,7 @@ export class ShellComponent implements OnInit, OnDestroy {
       this.loadAuxiliarOptions(event);
       this.loadBackButton(event);
     });
-    // this.newMessagesInterval$ = interval(5000).subscribe(() => {    });
-    // if (this.newMessages) {
-    //   newMessagesE = true;
-    console.log('SHELL COMPONENT says newMessagesE: ', newMessagesE);
-    // } else {
-    //   newMessagesE = false;
-      // console.log('SHELL COMPONENT says \'You have NO NEW messages.\', newMessagesE: ', newMessagesE);
-    // }
+    // console.log('SHELL COMPONENT says newMessagesE: ', newMessagesE);
   }
 
   public newMessagesGet() {

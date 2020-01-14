@@ -18,7 +18,7 @@ import * as fromMemberActions from '@stores/member/member.actions';
 import {ShellComponent} from '@shell/shell.component';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 
-const log = new Logger('claims.component')
+const log = new Logger('claims.component');
 
 /**
  * Claims page
@@ -61,21 +61,22 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.members = members;
         });
 
+
         this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
 
-        this.newMessagesInterval$ = interval(5000).subscribe(() => {
+        // this.newMessagesInterval$ = interval(5000).subscribe(() => {
             // FOR "NEW MESSAGES" INBOX NOTIFICATION.
             // tslint:disable-next-line:no-life-cycle-call
-            this.inboxComponent.ngOnInit();
-            if (!this.shellComponent.newMessagesGet()) {
+        this.inboxComponent.ngOnInit();
+        if (!this.shellComponent.newMessagesGet()) {
                 this.inboxComponent.checkNewMessages();
             }
             // tslint:disable-next-line:no-life-cycle-call
-            this.shellComponent.ngOnInit();
-        });
+        this.shellComponent.ngOnInit();
+        // });
 
         // console.log('claims.components.dataSource.loadClaims: ');
         // console.log(this.dataSource);

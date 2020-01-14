@@ -3,12 +3,16 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 import { AssetModel } from '@core/models/assets.model';
 
-export interface RepertoireState extends EntityState<AssetModel> {
+export interface RepertoireState extends EntityState<any> { // AssetModel
     count: number;
 }
 
-export const repertoireAdapter = createEntityAdapter<AssetModel>({
-    selectId: (asset: AssetModel) => asset.id
+export const repertoireAdapter = createEntityAdapter<any>({ // AssetModel
+    selectId: (asset: any) => {                                     // AssetModel
+        // console.log('ADAPTER: ');
+        // console.log(asset);
+        return asset.id;
+    }
 });
 
 const repertoireInitialState: RepertoireState = repertoireAdapter.getInitialState({
@@ -18,6 +22,8 @@ const repertoireInitialState: RepertoireState = repertoireAdapter.getInitialStat
 export function repertoireReducer(state: RepertoireState = repertoireInitialState, action: RepertoireActions): RepertoireState {
     switch (action.type) {
         case RepertoireActionTypes.SEARCH_REPERTOIRE_LIST_SUCCESS: {
+            // console.log('REDUCER: ');
+            // console.log(action.payload);
             return repertoireAdapter.addAll(action.payload, state);
         }
         case RepertoireActionTypes.SEARCH_REPERTOIRE_COUNT_SUCCESS: {

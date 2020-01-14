@@ -33,7 +33,7 @@ const log = new Logger('inbox.component');
 })
 export class InboxComponent implements OnInit, OnDestroy {
 
-  private interval$: Subscription;
+  private newMessagesInterval$: Subscription;
   private member$: Subscription;
   // private intervalUser$: Subscription;
   // private intervalSuperUser$: Subscription;
@@ -88,9 +88,9 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
 
-    // this.refreshInbox();
-
-    this.interval$ = interval(5000).subscribe(() => {this.refreshInbox();});
+    this.refreshInbox();
+    //
+    // this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox();});
 
     // console.log('Refreshed Inbox');
     // if (this.user.role === ROLES.SUPER_USER) {
@@ -113,6 +113,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     //   skipWhile((user) => !user),
     //   takeWhile((user) => user && user.role === ROLES.SUPER_USER)
     // ).subscribe(() => {
+
     //   this.fillInboxSuperUser();
     // });
 
@@ -123,16 +124,17 @@ export class InboxComponent implements OnInit, OnDestroy {
     // this.intervalSuperUser$.unsubscribe();
     // this.intervalUser$.unsubscribe();
     this.user$.unsubscribe();
-    if (this.interval$) {
-      this.interval$.unsubscribe();
+    if (this.newMessagesInterval$) {
+      this.newMessagesInterval$.unsubscribe();
     }
   }
 
   public onAcceptEvent(event) {
     if (this.message.type === INBOX.TYPES.USER) {
       this.store.dispatch(new fromUserActions.AcceptUser(event));
-      // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
-      // this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
+      // for (let _i = 0; _i < 10000000; _i++) { }
+      // this.refreshInbox();
+      this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox(); });
     } else {
       this.store.dispatch(new fromClaimActions.ChangeState(event));
       if (this.message.type === INBOX.TYPES.CLAIM /* && this.message.memberReceptor === this.message.memberOwner */ ) {
@@ -144,7 +146,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   public onRejectEvent(event) {
     this.store.dispatch(new fromUserActions.RejectUser(event));
     // for (var _i = 0; _i < 100; _i++) {this.refreshInbox();}
-    // this.interval$ = interval(2000).subscribe(() => {this.refreshInbox();});
+    this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox(); });
   }
 
   public onMessageSelected(event) {
@@ -152,7 +154,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   public refreshInbox() {
-    console.log('Works!');
+    // console.log('Works!');
     // console.log(this.user);
 
     if (/*this.user &&*/ this.user.role === ROLES.SUPER_USER) {
@@ -182,7 +184,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   private async fillInbox() {
-    console.log('this is fillInbox');
+    // console.log('this is fillInbox');
     const claimsArray = [];
     const usersArray = [];
 

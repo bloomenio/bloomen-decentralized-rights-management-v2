@@ -1,5 +1,5 @@
 // Basic
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -39,11 +39,12 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
 
+  @Input() public repertoire: any;
   public newMessagesInterval$: any;
   public uploadedCSV2JSON: any;
   public assetMock: AssetModel;
   public filter: string;
-  public repertoire$: Observable<AssetModel[]>;
+  public repertoire$: Observable<any[]>; // AssetModel
   public repertoireCount$: Observable<number>;
   public countAssets: number;
 
@@ -56,7 +57,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
   public header = false;
 
   constructor(
-    private store: Store<AssetModel>,
+    private store: Store<any>, // AssetModel
     public snackBar: MatSnackBar,
     public router: Router,
     public assetCardComponent: AssetCardComponent,
@@ -64,23 +65,24 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public shellComponent: ShellComponent
   ) { }
 
-  public ngOnInit() {
-    this.countAssets = 0;
-    this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
-    this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
-    this.members$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe((members) => {
-      this.members = members;
-    });
+  public async ngOnInit() {
+      this.countAssets = 0;
+      this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
+      this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
+      this.members$ = this.store.select(fromMemberSelectors.selectAllMembers)
+          .subscribe((members) => { this.members = members; });
 
-    this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
+      this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
+          // <any>(<unknown>this.repertoire$)
       {filter: '',
        pageIndex: 0,
-       pageSize: 300 }));
-    this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
-      {filter: ''}));
+       pageSize: 300 }
+      ));
+      this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
+        {filter: ''}));
 
 
-    this.newMessagesInterval$ = interval(5000).subscribe(() => {
+      // this.newMessagesInterval$ = interval(5000).subscribe(() => {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.
       // tslint:disable-next-line:no-life-cycle-call
       this.inboxComponent.ngOnInit();
@@ -89,7 +91,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       // tslint:disable-next-line:no-life-cycle-call
       this.shellComponent.ngOnInit();
-    });
+      // });
   }
 
   public ngAfterViewInit() {

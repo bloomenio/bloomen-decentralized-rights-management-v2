@@ -3,7 +3,7 @@
 </div>
 <div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length">
     <mat-icon class="large-icon" >inbox</mat-icon>
-    <div class="title-nomessage">{{'inbox.title_no_message' | translate}}</div>
+    <div class="title-nomessage">{{ 'inbox.title_no_message' | translate }}</div>
     <div class="text-nomessage">Welcome to Bloomen Blockchain Platform! You have no inbox messages at the moment.</div>
 </div>
 
@@ -21,7 +21,7 @@
         <ng-template #NoMessage>
             <mat-card fxLayout="column" fxFill fxLayoutAlign="center center">
                 <mat-icon class="large-icon"  >inbox</mat-icon>
-                <h1>{{'inbox.message_pick' | translate}}</h1>
+                <h1>{{ 'inbox.message_pick' | translate }}</h1>
             </mat-card>
         </ng-template>
     </div>

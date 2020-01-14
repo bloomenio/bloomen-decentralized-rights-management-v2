@@ -78,6 +78,7 @@ export class Logger {
    * Works the same as console.log().
    */
   public debug(...objects: any[]) {
+    //  commented out for the browser not to be overload by newMessagesInterval$ subscriptions
     this.log(console.log, LogLevel.Debug, objects);
   }
 

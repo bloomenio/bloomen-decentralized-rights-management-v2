@@ -28,6 +28,7 @@ export class UserEffects {
         private applicationDatabaseService: ApplicationDataDatabaseService,
         private store: Store<any>,
         private web3Service: Web3Service,
+        public inboxComponent: InboxComponent
     ) { }
 
     @Effect({ dispatch: false }) public initUser = this.actions$.pipe(

@@ -12,12 +12,16 @@ export enum RepertoireActionTypes {
 
 export class RepertoireSearch implements Action {
     public readonly type = RepertoireActionTypes.SEARCH_REPERTOIRE_LIST;
-    constructor(public readonly payload: { filter: string, pageIndex: number, pageSize: number }) { }
+    constructor(public readonly payload: { filter: string, pageIndex: number, pageSize: number }) {
+        // console.log('ACTIONS: RepertoireSearch');
+    }
 }
 
 export class RepertoireSearchSuccess implements Action {
     public readonly type = RepertoireActionTypes.SEARCH_REPERTOIRE_LIST_SUCCESS;
-    constructor(public readonly payload: AssetModel[]) { }
+    constructor(public readonly payload: any[]) {  // AssetModel[]
+        // console.log('ACTIONS: RepertoireSearchSuccess');
+    }
 }
 
 export class RepertoireSearchCount implements Action {

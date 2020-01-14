@@ -25,15 +25,25 @@ export class RepertoireEffects {
         ofType(fromActions.RepertoireActionTypes.SEARCH_REPERTOIRE_LIST)
     ).pipe(
         switchMap((action) => {
-            return this.repertoireApiService.getAssets(action.payload.filter, action.payload.pageIndex, action.payload.pageSize).pipe(
-                map(assets => new fromActions.RepertoireSearchSuccess(assets)),
+            return this.repertoireApiService.getAssets(action.payload.filter, action.payload.pageIndex, action.payload.pageSize)
+                // .pipe( map((data) => {
+                //     console.log('ASSETS:');
+                //     console.log(data);
+                // }))
+                .pipe(
+                map(assets => {
+                    // console.log('EFFECTS: ');
+                    // console.log(assets);
+                    return new fromActions.RepertoireSearchSuccess(assets);
+                }),
                 catchError(
                     switchMap(error => {
                         log.error(error);
                         return of(error);
                     })
                 )
-            );
+            )
+                ;
         })
     );
 
@@ -42,7 +52,7 @@ export class RepertoireEffects {
     ).pipe(
         switchMap((action) => {
             return this.repertoireApiService.getAssetsCount(action.payload.filter).pipe(
-                map(count => new fromActions.RepertoireSearchCountSuccess(count)),
+            map(count => new fromActions.RepertoireSearchCountSuccess(count)),
                 catchError(
                     switchMap(error => {
                         log.error(error);

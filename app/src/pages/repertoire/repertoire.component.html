@@ -1,5 +1,15 @@
 <div class="repertoire-wrapper">
 	<input id="file-field" name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
+<!--    <form name="repertoireForm">-->
+<!--        <label>-->
+<!--            <input type="radio" ngModel="" value="repertoireDB">-->
+<!--            <b>Repertoire DB</b>-->
+<!--        </label>-->
+<!--        <label>-->
+<!--            <input type="radio" ngModel="" value="bloomenApi">-->
+<!--            <b>Bloomen API </b>-->
+<!--        </label><br/>-->
+<!--    </form>-->
     <blo-repertoire-search (filter)="applyFilter($event)"></blo-repertoire-search>
     <div fxLayout="column">
         <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>

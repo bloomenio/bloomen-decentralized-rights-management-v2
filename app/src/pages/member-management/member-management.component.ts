@@ -11,8 +11,8 @@ import { Store } from '@ngrx/store';
 
 import * as fromMemberSelector from '@stores/member/member.selectors';
 import {interval, Subscription} from 'rxjs';
-import {InboxComponent} from "@pages/inbox/inbox.component";
-import {ShellComponent} from "@shell/shell.component";
+import {InboxComponent} from '@pages/inbox/inbox.component';
+import {ShellComponent} from '@shell/shell.component';
 
 const log = new Logger('company-management.component');
 
@@ -57,16 +57,16 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
       this.dataSource.loadCompanies();
     });
 
-    this.newMessagesInterval$ = interval(5000).subscribe(() => {
+    // this.newMessagesInterval$ = interval(5000).subscribe(() => {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.
       // tslint:disable-next-line:no-life-cycle-call
-      this.inboxComponent.ngOnInit();
-      if (!this.shellComponent.newMessagesGet()) {
+    this.inboxComponent.ngOnInit();
+    if (!this.shellComponent.newMessagesGet()) {
         this.inboxComponent.checkNewMessages();
       }
       // tslint:disable-next-line:no-life-cycle-call
-      this.shellComponent.ngOnInit();
-    });
+    this.shellComponent.ngOnInit();
+    // });
   }
 
   public ngAfterViewInit() {

@@ -7,7 +7,6 @@ import {Logger} from '@services/logger/logger.service';
 import {Web3Service} from '@services/web3/web3.service';
 import {TransactionService} from '@services/web3/transactions/transaction.service';
 import {ClaimModel} from '@core/models/claim.model.js';
-
 import * as RLP from 'rlp';
 import {map} from 'rxjs/operators';
 import {from} from 'rxjs';
@@ -134,6 +133,7 @@ export class ClaimsContract extends Contract {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
                 console.log('ClaimsContract.getClaimByMemId');
+                // console.log('serverUrl: ', environment.serverUrl);
                 // console.log('page: ' + page);
                 // console.log('this.args.from: ' + this.args.from);
                 return from(this.contract.methods.getClaimsByMemberId(page).call(this.args)).pipe(

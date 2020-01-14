@@ -66,7 +66,7 @@ export class AssetCardComponent implements OnInit {
     /* Programmer enables loading in batch several claims by:
     *   - filling claims as in 'loadinBatchFile.json' and
     *   - setting below 'const loadInBatch = true'.
-    *  Now, when typing a letter in repertoire search, claims in 'loadinBatchFile.json'
+    *  Now, when typing a letter in repertoire search, claims in './json/loadinBatchFile.json'
     *  are submitted on the blockchain one-by-one through 'this.user'.
     */
     const loadInBatch = false;
@@ -96,9 +96,7 @@ export class AssetCardComponent implements OnInit {
   public claim() {
     let dialog: any;
 
-    switch (this.asset.type) {
-
-      case ASSET.ASSET_TYPE.MUSICAL_WORK:
+    if (this.asset.ISWC) {
         dialog = this.dialog.open(MusicalDialogComponent, {
           data: {
             claim: {
@@ -119,9 +117,8 @@ export class AssetCardComponent implements OnInit {
           width: '900px',
           height: '500px'
         });
-        break;
+    } else if (this.asset.ISRC){
 
-      case ASSET.ASSET_TYPE.SOUND_RECORDING:
         dialog = this.dialog.open(SoundDialogComponent, {
           data: {
             claim: {
@@ -142,10 +139,6 @@ export class AssetCardComponent implements OnInit {
           width: '900px',
           height: '500px'
         });
-        break;
-
-      default:
-        break;
     }
 
     dialog.afterClosed().subscribe(result => {
