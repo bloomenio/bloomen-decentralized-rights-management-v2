@@ -21,24 +21,26 @@ import { UserProfileShellModule } from '@components/user-profile-shell/user-prof
 // Components
 import { AssetCardModule } from '@components/asset-card/asset-card.module';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 /**
  * Module to import and export all the components for the home page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    SharedModule,
-    FlexLayoutModule,
-    MaterialModule,
-    RepertoireRoutingModule,
-    RepertoireSearchModule,
-    ShellModule,
-    UserProfileShellModule,
-    AssetCardModule
-    // NgxCsvParserModule
-  ],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        SharedModule,
+        FlexLayoutModule,
+        MaterialModule,
+        RepertoireRoutingModule,
+        RepertoireSearchModule,
+        ShellModule,
+        UserProfileShellModule,
+        AssetCardModule,
+        ReactiveFormsModule,
+        // NgxCsvParserModule
+    ],
   declarations: [RepertoireComponent],
   providers: [AssetCardComponent]
 })

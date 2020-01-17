@@ -1,6 +1,6 @@
 // Basic
 import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input} from '@angular/core';
-
+import {FormBuilder, FormControl, FormGroup, FormsModule, Validators} from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { MatSnackBar, MatPaginator } from '@angular/material';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 import {Subscription, Observable, pipe, interval} from 'rxjs';
 import { AssetModel } from '@core/models/assets.model';
-import { tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
 import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
@@ -22,6 +22,7 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import * as Papa from 'papaparse';
 import {ShellComponent} from '@shell/shell.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
+import {AssetsApiService} from '@api/assets-api.service';
 
 const log = new Logger('repertoire.component');
 
@@ -35,7 +36,6 @@ const log = new Logger('repertoire.component');
   styleUrls: ['./repertoire.component.scss']
 })
 export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
-
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
 
@@ -55,6 +55,8 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public csvRecords: any[] = [];
   public header = false;
+  private registrationForm: any;
+  // public type: string;
 
   constructor(
     private store: Store<any>, // AssetModel
@@ -62,18 +64,31 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public router: Router,
     public assetCardComponent: AssetCardComponent,
     public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent
+    public shellComponent: ShellComponent,
+    public fb: FormBuilder,
+    public assetsApiService: AssetsApiService
   ) { }
 
   public async ngOnInit() {
+      this.assetsApiService.type = 'all';
       this.countAssets = 0;
       this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
       this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
       this.members$ = this.store.select(fromMemberSelectors.selectAllMembers)
           .subscribe((members) => { this.members = members; });
 
+      // this.registrationForm = this.fb.group({
+      //     type: ['all']
+      // });
+
+      this.registrationForm = new FormGroup({
+          type: new FormControl()
+      });
+      this.registrationForm = this.fb.group({
+          type: ['all']
+      });
+
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
-          // <any>(<unknown>this.repertoire$)
       {filter: '',
        pageIndex: 0,
        pageSize: 300 }
@@ -92,6 +107,29 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       // tslint:disable-next-line:no-life-cycle-call
       this.shellComponent.ngOnInit();
       // });
+  }
+
+  public checkSource() {
+      // console.log('TYPE: ', this.registrationForm.get('type').value);
+      // this.type = this.registrationForm.get('type').value;
+      // console.log(this.type);
+      this.assetsApiService.type = this.registrationForm.get('type').value;
+      this.getAssets();
+  }
+
+  public filteredType(type: string) {
+      this.filter = type;
+      const local =
+
+          this.repertoire$
+          .pipe(
+              // filter(asset => asset[_].ISWC !== 'undefined')
+          );
+      if (local) {
+      //     local.unsubscribe();
+      //     console.log(local);
+      }
+      return this.repertoire$;
   }
 
   public ngAfterViewInit() {

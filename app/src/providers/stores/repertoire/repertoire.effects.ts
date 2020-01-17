@@ -51,6 +51,8 @@ export class RepertoireEffects {
         ofType(fromActions.RepertoireActionTypes.SEARCH_REPERTOIRE_COUNT)
     ).pipe(
         switchMap((action) => {
+            // Repertoire DB
+            // must be fromActions.RepertoireActionTypes.SEARCH_REPERTOIRE_COUNT
             return this.repertoireApiService.getAssetsCount(action.payload.filter).pipe(
             map(count => new fromActions.RepertoireSearchCountSuccess(count)),
                 catchError(

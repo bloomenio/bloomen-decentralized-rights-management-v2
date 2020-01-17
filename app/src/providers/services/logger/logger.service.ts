@@ -79,7 +79,7 @@ export class Logger {
    */
   public debug(...objects: any[]) {
     //  commented out for the browser not to be overload by newMessagesInterval$ subscriptions
-    this.log(console.log, LogLevel.Debug, objects);
+    // this.log(console.log, LogLevel.Debug, objects);
   }
 
   /**

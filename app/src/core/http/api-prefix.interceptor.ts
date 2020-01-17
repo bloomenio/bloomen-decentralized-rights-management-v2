@@ -17,7 +17,7 @@ import {stringify} from 'querystring';
 export class ApiPrefixInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!/^(http|https):/i.test(request.url)) {
-      const newServerUrl = 'https://bloomen.herokuapp.com/sound';
+      // NOT USED
       request = request.clone({ url: /* environment.serverUrl +*/ request.url  });  //  https://regtool.wlilab.eu/api//search
             // ,
             //                     setHeaders: {
@@ -30,7 +30,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
         //                           term: ''
         //                         })
       // });
-      console.log('request: ', request);
+      console.log('REQUEST: ', request);
     }
     return next.handle(request);
   }
