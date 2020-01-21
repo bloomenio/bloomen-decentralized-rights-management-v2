@@ -64,7 +64,7 @@ export class AssetsApiService {
             } else {
                 return this.httpClient
                     .post(`https://bloomen.herokuapp.com/sound/search`,
-                        '{\"term\": \"\"}',
+                        '{\"term\": \"\", \"group\": \"test\"}',
                         {
                             headers: this.headers,
                             params: params
@@ -98,7 +98,9 @@ export class AssetsApiService {
                 );
         } else {
             return this.httpClient
-                .post(`https://bloomen.herokuapp.com/sound/search`, '{\"term\": \"\"}', {
+                .post(`https://bloomen.herokuapp.com/sound/search`,
+                    '{\"term\": \"\", \"group\": \"test\"}',
+                    {
                     headers: this.headers,
                     params: params
                 })
