@@ -1,0 +1,33 @@
+<div mat-dialog-title class="dialog-title">Member data</div>
+<div *ngIf="data" fxLayout="row" fxLayoutAlign="center center" class="icon-container">
+  <img [src]="data.member.logo" width="150"/>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="editMemberForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Name" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Theme" formControlName="theme" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Member ID" formControlName="memberId" />
+      </mat-form-field>
+      <mat-form-field fxFlex="45">
+        <mat-label>Collections</mat-label>
+        <mat-select formControlName="collections">
+          <mat-option *ngFor="let collection of collections" [value]="collection">
+            {{ collection }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="end center">
+      <button mat-button type="button" (click)="dialogRef.close()"> {{'common.cancel' | translate | uppercase}} </button>
+      <button color="primary" [disabled]="!editMemberForm.valid" mat-button> {{'common.accept' | translate | uppercase}} </button>
+    </div>
+  </form>
+</div>

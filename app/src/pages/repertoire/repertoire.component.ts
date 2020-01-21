@@ -96,6 +96,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
         {filter: ''}));
 
+      console.log('MEMBER: ', this.members[0].name);
 
       // this.newMessagesInterval$ = interval(5000).subscribe(() => {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.

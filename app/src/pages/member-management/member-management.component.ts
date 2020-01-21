@@ -10,9 +10,13 @@ import { MemberContract } from '@core/core.module';
 import { Store } from '@ngrx/store';
 
 import * as fromMemberSelector from '@stores/member/member.selectors';
+import * as fromMemberActions from '@stores/member/member.actions';
 import {interval, Subscription} from 'rxjs';
 import {InboxComponent} from '@pages/inbox/inbox.component';
 import {ShellComponent} from '@shell/shell.component';
+import {DialogMemberDataComponent} from '@components/dialog-member-data/dialog-member-data.component';
+import * as fromUserActions from '@stores/user/user.actions';
+import {MatDialog} from '@angular/material/dialog';
 
 const log = new Logger('company-management.component');
 
@@ -44,11 +48,12 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     private memberContract: MemberContract,
     private store: Store<any>,
     public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent
+    public shellComponent: ShellComponent,
+    public dialog: MatDialog
   ) { }
 
   public ngOnInit() {
-    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate'];
+    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];
     this.dataSource = new MemberManagementDataSource(this.memberContract);
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(
@@ -91,8 +96,16 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public clickEdit(element) {
-    log.debug('click edit', element);
+    const dialogRef = this.dialog.open(DialogMemberDataComponent, {
+      data: { member: element }
+    });
+    dialogRef.afterClosed().subscribe(value => {
+      if (value) {
+        this.store.dispatch(new fromMemberActions.UpdateMember(value));
+      }
+    });
   }
+
 
 
   public ngOnDestroy() {

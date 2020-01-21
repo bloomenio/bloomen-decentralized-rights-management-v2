@@ -13,6 +13,7 @@ import { MemberContract } from '@core/core.module';
 import { Store } from '@ngrx/store';
 import { MemberModel } from '@core/models/member.model';
 import { interval } from 'rxjs';
+import * as fromUserActions from '@stores/user/user.actions';
 
 const log = new Logger('user-data.effects');
 
@@ -25,6 +26,19 @@ export class MemberEffects {
         private web3Service: Web3Service,
         private store: Store<any>
     ) { }
+
+    @Effect({ dispatch: false }) public updateMember = this.actions$.pipe(
+        ofType(fromActions.MemberActionTypes.UPDATE_MEMBER),
+        map((action) => {
+            this.web3Service.ready(() => {
+                this.memberContract.updateMember(action.payload).then(() => {
+                    this.store.dispatch(new fromActions.InitMember);
+                }, (error) => {
+                    log.error(error);
+                });
+            });
+        })
+    );
 
     @Effect({ dispatch: false }) public initMember = this.actions$.pipe(
         ofType(fromActions.MemberActionTypes.INIT_MEMBER),

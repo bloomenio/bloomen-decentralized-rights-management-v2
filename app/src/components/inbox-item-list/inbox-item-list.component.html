@@ -1,4 +1,4 @@
-<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER"
+<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER && (message.role !== user.role)"
     (click)="onClickMessage()" [class.active]="isActive">
     <div class='date' fxLayoutAlign='end center'>{{ message.creationDate | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">
@@ -21,7 +21,7 @@
         </div>
         <div class='text-box' fxLayout="column">
             <div class='title'>{{ message.claimData.title }}</div>
-            <div class='subtitle'>{{ 'claimStatus.'+ message.status | translate | uppercase}}</div>
+            <div class='subtitle'>{{ 'claimStatus.'+ message.status | translate | uppercase }}</div>
         </div>
     </div>
 </mat-card>

@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 import { MemberModel } from '@core/models/member.model';
+import {UserModel} from "@models/user.model";
+import {UserActionTypes} from "@stores/user/user.actions";
 
 export enum MemberActionTypes {
     INIT_MEMBER = '[member] init member',
@@ -7,7 +9,8 @@ export enum MemberActionTypes {
     SELECT_MEMBER = '[member] select member',
     UNSELECT_MEMBER = '[member] unselect member',
     ADD_MEMBER = '[member] add member',
-    GET_MEMBERS = '[member] get members'
+    GET_MEMBERS = '[member] get members',
+    UPDATE_MEMBER = '[member] update member'
 }
 
 export class InitMember implements Action {
@@ -37,4 +40,9 @@ export class GetMembers implements Action {
     constructor(public readonly payload: MemberModel[]) { }
 }
 
-export type MemberActions = InitMember | InitMemberSuccess | SelectMember | UnselectMember | AddMember | GetMembers;
+export class UpdateMember implements Action {
+    public readonly type = MemberActionTypes.UPDATE_MEMBER;
+    constructor(public readonly payload: MemberModel) { }
+}
+
+export type MemberActions = InitMember | InitMemberSuccess | SelectMember | UnselectMember | AddMember | GetMembers | UpdateMember;

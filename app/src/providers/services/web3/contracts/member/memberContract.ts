@@ -11,6 +11,7 @@ import { TransactionService } from '@services/web3/transactions/transaction.serv
 import { MemberModel } from '@core/models/member.model.js';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {UserModel} from "@models/user.model";
 
 const log = new Logger('member.contract');
 
@@ -32,6 +33,13 @@ export class MemberContract extends Contract {
     public addMember(member: MemberModel) {
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.addMember(member.creationDate, member.name, member.logo, member.country, member.cmo, member.theme).send(this.args);
+        });
+    }
+
+    public updateMember(member: MemberModel): Promise<any> {
+        return this.transactionService.addTransaction(this.args.gas, () => {
+            return this.contract.methods.updateMember(member.memberId, member.creationDate, member.name, member.logo, member.country, member.cmo,
+                member.theme).send(this.args);
         });
     }
 

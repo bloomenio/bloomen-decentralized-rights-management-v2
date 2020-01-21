@@ -31,8 +31,8 @@ export class AssetsApiService {
             // .set('data', '{\"term\": \"\"}') DONT!
         ;
 
-        console.log('API TYPE: ', this.type);
-        if (!this.productionMode) {
+        // console.log('API TYPE: ', this.type);
+        if (!this.productionMode && (this.type === 'all' || this.type === 'iswc' || this.type === 'isrc')) {
             return this.httpClient
                 .get(`https://regtool.wlilab.eu/api/search`, {params})
                 .pipe(

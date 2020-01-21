@@ -9,4 +9,5 @@ export interface MemberModel {
     claimInbox?: string[];
     claims?: string[];
     userRequests?: string[];
+    collections?: string[];
 }
