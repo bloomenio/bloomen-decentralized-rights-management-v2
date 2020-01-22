@@ -46,17 +46,18 @@ export class AssetsApiService {
                 return this.httpClient
                     .get(`https://bloomen.herokuapp.com/sound/music`, {headers: this.headers, params: params})
                     .pipe(
-                        map((body: any) => body),
+                        map((body: any) => body.filter( (x: any) => x.group === 'second')),
+                        // map( (x: any) => { return x.group === 'second'; }),
+                        // filter( (x: any) => { x.group === 'second'; }),
                         catchError(() => of('Error, could not load assets :-('))
                     )
-                // .subscribe(data => {console.log('SOUND/music: ', data); } )
-                ;
+                    // .subscribe(data => {console.log('SOUND/music: ', data); } )
+                    ;
             } else if (this.type === 'isrc') {
-
                 return this.httpClient
                     .get(`https://bloomen.herokuapp.com/sound/recordings`, {headers: this.headers, params: params})
                     .pipe(
-                        map((body: any) => body),
+                        map((body: any) => body.filter( (x: any) => x.group === 'second')),
                         catchError(() => of('Error, could not load assets :-('))
                     )
                 // .subscribe(data => {console.log('SOUND/recordings: ', data); } )
