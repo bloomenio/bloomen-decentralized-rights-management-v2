@@ -62,9 +62,13 @@ export class AssetsApiService {
                 // .subscribe(data => {console.log('SOUND/recordings: ', data); } )
                 ;
             } else {
+                console.log('q: ', params.get('q'));
+                const body = '{\"term\": \"' +
+                    params.get('q') +
+                    '\", \"group\": \"second\"}';
                 return this.httpClient
                     .post(`https://bloomen.herokuapp.com/sound/search`,
-                        '{\"term\": \"\", \"group\": \"test\"}',
+                        body,
                         {
                             headers: this.headers,
                             params: params
