@@ -25,6 +25,7 @@ export class AssetsApiService {
     public getAssets(filter: string, pageIndex: number, pageSize: number): Observable<any[]> {  //  : Observable<AssetModel[]>
 
         const params = new HttpParams()
+            // .set('q', '')
             .set('q', filter)
             .set('limit', String(pageSize))
             .set('offset', String(pageIndex * pageSize) )
@@ -43,25 +44,55 @@ export class AssetsApiService {
             ;
         } else {
             if (this.type === 'iswc') {
+                // return this.httpClient
+                //     .get(`https://bloomen.herokuapp.com/sound/music`, {headers: this.headers, params: params})
+                //     .pipe(
+                //         map((body: any) => body.filter( (x: any) => x.group === 'second')),
+                //         // map( (x: any) => { return x.group === 'second'; }),
+                //         // filter( (x: any) => { x.group === 'second'; }),
+                //         catchError(() => of('Error, could not load assets :-('))
+                //     )
+                //     // .subscribe(data => {console.log('SOUND/music: ', data); } )
+                //     ;
+                console.log('q: ', params.get('q'));
+                const body = '{\"term\": \"' +
+                    params.get('q') +
+                    '\", \"group\": \"second\"}';
                 return this.httpClient
-                    .get(`https://bloomen.herokuapp.com/sound/music`, {headers: this.headers, params: params})
+                    .post(`https://bloomen.herokuapp.com/sound/search`,
+                        body,
+                        {
+                            headers: this.headers,
+                            params: params
+                        })
+                    // .subscribe(data => { this.tempo = data; })
                     .pipe(
-                        map((body: any) => body.filter( (x: any) => x.group === 'second')),
-                        // map( (x: any) => { return x.group === 'second'; }),
-                        // filter( (x: any) => { x.group === 'second'; }),
-                        catchError(() => of('Error, could not load assets :-('))
-                    )
-                    // .subscribe(data => {console.log('SOUND/music: ', data); } )
-                    ;
+                        map((data: any) => data.filter( (x: any) => x.ISWC) )
+                    );
             } else if (this.type === 'isrc') {
+                // return this.httpClient
+                //     .get(`https://bloomen.herokuapp.com/sound/recordings`, {headers: this.headers, params: params})
+                //     .pipe(
+                //         map((body: any) => body.filter( (x: any) => x.group === 'second')),
+                //         catchError(() => of('Error, could not load assets :-('))
+                //     )
+                // // .subscribe(data => {console.log('SOUND/recordings: ', data); } )
+                // ;
+                console.log('q: ', params.get('q'));
+                const body = '{\"term\": \"' +
+                    params.get('q') +
+                    '\", \"group\": \"second\"}';
                 return this.httpClient
-                    .get(`https://bloomen.herokuapp.com/sound/recordings`, {headers: this.headers, params: params})
+                    .post(`https://bloomen.herokuapp.com/sound/search`,
+                        body,
+                        {
+                            headers: this.headers,
+                            params: params
+                        })
+                    // .subscribe(data => { this.tempo = data; })
                     .pipe(
-                        map((body: any) => body.filter( (x: any) => x.group === 'second')),
-                        catchError(() => of('Error, could not load assets :-('))
-                    )
-                // .subscribe(data => {console.log('SOUND/recordings: ', data); } )
-                ;
+                        map((data: any) => data.filter( (x: any) => x.ISRC) )
+                    );
             } else {
                 console.log('q: ', params.get('q'));
                 const body = '{\"term\": \"' +
