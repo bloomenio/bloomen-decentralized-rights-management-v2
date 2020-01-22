@@ -193,16 +193,8 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
         const reader = new FileReader();
         reader.onload = () => {
             const text = reader.result;
-            console.log('CSV file:\n', (text as string).substring(0, 1000) + '...');
-            // convert text to json here
-            // const results = [];
-            // this.uploadedCSV2JSON = this.csvJSON(text);
-            // Papaparse
-            // const papa = Papa.parse(text);
-            console.log('Papa');
-            // console.log(papa);
-            // this.uploadedCSV2JSON = papa;
-            // console.log('JSON file:\n', this.uploadedCSV2JSON);
+            // console.log('CSV file:\n', (text as string).substring(0, 1000) + '...');
+            // console.log('Papa');
             const papa = Papa.parse(text, {
                 transform: function (value) {
                     try {
@@ -212,12 +204,25 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
                     }
                 }
             });
-            console.log('CSV.DATA PAPAPARSE:');
-            console.log(this.csvJSON(papa.data));
-            this.uploadedCSV2JSON = this.csvJSON(papa.data);
-              // tslint:disable-next-line:no-life-cycle-call
-            this.assetCardComponent.ngOnInit();
-            this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON);
+            // console.log('CSV.DATA PAPAPARSE:');
+            let rightCSVFormat = true;
+            papa.data.forEach( (x: any) => { if (x.length !== 9) {
+                console.log('CSV HAS WRONG INFO.');
+                rightCSVFormat = false;
+            }});
+            if (rightCSVFormat) {
+                console.log(this.csvJSON(papa.data));
+                this.uploadedCSV2JSON = this.csvJSON(papa.data);
+                // tslint:disable-next-line:no-life-cycle-call
+                this.assetCardComponent.ngOnInit();
+                this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON);
+                console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+            } else {
+                console.log('E r r o r: CSV HAS WRONG INFO.');
+                alert('E r r o r: The uploaded CSV file has an undesired format.\n\n' +
+                    // 'Right Holder Role spot is left empty for Sound Recordings\n' +
+                    'Please make sure each claim has 9 fields and that there are no empty lines.');
+            }
         };
         reader.readAsText(f);
     }
@@ -231,7 +236,10 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
           const obj = {};
           for (let j = 0; j < headers.length; j++) {
               const currentline = line[i];
-              // console.log(currentline);
+              // console.log('currentline\n', currentline);
+              // if (currentline === '') {
+              //     break;
+              // }
               if (j === 2 || j === 3) {
                   obj[headers[j]] = Date.parse(currentline[j]).toString();
               } else {
