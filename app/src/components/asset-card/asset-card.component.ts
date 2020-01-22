@@ -261,7 +261,7 @@ export class AssetCardComponent implements OnInit {
                 claimId: undefined,
                 claimType: ClaimTypeEnum.SOUND_RECORDING,
                 memberOwner: memberOwner,
-                status: ClaimModel.StatusClaimEnum.CONFLICT,
+                status: ClaimModel.StatusClaimEnum.CLAIMED,
                 oldClaimData: [
                   ['ISRC', cl.ISC],
                   ['countries', cl.countries],
@@ -294,7 +294,7 @@ export class AssetCardComponent implements OnInit {
                 claimId: undefined,
                 claimType: ClaimTypeEnum.MUSICAL_WORK,
                 memberOwner: memberOwner,
-                status: ClaimModel.StatusClaimEnum.CONFLICT,
+                status: ClaimModel.StatusClaimEnum.CLAIMED,
                 oldClaimData: [
                   ['ISWC', cl.ISC],
                   ['countries', cl.countries],

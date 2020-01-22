@@ -10,6 +10,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { COUNTRIES } from '@core/constants/countries.constants';
+import {RegistryContract} from "@services/web3/contracts";
 
 const log = new Logger('sound-dialog.component');
 
@@ -26,6 +27,7 @@ export class SoundDialogComponent implements OnInit {
     public claimForm: FormGroup;
     public members: MemberModel[];
     private error: any = {isError: false, errorMessage: ''};
+    public affiliations: string[];
 
     public useTypesAll: string[] =
         ['Public Performance', 'Airlines', 'Radio Broadcasting', 'Radio Dubbing', 'TV Broadcasting', 'TV Dubbing', 'Background Music',
@@ -52,10 +54,11 @@ export class SoundDialogComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<SoundDialogComponent>,
         private fb: FormBuilder,
+        private registryContract: RegistryContract,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         this.claimForm = this.fb.group({
             rightHolderName: [this.data.claim.memberOwner, [Validators.required]],
             rightHolderProprietaryID: [this.data.claim.claimData.rightHolderProprietaryID, [Validators.required]],
@@ -124,13 +127,17 @@ export class SoundDialogComponent implements OnInit {
             startWith(null),
             map((country: string | null) => country ? this._filter(country) : this.countriesAll.slice())
         );
+        this.countries = this.data.claim.claimData.countries || [];
+        this.countriesAll = COUNTRIES;
+        this.members = this.data.members;
+        this.affiliations = await this.registryContract.getCMOs();
     }
 
     private compareStartEndDates()  {
-        console.log('startDate');
-        console.log(this.claimForm.get('startDate').value);
-        console.log('endDate');
-        console.log(this.claimForm.get('endDate').value);
+        // console.log('startDate');
+        // console.log(this.claimForm.get('startDate').value);
+        // console.log('endDate');
+        // console.log(this.claimForm.get('endDate').value);
         return true;
     }
 

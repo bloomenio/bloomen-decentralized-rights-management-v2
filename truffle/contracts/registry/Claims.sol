@@ -59,13 +59,15 @@ contract Claims {
     } else {                     // Update existing claim.
 
       checkClaimStatus(_claimId, _claimType, _oldClaimData, false);
-      if (_updateClaimId) {
-        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
-      } else {
+//      if (_updateClaimId) {
+//        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
+//        _saveClaim(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _creationDate, _claimData, _claimType,
+//          _memberOwner, claims_[_claimId].status, _lastChange);
+//      } else {
         checkClaimStatus(_claimId, _claimType, _claimData, true);
-      }
+        _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
+//      }
 
-      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
       if (_creationDate == 0) {  // Delete claim.
 //        _removeClaimIdFromMember(_memberOwner, _claimId);
 //        _removeClaim(_claimId);
@@ -175,62 +177,76 @@ contract Claims {
 //    claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
     bool prevStatus = claims_[_claimId].status;
     bool tempMaxSplitOnce = true;
-    for(uint256 i = 1; i <= claimIdCounter_; i++) {
-      if (_claimType == claims_[i].claimType && _claimId != i) {
-        if(keccak256(itemList[0].toList()[1].toBytes()) == keccak256(claims_[i].claimData[0].value) // same ISRC/ISWC
-        && endDate >= uint48(bytesToUint(bytes(claims_[i].claimData[2].value))) // end1 >= start2
-        && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
-        ){
-          if (newClaim) {
-            // claims_[2].log.push('CHECK STATUS TRUE');
-          } else {
-            // claims_[2].log.push('CHECK STATUS FALSE');
-          }
-          // claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
-          // claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
-          hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // useTypes/rightTypes: have at least one common
-          if (hasOverlapResult) {
-            hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
+
+    if (split == 0) {
+      if (prevStatus) {
+        claims_[_claimId].status = false;
+        _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+        prevStatus = false;
+      }
+    }
+    else {
+      for(uint256 i = 1; i <= claimIdCounter_; i++) {
+        if (_claimType == claims_[i].claimType && _claimId != i) {
+          if(keccak256(itemList[0].toList()[1].toBytes()) == keccak256(claims_[i].claimData[0].value) // same ISRC/ISWC
+          && endDate >= uint48(bytesToUint(bytes(claims_[i].claimData[2].value))) // end1 >= start2
+          && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
+          ){
+            if (newClaim) {
+              // claims_[2].log.push('CHECK STATUS TRUE');
+            } else {
+              // claims_[2].log.push('CHECK STATUS FALSE');
+            }
+            // claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
+            // claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
+            hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // useTypes/rightTypes: have at least one common
             if (hasOverlapResult) {
-              if (newClaim) {
-                maxSplits_[i]+=split;                // build maxSplits_[i]
-//                claims_[i].maxSplit.push(maxSplits_[i]);
-                if (maxSplits_[i]>100) {
-                  if (!prevStatus) {
-                    claims_[_claimId].status = true; // true, means there IS a CONFLICT
-                    _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-                    prevStatus = true;
+              hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
+              if (hasOverlapResult) {
+                if (newClaim) {
+                  maxSplits_[i]+=split;                // build maxSplits_[i]
+  //                claims_[i].maxSplit.push(maxSplits_[i]);
+                  if (maxSplits_[i]>100) {
+                    if (!prevStatus) {
+                      claims_[_claimId].status = true; // true, means there IS a CONFLICT
+                      _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                      prevStatus = true;
+                    }
+                    if (!claims_[i].status) {
+                      _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+                      claims_[i].status = true;
+                    }
                   }
-                  if (!claims_[i].status) {
-                    _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
-                    claims_[i].status = true;
+                  if (tempMaxSplitOnce) {
+                    maxSplits_[_claimId]=maxSplits_[i];
+                    //                claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
+                    tempMaxSplitOnce=false;
                   }
-                }
-              } else {
-                maxSplits_[i]-=split;
-//                claims_[i].maxSplit.push(maxSplits_[i]);
-                if (maxSplits_[i]<=100) {
+                } else {
+                  maxSplits_[i]-=split;
+  //                claims_[i].maxSplit.push(maxSplits_[i]);
                   if (prevStatus) {
                     claims_[_claimId].status = false;
                     _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
                     prevStatus = false;
                   }
-                  if (claims_[i].status) {
-                    _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
-                    claims_[i].status = false;
+                  if (maxSplits_[i]<=100) {
+                    if (claims_[i].status) {
+                      _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+                      claims_[i].status = false;
+                    }
+                  }
+                  if (tempMaxSplitOnce) {
+                    maxSplits_[_claimId]=split;
+                    tempMaxSplitOnce=false;
                   }
                 }
-              }
-              if (tempMaxSplitOnce) {
-                maxSplits_[_claimId]=maxSplits_[i];
-//                claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
-                tempMaxSplitOnce=false;
-              }
-            }  // hasOverlapResult
-          } // hasOverlapResult
-        }
-      }
-    }
+              }  // hasOverlapResult territory
+            } // hasOverlapResult: useTypes/rightTypes
+          } // if ....
+        } // if claimId<>i
+      } // for
+    } // if (split == 0)
   }
 
   function bytesToUint(bytes s) private pure returns (uint result) {
@@ -284,7 +300,7 @@ contract Claims {
         && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
         && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
         && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
-        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same useTypes/rightTypes
+        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same use/right-Types
         && keccak256(abi.encodePacked(itemList[5].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[5].value)) // same split
         && _memberOwner == claims_[i].memberOwner                                                                                       // same memberOwner
         ){

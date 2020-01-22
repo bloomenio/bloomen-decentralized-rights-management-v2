@@ -134,7 +134,6 @@ export class MusicalDialogComponent implements OnInit {
 
     public remove(country: string) {
         const index = this.countries.indexOf(country);
-
         if (index >= 0) {
             this.countries.splice(index, 1);
         }
