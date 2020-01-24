@@ -27,19 +27,6 @@ export class MemberEffects {
         private store: Store<any>
     ) { }
 
-    @Effect({ dispatch: false }) public updateMember = this.actions$.pipe(
-        ofType(fromActions.MemberActionTypes.UPDATE_MEMBER),
-        map((action) => {
-            this.web3Service.ready(() => {
-                this.memberContract.updateMember(action.payload).then(() => {
-                    this.store.dispatch(new fromActions.InitMember);
-                }, (error) => {
-                    log.error(error);
-                });
-            });
-        })
-    );
-
     @Effect({ dispatch: false }) public initMember = this.actions$.pipe(
         ofType(fromActions.MemberActionTypes.INIT_MEMBER),
         map(() => {
@@ -57,11 +44,25 @@ export class MemberEffects {
                             memberId: member.memberId,
                             name: member.name,
                             theme: member.theme,
-                            userRequests: member.userRequests
+                            userRequests: member.userRequests,
+                            group: member.group
                         };
                         memberModelArray.push(newMember);
                     });
                     this.store.dispatch(new fromActions.InitMemberSuccess(memberModelArray));
+                });
+            });
+        })
+    );
+
+    @Effect({ dispatch: false }) public updateMember = this.actions$.pipe(
+        ofType(fromActions.MemberActionTypes.UPDATE_MEMBER),
+        map((action) => {
+            this.web3Service.ready(() => {
+                this.memberContract.updateMember(action.payload).then(() => {
+                    this.store.dispatch(new fromActions.InitMember);
+                }, (error) => {
+                    log.error(error);
                 });
             });
         })

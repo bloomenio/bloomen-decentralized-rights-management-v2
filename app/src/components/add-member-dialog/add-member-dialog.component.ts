@@ -1,17 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromCmosSelectors from '@stores/cmos/cmos.selectors';
 import * as fromMemberAction from '@stores/member/member.actions';
 import { Logger } from '@services/logger/logger.service';
-
 import { MemberModel } from '@core/models/member.model';
-
 import { COUNTRIES } from '@constants/countries.constants';
 import { startWith, map } from 'rxjs/operators';
+import {collections} from '@components/dialog-member-data/dialog-member-data.component';
 
 const log = new Logger('add-member-dialog');
 
@@ -25,7 +23,7 @@ export class AddMemberDialogComponent implements OnInit {
   public memberForm: FormGroup;
   public userData: any;
   public nameIcon: string;
-
+  public collections = collections;
   public cmos$: Observable<any>;
 
   public filteredCountries: Observable<string[]>;
@@ -35,7 +33,7 @@ export class AddMemberDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddMemberDialogComponent>,
     private fb: FormBuilder,
     public store: Store<any>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
 
@@ -46,6 +44,7 @@ export class AddMemberDialogComponent implements OnInit {
       url: ['', [Validators.required]],
       country: ['', [Validators.required]],
       theme: ['', [Validators.required]],
+      group: ['', [Validators.required]]
     });
 
     this.filteredCountries = this.memberForm.get('country').valueChanges
@@ -56,6 +55,7 @@ export class AddMemberDialogComponent implements OnInit {
 
     this.allCountries = COUNTRIES;
     this.cmos$ = this.store.select(fromCmosSelectors.getCmos);
+    // console.log(this.filteredCountries, '\n', this.cmos$);
   }
 
   public onCancel() {
@@ -69,8 +69,10 @@ export class AddMemberDialogComponent implements OnInit {
       country: this.memberForm.get('country').value,
       name: this.memberForm.get('member').value,
       logo: this.memberForm.get('url').value,
-      theme: this.memberForm.get('theme').value
+      theme: this.memberForm.get('theme').value,
+      group: this.memberForm.get('group').value
     };
+    // console.log('VALUE for AddMember: ', member);
     this.store.dispatch(new fromMemberAction.AddMember(member));
     this.dialogRef.close();
   }

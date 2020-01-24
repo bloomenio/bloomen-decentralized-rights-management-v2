@@ -1,4 +1,4 @@
-<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER && (message.role !== user.role)"
+<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER"
     (click)="onClickMessage()" [class.active]="isActive">
     <div class='date' fxLayoutAlign='end center'>{{ message.creationDate | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">

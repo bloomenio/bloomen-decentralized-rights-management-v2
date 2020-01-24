@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 
 import {Subscription, Observable, pipe, interval} from 'rxjs';
 import { AssetModel } from '@core/models/assets.model';
-import { filter, map, tap } from 'rxjs/operators';
+import {filter, first, map, skipWhile, tap} from 'rxjs/operators';
 
 import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
@@ -23,6 +23,11 @@ import * as Papa from 'papaparse';
 import {ShellComponent} from '@shell/shell.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
 import {AssetsApiService} from '@api/assets-api.service';
+import * as fromUserSelectors from '@stores/user/user.selectors';
+import {ROLES} from '@constants/roles.constants';
+import {UserModel} from '@models/user.model';
+import * as fromAppActions from '@stores/application-data/application-data.actions';
+import {THEMES} from '@constants/themes.constants';
 
 const log = new Logger('repertoire.component');
 
@@ -50,6 +55,11 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public members$: Subscription;
   public members: MemberModel[];
+  public member: MemberModel;
+  // private user$: Subscription;
+  // public user: UserModel;
+  public member$: Subscription;
+  public currentGroup: string;
 
   private page$: Subscription;
 
@@ -74,29 +84,30 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.countAssets = 0;
       this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
       this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
-      this.members$ = this.store.select(fromMemberSelectors.selectAllMembers)
-          .subscribe((members) => { this.members = members; });
 
-      // this.registrationForm = this.fb.group({
-      //     type: ['all']
-      // });
-
-      this.registrationForm = new FormGroup({
-          type: new FormControl()
+      this.member$ = this.store.select(fromMemberSelectors.getCurrentMember)
+          .subscribe((member) => {
+          if (member) {
+              this.currentGroup = member.group;
+              // console.log('CURRENT MEMBER GRoup is  ', this.currentGroup);
+          }
       });
-      this.registrationForm = this.fb.group({
-          type: ['all']
-      });
+      this.assetsApiService.group = this.currentGroup;
+      console.log('this.assetsApiService.group is ', this.assetsApiService.group);
 
-      this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
-      {filter: '',
-       pageIndex: 0,
-       pageSize: 300 }
-      ));
+
+      this.registrationForm = new FormGroup({ type: new FormControl() });
+      this.registrationForm = this.fb.group({ type: ['all'] });
+      this.filter = '';
+
+      this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+                  filter: '',
+                  pageIndex: 0,
+                  pageSize: 300
+              }
+          ));
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
-        {filter: ''}));
-
-      console.log('MEMBER: ', this.members[0].name);
+          {filter: ''}));
 
       // this.newMessagesInterval$ = interval(5000).subscribe(() => {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.
@@ -108,29 +119,14 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       // tslint:disable-next-line:no-life-cycle-call
       this.shellComponent.ngOnInit();
       // });
+      // this.currentMember = this.inboxComponent.currentMember;
+      // console.log('CURRENT MEMBER group is ', this.currentMember.group);
+
   }
 
   public checkSource() {
-      // console.log('TYPE: ', this.registrationForm.get('type').value);
-      // this.type = this.registrationForm.get('type').value;
-      // console.log(this.type);
       this.assetsApiService.type = this.registrationForm.get('type').value;
       this.getAssets();
-  }
-
-  public filteredType(type: string) {
-      this.filter = type;
-      const local =
-
-          this.repertoire$
-          .pipe(
-              // filter(asset => asset[_].ISWC !== 'undefined')
-          );
-      if (local) {
-      //     local.unsubscribe();
-      //     console.log(local);
-      }
-      return this.repertoire$;
   }
 
   public ngAfterViewInit() {
@@ -159,6 +155,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnDestroy() {
     this.page$.unsubscribe();
+    if (this.member$) {
+        this.member$.unsubscribe();
+    }
     this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
     if (this.newMessagesInterval$) {
       this.newMessagesInterval$.unsubscribe();

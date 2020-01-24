@@ -13,6 +13,7 @@ export class AssetsApiService {
     ) { }
 
     public type: string;
+    public group = 'second';
     public productionMode = true;   // True for Bloomen API (production mode); False for Repertoire DB (testing mode).
     private headers = new HttpHeaders()
         .set('Content-Type', 'application/json')
@@ -57,7 +58,9 @@ export class AssetsApiService {
                 console.log('q: ', params.get('q'));
                 const body = '{\"term\": \"' +
                     params.get('q') +
-                    '\", \"group\": \"second\"}';
+                    '\", \"group\": \"' +
+                    this.group +
+                    '\"}';
                 return this.httpClient
                     .post(`https://bloomen.herokuapp.com/sound/search`,
                         body,
@@ -81,7 +84,9 @@ export class AssetsApiService {
                 console.log('q: ', params.get('q'));
                 const body = '{\"term\": \"' +
                     params.get('q') +
-                    '\", \"group\": \"second\"}';
+                    '\", \"group\": \"' +
+                    this.group +
+                    '\"}';
                 return this.httpClient
                     .post(`https://bloomen.herokuapp.com/sound/search`,
                         body,
@@ -97,7 +102,9 @@ export class AssetsApiService {
                 console.log('q: ', params.get('q'));
                 const body = '{\"term\": \"' +
                     params.get('q') +
-                    '\", \"group\": \"second\"}';
+                    '\", \"group\": \"' +
+                    this.group +
+                    '\"}';
                 return this.httpClient
                     .post(`https://bloomen.herokuapp.com/sound/search`,
                         body,
@@ -135,7 +142,11 @@ export class AssetsApiService {
         } else {
             return this.httpClient
                 .post(`https://bloomen.herokuapp.com/sound/search`,
-                    '{\"term\": \"\", \"group\": \"test\"}',
+                    '{\"term\": \"'  +
+                    params.get('q') +
+                    '\", \"group\": \"' +
+                    this.group +
+                    '\"}',
                     {
                     headers: this.headers,
                     params: params

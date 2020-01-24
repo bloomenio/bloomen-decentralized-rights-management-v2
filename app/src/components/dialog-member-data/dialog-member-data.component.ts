@@ -2,21 +2,26 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ROLES } from '@core/constants/roles.constants';
-
 import {MemberModel} from '@models/member.model';
+import * as fromMemberAction from '@stores/member/member.actions';
+import {Store} from '@ngrx/store';
+
+export let collections: string[] = ['test', 'first', 'second', 'third'];
 
 @Component({
   selector: 'blo-dialog-member-data',
   templateUrl: './dialog-member-data.component.html',
   styleUrls: ['./dialog-member-data.component.scss']
 })
+
 export class DialogMemberDataComponent implements OnInit {
 
   public editMemberForm: FormGroup;
-  public collections: string[];
+  public collections = collections;
 
   constructor(public dialogRef: MatDialogRef<DialogMemberDataComponent>,
     private fb: FormBuilder,
+    private store: Store<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -25,16 +30,13 @@ export class DialogMemberDataComponent implements OnInit {
       name: [this.data.member.name, [Validators.required]],
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
-      collections: [this.data.member.collections, [Validators.required]]
+      group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();
     this.editMemberForm.get('memberId').disable();
-    this.editMemberForm.get('logo').disable();
-    this.editMemberForm.get('claims').disable();
-    this.editMemberForm.get('country').disable();
-    this.editMemberForm.get('claimInbox').disable();
-    this.editMemberForm.get('userRequests').disable();
-    this.editMemberForm.get('cmo').disable();
+    // this.editMemberForm.get('claims').disable();
+    // this.editMemberForm.get('claimInbox').disable();
+    // this.editMemberForm.get('userRequests').disable();
   }
 
   public onSubmit(): void {
@@ -45,8 +47,10 @@ export class DialogMemberDataComponent implements OnInit {
       logo: this.data.member.logo,
       country: this.data.member.country,
       cmo: this.data.member.cmo,
-      theme: this.editMemberForm.get('theme').value
+      theme: this.editMemberForm.get('theme').value,
+      group: this.editMemberForm.get('group').value
     };
+    // console.log('MEMBER\n', member);
     this.dialogRef.close(member);
   }
 

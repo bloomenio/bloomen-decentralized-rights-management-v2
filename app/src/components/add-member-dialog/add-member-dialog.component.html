@@ -12,10 +12,18 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field fxFlex="45">
-          <input matInput placeholder="{{ 'add_member_dialog.member' | translate }}" formControlName="member">
+          <mat-label>Collection</mat-label>
+          <mat-select formControlName="group">
+            <mat-option *ngFor="let collection of collections" [value]="collection">
+              {{ collection | titlecase}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field fxFlex="100">
           <input matInput placeholder="{{ 'add_member_dialog.image_url' | translate }}" formControlName="url">
+        </mat-form-field>
+        <mat-form-field fxFlex="45">
+          <input matInput placeholder="{{ 'add_member_dialog.member' | translate }}" formControlName="member">
         </mat-form-field>
         <mat-form-field fxFlex="45">
             <input placeholder="{{'Country' | translate}}" matInput formControlName="country" [matAutocomplete]="auto">

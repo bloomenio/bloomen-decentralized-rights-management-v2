@@ -17,10 +17,10 @@
         <input matInput placeholder="Member ID" formControlName="memberId" />
       </mat-form-field>
       <mat-form-field fxFlex="45">
-        <mat-label>Collections</mat-label>
-        <mat-select formControlName="collections">
+        <mat-label>Collection</mat-label>
+        <mat-select formControlName="group">
           <mat-option *ngFor="let collection of collections" [value]="collection">
-            {{ collection }}
+            {{ collection | titlecase }}
           </mat-option>
         </mat-select>
       </mat-form-field>

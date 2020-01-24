@@ -35,7 +35,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public dataSource: MemberManagementDataSource;
 
   public member$: Subscription;
-
+  // public dialogMemberDataComponent: DialogMemberDataComponent;
 
   public companiesPageNumber: number;
 
@@ -49,11 +49,12 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     private store: Store<any>,
     public inboxComponent: InboxComponent,
     public shellComponent: ShellComponent,
+    // public dialogMemberDataComponent: DialogMemberDataComponent,
     public dialog: MatDialog
   ) { }
 
   public ngOnInit() {
-    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];
+    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'collection', 'edit'];
     this.dataSource = new MemberManagementDataSource(this.memberContract);
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(
@@ -101,12 +102,11 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     });
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
+        // console.log('VALUE for UpdateMember: ', value);
         this.store.dispatch(new fromMemberActions.UpdateMember(value));
       }
     });
   }
-
-
 
   public ngOnDestroy() {
     this.member$.unsubscribe();

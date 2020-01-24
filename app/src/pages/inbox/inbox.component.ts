@@ -38,9 +38,9 @@ export class InboxComponent implements OnInit, OnDestroy {
   // private intervalUser$: Subscription;
   // private intervalSuperUser$: Subscription;
   private user$: Subscription;
+  public user: UserModel;
 
   public member: MemberModel;
-  public user: UserModel;
 
   public inbox: any[];
   public message: any;
@@ -64,6 +64,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).subscribe((member) => {
       this.currentMember = member;
     });
+    // console.log('INBOX COMPONENT CURRENT MEMBER group is ', this.currentMember.group);
 
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).pipe(
       skipWhile((member) => !member),

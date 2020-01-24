@@ -18,6 +18,7 @@ contract Members is Random, Registry {
     uint256[] claimInbox;
     uint256[] claims;
     address[] userRequests;
+    string group;
   }
 
   uint256 constant private PAGE_SIZE = 10;
@@ -30,18 +31,22 @@ contract Members is Random, Registry {
 
   // Public
 
-  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public returns(uint) {
+  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme, string _group) onlySigner public returns(uint) {
     require(_creationDate > 0, "CreationDate is mandatory");
     uint256 _memberId = Random.rand(_creationDate);
     require(members_[_memberId].memberId == 0, "Member already exists");
     _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
+    members_[_memberId].group = _group;
     return _memberId;
   }
 
-  function updateMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public {
+  function updateMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme, string _group) onlySigner public {
     require(members_[_memberId].memberId > 0, "Member not exists");
     require(members_[_memberId].creationDate == _creationDate, "Creation Date is inmutable");
-    _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
+//    _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
+    members_[_memberId].group = _group;
+    members_[_memberId].name = _name;
+    members_[_memberId].theme = _theme;
   }
 
   function getMembers() public view returns (Member[] memory) {
