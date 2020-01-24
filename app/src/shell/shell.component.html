@@ -70,6 +70,10 @@
         <div *ngIf="currentPageRoute === 'Member management'">
           <button mat-button (click)="openDialogAddMember()">{{ 'Add member' | translate | uppercase }}</button>
         </div>
+        <div *ngIf="currentPageRoute === 'Claims'">
+          <button mat-button (click)="openInput()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>
+          <input id="fileInput" hidden name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
+        </div>
 <!--        <div class="add-claim">-->
 <!--          <button mat-button (click)="openDialogAddClaim()">{{'Add claim' | translate | uppercase}}</button>-->
 <!--        </div>-->

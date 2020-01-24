@@ -95,7 +95,6 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.assetsApiService.group = this.currentGroup;
       console.log('this.assetsApiService.group is ', this.assetsApiService.group);
 
-
       this.registrationForm = new FormGroup({ type: new FormControl() });
       this.registrationForm = this.fb.group({ type: ['all'] });
       this.filter = '';
@@ -168,26 +167,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     const file = event.target.files;
     if (file.length > 0) {
         console.log(file); // You will see the file
-      // Papaparse
-
-
-      // let formData: FormData = new FormData();
-      // formData.append('file', file, file.name);
-      // console.log('formData');
-      // console.log('formData');
-
-      // Parse the file you want to select for the operation along with the configuration
-      // @ts-ignore
-      // const ngxCsvParser: NgxCsvParser = NgxCsvParser;
-      // ngxCsvParser.parse(file[0], { header: this.header, delimiter: ',' })
-      //       .pipe().subscribe((result: Array<any>) => {
-      //           console.log('Result: \n', result);
-      //           this.csvRecords = result;
-      //       }, (error: NgxCSVParserError) => {
-      //           console.log('Error', error);
-      //       });
-      // this.uploadedCSV2JSON = this.csvRecords;
-
+      //
         const f = new Blob(file, {type: 'text/plain'});
         const reader = new FileReader();
         reader.onload = () => {

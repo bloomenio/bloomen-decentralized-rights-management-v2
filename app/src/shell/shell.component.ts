@@ -17,6 +17,8 @@ import { MatDialog } from '@angular/material';
 import { AddMemberDialogComponent } from '@components/add-member-dialog/add-member-dialog.component';
 import { UserModel } from '@core/models/user.model';
 import {interval, Subscription} from 'rxjs';
+import * as Papa from 'papaparse';
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 // import {newMessages} from '@pages/inbox/inbox.component';
 // import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
 
@@ -31,8 +33,8 @@ const log = new Logger('blo-shell');
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
+  public uploadedCSV2JSON: any;
   public newMessagesInterval$: any;
-  // public newMessages = false;
   public imgToolbar: string;
   public backgroundImage: string;
   public powered: boolean;
@@ -57,6 +59,7 @@ export class ShellComponent implements OnInit, OnDestroy {
     private media: ObservableMedia,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    public assetCardComponent: AssetCardComponent,
     private matDialog: MatDialog
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -204,9 +207,70 @@ export class ShellComponent implements OnInit, OnDestroy {
       width: '1100px',
     });
   }
-  // public openDialogAddClaim() {
-  //   this.matDialog.open(AddClaimDialogComponent, {
-  //     width: '1100px',
-  //   });
-  // }
+  public openInput() {
+    document.getElementById('fileInput').click();
+  }
+  public uploadFile(event) {
+    const file = event.target.files;
+    if (file.length > 0) {
+      console.log(file); // You will see the file
+      //
+      const f = new Blob(file, {type: 'text/plain'});
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = reader.result;
+        // console.log('CSV file:\n', (text as string).substring(0, 1000) + '...');
+        // console.log('Papa');
+        const papa = Papa.parse(text, {
+          transform: function (value) {
+            try {
+              return JSON.parse(value);
+            } catch (err) {
+              return value;
+            }
+          }
+        });
+        // console.log('CSV.DATA PAPAPARSE:');
+        let rightCSVFormat = true;
+        papa.data.forEach( (x: any) => { if (x.length !== 9) {
+          console.log('CSV HAS WRONG INFO.');
+          rightCSVFormat = false;
+        }});
+        if (rightCSVFormat) {
+          console.log(this.csvJSON(papa.data));
+          this.uploadedCSV2JSON = this.csvJSON(papa.data);
+          // tslint:disable-next-line:no-life-cycle-call
+          this.assetCardComponent.ngOnInit();
+          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON).then();
+          console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+        } else {
+          console.log('E r r o r: CSV HAS WRONG INFO.');
+          alert('E r r o r: The uploaded CSV file has an undesired format.\n\n' +
+              // 'Right Holder Role spot is left empty for Sound Recordings\n' +
+              'Please make sure each claim has 9 fields and that there are no empty lines.');
+        }
+      };
+      reader.readAsText(f);
+    }
+  }
+
+  public csvJSON(csv) {
+    const result = [];
+    const line = csv;
+    const headers = line[0];
+    for (let i = 1; i < line.length; i++) {
+      const obj = {};
+      for (let j = 0; j < headers.length; j++) {
+        const currentline = line[i];
+        if (j === 2 || j === 3) {
+          obj[headers[j]] = Date.parse(currentline[j]).toString();
+        } else {
+          obj[headers[j]] = (currentline[j]).toString();
+        }
+      }
+      result.push(obj);
+    }
+    // return result; //JavaScript object
+    return JSON.stringify(result); // JSON
+  }
 }

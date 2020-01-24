@@ -13,6 +13,7 @@ import { DirectivesModule } from '@directives/directives.module';
 import { BackButtonShellModule } from '@components/back-button-shell/back-button-shell.module';
 import { AddMemberDialogModule } from '@components/add-member-dialog/add-member-dialog.module';
 import {DeleteClaimModule} from '@components/delete-claim/delete-claim.module';
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 // import { AddClaimDialogModule } from '@components/add-claim-dialog/add-claim-dialog.module';
 
 @NgModule({
@@ -26,9 +27,10 @@ import {DeleteClaimModule} from '@components/delete-claim/delete-claim.module';
     SharedModule,
     DirectivesModule,
     AddMemberDialogModule,
+    DeleteClaimModule,
     // AddClaimDialogModule,
-    DeleteClaimModule
   ],
-  declarations: [ShellComponent]
+  declarations: [ShellComponent],
+  providers: [AssetCardComponent]
 })
 export class ShellModule { }

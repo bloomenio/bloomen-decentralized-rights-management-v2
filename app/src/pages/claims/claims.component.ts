@@ -62,7 +62,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
 
-        this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
+        this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view']; // , 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
