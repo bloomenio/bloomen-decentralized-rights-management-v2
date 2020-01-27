@@ -77,7 +77,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             // tslint:disable-next-line:no-life-cycle-call
         this.shellComponent.ngOnInit();
         // });
-
         // console.log('claims.components.dataSource.loadClaims: ');
         // console.log(this.dataSource);
         // console.log('claims.components.dataSource: ');

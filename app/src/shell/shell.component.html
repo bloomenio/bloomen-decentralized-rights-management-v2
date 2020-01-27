@@ -17,7 +17,7 @@
 <!--          <div *ngIf="!newMessages" id="noNewMessages" class="icon-bar ic-inbox"></div>-->
 <!--          refresh part of page is the key: ShellComponent.newMessages doesn't have enough time to change its value when executing lines 12 and 13,14 (which have *ngIf)-->
           <div class="icon-bar ic-inbox-new-message"></div>
-          <span class="text-bar" translate>Inbox <sup class="sup">New!</sup></span>
+          <span class="text-bar" translate>Inbox <sup class="sup">({{ newMessagesNo }})</sup></span>
         </mat-list-item>
         <mat-list-item routerLink="/repertoire" routerLinkActive="active" (click)="isMobile && sidenav.close()"
           *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">

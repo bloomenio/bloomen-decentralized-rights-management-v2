@@ -19,6 +19,10 @@ import { UserModel } from '@core/models/user.model';
 import {interval, Subscription} from 'rxjs';
 import * as Papa from 'papaparse';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+import {ClaimsDataSource} from '@pages/claims/claims.datasource';
+import {ClaimModel} from '@models/claim.model';
+import {MemberModel} from '@models/member.model';
+import {ClaimsContract} from "@services/web3/contracts";
 // import {newMessages} from '@pages/inbox/inbox.component';
 // import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
 
@@ -33,6 +37,7 @@ const log = new Logger('blo-shell');
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
+  public newMessagesNo: number;
   public uploadedCSV2JSON: any;
   public newMessagesInterval$: any;
   public imgToolbar: string;
@@ -42,15 +47,18 @@ export class ShellComponent implements OnInit, OnDestroy {
   public user: UserModel;
   public userInitials: string;
   public roles: object;
-
   public theme$: Subscription;
   public user$: Subscription;
   public member$: Subscription;
-
   public currentPageRoute: string;
 
   @ViewChild(BloButtonsHostDirective) public bloButtons: BloButtonsHostDirective;
   @ViewChild(BloBackButtonHostDirective) public bloBackButton: BloBackButtonHostDirective;
+
+  public claimType: any;
+
+  // For Refresh Claims page.
+  public dataSource: ClaimsDataSource;
 
   constructor(
     private titleService: Title,
@@ -60,7 +68,8 @@ export class ShellComponent implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public assetCardComponent: AssetCardComponent,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    public claimsContract: ClaimsContract
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
@@ -134,8 +143,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     return newMessagesE;
   }
 
-  public newMessagesSetTrue() {
+  public newMessagesSetTrue(no: number) {
     newMessagesE = true;
+    this.newMessagesNo = no;
   }
 
   public newMessagesSetFalse() {
@@ -241,8 +251,20 @@ export class ShellComponent implements OnInit, OnDestroy {
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();
-          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON).then();
-          console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON).then( () => {
+            console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+
+            // Refresh Claims page: claims.component
+            this.dataSource = new ClaimsDataSource(this.claimsContract);
+            this.dataSource.loadClaims();
+          }).then(() => {
+            this.router.navigateByUrl('/repertoire')
+                .then(() => {
+                  this.router.navigateByUrl('/claims');
+                });
+          });
+          // End Of Refresh Claims page: claims.component
+
         } else {
           console.log('E r r o r: CSV HAS WRONG INFO.');
           alert('E r r o r: The uploaded CSV file has an undesired format.\n\n' +

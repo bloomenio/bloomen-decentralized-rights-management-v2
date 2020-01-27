@@ -47,10 +47,10 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     public router: Router,
     private memberContract: MemberContract,
     private store: Store<any>,
-    public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent,
     // public dialogMemberDataComponent: DialogMemberDataComponent,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public inboxComponent: InboxComponent,
+    public shellComponent: ShellComponent
   ) { }
 
   public ngOnInit() {

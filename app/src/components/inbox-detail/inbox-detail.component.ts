@@ -16,8 +16,8 @@ import {ClaimsComponent} from '@pages/claims/claims.component';
 import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
 import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
 import {InboxComponent} from '@pages/inbox/inbox.component';
-import {ClaimsDataSource} from "@pages/claims/claims.datasource";
-import * as fromMemberActions from "@stores/member/member.actions";
+import {ClaimsDataSource} from '@pages/claims/claims.datasource';
+import * as fromMemberActions from '@stores/member/member.actions';
 
 const log = new Logger('inbox-detail.component');
 

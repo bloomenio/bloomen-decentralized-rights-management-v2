@@ -73,10 +73,10 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public snackBar: MatSnackBar,
     public router: Router,
     public assetCardComponent: AssetCardComponent,
-    public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent,
     public fb: FormBuilder,
-    public assetsApiService: AssetsApiService
+    public assetsApiService: AssetsApiService,
+    public inboxComponent: InboxComponent,
+    public shellComponent: ShellComponent
   ) { }
 
   public async ngOnInit() {

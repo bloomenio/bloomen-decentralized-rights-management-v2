@@ -7,6 +7,8 @@ import {first, skipWhile} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 import {UserModel} from '@models/user.model';
 import {Store} from '@ngrx/store';
+import {isUpperCase} from 'tslint/lib/utils';
+import {InboxComponent} from '@pages/inbox/inbox.component';
 
 
 /**
@@ -28,7 +30,8 @@ export class InboxItemListComponent implements OnInit {
   public user: UserModel;
 
   constructor(
-      public store: Store<any>
+      public store: Store<any>,
+      public inboxComponent: InboxComponent
   ) { }
 
   public ngOnInit() {
@@ -44,6 +47,15 @@ export class InboxItemListComponent implements OnInit {
   }
 
   public onClickMessage() {
+    if (this.message.read !== true) {
+      this.message.read = true;
+      this.inboxComponent.markAsRead(this.message.creationDate, (this.message.claimId ? this.message.claimId : this.message.firstName));
+      // this.message.push({ 'read': true});  // The message was just read.
+      // console.log('The message was just read.');
+    }
+    // console.log(this.message[this.message.length - 1]);
+    // console.log('message');
+    // console.log(this.message);
     this.messageSelected.emit(this.message);
   }
 

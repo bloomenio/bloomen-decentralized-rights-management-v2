@@ -10,8 +10,10 @@
 <div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length">
     <div fxFill fxFlex="30" fxLayout="column" class="detail-wrapper list-wrapper">
         <ng-container  *ngFor="let messageItem of inbox">
-            <blo-inbox-item-list [message]="messageItem" [isActive]="messageItem?.claimId === message?.claimId"
-                (messageSelected)="onMessageSelected($event)">
+            <blo-inbox-item-list [message]="messageItem"
+                                 [isActive]="messageItem?.claimId === message?.claimId"
+                                 (messageSelected)="onMessageSelected($event)">
+<!--                                 *ngIf="message.read === true"-->
             </blo-inbox-item-list>
         </ng-container>
     </div>
