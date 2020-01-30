@@ -150,12 +150,13 @@ function getUsersOwner() {
 
 async function addWhitelist() {
     let questions = [
-        { type: 'input', name: 'address', message: 'Specify the address user:' }
+        { type: 'input', name: 'address', message: 'Specify the address user:' },
+        { type: 'input', name: 'cmo', message: 'Specify cmo:' },
     ];
 
     let whitelistUser = await inquirer.prompt(questions);
 
-    contractInstance.methods.whitelistAdmin(whitelistUser.address).send(transactionObject).then(checkTransaction);
+    contractInstance.methods.whitelistAdmin(whitelistUser.address, whitelistUser.cmo.toString()).send(transactionObject).then(checkTransaction);
 }
 
 async function isSigner() {

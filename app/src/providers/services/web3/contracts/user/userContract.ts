@@ -65,6 +65,7 @@ export class UserContract extends Contract {
         });
     }
 
+
     public getMe(): Promise<UserModel> {
         return this.contract.methods.getMe().call(this.args);
     }

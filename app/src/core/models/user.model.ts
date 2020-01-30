@@ -7,6 +7,7 @@ export interface UserModel {
     role: string;
     status?: string;
     owner?: string;
+    cmo?: string;
 }
 
 export enum StatusEnum {

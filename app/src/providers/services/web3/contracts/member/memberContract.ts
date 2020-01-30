@@ -56,13 +56,17 @@ export class MemberContract extends Contract {
         });
     }
 
-    public getMembers(page: number = 0): Promise<MemberModel[]> {
+
+    public getMembers(page: number = 0, cmo: string): Promise<MemberModel[]> {
+        // console.log('MEMBERS FROM GETMEMBERS');
         return new Promise<MemberModel[]>((resolve, reject) => {
             this.web3Service.ready(() => {
                 return from(this.contract.methods.getMembers(page).call(this.args)).pipe(
                     map((members: MemberModel[]) => {
+                        // console.log(members.filter((member: MemberModel) => member.memberId > 0 && member.cmo === cmo ));
                         return members
-                            .filter((member: MemberModel) => member.memberId > 0 )
+                            .filter((member: MemberModel) => member.memberId > 0 && member.cmo === cmo )
+                            // .filter((member: MemberModel) => )
                             // .filter((member: MemberModel) => member.name === 'BMAT' )
                             // .filter((v, i) => members.indexOf(v) === i)
                             ;

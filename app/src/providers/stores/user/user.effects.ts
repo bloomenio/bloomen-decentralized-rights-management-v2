@@ -65,8 +65,11 @@ export class UserEffects {
                 requestId: userBc.requestId,
                 status: userBc.status,
                 memberId: userBc.memberId,
-                owner: userBc.owner
+                owner: userBc.owner,
+                cmo: userBc.cmo
             };
+            console.log('USER: ');
+            console.log(user);
             this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
             this.store.dispatch(new fromUserActions.AddUserSuccess(user));
             this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));

@@ -9,7 +9,7 @@ import { Logger } from '@services/logger/logger.service';
 import { Web3Service } from '@services/web3/web3.service';
 import { TransactionService } from '@services/web3/transactions/transaction.service';
 
-const log = new Logger('member.contract');
+const log = new Logger('registry.contract');
 
 
 export class RegistryContract extends Contract {

@@ -254,18 +254,20 @@ export class ShellComponent implements OnInit, OnDestroy {
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();
-          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON).then( () => {
+          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON)
+              .then( () => {
             console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
 
             // Refresh Claims page: claims.component
             this.dataSource = new ClaimsDataSource(this.claimsContract);
             this.dataSource.loadClaims();
-          }).then(() => {
+              })
+              .then(() => {
             this.router.navigateByUrl('/repertoire')
                 .then(() => {
                   this.router.navigateByUrl('/claims');
                 });
-          });
+              });
           // End Of Refresh Claims page: claims.component
 
         } else {

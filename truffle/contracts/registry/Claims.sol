@@ -33,11 +33,12 @@ contract Claims {
     uint256 memberOwner;    // should be 2^24 ~ 16 million members
     bool status;
     uint256 lastChange;
+    uint16[] log;
   }
 
   mapping (uint256 => Claim) private claims_;
   mapping (uint256 => uint16) private maxSplits_;
-  uint256 constant private PAGE_SIZE = 10;
+  uint256 constant private PAGE_SIZE = 50;
 
   uint256 private claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones
   //   uint256[] private claimIdIndex;
@@ -180,11 +181,11 @@ contract Claims {
     bool tempMaxSplitOnce = true;
 
     if (split == 0) {
-      if (prevStatus) {
-        claims_[_claimId].status = false;
-        _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-        prevStatus = false;
-      }
+//      if (prevStatus) {
+      claims_[_claimId].status = false;
+      _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+      prevStatus = false;
+//      }
     }
     else {
       for(uint256 i = 1; i <= claimIdCounter_; i++) {
@@ -205,7 +206,8 @@ contract Claims {
               hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
               if (hasOverlapResult) {
                 if (newClaim) {
-  //                claims_[i].maxSplit.push(maxSplits_[i]);
+                  claims_[i].log.push(maxSplits_[i]);
+                  claims_[i].log.push(split);
                   if (maxSplits_[i] + split > 100 && maxSplits_[i] != 0) { // if also claims_[i]._claimData.split != 0
                     if (!prevStatus) {
                       claims_[_claimId].status = true; // true, means there IS a CONFLICT

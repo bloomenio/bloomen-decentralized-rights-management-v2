@@ -15,6 +15,7 @@ contract Users is Members {
     string role;
     StatusUserEnum status;
     address owner;
+    string cmo;
   }
 
   enum StatusUserEnum {
@@ -86,10 +87,11 @@ contract Users is Members {
     return counter;
   }
 
-  function whitelistAdmin(address account) public onlySigner {
+  function whitelistAdmin(address account, string _cmo) public onlySigner {
     _clearUserFromMemberRequest(users_[account].memberId, account);
     users_[account].role = "Super admin";
-    users_[account].memberId = 0;
+    users_[account].memberId = ++memberIdCounter_;
+    users_[account].cmo = _cmo;
     users_[account].status = StatusUserEnum.ACCEPTED;
     addSigner(account);
 

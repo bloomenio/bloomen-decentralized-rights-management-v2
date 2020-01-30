@@ -25,6 +25,7 @@ import {ShellComponent} from '@shell/shell.component';
 export let lastInboxLength: number;
 export let inboxReadClaims: any; // claimId, lastChange, isRead
 export let unreadMessages: any;
+export let currentMember: any;
 
 const log = new Logger('inbox.component');
 
@@ -45,6 +46,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   public member: MemberModel;
   public inbox: any[];
   public message: any;
+  public currentCMO: any;
   public currentMember: MemberModel;
   // public lastInboxLengthUsers = 0;
   // public lastInboxLengthUserRequests = 0;
@@ -84,6 +86,10 @@ export class InboxComponent implements OnInit, OnDestroy {
       this.user = user;
       if (user.role === ROLES.SUPER_USER) {
         this.fillInboxSuperUser();
+        console.log('fillInboxSuperUser');
+        this.currentCMO = this.user.cmo;
+        console.log(this.user);
+        console.log(this.member);
       }
     });
     // console.log('LOADING4');
@@ -122,6 +128,13 @@ export class InboxComponent implements OnInit, OnDestroy {
     //   this.fillInboxSuperUser();
     // });
 
+  }
+
+  public print() {
+
+    currentMember = this.currentMember;
+    console.log('currentMember');
+    console.log(this.currentMember);
   }
 
   public ngOnDestroy() {

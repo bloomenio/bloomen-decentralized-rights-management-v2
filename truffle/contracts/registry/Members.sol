@@ -24,6 +24,7 @@ contract Members is Random, Registry {
   uint256 constant private PAGE_SIZE = 10;
 
   mapping (uint256 => Member) private members_;
+  uint256 public memberIdCounter_ = 0; // has the number of members + Super Admins ever inserted, including the deleted ones
 
   uint256[] private membersList_;
 
@@ -34,7 +35,8 @@ contract Members is Random, Registry {
   function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public returns(uint) {
     //  string _group) onlySigner public returns(uint) {
     require(_creationDate > 0, "CreationDate is mandatory");
-    uint256 _memberId = Random.rand(_creationDate);
+//    uint256 _memberId = Random.rand(_creationDate);
+    uint256 _memberId = ++memberIdCounter_;
     require(members_[_memberId].memberId == 0, "Member already exists");
     _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
 //    members_[_memberId].group = _group;

@@ -97,9 +97,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         if (!cmo) {
           return [];
         } else {
-          return members.filter(member => {
-            return member.cmo === cmo;
-          });
+          return members.filter(member => member.cmo === cmo );
         }
       })
     ).toPromise().then((members) => {
@@ -144,7 +142,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
       console.log('AutoFill_ended');
       console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
-      console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+   // console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
     } else { // Opera
       const user: UserModel = {
         creationDate: new Date().getTime(),
@@ -158,8 +156,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.router.navigate(['waiting-approve']);
 
       console.log('AutoFill_ended');
-      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
-      console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name)
+   // console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
     }
   }
 

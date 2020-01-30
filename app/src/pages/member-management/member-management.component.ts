@@ -6,17 +6,21 @@ import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
 import { MemberManagementDataSource } from './member-management.datasource';
 import { tap, map, skipWhile } from 'rxjs/operators';
-import { MemberContract } from '@core/core.module';
+import {MemberContract, RegistryContract} from '@core/core.module';
 import { Store } from '@ngrx/store';
 
 import * as fromMemberSelector from '@stores/member/member.selectors';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {interval, Subscription} from 'rxjs';
-import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
+import {currentMember, InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import {ShellComponent} from '@shell/shell.component';
 import {DialogMemberDataComponent} from '@components/dialog-member-data/dialog-member-data.component';
 import * as fromUserActions from '@stores/user/user.actions';
 import {MatDialog} from '@angular/material/dialog';
+import * as fromAppActions from '@stores/application-data/application-data.actions';
+import {THEMES} from '@constants/themes.constants';
+import {MemberModel} from '@models/member.model';
+import * as fromMemberSelectors from '@stores/member/member.selectors';
 
 const log = new Logger('company-management.component');
 
@@ -33,8 +37,10 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public newMessagesInterval$: any;
   public displayedColumns: string[];
   public dataSource: MemberManagementDataSource;
-
+  public member: MemberModel;
+  public members: MemberModel[];
   public member$: Subscription;
+  public currentMember$: Subscription;
   // public dialogMemberDataComponent: DialogMemberDataComponent;
 
   public companiesPageNumber: number;
@@ -46,6 +52,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     public snackBar: MatSnackBar,
     public router: Router,
     private memberContract: MemberContract,
+    private registryContract: RegistryContract,
     private store: Store<any>,
     // public dialogMemberDataComponent: DialogMemberDataComponent,
     public dialog: MatDialog,
@@ -54,8 +61,24 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   ) { }
 
   public ngOnInit() {
+
+    this.member$ = this.store.select(fromMemberSelectors.selectAllMembers)
+        // .pipe(      skipWhile((member) => !member))
+        .subscribe((member) => {
+          if (member) {
+            this.members = member;
+            console.log('CURRENT MEMBER is  ', this.members);
+          }
+        });
+
     this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];   // , 'collection', 'edit'];
-    this.dataSource = new MemberManagementDataSource(this.memberContract);
+
+    if (this.inboxComponent.currentCMO === undefined) {
+      console.log('CURRENT MEMBER is  ', undefined);
+      this.dataSource = new MemberManagementDataSource(this.memberContract, 'cmo1');
+    } else {
+      this.dataSource = new MemberManagementDataSource(this.memberContract, this.inboxComponent.currentCMO.toString());
+    }
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(
       skipWhile((members) => !members)
@@ -113,6 +136,9 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     this.member$.unsubscribe();
     if (this.newMessagesInterval$) {
       this.newMessagesInterval$.unsubscribe();
+    }
+    if (this.currentMember$) {
+      this.currentMember$.unsubscribe();
     }
   }
 }

@@ -84,8 +84,8 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.member$ = this.store.select(fromMemberSelectors.getCurrentMember)
           .subscribe((member) => {
           if (member) {
-              this.currentGroup = member.group;
-              // console.log('CURRENT MEMBER GRoup is  ', this.currentGroup);
+              this.currentGroup = member.name;
+              console.log('CURRENT MEMBER is  ', this.currentGroup);
           }
       });
       // this.assetsApiService.group = this.currentGroup;
