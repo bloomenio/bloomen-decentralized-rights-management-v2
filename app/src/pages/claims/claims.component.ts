@@ -13,7 +13,7 @@ import { MemberModel } from '@core/models/member.model';
 import {interval, Subscription} from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
-import {InboxComponent} from '@pages/inbox/inbox.component';
+import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {ShellComponent} from '@shell/shell.component';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
@@ -61,32 +61,33 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.members = members;
         });
 
-
         this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view']; // , 'delete'];
         this.dataSource = new ClaimsDataSource(this.claimsContract);
         this.dataSource.loadClaims();
         this.claimType = ClaimModel.ClaimTypeEnum;
 
         // this.newMessagesInterval$ = interval(5000).subscribe(() => {
-            // FOR "NEW MESSAGES" INBOX NOTIFICATION.
-            // tslint:disable-next-line:no-life-cycle-call
+        // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+        // tslint:disable-next-line:no-life-cycle-call
         this.inboxComponent.ngOnInit();
         if (!this.shellComponent.newMessagesGet()) {
-                this.inboxComponent.checkNewMessages();
-            }
-            // tslint:disable-next-line:no-life-cycle-call
+            this.inboxComponent.checkNewMessages();
+        }
+        // tslint:disable-next-line:no-life-cycle-call
         this.shellComponent.ngOnInit();
         // });
         // console.log('claims.components.dataSource.loadClaims: ');
         // console.log(this.dataSource);
         // console.log('claims.components.dataSource: ');
-
-        // this.router.navigateByUrl('/inbox', { skipLocationChange: true }).then(() => {
         //     console.log('NAVIGATE BY URL!');
         // });
         // this.router.navigateByUrl('/claims').then( () => {
         //     console.log('NAVIGATE BY URL!');
         // });
+        // this.router.navigateByUrl('/inbox', { skipLocationChange: true }).then(() => {
+        this.shellComponent.unreadMessages = unreadMessages;
+        // console.log('unreadMessages');
+        // console.log(unreadMessages);
 
     }
 

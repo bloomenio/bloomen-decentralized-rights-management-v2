@@ -1,5 +1,5 @@
 <mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER"
-    (click)="onClickMessage()" [class.active]="isActive">
+    (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
     <div class='date' fxLayoutAlign='end center'>{{ message.creationDate | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">
         <div mat-card-avatar fxLayoutAlign="center center">
@@ -12,11 +12,11 @@
     </div>
 </mat-card>
 <mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.CLAIM"
-    (click)="onClickMessage()" [class.active]="isActive">
+    (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
     <div class='date' fxLayoutAlign='end center'>{{ message.lastChange | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">
         <div mat-card-avatar fxLayoutAlign="center center">
-            <mat-icon *ngIf="message.claimType === claimType.MUSICAL_WORK">headset</mat-icon>
+            <mat-icon *ngIf="message.claimType === claimType.MUSICAL_WORK">queue_music</mat-icon>
             <mat-icon *ngIf="message.claimType === claimType.SOUND_RECORDING">speaker</mat-icon>
         </div>
         <div class='text-box' fxLayout="column">

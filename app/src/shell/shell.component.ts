@@ -22,7 +22,7 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {ClaimsDataSource} from '@pages/claims/claims.datasource';
 import {ClaimModel} from '@models/claim.model';
 import {MemberModel} from '@models/member.model';
-import {ClaimsContract} from "@services/web3/contracts";
+import {ClaimsContract} from '@services/web3/contracts';
 // import {newMessages} from '@pages/inbox/inbox.component';
 // import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
 
@@ -37,7 +37,7 @@ const log = new Logger('blo-shell');
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
-  public newMessagesNo: number;
+  public unreadMessages: number;
   public uploadedCSV2JSON: any;
   public newMessagesInterval$: any;
   public imgToolbar: string;
@@ -140,17 +140,20 @@ export class ShellComponent implements OnInit, OnDestroy {
   }
 
   public newMessagesGet() {
+    // this.unreadMessages = this.inboxComponent.unreadMessages;
     return newMessagesE;
   }
 
-  public newMessagesSetTrue(no: number) {
-    newMessagesE = true;
-    this.newMessagesNo = no;
+  public newMessagesSet(no: number) {
+    newMessagesE = no !== 0;
+    this.unreadMessages = no;
   }
 
-  public newMessagesSetFalse() {
-    newMessagesE = false;
-    // this.newMessages = false;
+  public newMessagesCheckFalse() {
+    if (this.unreadMessages === 0) {
+      newMessagesE = false;
+    }
+    // this.unreadMessages = 0;
   }
 
   public ngOnDestroy() {

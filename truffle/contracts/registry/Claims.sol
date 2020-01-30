@@ -205,9 +205,8 @@ contract Claims {
               hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
               if (hasOverlapResult) {
                 if (newClaim) {
-                  maxSplits_[i]+=split;                // build maxSplits_[i]
   //                claims_[i].maxSplit.push(maxSplits_[i]);
-                  if (maxSplits_[i]>100) {
+                  if (maxSplits_[i] + split > 100 && maxSplits_[i] != 0) { // if also claims_[i]._claimData.split != 0
                     if (!prevStatus) {
                       claims_[_claimId].status = true; // true, means there IS a CONFLICT
                       _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
@@ -218,14 +217,18 @@ contract Claims {
                       claims_[i].status = true;
                     }
                   }
-                  if (tempMaxSplitOnce) {
+                  maxSplits_[i]+=split;                // build maxSplits_[i]
+                if (tempMaxSplitOnce) {
                     maxSplits_[_claimId]=maxSplits_[i];
                     //                claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
                     tempMaxSplitOnce=false;
                   }
                 } else {
                   maxSplits_[i]-=split;
-  //                claims_[i].maxSplit.push(maxSplits_[i]);
+                  if (tempMaxSplitOnce) {
+                    maxSplits_[_claimId]=split;
+                    tempMaxSplitOnce=false;
+                  }//                claims_[i].maxSplit.push(maxSplits_[i]);
                   if (prevStatus) {
                     claims_[_claimId].status = false;
                     _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
@@ -236,10 +239,6 @@ contract Claims {
                       _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
                       claims_[i].status = false;
                     }
-                  }
-                  if (tempMaxSplitOnce) {
-                    maxSplits_[_claimId]=split;
-                    tempMaxSplitOnce=false;
                   }
                 }
               }  // hasOverlapResult territory

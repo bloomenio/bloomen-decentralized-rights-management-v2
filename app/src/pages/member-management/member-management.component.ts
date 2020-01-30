@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import * as fromMemberSelector from '@stores/member/member.selectors';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {interval, Subscription} from 'rxjs';
-import {InboxComponent} from '@pages/inbox/inbox.component';
+import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import {ShellComponent} from '@shell/shell.component';
 import {DialogMemberDataComponent} from '@components/dialog-member-data/dialog-member-data.component';
 import * as fromUserActions from '@stores/user/user.actions';
@@ -73,6 +73,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
       // tslint:disable-next-line:no-life-cycle-call
     this.shellComponent.ngOnInit();
     // });
+    this.shellComponent.unreadMessages = unreadMessages;
   }
 
   public ngAfterViewInit() {

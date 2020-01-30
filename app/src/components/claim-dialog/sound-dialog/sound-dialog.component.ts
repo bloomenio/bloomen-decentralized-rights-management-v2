@@ -10,7 +10,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { COUNTRIES } from '@core/constants/countries.constants';
-import {RegistryContract} from "@services/web3/contracts";
+import {RegistryContract} from '@services/web3/contracts';
 
 const log = new Logger('sound-dialog.component');
 

@@ -22,8 +22,9 @@ import {ShellComponent} from '@shell/shell.component';
 // import {getType} from '@angular/flex-layout/typings/extended/style/style-transforms';
 // import {type} from "os";
 
-export let lastInboxLengthClaims: number;
+export let lastInboxLength: number;
 export let inboxReadClaims: any; // claimId, lastChange, isRead
+export let unreadMessages: any;
 
 const log = new Logger('inbox.component');
 
@@ -34,22 +35,18 @@ const log = new Logger('inbox.component');
 })
 export class InboxComponent implements OnInit, OnDestroy {
 
-  public newMessages: boolean;
   private newMessagesInterval$: Subscription;
   private member$: Subscription;
   // private intervalUser$: Subscription;
   // private intervalSuperUser$: Subscription;
   private user$: Subscription;
   public user: UserModel;
-
   public member: MemberModel;
-
   public inbox: any[];
   public message: any;
   public currentMember: MemberModel;
-
-  public lastInboxLengthUsers = 0;
-  public lastInboxLengthUserRequests = 0;
+  // public lastInboxLengthUsers = 0;
+  // public lastInboxLengthUserRequests = 0;
 
   constructor(
     public store: Store<any>,
@@ -91,6 +88,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
 
     this.refreshInbox();
+    if (unreadMessages === undefined) {
+      unreadMessages = 0;
+    }
     //
     // this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox();});
 
@@ -186,6 +186,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.inbox = [...usersArray];
 
     this.clearMessage();
+    this.checkNewMessages();
   }
 
   private async fillInbox() {
@@ -245,25 +246,13 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public checkNewMessages() {
 
-    this.newMessages = false;
-    // console.log(typeof lastInboxLengthClaims);
-    if ((typeof lastInboxLengthClaims).toString() === 'undefined') {
-      // console.log('lastInboxLengthClaims typeof: ' + typeof lastInboxLengthClaims);
-      lastInboxLengthClaims = 0;
-      // console.log('lastInboxLengthClaims  value: ' + lastInboxLengthClaims);
-    }
-    if (this.member && this.inbox) {
-      console.log('this.inbox.length is ' + this.inbox.length);
-      console.log('this.lastInboxLengthClaims    is ' + lastInboxLengthClaims);
-      if (this.inbox.length !== lastInboxLengthClaims) {
-        if (this.inbox.length > lastInboxLengthClaims) {
-          console.log('You have new CONFLICT messages.');
-          // this.shellComponent.newMessages = true;
-          this.shellComponent.newMessagesSetTrue(this.inbox.length - lastInboxLengthClaims);
-          this.newMessages = true;
-          lastInboxLengthClaims = this.inbox.length;
-        }
-      }
+    // this.unreadMessages = 0;
+    // console.log(typeof lastInboxLength);
+    if (lastInboxLength === undefined) {
+    // if ((typeof lastInboxLength).toString() === 'undefined') {
+      // console.log('lastInboxLength typeof: ' + typeof lastInboxLength);
+      lastInboxLength = 0;
+      // console.log('lastInboxLength  value: ' + lastInboxLength);
     }
 
     // NEW DEV
@@ -273,41 +262,21 @@ export class InboxComponent implements OnInit, OnDestroy {
       for (let i = 0; i < this.inbox.length; ++i) {
         inboxReadClaims.push({creationDate: this.inbox[i].creationDate, string: this.inbox[i][1], read: false});
       }
+      console.log('INBOXREADCLAIMS');
+      console.log(inboxReadClaims);
     }
-    // If there are new messages.
-    if (this.newMessages) {
-      for (let i = 0; i < this.inbox.length; ++i) {
-        const m = this.inbox[i];
-        console.log('CONDITION');
-        console.log(inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ));
-        if ( (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string )) === [] ) {
-          console.log('NEW MESSAGE!');
-          console.log(inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ));
-          inboxReadClaims.push({creationDate: this.inbox[i].creationDate, string: this.inbox[i][1], read: false});
-        }
-      }
-    }
-    console.log('INBOXREADCLAIMS');
-    console.log(inboxReadClaims);
-    // Every time match inbox with current read/unread status.
-    for (let i = 0; i < this.inbox.length; ++i) {
-      const m = this.inbox[i];
-      // console.log('m');
-      // console.log((inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read);
-      m.read = (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read;
-    }
-    // Print inbox.
-    console.log('INBOX');
-    console.log(this.inbox);
+    unreadMessages = inboxReadClaims.filter((x) => !x.read).length;
 
     // If one or more messages are removed.
-    if (this.inbox.length < inboxReadClaims.length) {
+    if (this.inbox.length < lastInboxLength) {
       for (let i = 0; i < inboxReadClaims.length; ++i) {
         const n = inboxReadClaims[i];
         let found = false;
         for (let j = 0; j < this.inbox.length; ++j) {
           const m = this.inbox[j];
-          if (n.creationDate === m && n.string === (m.claimId ? m.claimId : m.firstName) ) {
+          if (n.creationDate === m.creationDate && n.string === (m.claimId ? m.claimId : m.firstName) ) {
+            // console.log('FOUND');
+            // console.log(n);
             found = true;
             break;
           }
@@ -317,13 +286,68 @@ export class InboxComponent implements OnInit, OnDestroy {
           console.log(n);
           const toDel = inboxReadClaims.splice(i, 1);
           console.log(toDel);
-          console.log('INBOXREADCLAIMS');
-          console.log(inboxReadClaims);
+          // console.log('INBOXREADCLAIMS');
+          // console.log(inboxReadClaims);
         }
       }
     }
+
+    // If there are new messages.
+    if (this.inbox.length > lastInboxLength) {
+      for (let i = 0; i < this.inbox.length; ++i) {
+        const m = this.inbox[i];
+        let found = false;
+        for (let j = 0; j < inboxReadClaims.length; ++j) {
+          const n = inboxReadClaims[j];
+          if (n.creationDate === m.creationDate && n.string === (m.claimId ? m.claimId : m.firstName) ) {
+            // console.log('FOUND');
+            // console.log(n);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          console.log('TO INSERT');
+          console.log(m);
+          const toIns = inboxReadClaims.push({creationDate: this.inbox[i].creationDate, string: this.inbox[i][1], read: false});
+          console.log(toIns);
+          // console.log('INBOXREADCLAIMS');
+          // console.log(inboxReadClaims);
+        }
+      }
+    }
+
+    // Every time update this.inbox with current read/unread status.
+    for (let i = 0; i < this.inbox.length; ++i) {
+      const m = this.inbox[i];
+      // console.log('m');
+      // console.log((inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read);
+      m.read = (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read;
+    }
+
+    // Update lastInboxLength
+    if (this.member && this.inbox) {
+      console.log('this.inbox.length is ' + this.inbox.length);
+      console.log('this.lastInboxLength is ' + lastInboxLength);
+      if (this.inbox.length !== lastInboxLength) {
+        if (this.inbox.length > lastInboxLength) {
+          console.log('You have new CONFLICT messages.');
+          // this.unreadMessages = inboxReadClaims.filter((x) => !x.read).length;
+          // this.shellComponent.newMessagesSetTrue(this.unreadMessages);
+        }
+      }
+      unreadMessages = inboxReadClaims.filter((x) => !x.read).length;
+      this.shellComponent.newMessagesSet(unreadMessages);
+      lastInboxLength = this.inbox.length;
+      console.log('this.inbox.length is ' + this.inbox.length);
+      console.log('this.lastInboxLength is ' + lastInboxLength);
+    }
     console.log('INBOXREADCLAIMS');
     console.log(inboxReadClaims);
+
+    // Print inbox.
+    console.log('INBOX');
+    console.log(this.inbox);
   }
 
   public markAsRead(creationDate, string) {
@@ -337,6 +361,13 @@ export class InboxComponent implements OnInit, OnDestroy {
         m.read = true;
       }
     }
+    unreadMessages = inboxReadClaims.filter((x) => !x.read).length;
+    this.shellComponent.newMessagesSet(unreadMessages);
+  }
+
+  public isRead (message) {
+    return (inboxReadClaims
+        .filter( (x) => message.creationDate === x.creationDate && (message.claimId ? message.claimId : message.firstName) === x.string ))[0].read;
   }
 
 }

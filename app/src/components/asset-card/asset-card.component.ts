@@ -75,6 +75,13 @@ export class AssetCardComponent implements OnInit {
     }
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
+  public ngOnDestroy() {
+    if (this.user$) {
+      this.user$.unsubscribe();
+    }
+  }
+
   public expandPanel(matExpansionPanel: MatExpansionPanel, event: Event) {
     event.stopPropagation();
 
@@ -96,6 +103,8 @@ export class AssetCardComponent implements OnInit {
   public claim() {
     let dialog: any;
 
+    console.log('user.memberId in CLAIM');
+    console.log(this.user.memberId);
     if (this.asset.ISWC) {
         dialog = this.dialog.open(MusicalDialogComponent, {
           data: {

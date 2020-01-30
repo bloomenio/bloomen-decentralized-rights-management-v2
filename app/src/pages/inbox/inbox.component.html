@@ -4,16 +4,22 @@
 <div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length">
     <mat-icon class="large-icon" >inbox</mat-icon>
     <div class="title-nomessage">{{ 'inbox.title_no_message' | translate }}</div>
-    <div class="text-nomessage">Welcome to Bloomen Blockchain Platform! You have no inbox messages at the moment.</div>
+    <div class="text-nomessage">Welcome to Bloomen Blockchain Platform! You have no messages at the moment.</div>
 </div>
 
 <div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length">
     <div fxFill fxFlex="30" fxLayout="column" class="detail-wrapper list-wrapper">
         <ng-container  *ngFor="let messageItem of inbox">
             <blo-inbox-item-list [message]="messageItem"
-                                 [isActive]="messageItem?.claimId === message?.claimId"
-                                 (messageSelected)="onMessageSelected($event)">
-<!--                                 *ngIf="message.read === true"-->
+                                 [isActive]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
+                                 (messageSelected)="onMessageSelected($event)"
+                                 [isUnread]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
+                                 *ngIf="!isRead(messageItem)">
+            </blo-inbox-item-list>
+            <blo-inbox-item-list [message]="messageItem"
+                                 [isActive]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
+                                 (messageSelected)="onMessageSelected($event)"
+                                 *ngIf="isRead(messageItem)">
             </blo-inbox-item-list>
         </ng-container>
     </div>

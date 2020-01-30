@@ -2,13 +2,25 @@
 <!--	<input id="file-field" name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">-->
     <blo-repertoire-search (filter)="applyFilter($event)"></blo-repertoire-search>
     <form [formGroup]="registrationForm">
-        <div>
+        <div fxLayoutAlign="space-around center">
+            <div>
             <input id="all" type="radio" value="all" name="type" formControlName="type" (ngModelChange)="checkSource()">
-            <label class="custom-control-label" for="all"><b>All Asset Types</b></label>
+            <label class="custom-control-label" for="all">
+                <mat-icon>queue_music</mat-icon>
+                <mat-icon>speaker</mat-icon>
+            </label>
+            </div>
+            <div>
             <input id="iswc" type="radio" value="iswc" name="type" formControlName="type" (ngModelChange)="checkSource()">
-            <label class="custom-control-label" for="iswc"><b>Musical Works</b></label>
-            <input id="isrc" type="radio" value="isrc" name="type" formControlName="type" (ngModelChange)="checkSource()">
-            <label class="custom-control-label" for="isrc"><b>Sound Recordings</b></label>
+            <label class="custom-control-label" for="iswc">
+                <mat-icon>queue_music</mat-icon>
+            </label>
+            </div>
+            <div><input id="isrc" type="radio" value="isrc" name="type" formControlName="type" (ngModelChange)="checkSource()">
+            <label class="custom-control-label" for="isrc">
+                <mat-icon>speaker</mat-icon>
+            </label>
+            </div>
         </div>
     </form>
     <div fxLayout="column" *ngIf="assetsApiService.type === 'all' && assetsApiService.productionMode">

@@ -86,7 +86,7 @@ export class MusicalDialogComponent implements OnInit {
         this.oldRightHolderProprietaryID = (this.data.claim.claimData.rightHolderProprietaryID) ? this.data.claim.claimData.rightHolderProprietaryID : '';
         this.oldTitle = this.data.claim.claimData.title;
 
-        this.claimForm.get('rightHolderName').disable();
+        // this.claimForm.get('rightHolderName').disable();
 
         if (!this.data.isEditable) {
 

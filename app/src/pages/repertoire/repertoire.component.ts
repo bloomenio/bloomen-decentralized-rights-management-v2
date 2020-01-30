@@ -21,7 +21,7 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 // import { NgxCSVParserError } from 'ngx-csv-parser';
 import * as Papa from 'papaparse';
 import {ShellComponent} from '@shell/shell.component';
-import {InboxComponent} from '@pages/inbox/inbox.component';
+import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import {AssetsApiService} from '@api/assets-api.service';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import {ROLES} from '@constants/roles.constants';
@@ -42,44 +42,40 @@ const log = new Logger('repertoire.component');
 })
 export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(MatPaginator) public paginator: MatPaginator;
+    @ViewChild(MatPaginator) public paginator: MatPaginator;
+    @Input() public repertoire: any;
+    public newMessagesInterval$: any;
+    public uploadedCSV2JSON: any;
+    public assetMock: AssetModel;
+    public filter: string;
+    public repertoire$: Observable<any[]>; // AssetModel
+    public repertoireCount$: Observable<number>;
+    public countAssets: number;
+    public members$: Subscription;
+    public members: MemberModel[];
+    public member: MemberModel;
+    // private user$: Subscription;
+    // public user: UserModel;
+    public member$: Subscription;
+    public currentGroup: string;
+    private page$: Subscription;
+    public csvRecords: any[] = [];
+    public header = false;
+    private registrationForm: any;
+    // public type: string;
 
-  @Input() public repertoire: any;
-  public newMessagesInterval$: any;
-  public uploadedCSV2JSON: any;
-  public assetMock: AssetModel;
-  public filter: string;
-  public repertoire$: Observable<any[]>; // AssetModel
-  public repertoireCount$: Observable<number>;
-  public countAssets: number;
-
-  public members$: Subscription;
-  public members: MemberModel[];
-  public member: MemberModel;
-  // private user$: Subscription;
-  // public user: UserModel;
-  public member$: Subscription;
-  public currentGroup: string;
-
-  private page$: Subscription;
-
-  public csvRecords: any[] = [];
-  public header = false;
-  private registrationForm: any;
-  // public type: string;
-
-  constructor(
-    private store: Store<any>, // AssetModel
-    public snackBar: MatSnackBar,
-    public router: Router,
-    public assetCardComponent: AssetCardComponent,
-    public fb: FormBuilder,
-    public assetsApiService: AssetsApiService,
-    public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent
+    constructor(
+        private store: Store<any>, // AssetModel
+        public snackBar: MatSnackBar,
+        public router: Router,
+        public assetCardComponent: AssetCardComponent,
+        public fb: FormBuilder,
+        public assetsApiService: AssetsApiService,
+        public inboxComponent: InboxComponent,
+        public shellComponent: ShellComponent
   ) { }
 
-  public async ngOnInit() {
+    public async ngOnInit() {
       this.assetsApiService.type = 'all';
       this.countAssets = 0;
       this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
@@ -110,7 +106,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // this.newMessagesInterval$ = interval(5000).subscribe(() => {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.
-      // tslint:disable-next-line:no-life-cycle-call
+        // tslint:disable-next-line:no-life-cycle-call
       this.inboxComponent.ngOnInit();
       if (!this.shellComponent.newMessagesGet()) {
           this.inboxComponent.checkNewMessages();
@@ -120,21 +116,22 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
       // this.currentMember = this.inboxComponent.currentMember;
       // console.log('CURRENT MEMBER group is ', this.currentMember.group);
+      this.shellComponent.unreadMessages = unreadMessages;
 
   }
 
-  public checkSource() {
+    public checkSource() {
       this.assetsApiService.type = this.registrationForm.get('type').value;
       this.getAssets();
   }
 
-  public ngAfterViewInit() {
+    public ngAfterViewInit() {
     this.page$ = this.paginator.page.pipe(
       tap(() => this.getAssets())
     ).subscribe();
   }
 
-  public getAssets() {
+    public getAssets() {
     // if (this.filter.length === 0 ) {
       // this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
     // } else {
@@ -147,12 +144,12 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
 
-  public applyFilter(filterValue: string) {
+    public applyFilter(filterValue: string) {
     this.filter = filterValue;
     this.getAssets();
   }
 
-  public ngOnDestroy() {
+    public ngOnDestroy() {
     this.page$.unsubscribe();
     if (this.member$) {
         this.member$.unsubscribe();
@@ -163,7 +160,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public uploadFile(event) {
+    public uploadFile(event) {
     const file = event.target.files;
     if (file.length > 0) {
         console.log(file); // You will see the file
@@ -207,7 +204,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public csvJSON(csv) {
+    public csvJSON(csv) {
       const result = [];
       const line = csv;
       const headers = line[0];

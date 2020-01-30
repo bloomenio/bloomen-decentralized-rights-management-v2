@@ -23,6 +23,7 @@ export class InboxItemListComponent implements OnInit {
 
   @Input() public message: any;
   @Input() public isActive: boolean;
+  @Input() public isUnread: boolean;
   @Output() public readonly messageSelected = new EventEmitter();
   public inboxEnum: object;
   public claimType: any;
