@@ -69,14 +69,14 @@ async function addMember() {
         { type: 'input', name: 'logo', message: 'Specify logo:' },
         { type: 'input', name: 'country', message: 'Specify country:' },
         { type: 'input', name: 'cmo', message: 'Specify cmo:' },
-        { type: 'input', name: 'theme', message: 'Specify theme:' },
-        { type: 'input', name: 'group', message: 'Specify group:' }
+        { type: 'input', name: 'theme', message: 'Specify theme:' }
+        // { type: 'input', name: 'group', message: 'Specify group:' }
     ];
 
     let answer = await inquirer.prompt(questions);
     let creationDate = new Date().getTime();
 
-    contractInstance.methods.addMember(creationDate, answer.name, answer.logo, answer.country, answer.cmo, answer.theme, answer.group)
+    contractInstance.methods.addMember(creationDate, answer.name, answer.logo, answer.country, answer.cmo, answer.theme) // , answer.group)
         .send(transactionObject).then(checkTransaction);
 
 }

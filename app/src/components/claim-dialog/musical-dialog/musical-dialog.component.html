@@ -89,6 +89,9 @@
                         <div fxFlex="15" *ngIf="claimForm.get('splitPart').value">
                             {{ claimForm.get('splitPart').value }}%
                         </div>
+                        <div fxFlex="15" *ngIf="!claimForm.get('splitPart').value">
+                            {{ claimForm.get('splitPart').value }}%
+                        </div>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,8 @@ export class DialogMemberDataComponent implements OnInit {
       name: [this.data.member.name, [Validators.required]],
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
-      group: [this.data.member.group, [Validators.required]]
+      logo: [this.data.member.logo, [Validators.required]]
+      // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();
     this.editMemberForm.get('memberId').disable();
@@ -44,11 +45,11 @@ export class DialogMemberDataComponent implements OnInit {
       memberId: this.editMemberForm.get('memberId').value,
       creationDate: this.data.member.creationDate,
       name: this.editMemberForm.get('name').value,
-      logo: this.data.member.logo,
+      logo: this.editMemberForm.get('logo').value,
       country: this.data.member.country,
       cmo: this.data.member.cmo,
-      theme: this.editMemberForm.get('theme').value,
-      group: this.editMemberForm.get('group').value
+      theme: this.editMemberForm.get('theme').value
+      // group: this.editMemberForm.get('group').value
     };
     // console.log('MEMBER\n', member);
     this.dialogRef.close(member);

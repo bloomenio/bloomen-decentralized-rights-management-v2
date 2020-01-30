@@ -41,6 +41,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   // private intervalSuperUser$: Subscription;
   private user$: Subscription;
   public user: UserModel;
+  public userIsUndefined: any;
   public member: MemberModel;
   public inbox: any[];
   public message: any;
@@ -59,18 +60,17 @@ export class InboxComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).subscribe((member) => {
       this.currentMember = member;
     });
     // console.log('INBOX COMPONENT CURRENT MEMBER group is ', this.currentMember.group);
 
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).pipe(
-      skipWhile((member) => !member),
+        skipWhile((member) => !member),
     ).subscribe((member) => {
       if (member) {
         if (!this.member || (this.member && member.memberId !== this.member.memberId)) {
-          this.store.dispatch(new fromAppActions.ChangeTheme({ theme: THEMES[member.theme] }));
+          this.store.dispatch(new fromAppActions.ChangeTheme({theme: THEMES[member.theme]}));
         }
         this.member = member;
         this.fillInbox();
@@ -78,20 +78,23 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
 
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
-      skipWhile(user => !user),
-      first()
+        skipWhile(user => !user),
+        first()
     ).subscribe((user) => {
       this.user = user;
       if (user.role === ROLES.SUPER_USER) {
         this.fillInboxSuperUser();
       }
     });
-
+    // console.log('LOADING4');
+    // while (this.user === undefined) {
+    //   setTimeout(() => { console.log('LOADING5!'); }, 5000);      // console.log(this.user);
+    // }
     this.refreshInbox();
     if (unreadMessages === undefined) {
       unreadMessages = 0;
     }
-    //
+    // console.log('LOADING6');
     // this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox();});
 
     // console.log('Refreshed Inbox');

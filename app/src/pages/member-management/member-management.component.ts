@@ -54,7 +54,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   ) { }
 
   public ngOnInit() {
-    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'collection', 'edit'];
+    this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];   // , 'collection', 'edit'];
     this.dataSource = new MemberManagementDataSource(this.memberContract);
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(

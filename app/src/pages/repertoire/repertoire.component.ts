@@ -88,7 +88,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
               // console.log('CURRENT MEMBER GRoup is  ', this.currentGroup);
           }
       });
-      this.assetsApiService.group = this.currentGroup;
+      // this.assetsApiService.group = this.currentGroup;
       console.log('this.assetsApiService.group is ', this.assetsApiService.group);
 
       this.registrationForm = new FormGroup({ type: new FormControl() });

@@ -5,25 +5,25 @@
 <div mat-dialog-content>
   <form [formGroup]="editMemberForm" (ngSubmit)="onSubmit()">
     <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
-      <mat-form-field fxFlex="50" class="field-item">
+      <mat-form-field fxFlex="100" class="field-item">
         <input matInput placeholder="Name" formControlName="name" />
-      </mat-form-field>
-      <mat-form-field fxFlex="50" class="field-item">
-        <input matInput placeholder="Theme" formControlName="theme" />
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
       <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Theme" formControlName="theme" />
+      </mat-form-field>
+      <mat-form-field fxFlex="50" class="field-item">
         <input matInput placeholder="Member ID" formControlName="memberId" />
       </mat-form-field>
-      <mat-form-field fxFlex="45">
-        <mat-label>Collection</mat-label>
-        <mat-select formControlName="group">
-          <mat-option *ngFor="let collection of collections" [value]="collection">
-            {{ collection | titlecase }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+<!--      <mat-form-field fxFlex="45">-->
+<!--        <mat-label>Collection</mat-label>-->
+<!--        <mat-select formControlName="group">-->
+<!--          <mat-option *ngFor="let collection of collections" [value]="collection">-->
+<!--            {{ collection | titlecase }}-->
+<!--          </mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
     </div>
     <div mat-dialog-actions fxLayoutAlign="end center">
       <button mat-button type="button" (click)="dialogRef.close()"> {{'common.cancel' | translate | uppercase}} </button>

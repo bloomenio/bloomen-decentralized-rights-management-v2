@@ -1,5 +1,5 @@
-<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER"
-    (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
+<mat-card class='cardUnread' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER && !message.read"
+    (click)="onClickMessage()" [class.active]="isActive">
     <div class='date' fxLayoutAlign='end center'>{{ message.creationDate | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">
         <div mat-card-avatar fxLayoutAlign="center center">
@@ -11,13 +11,40 @@
         </div>
     </div>
 </mat-card>
-<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.CLAIM"
+<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.USER && message.read"
+    (click)="onClickMessage()" [class.active]="isActive">
+    <div class='date' fxLayoutAlign='end center'>{{ message.creationDate | date }}</div>
+    <div fxLayoutAlign='start center' fxLayout="row">
+        <div mat-card-avatar fxLayoutAlign="center center">
+            <mat-icon>group_add</mat-icon>
+        </div>
+        <div class='text-box' fxLayout="column">
+            <div class='title'>{{ message.firstName + " " + message.lastName }}</div>
+            <div class='subtitle'>{{ message.requestId }}</div>
+        </div>
+    </div>
+</mat-card>
+<mat-card class='cardUnread' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.CLAIM && !message.read"
     (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
     <div class='date' fxLayoutAlign='end center'>{{ message.lastChange | date }}</div>
     <div fxLayoutAlign='start center' fxLayout="row">
         <div mat-card-avatar fxLayoutAlign="center center">
-            <mat-icon *ngIf="message.claimType === claimType.MUSICAL_WORK">queue_music</mat-icon>
-            <mat-icon *ngIf="message.claimType === claimType.SOUND_RECORDING">speaker</mat-icon>
+            <mat-icon *ngIf="!message.claimType">queue_music</mat-icon>
+            <mat-icon *ngIf="message.claimType">speaker</mat-icon>
+        </div>
+        <div class='text-box' fxLayout="column">
+            <div class='title'>{{ message.claimData.title }}</div>
+            <div class='subtitle'>{{ 'claimStatus.'+ message.status | translate | uppercase }}</div>
+        </div>
+    </div>
+</mat-card>
+<mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.CLAIM && message.read"
+    (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
+    <div class='date' fxLayoutAlign='end center'>{{ message.lastChange | date }}</div>
+    <div fxLayoutAlign='start center' fxLayout="row">
+        <div mat-card-avatar fxLayoutAlign="center center">
+            <mat-icon *ngIf="!message.claimType">queue_music</mat-icon>
+            <mat-icon *ngIf="message.claimType">speaker</mat-icon>
         </div>
         <div class='text-box' fxLayout="column">
             <div class='title'>{{ message.claimData.title }}</div>

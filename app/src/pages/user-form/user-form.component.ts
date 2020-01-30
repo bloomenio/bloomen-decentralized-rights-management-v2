@@ -111,7 +111,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   public onSubmit() {
     console.log('onSubmit membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
-    console.log('onSubmit membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
+    // console.log('onSubmit membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
     console.log('onSubmit_1 member value is ' + this.userForm.get('member').value);
     const user: UserModel = {
       creationDate: new Date().getTime(),

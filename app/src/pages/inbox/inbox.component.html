@@ -13,7 +13,7 @@
             <blo-inbox-item-list [message]="messageItem"
                                  [isActive]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
                                  (messageSelected)="onMessageSelected($event)"
-                                 [isUnread]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
+                                 [class.unread]="messageItem?.claimId === message?.claimId && messageItem?.firstName === message?.firstName"
                                  *ngIf="!isRead(messageItem)">
             </blo-inbox-item-list>
             <blo-inbox-item-list [message]="messageItem"
