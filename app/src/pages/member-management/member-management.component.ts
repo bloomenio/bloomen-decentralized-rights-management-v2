@@ -41,7 +41,6 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public members: MemberModel[];
   public member$: Subscription;
   public currentMember$: Subscription;
-  // public dialogMemberDataComponent: DialogMemberDataComponent;
 
   public companiesPageNumber: number;
 

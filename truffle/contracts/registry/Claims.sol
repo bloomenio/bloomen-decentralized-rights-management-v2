@@ -2,10 +2,9 @@ pragma solidity ^0.4.24;
 pragma experimental ABIEncoderV2;
 
 import "./SafeMath.sol";
-import "../../node_modules/solidity-rlp/contracts/RLPReader.sol";
+import "./RLPReader.sol";
 import "./Users.sol";
-import "../../node_modules/solidity-stringutils/strings.sol";
-
+import "./strings.sol";
 
 
 contract Claims {
@@ -34,6 +33,7 @@ contract Claims {
     bool status;
     uint256 lastChange;
     uint16[] log;
+    uint16 maxSplit;
   }
 
   mapping (uint256 => Claim) private claims_;
@@ -175,80 +175,83 @@ contract Claims {
     uint48 startDate = uint48(bytesToUint(itemList[2].toList()[1].toBytes()));
     uint48 endDate = uint48(bytesToUint(itemList[3].toList()[1].toBytes()));
 
-    maxSplits_[_claimId]=split;
+    maxSplits_[_claimId] = split;
 //    claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
     bool prevStatus = claims_[_claimId].status;
     bool tempMaxSplitOnce = true;
-
-    if (split == 0) {
-//      if (prevStatus) {
-      claims_[_claimId].status = false;
-      _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-      prevStatus = false;
-//      }
-    }
-    else {
-      for(uint256 i = 1; i <= claimIdCounter_; i++) {
-        if (_claimType == claims_[i].claimType && _claimId != i) {
-          if(keccak256(itemList[0].toList()[1].toBytes()) == keccak256(claims_[i].claimData[0].value) // same ISRC/ISWC
-          && endDate >= uint48(bytesToUint(bytes(claims_[i].claimData[2].value))) // end1 >= start2
-          && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
-          ){
-            if (newClaim) {
-              // claims_[2].log.push('CHECK STATUS TRUE');
-            } else {
-              // claims_[2].log.push('CHECK STATUS FALSE');
-            }
-            // claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
-            // claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
-            hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // useTypes/rightTypes: have at least one common
+    for(uint256 i = 1; i <= claimIdCounter_; i++) {
+      if (_claimType == claims_[i].claimType && _claimId != i) {
+        if(keccak256(itemList[0].toList()[1].toBytes()) == keccak256(claims_[i].claimData[0].value) // same ISRC/ISWC
+        && endDate >= uint48(bytesToUint(bytes(claims_[i].claimData[2].value))) // end1 >= start2
+        && startDate <= uint48(bytesToUint(bytes(claims_[i].claimData[3].value))) // start1 <= end2
+        ){
+          if (newClaim) {
+            // claims_[2].log.push('CHECK STATUS TRUE');
+          } else {
+            // claims_[2].log.push('CHECK STATUS FALSE');
+          }
+          // claims_[2].log.push(string(itemList[4].toList()[1].toBytes()));
+          // claims_[2].log.push(string(bytes(claims_[i].claimData[4].value)));
+          hasOverlap(itemList[4].toList()[1].toBytes(), bytes(claims_[i].claimData[4].value)); // useTypes/rightTypes: have at least one common
+          if (hasOverlapResult) {
+            hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
             if (hasOverlapResult) {
-              hasOverlap(itemList[1].toList()[1].toBytes(), bytes(claims_[i].claimData[1].value)); // territory: contain at least one common
-              if (hasOverlapResult) {
-                if (newClaim) {
-                  claims_[i].log.push(maxSplits_[i]);
-                  claims_[i].log.push(split);
-                  if (maxSplits_[i] + split > 100 && maxSplits_[i] != 0) { // if also claims_[i]._claimData.split != 0
-                    if (!prevStatus) {
-                      claims_[_claimId].status = true; // true, means there IS a CONFLICT
-                      _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-                      prevStatus = true;
-                    }
-                    if (!claims_[i].status) {
-                      _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
-                      claims_[i].status = true;
-                    }
+              if (newClaim) {
+                if (maxSplits_[i] + split > 100 && maxSplits_[i] != 0 && split != 0) { // set it CONFLICT
+                  if (!prevStatus) {
+                    prevStatus = true;
+                    claims_[_claimId].status = true; // true, means there IS a CONFLICT
+                    _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
                   }
-                  maxSplits_[i]+=split;                // build maxSplits_[i]
-                if (tempMaxSplitOnce) {
-                    maxSplits_[_claimId]=maxSplits_[i];
-                    //                claims_[_claimId].maxSplit.push(maxSplits_[_claimId]);
-                    tempMaxSplitOnce=false;
-                  }
-                } else {
-                  maxSplits_[i]-=split;
-                  if (tempMaxSplitOnce) {
-                    maxSplits_[_claimId]=split;
-                    tempMaxSplitOnce=false;
-                  }//                claims_[i].maxSplit.push(maxSplits_[i]);
-                  if (prevStatus) {
-                    claims_[_claimId].status = false;
-                    _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
-                    prevStatus = false;
-                  }
-                  if (maxSplits_[i]<=100) {
-                    if (claims_[i].status) {
-                      _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
-                      claims_[i].status = false;
-                    }
+                  if (!claims_[i].status) {
+                    claims_[i].status = true;
+                    _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
                   }
                 }
-              }  // hasOverlapResult territory
-            } // hasOverlapResult: useTypes/rightTypes
-          } // if ....
-        } // if claimId<>i
-      } // for
-    } // if (split == 0)
+//                if (maxSplits_[i] == 0) {      // claims_[i].claimData[5].value = split = 0
+//                  claims_[i].status = false;
+//                  _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+//                }
+                if (split == 0 && prevStatus) {
+                  prevStatus = false;
+                  claims_[_claimId].status = false;
+                  _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                }
+                if (maxSplits_[i] != 0) maxSplits_[i]+=split;                // build maxSplits_[i]
+                if (tempMaxSplitOnce && maxSplits_[i] != 0 && split != 0) {
+                  tempMaxSplitOnce=false;
+                  maxSplits_[_claimId] = maxSplits_[i];
+                }
+                claims_[1].log.push(split);
+                claims_[1].log.push(maxSplits_[i]);
+              } else {
+                if (tempMaxSplitOnce) {
+                  maxSplits_[_claimId]=split;
+                  tempMaxSplitOnce=false;
+                }
+                if (prevStatus) {                                        // set it CLAIMED
+                  claims_[_claimId].status = false;
+                  _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                  prevStatus = false;
+                }
+                if (maxSplits_[i] - split <= 100 || maxSplits_[i] == 0) {     // split != 0 here is redundant
+                  if (claims_[i].status) {
+                    claims_[i].status = false;
+                    _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+                  }
+                }
+                if (maxSplits_[i] != 0) maxSplits_[i]-=split;                // recalculate maxSplits_[i]
+                claims_[2].log.push(split);
+                claims_[2].log.push(maxSplits_[i]);
+              }
+              claims_[i].maxSplit = maxSplits_[i];
+            }  // hasOverlapResult territory
+          } // hasOverlapResult: useTypes/rightTypes
+        } // if ISC/start/endDate
+      } // if claimId<>i
+    } // for
+    claims_[_claimId].maxSplit = maxSplits_[_claimId];
+    //    } // if (split == 0)
   }
 
   function bytesToUint(bytes s) private pure returns (uint result) {

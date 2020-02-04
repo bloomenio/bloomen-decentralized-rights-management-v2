@@ -154,8 +154,10 @@ contract Members is Random, Registry {
         members_[_memberId].claimInbox[j] = members_[_memberId].claimInbox[j + 1];
       }
     }
-    delete members_[_memberId].claimInbox[members_[_memberId].claimInbox.length - 1];
-    members_[_memberId].claimInbox.length--;
+    if (found) {
+      delete members_[_memberId].claimInbox[members_[_memberId].claimInbox.length - 1];
+      members_[_memberId].claimInbox.length--;
+    }
   }
 
   function _clearUserFromMemberRequest(uint _memberId, address userAddress) internal {
@@ -169,8 +171,10 @@ contract Members is Random, Registry {
         members_[_memberId].userRequests[j] = members_[_memberId].userRequests[j + 1];
       }
     }
-    delete members_[_memberId].userRequests[members_[_memberId].userRequests.length - 1];
-    members_[_memberId].userRequests.length--;
+    if (found) {
+      delete members_[_memberId].userRequests[members_[_memberId].userRequests.length - 1];
+      members_[_memberId].userRequests.length--;
+    }
   }
 
 }

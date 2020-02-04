@@ -263,9 +263,11 @@ export class ShellComponent implements OnInit, OnDestroy {
             this.dataSource.loadClaims();
               })
               .then(() => {
-            this.router.navigateByUrl('/repertoire')
-                .then(() => {
-                  this.router.navigateByUrl('/claims');
+            // this.router.navigateByUrl('/repertoire')
+            this.router.navigate(['repertoire'])
+              .then(() => {
+                  // this.router.navigateByUrl('/claims')
+                  this.router.navigate(['claims']);
                 });
               });
           // End Of Refresh Claims page: claims.component
