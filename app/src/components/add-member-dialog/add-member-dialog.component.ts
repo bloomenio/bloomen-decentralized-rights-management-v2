@@ -2,14 +2,17 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import * as fromCmosSelectors from '@stores/cmos/cmos.selectors';
 import * as fromMemberAction from '@stores/member/member.actions';
 import { Logger } from '@services/logger/logger.service';
 import { MemberModel } from '@core/models/member.model';
 import { COUNTRIES } from '@constants/countries.constants';
-import { startWith, map } from 'rxjs/operators';
+import {startWith, map, skipWhile, first} from 'rxjs/operators';
 import {collections} from '@components/dialog-member-data/dialog-member-data.component';
+import * as fromUserSelectors from "@stores/user/user.selectors";
+import {ROLES} from "@constants/roles.constants";
+import {UserModel} from "@models/user.model";
 
 const log = new Logger('add-member-dialog');
 
@@ -22,10 +25,11 @@ export class AddMemberDialogComponent implements OnInit {
 
   public memberForm: FormGroup;
   public userData: any;
-  public nameIcon: string;
+  public currentCMO: string;
   public collections = collections;
   public cmos$: Observable<any>;
-
+  private user$: Subscription;
+  public user: UserModel;
   public filteredCountries: Observable<string[]>;
   public allCountries: any[];
 
@@ -38,15 +42,31 @@ export class AddMemberDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
+        skipWhile(user => !user),
+        first()
+    ).subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.currentCMO = this.user.cmo;
+        console.log('this.currentCMO');
+        console.log(this.currentCMO);
+        if (user.role === ROLES.SUPER_USER) {
+          // console.log(this.user);
+        }
+      }
+    });
+
     this.memberForm = this.fb.group({
-      cmo: ['', [Validators.required]],
+      cmo: [this.currentCMO, [Validators.required]],
       member: ['', [Validators.required]],
       url: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      theme: ['', [Validators.required]],
-      group: ['', [Validators.required]]
+      theme: ['', [Validators.required]]
+      // group: ['', [Validators.required]]
     });
 
+    this.memberForm.get('cmo').disable();
     this.filteredCountries = this.memberForm.get('country').valueChanges
     .pipe(
       startWith(''),
@@ -54,8 +74,7 @@ export class AddMemberDialogComponent implements OnInit {
     );
 
     this.allCountries = COUNTRIES;
-    this.cmos$ = this.store.select(fromCmosSelectors.getCmos);
-    // console.log(this.filteredCountries, '\n', this.cmos$);
+    // this.cmos$ = this.store.select(fromCmosSelectors.getCmos);
   }
 
   public onCancel() {
@@ -69,8 +88,8 @@ export class AddMemberDialogComponent implements OnInit {
       country: this.memberForm.get('country').value,
       name: this.memberForm.get('member').value,
       logo: this.memberForm.get('url').value,
-      theme: this.memberForm.get('theme').value,
-      group: this.memberForm.get('group').value
+      theme: this.memberForm.get('theme').value
+      // group: this.memberForm.get('group').value
     };
     // console.log('VALUE for AddMember: ', member);
     this.store.dispatch(new fromMemberAction.AddMember(member));
@@ -83,4 +102,10 @@ export class AddMemberDialogComponent implements OnInit {
     return this.allCountries.filter(option => option.label.toLowerCase().includes(filterValue));
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
+  public ngOnDestroy() {
+    if (this.user$) {
+      this.user$.unsubscribe();
+    }
+  }
 }

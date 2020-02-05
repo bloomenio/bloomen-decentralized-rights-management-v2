@@ -330,14 +330,6 @@ export class AssetCardComponent implements OnInit {
           break;
         }
       }
-      // console.log('PRINT CLAIM: ');
-      // console.log(c.creationDate, c.claimId, c.claimType, c.memberOwner, c.status);
-      // console.log('PRINT CLAIMDATA: ');
-      // console.log(c.claimData);
-      // await this.claimsContract.addClaim(c).then(
-      //     () => {i
-      //       console.log('TX-OK');
-      //     });
       claimsArray.push(c);
     }
     console.log('claimsArray ');

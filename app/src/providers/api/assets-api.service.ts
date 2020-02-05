@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { AssetModel } from '@core/models/assets.model';
 // import * as curl from '@';
 
@@ -14,6 +14,7 @@ export class AssetsApiService {
 
     public type: string;
     public group = 'second';
+    public groups = ['second'];
     public productionMode = true;   // True for Bloomen API (production mode); False for Repertoire DB (testing mode).
     private headers = new HttpHeaders()
         .set('Content-Type', 'application/json')
@@ -26,10 +27,10 @@ export class AssetsApiService {
     public getAssets(filter: string, pageIndex: number, pageSize: number): Observable<any[]> {  //  : Observable<AssetModel[]>
 
         const params = new HttpParams()
-            // .set('q', '')
-            .set('q', filter)
-            .set('limit', String(pageSize))
-            .set('offset', String(pageIndex * pageSize) )
+                // .set('q', '')
+                .set('q', filter)
+                .set('limit', String(pageSize))
+                .set('offset', String(pageIndex * pageSize))
             // .set('data', '{\"term\": \"\"}') DONT!
         ;
 
@@ -41,86 +42,44 @@ export class AssetsApiService {
                     map((body: any) => body),
                     catchError(() => of('Error, could not load assets :-('))
                 )
-            // .subscribe(data => {console.log('WLI: ', data); } ).add(data => {temp = data; })
-            ;
+                // .subscribe(data => {console.log('WLI: ', data); } ).add(data => {temp = data; })
+                ;
         } else {
-            if (this.type === 'iswc') {
-                // return this.httpClient
-                //     .get(`https://bloomen.herokuapp.com/sound/music`, {headers: this.headers, params: params})
-                //     .pipe(
-                //         map((body: any) => body.filter( (x: any) => x.group === 'second')),
-                //         // map( (x: any) => { return x.group === 'second'; }),
-                //         // filter( (x: any) => { x.group === 'second'; }),
-                //         catchError(() => of('Error, could not load assets :-('))
-                //     )
-                //     // .subscribe(data => {console.log('SOUND/music: ', data); } )
-                //     ;
-                console.log('q: ', params.get('q'));
-                const body = '{\"term\": \"' +
-                    params.get('q') +
-                    '\", \"group\": \"' +
-                    this.group +
-                    '\"}';
-                return this.httpClient
-                    .post(`https://bloomen.herokuapp.com/sound/search`,
-                        body,
-                        {
+            const assetsFromAllGroups = [];
+            console.log('q: ', params.get('q'));
+            let i: number;
+            // this.groups = ['second'];
+            for (i = 0; i < this.groups.length; i++) {
+                this.group = this.groups[i];
+                const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
+                assetsFromAllGroups.push(
+                    this.httpClient
+                        .post(`https://bloomen.herokuapp.com/sound/search`, body, {
                             headers: this.headers,
                             params: params
                         })
-                    // .subscribe(data => { this.tempo = data; })
-                    .pipe(
-                        map((data: any) => data.filter( (x: any) => x.ISWC) )
-                    );
-            } else if (this.type === 'isrc') {
-                // return this.httpClient
-                //     .get(`https://bloomen.herokuapp.com/sound/recordings`, {headers: this.headers, params: params})
-                //     .pipe(
-                //         map((body: any) => body.filter( (x: any) => x.group === 'second')),
-                //         catchError(() => of('Error, could not load assets :-('))
-                //     )
-                // // .subscribe(data => {console.log('SOUND/recordings: ', data); } )
-                // ;
-                console.log('q: ', params.get('q'));
-                const body = '{\"term\": \"' +
-                    params.get('q') +
-                    '\", \"group\": \"' +
-                    this.group +
-                    '\"}';
-                return this.httpClient
-                    .post(`https://bloomen.herokuapp.com/sound/search`,
-                        body,
-                        {
-                            headers: this.headers,
-                            params: params
-                        })
-                    // .subscribe(data => { this.tempo = data; })
-                    .pipe(
-                        map((data: any) => data.filter( (x: any) => x.ISRC) )
-                    );
-            } else {
-                console.log('q: ', params.get('q'));
-                const body = '{\"term\": \"' +
-                    params.get('q') +
-                    '\", \"group\": \"' +
-                    this.group +
-                    '\"}';
-                return this.httpClient
-                    .post(`https://bloomen.herokuapp.com/sound/search`,
-                        body,
-                        {
-                            headers: this.headers,
-                            params: params
-                        })
-                    // .subscribe(data => { this.tempo = data; })
-                    .pipe(
-                        map((data: any) => {
-                            // console.log('API SERVICE:');
-                            // console.log(data);
-                            return data;
-                        })
-                    );
+                        // .subscribe(data => { this.tempo = data; })
+                        .pipe(
+                            map((data: any) => {
+                                if (this.type === 'iswc') {
+                                    return data.filter((x: any) => x.ISWC);
+                                } else if (this.type === 'isrc') {
+                                    return data.filter((x: any) => x.ISRC);
+                                } else {
+                                    return data;
+                                }
+                            })
+                        )
+                );
+                console.log('FROM GROUP ', this.group);
+                console.log(assetsFromAllGroups);
             }
+            // while (i !== this.groups.length) { }
+            // console.log('assetsFromAllGroups');
+            // console.log(assetsFromAllGroups);
+            console.log('forkJoin(assetsFromAllGroups)');
+            console.log(forkJoin(assetsFromAllGroups));
+            return forkJoin(assetsFromAllGroups);
         }
     }
 

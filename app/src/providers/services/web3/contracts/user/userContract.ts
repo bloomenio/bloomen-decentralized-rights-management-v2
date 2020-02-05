@@ -11,6 +11,7 @@ import { TransactionService } from '@services/web3/transactions/transaction.serv
 import { UserModel } from '@core/models/user.model.js';
 import { of, from } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {MemberModel} from '@models/member.model';
 
 const log = new Logger('member.contract');
 
@@ -50,6 +51,14 @@ export class UserContract extends Contract {
     public updateUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role, user.owner).send(this.args);
+        });
+    }
+
+    public updateSuperUser(user: UserModel): Promise<any> {
+        // console.log('from userContract.updateSuperUser\n', user);
+        return this.transactionService.addTransaction(this.args.gas, () => {
+            // console.log('from userContract.updateSuperUser ARGUMENTS: \n', user.firstName, user.lastName, user.memberId, user.role, user.owner, user.groups);
+            return this.contract.methods.updateSuperUser(user.firstName, user.lastName, user.memberId, user.role, user.owner, user.groups).send(this.args);
         });
     }
 

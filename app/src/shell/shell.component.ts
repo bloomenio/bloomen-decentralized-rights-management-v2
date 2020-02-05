@@ -20,11 +20,12 @@ import {interval, Subscription} from 'rxjs';
 import * as Papa from 'papaparse';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {ClaimsDataSource} from '@pages/claims/claims.datasource';
-import {ClaimModel} from '@models/claim.model';
-import {MemberModel} from '@models/member.model';
-import {ClaimsContract} from '@services/web3/contracts';
-// import {newMessages} from '@pages/inbox/inbox.component';
-// import {AddClaimDialogComponent} from '@components/add-claim-dialog/add-claim-dialog.component';
+import * as fromUserActions from '@stores/user/user.actions';
+import {ClaimsContract, UserContract} from '@services/web3/contracts';
+import {currentUser} from '@pages/inbox/inbox.component';
+import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
+import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
+import * as fromMemberActions from '@stores/member/member.actions';
 
 export let newMessagesE: boolean;
 
@@ -69,7 +70,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     public assetCardComponent: AssetCardComponent,
     private matDialog: MatDialog,
-    public claimsContract: ClaimsContract
+    public claimsContract: ClaimsContract,
+    public userContract: UserContract,
+    private applicationDatabaseService: ApplicationDataDatabaseService
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
@@ -137,6 +140,30 @@ export class ShellComponent implements OnInit, OnDestroy {
       this.loadBackButton(event);
     });
     // console.log('SHELL COMPONENT says newMessagesE: ', newMessagesE);
+  }
+
+  public async renewUserRights() {
+    const userBc = await this.userContract.getMe();
+    const user: UserModel = {
+      creationDate: userBc.creationDate,
+      firstName: userBc.firstName,
+      lastName: userBc.lastName,
+      role: userBc.role,
+      requestId: userBc.requestId,
+      status: userBc.status,
+      memberId: userBc.memberId,
+      owner: userBc.owner,
+      cmo: userBc.cmo,
+      groups: userBc.groups
+    };
+    console.log('FROM ADD USER: ');
+    console.log(user);
+    this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
+    this.store.dispatch(new fromUserActions.AddUserSuccess(user));
+    this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
+    // @ts-ignore
+    this.user = user;
+    console.log(this.user);
   }
 
   public newMessagesGet() {

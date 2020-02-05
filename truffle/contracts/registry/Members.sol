@@ -18,18 +18,17 @@ contract Members is Random, Registry {
     uint256[] claimInbox;
     uint256[] claims;
     address[] userRequests;
-//    string group;
+//    string[] groups;
   }
 
   uint256 constant private PAGE_SIZE = 10;
 
-  mapping (uint256 => Member) private members_;
-  uint256 public memberIdCounter_ = 0; // has the number of members + Super Admins ever inserted, including the deleted ones
+  mapping (uint256 => Member) public members_;
+  uint256 public memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
 
   uint256[] private membersList_;
 
   // METHODS
-
   // Public
 
   function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public returns(uint) {
@@ -46,7 +45,7 @@ contract Members is Random, Registry {
   function updateMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public {
   // , string _group) onlySigner public {
     require(members_[_memberId].memberId > 0, "Member not exists");
-    require(members_[_memberId].creationDate == _creationDate, "Creation Date is inmutable");
+    require(members_[_memberId].creationDate == _creationDate, "Creation Date is immutable");
 //    _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
 //    members_[_memberId].group = _group;
     members_[_memberId].name = _name;
@@ -171,10 +170,10 @@ contract Members is Random, Registry {
         members_[_memberId].userRequests[j] = members_[_memberId].userRequests[j + 1];
       }
     }
-    if (found) {
+//    if (found) {
       delete members_[_memberId].userRequests[members_[_memberId].userRequests.length - 1];
       members_[_memberId].userRequests.length--;
-    }
+//    }
   }
 
 }

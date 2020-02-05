@@ -1,33 +1,22 @@
 // Basic
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input, Inject} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, Validators} from '@angular/forms';
 import { Store } from '@ngrx/store';
-
 import { MatSnackBar, MatPaginator } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
-
 import {Subscription, Observable, pipe, interval} from 'rxjs';
 import { AssetModel } from '@core/models/assets.model';
 import {filter, first, map, skipWhile, tap} from 'rxjs/operators';
-
 import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
-
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import { MemberModel } from '@core/models/member.model';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
-// import { NgxCsvParser } from 'ngx-csv-parser';
-// import { NgxCSVParserError } from 'ngx-csv-parser';
-import * as Papa from 'papaparse';
 import {ShellComponent} from '@shell/shell.component';
-import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
+import {InboxComponent, unreadMessages, currentUser} from '@pages/inbox/inbox.component';
 import {AssetsApiService} from '@api/assets-api.service';
-import * as fromUserSelectors from '@stores/user/user.selectors';
-import {ROLES} from '@constants/roles.constants';
-import {UserModel} from '@models/user.model';
-import * as fromAppActions from '@stores/application-data/application-data.actions';
-import {THEMES} from '@constants/themes.constants';
+import * as fromUserActions from '@stores/user/user.actions';
 
 const log = new Logger('repertoire.component');
 
@@ -71,6 +60,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
         public assetCardComponent: AssetCardComponent,
         public fb: FormBuilder,
         public assetsApiService: AssetsApiService,
+        @Inject(InboxComponent) private inboxComponent2,
         public inboxComponent: InboxComponent,
         public shellComponent: ShellComponent
   ) { }
@@ -84,17 +74,21 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.member$ = this.store.select(fromMemberSelectors.getCurrentMember)
           .subscribe((member) => {
           if (member) {
-              this.currentGroup = member.name;
-              console.log('CURRENT MEMBER is  ', this.currentGroup);
+              this.member = member;
+              // this.currentGroup = member.group;
+              console.log('CURRENT MEMBER is  ', this.member);
           }
       });
       // this.assetsApiService.group = this.currentGroup;
-      console.log('this.assetsApiService.group is ', this.assetsApiService.group);
 
       this.registrationForm = new FormGroup({ type: new FormControl() });
       this.registrationForm = this.fb.group({ type: ['all'] });
-      this.filter = '';
 
+      console.log('this.user.group is ', this.shellComponent.user.groups);
+      this.assetsApiService.groups = this.shellComponent.user.groups;
+      console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
+
+      this.filter = '';
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
                   filter: '',
                   pageIndex: 0,
@@ -117,7 +111,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       // this.currentMember = this.inboxComponent.currentMember;
       // console.log('CURRENT MEMBER group is ', this.currentMember.group);
       this.shellComponent.unreadMessages = unreadMessages;
-
+      // in order to update groups from newly submitted from its Super User
   }
 
     public checkSource() {
@@ -160,71 +154,4 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-    public uploadFile(event) {
-    const file = event.target.files;
-    if (file.length > 0) {
-        console.log(file); // You will see the file
-      //
-        const f = new Blob(file, {type: 'text/plain'});
-        const reader = new FileReader();
-        reader.onload = () => {
-            const text = reader.result;
-            // console.log('CSV file:\n', (text as string).substring(0, 1000) + '...');
-            // console.log('Papa');
-            const papa = Papa.parse(text, {
-                transform: function (value) {
-                    try {
-                        return JSON.parse(value);
-                    } catch (err) {
-                        return value;
-                    }
-                }
-            });
-            // console.log('CSV.DATA PAPAPARSE:');
-            let rightCSVFormat = true;
-            papa.data.forEach( (x: any) => { if (x.length !== 9) {
-                console.log('CSV HAS WRONG INFO.');
-                rightCSVFormat = false;
-            }});
-            if (rightCSVFormat) {
-                console.log(this.csvJSON(papa.data));
-                this.uploadedCSV2JSON = this.csvJSON(papa.data);
-                // tslint:disable-next-line:no-life-cycle-call
-                this.assetCardComponent.ngOnInit();
-                this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON);
-                console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
-            } else {
-                console.log('E r r o r: CSV HAS WRONG INFO.');
-                alert('E r r o r: The uploaded CSV file has an undesired format.\n\n' +
-                    // 'Right Holder Role spot is left empty for Sound Recordings\n' +
-                    'Please make sure each claim has 9 fields and that there are no empty lines.');
-            }
-        };
-        reader.readAsText(f);
-    }
-  }
-
-    public csvJSON(csv) {
-      const result = [];
-      const line = csv;
-      const headers = line[0];
-      for (let i = 1; i < line.length; i++) {
-          const obj = {};
-          for (let j = 0; j < headers.length; j++) {
-              const currentline = line[i];
-              // console.log('currentline\n', currentline);
-              // if (currentline === '') {
-              //     break;
-              // }
-              if (j === 2 || j === 3) {
-                  obj[headers[j]] = Date.parse(currentline[j]).toString();
-              } else {
-                  obj[headers[j]] = (currentline[j]).toString();
-              }
-          }
-          result.push(obj);
-      }
-      // return result; //JavaScript object
-      return JSON.stringify(result); // JSON
-  }
 }

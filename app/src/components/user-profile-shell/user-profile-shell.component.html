@@ -4,10 +4,14 @@
 <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="doCopyMnemonic()">
         <mat-icon>lock</mat-icon>
-        <span>{{'common.copy_mnemonic' | translate}}</span>
+        <span>{{ 'common.copy_mnemonic' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="doEdit()" *ngIf="user?.role === 'Super admin'">
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
     </button>
     <button mat-menu-item (click)="doLogout()">
         <mat-icon>exit_to_app</mat-icon>
-        <span>{{'common.logout' | translate}}</span>
+        <span>{{ 'common.logout' | translate }}</span>
     </button>
 </mat-menu>

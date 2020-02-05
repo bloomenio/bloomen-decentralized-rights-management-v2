@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-
-// Constants
 import { map, switchMap } from 'rxjs/operators';
-
-// Actions
 import * as fromUserActions from './user.actions';
 import * as fromMemberActions from '@stores/member/member.actions';
 import { Logger } from '@services/logger/logger.service';
-
 import { UserContract } from '@services/web3/contracts/user/userContract';
 import { ApplicationDataDatabaseService } from '@db/application-data-database.service';
 import { Store } from '@ngrx/store';
 import { UserModel } from '@core/models/user.model';
 import { Web3Service } from '@services/web3/web3.service';
 import { APPLICATION_DATA_CONSTANTS } from '@core/constants/application-data.constants';
-import {InboxComponent} from '@pages/inbox/inbox.component';
+import {currentUser, InboxComponent} from '@pages/inbox/inbox.component';
+import {Router} from '@angular/router';
 
 const log = new Logger('user-data.effects');
 
@@ -26,6 +22,7 @@ export class UserEffects {
         private actions$: Actions<fromUserActions.UserActions>,
         private userContract: UserContract,
         private applicationDatabaseService: ApplicationDataDatabaseService,
+        private router: Router,
         private store: Store<any>,
         private web3Service: Web3Service,
         public inboxComponent: InboxComponent
@@ -36,6 +33,8 @@ export class UserEffects {
         map(() => {
             this.applicationDatabaseService.get(APPLICATION_DATA_CONSTANTS.USER).toPromise().then((userDb) => {
                 if (userDb) {
+                    console.log('FROM INIT USER: ');
+                    console.log(userDb);
                     this.store.dispatch(new fromUserActions.InitUserSuccess(userDb));
                     this.store.dispatch(new fromMemberActions.SelectMember(userDb.memberId));
                 }
@@ -66,9 +65,10 @@ export class UserEffects {
                 status: userBc.status,
                 memberId: userBc.memberId,
                 owner: userBc.owner,
-                cmo: userBc.cmo
+                cmo: userBc.cmo,
+                groups: userBc.groups
             };
-            console.log('USER: ');
+            console.log('FROM ADD USER: ');
             console.log(user);
             this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
             this.store.dispatch(new fromUserActions.AddUserSuccess(user));
@@ -85,6 +85,26 @@ export class UserEffects {
                 }, (error) => {
                     log.error(error);
                 });
+            });
+        })
+    );
+
+    @Effect({ dispatch: false }) public updateSuperUser = this.actions$.pipe(
+        ofType(fromUserActions.UserActionTypes.UPDATE_SUPERUSER),
+        map((action) => {
+            this.web3Service.ready(async () => {
+                // @ts-ignore
+                const actionPayload = action.payload;
+                await this.userContract.updateSuperUser(actionPayload).then(() => {
+                        this.store.dispatch(new fromUserActions.AddUser());
+                }, (error) => { log.error(error); })
+                    .then(() => {   // to refresh current user data
+                        if (this.router.routerState.snapshot.url === '/inbox') {
+                            this.router.navigate(['member-management']).then(() => { this.router.navigate(['inbox']); });
+                        } else {
+                            this.router.navigate(['inbox']).then(() => { this.router.navigate(['member-management']); });
+                        }
+                    });
             });
         })
     );

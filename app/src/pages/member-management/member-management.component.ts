@@ -1,6 +1,5 @@
 // Basic
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-
 import { MatSnackBar, MatPaginator, MatSort } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
@@ -8,19 +7,16 @@ import { MemberManagementDataSource } from './member-management.datasource';
 import { tap, map, skipWhile } from 'rxjs/operators';
 import {MemberContract, RegistryContract} from '@core/core.module';
 import { Store } from '@ngrx/store';
-
 import * as fromMemberSelector from '@stores/member/member.selectors';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {interval, Subscription} from 'rxjs';
 import {currentMember, InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import {ShellComponent} from '@shell/shell.component';
 import {DialogMemberDataComponent} from '@components/dialog-member-data/dialog-member-data.component';
-import * as fromUserActions from '@stores/user/user.actions';
 import {MatDialog} from '@angular/material/dialog';
-import * as fromAppActions from '@stores/application-data/application-data.actions';
-import {THEMES} from '@constants/themes.constants';
 import {MemberModel} from '@models/member.model';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
+import {currentUser} from '@pages/inbox/inbox.component';
 
 const log = new Logger('company-management.component');
 
@@ -41,7 +37,6 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public members: MemberModel[];
   public member$: Subscription;
   public currentMember$: Subscription;
-
   public companiesPageNumber: number;
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
@@ -96,6 +91,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     this.shellComponent.ngOnInit();
     // });
     this.shellComponent.unreadMessages = unreadMessages;
+    this.router.navigate(['member-management']);
   }
 
   public ngAfterViewInit() {

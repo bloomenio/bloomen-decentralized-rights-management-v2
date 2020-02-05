@@ -1,0 +1,51 @@
+<div mat-dialog-title class="dialog-title">Super User</div>
+<div *ngIf="data" fxLayout="row" fxLayoutAlign="center center" class="icon-container">
+  <div class="icon-square">
+    <div class="icon-text">
+      {{nameIcon}}
+    </div>
+  </div>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Owner address" formControlName="owner" />
+      </mat-form-field>
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="CMO" formControlName="cmo" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="{{'user_dialog.name' | translate}}" formControlName="firstName" />
+      </mat-form-field>
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="{{'user_dialog.last_name' | translate}}" formControlName="lastName" />
+      </mat-form-field>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="50">
+        <mat-label>Collections</mat-label>
+        <mat-select formControlName="groups" multiple>
+          <mat-select-trigger>
+            <mat-chip-list *ngIf="editUserForm.get('groups')">
+              <mat-chip *ngFor="let group of editUserForm.get('groups').value">{{ group }}</mat-chip>
+            </mat-chip-list>
+          </mat-select-trigger>
+          <mat-option *ngFor="let group of allGroups" [value]="group">
+            {{ group }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="{{'user_dialog.member' | translate}}" formControlName="memberId" />
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="end center">
+      <button mat-button type="button" (click)="dialogRef.close()"> {{'common.cancel' | translate | uppercase}} </button>
+      <button color="primary" [disabled]="!editUserForm.valid" mat-button> {{'common.accept' | translate | uppercase}} </button>
+    </div>
+  </form>
+</div>

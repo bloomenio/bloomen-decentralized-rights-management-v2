@@ -49,6 +49,7 @@ function get() {
         });
 }
 
+// node src/registryUtils.js set cmo1
 async function set(value) {
     contractInstance.methods.addCMO(value).send(transactionObject).then(checkTransaction);
 }

@@ -83,6 +83,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
     this.shellComponent.ngOnInit();
     // });
     this.shellComponent.unreadMessages = unreadMessages;
+    this.router.navigate(['user-management']);
   }
 
   public ngAfterViewInit() {
@@ -116,7 +117,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
       }
     });
   }
-
 
   public ngOnDestroy() {
     this.user$.unsubscribe();

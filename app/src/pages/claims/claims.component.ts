@@ -88,6 +88,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.shellComponent.unreadMessages = unreadMessages;
         // console.log('unreadMessages');
         // console.log(unreadMessages);
+        this.router.navigate(['claims']);
 
     }
 

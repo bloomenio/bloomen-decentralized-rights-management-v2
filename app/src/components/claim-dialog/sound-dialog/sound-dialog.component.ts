@@ -131,6 +131,8 @@ export class SoundDialogComponent implements OnInit {
         this.countriesAll = COUNTRIES;
         this.members = this.data.members;
         this.affiliations = await this.registryContract.getCMOs();
+        console.log('this.affiliations');
+        console.log(this.affiliations);
     }
 
     private compareStartEndDates()  {

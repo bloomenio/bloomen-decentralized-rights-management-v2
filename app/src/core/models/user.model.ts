@@ -8,6 +8,7 @@ export interface UserModel {
     status?: string;
     owner?: string;
     cmo?: string;
+    groups?: string[];
 }
 
 export enum StatusEnum {

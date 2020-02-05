@@ -3,22 +3,18 @@
   <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" fxLayout="column">
     <div fxLayout="row">
       <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="space-between">
-        <mat-form-field fxFlex="45">
+        <mat-form-field fxFlex="100">
           <mat-label>{{ 'add_member_dialog.cmo' | translate | uppercase }}</mat-label>
-          <mat-select formControlName="cmo">
-            <mat-option *ngFor="let cmo of (cmos$ | async)" [value]="cmo">
-              {{ cmo }}
-            </mat-option>
-          </mat-select>
+            <input matInput placeholder="CMO" formControlName="cmo" />
         </mat-form-field>
-        <mat-form-field fxFlex="45">
-          <mat-label>Collection</mat-label>
-          <mat-select formControlName="group">
-            <mat-option *ngFor="let collection of collections" [value]="collection">
-              {{ collection | titlecase}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+<!--        < mat-form-field fxFlex="45">-->
+<!--          <mat-label>Collection</mat-label>-->
+<!--          <mat-select formControlName="group">-->
+<!--            <mat-option *ngFor="let collection of collections" [value]="collection">-->
+<!--              {{ collection | titlecase}}-->
+<!--            </mat-option>-->
+<!--          </mat-select>-->
+<!--        </mat-form-field>-->
         <mat-form-field fxFlex="100">
           <input matInput placeholder="{{ 'add_member_dialog.image_url' | translate }}" formControlName="url">
         </mat-form-field>

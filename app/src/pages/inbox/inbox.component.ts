@@ -26,6 +26,7 @@ export let lastInboxLength: number;
 export let inboxReadClaims: any; // claimId, lastChange, isRead
 export let unreadMessages: any;
 export let currentMember: any;
+export let currentUser: any;
 
 const log = new Logger('inbox.component');
 
@@ -83,7 +84,9 @@ export class InboxComponent implements OnInit, OnDestroy {
         skipWhile(user => !user),
         first()
     ).subscribe((user) => {
+      // if (user) {
       this.user = user;
+      currentUser = user;
       if (user.role === ROLES.SUPER_USER) {
         this.fillInboxSuperUser();
         console.log('fillInboxSuperUser');
@@ -91,40 +94,14 @@ export class InboxComponent implements OnInit, OnDestroy {
         console.log(this.user);
         console.log(this.member);
       }
+    //  }
     });
-    // while (this.user === undefined) {
-    //   setTimeout(() => { console.log('LOADING5!'); }, 5000);      // console.log(this.user);
-    // }
+    // this.store.dispatch(new fromUserActions.AddUser());   // in order to update groups from newly submitted from its Super User
+
     this.refreshInbox();
     if (unreadMessages === undefined) {
       unreadMessages = 0;
     }
-    // this.newMessagesInterval$ = interval(5000).subscribe(() => {this.refreshInbox();});
-
-    // console.log('Refreshed Inbox');
-    // if (this.user.role === ROLES.SUPER_USER) {
-    //   console.log('Refreshed Inbox ROLES>SUPER_USER');
-    //   this.fillInboxSuperUser();
-    // } else {
-    //   console.log('Refreshed Inbox ROLES>ADMIN/USER');
-    //   this.store.dispatch(new fromMemberActions.InitMember());message
-    // }
-    // this.intervalUser$ = interval(1500).pipe(
-    //   switchMap(() => this.store.select(fromUserSelectors.getUser)),
-    //   skipWhile((user) => !user),
-    //   takeWhile((user) => user && (user.role === ROLES.ADMIN || user.role === ROLES.USER))
-    // ).subscribe(() => {
-    //   this.store.dispatch(new fromMemberActions.InitMember());
-    // });
-
-    // this.intervalSuperUser$ = interval(1500).pipe(
-    //   switchMap(() => this.store.select(fromUserSelectors.getUser)),
-    //   skipWhile((user) => !user),
-    //   takeWhile((user) => user && user.role === ROLES.SUPER_USER)
-    // ).subscribe(() => {
-
-    //   this.fillInboxSuperUser();
-    // });
 
   }
 
@@ -322,7 +299,7 @@ export class InboxComponent implements OnInit, OnDestroy {
             break;
           }
         }
-        if (!found) {
+        if (!found) { // && m.status !== '2') {
           console.log('TO INSERT');
           console.log(m);
           const toIns = inboxReadClaims.push({creationDate: this.inbox[i].creationDate, string: this.inbox[i][1], read: false});

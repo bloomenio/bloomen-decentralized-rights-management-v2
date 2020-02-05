@@ -16,6 +16,7 @@ contract Users is Members {
     StatusUserEnum status;
     address owner;
     string cmo;
+    string[] groups;
   }
 
   enum StatusUserEnum {
@@ -52,6 +53,20 @@ contract Users is Members {
     uint256 _status = uint(users_[owner].status);
 
     _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, _status, owner, 1);
+  }
+
+  function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner, string[] _groups) public {
+
+    users_[owner].firstName = _firstName;
+    users_[owner].lastName = _lastName;
+    users_[owner].groups = _groups;
+
+    for (uint i = 0; i < usersList_.length; ++i) {
+      if (keccak256(users_[usersList_[i]].cmo) == keccak256(users_[owner].cmo)) {
+        users_[usersList_[i]].groups = _groups;
+      }
+    }
+
   }
 
   function rejectUser(address _userToReject) public {
@@ -93,8 +108,8 @@ contract Users is Members {
     users_[account].memberId = ++memberIdCounter_;
     users_[account].cmo = _cmo;
     users_[account].status = StatusUserEnum.ACCEPTED;
+    users_[account].groups = ["test"];
     addSigner(account);
-
   }
 
   function getUsers(uint256 _page) public view returns(User[] memory) {
@@ -163,7 +178,11 @@ contract Users is Members {
 
     if(isCreate == 0) {
       usersList_.push(owner);
+//      if (users_[owner].status != StatusUserEnum.ACCEPTED) {
       _addUserToMemberRequest(_memberId);
+//      }
+      users_[owner].groups = ["test"];                  // by default
+      users_[owner].cmo = members_[user.memberId].cmo;  // to initialize
     }
   }
 

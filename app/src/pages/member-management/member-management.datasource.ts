@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {MemberContract, RegistryContract} from '@core/core.module.js';
 import { Inject } from '@angular/core';
 import {MemberModel} from '@models/member.model';
+import {currentUser} from '@pages/inbox/inbox.component';
 
 export class MemberManagementDataSource implements DataSource<UserModel> {
 
@@ -38,7 +39,7 @@ export class MemberManagementDataSource implements DataSource<UserModel> {
         // console.log('MEMBERS FROM loadCompanies');
 
         this.loadingSubject.next(true);
-        this.memberContract.getMembers(pageIndex, this.currentCmo)
+        this.memberContract.getMembers(pageIndex, currentUser.cmo)
             .then((members) => {
                 this.users$.next(members);
                 this.loadingSubject.next(false);

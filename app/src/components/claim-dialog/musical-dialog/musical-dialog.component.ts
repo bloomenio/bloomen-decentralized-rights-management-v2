@@ -29,7 +29,6 @@ export class MusicalDialogComponent implements OnInit {
     public affiliations: string[];
     public members: MemberModel[];
 
-
     public oldISWC: any;
     public oldCountries: string[];
     public oldStartDate: any;

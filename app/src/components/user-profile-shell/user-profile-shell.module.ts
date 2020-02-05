@@ -10,6 +10,8 @@ import { MaterialModule } from '@app/material.module';
 
 // Components
 import { UserProfileShellComponent } from './user-profile-shell.component';
+import {DialogUserDataModule} from '@components/dialog-user-data/dialog-user-data.module';
+import {DialogSuperUserModule} from '@components/dialog-super-user/dialog-super-user.module';
 
 @NgModule({
   imports: [
@@ -17,7 +19,8 @@ import { UserProfileShellComponent } from './user-profile-shell.component';
     TranslateModule,
     RouterModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    DialogSuperUserModule
   ],
   declarations: [UserProfileShellComponent],
   exports: [UserProfileShellComponent],
