@@ -146,8 +146,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     } else { // Opera
       const user: UserModel = {
         creationDate: new Date().getTime(),
-        firstName: 'Cm',
-        lastName: 'O1',
+        firstName: 'Nikos',
+        lastName: 'Kapsoulis',
         memberId: this.membersFiltered[0].memberId.toString(),
         role: 'Admin'
       };

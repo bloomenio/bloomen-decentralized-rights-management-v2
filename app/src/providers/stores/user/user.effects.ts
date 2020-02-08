@@ -33,8 +33,8 @@ export class UserEffects {
         map(() => {
             this.applicationDatabaseService.get(APPLICATION_DATA_CONSTANTS.USER).toPromise().then((userDb) => {
                 if (userDb) {
-                    console.log('FROM INIT USER: ');
-                    console.log(userDb);
+                    // console.log('FROM INIT USER: ');
+                    // console.log(userDb);
                     this.store.dispatch(new fromUserActions.InitUserSuccess(userDb));
                     this.store.dispatch(new fromMemberActions.SelectMember(userDb.memberId));
                 }

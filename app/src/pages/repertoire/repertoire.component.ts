@@ -12,7 +12,6 @@ import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import { MemberModel } from '@core/models/member.model';
-import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {ShellComponent} from '@shell/shell.component';
 import {InboxComponent, unreadMessages, currentUser} from '@pages/inbox/inbox.component';
 import {AssetsApiService} from '@api/assets-api.service';
@@ -57,7 +56,6 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
         private store: Store<any>, // AssetModel
         public snackBar: MatSnackBar,
         public router: Router,
-        public assetCardComponent: AssetCardComponent,
         public fb: FormBuilder,
         public assetsApiService: AssetsApiService,
         @Inject(InboxComponent) private inboxComponent2,

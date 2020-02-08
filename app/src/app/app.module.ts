@@ -12,7 +12,7 @@ import { ApplicationDataStoreModule } from '@stores/application-data/application
 import { MnemonicStoreModule } from '@stores/mnemonic/mnemonic.module';
 import { CmosStoreModule } from '@stores/cmos/cmos.module';
 import { MemberStoreModule } from '@stores/member/member.module';
-import { RepertoireStoreModule } from '@stores/repertoire/repertoire.module';
+import { RepertoireStoreModule, globalAllAssets } from '@stores/repertoire/repertoire.module';
 import { ClaimStoreModule } from '@stores/claim/claim.module';
 
 

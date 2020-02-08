@@ -29,6 +29,7 @@ import { TransactionService } from '@services/web3/transactions/transaction.serv
 import { MemberContract, UserContract, ClaimsContract, RegistryContract, FunctionsContract } from '@services/web3/contracts';
 
 import { reducers, metaReducers } from './core.state';
+import { globalAllAssets} from '@stores/repertoire/repertoire.effects';
 
 @NgModule({
   imports: [
@@ -110,3 +111,4 @@ export function genericContractFactory(type: any) {
 }
 
 export * from '@services/web3/contracts';
+export { globalAllAssets };

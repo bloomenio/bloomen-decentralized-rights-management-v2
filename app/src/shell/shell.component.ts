@@ -156,14 +156,14 @@ export class ShellComponent implements OnInit, OnDestroy {
       cmo: userBc.cmo,
       groups: userBc.groups
     };
-    console.log('FROM ADD USER: ');
-    console.log(user);
+    // console.log('FROM RENEW USER GROUP RIGHTS: ');
+    // console.log(user);
     this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
     this.store.dispatch(new fromUserActions.AddUserSuccess(user));
     this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
     // @ts-ignore
     this.user = user;
-    console.log(this.user);
+    // console.log(this.user);
   }
 
   public newMessagesGet() {
@@ -283,7 +283,7 @@ export class ShellComponent implements OnInit, OnDestroy {
           this.assetCardComponent.ngOnInit();
           this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON)
               .then( () => {
-            console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+            // console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
 
             // Refresh Claims page: claims.component
             this.dataSource = new ClaimsDataSource(this.claimsContract);

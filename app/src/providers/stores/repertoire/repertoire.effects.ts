@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-
-// Constants
 import { map, switchMap, catchError } from 'rxjs/operators';
-
-// Actions
 import * as fromActions from './repertoire.actions';
-
 import { Logger } from '@services/logger/logger.service';
 import { AssetsApiService } from '@api/assets-api.service';
 import { of } from 'rxjs';
-import {markDirtyIfOnPush} from "@angular/core/src/render3/instructions";
 
 const log = new Logger('application-data.effects');
+
+export let globalAllAssets: any;
 
 @Injectable()
 export class RepertoireEffects {
@@ -37,6 +33,7 @@ export class RepertoireEffects {
                         }
                     }
                     console.log(allAssets);
+                    globalAllAssets = allAssets;
                     return new fromActions.RepertoireSearchSuccess(allAssets);
                 }),
                 catchError(

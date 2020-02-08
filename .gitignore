@@ -2,6 +2,8 @@
 api/api/package-lock.json
 app/package-lock.json
 app/claims.csv
+app/claims1.csv
+app/claims2.csv
 app/claims4.csv
 truffle/package-lock.json
 dist/
