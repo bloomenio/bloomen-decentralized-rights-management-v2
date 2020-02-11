@@ -6,7 +6,6 @@ import "./RLPReader.sol";
 import "./Users.sol";
 import "./strings.sol";
 
-
 contract Claims {
 
   Users private _Users;
