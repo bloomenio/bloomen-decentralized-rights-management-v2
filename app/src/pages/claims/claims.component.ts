@@ -35,7 +35,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public dataSource: ClaimsDataSource;
     public usersPageNumber: number;
 
-    private members: MemberModel[];
+    public members: MemberModel[];
     private members$: Subscription;
 
     public claimType: any;

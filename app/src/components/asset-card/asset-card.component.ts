@@ -253,134 +253,134 @@ export class AssetCardComponent implements OnInit {
     if (globalAllAssets === undefined) {
       alert('Bloomen Decentralized Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
           'In order to fetch the appropriate decentralized user rights on assets.');
-    }
-    const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
-    // console.log('GLOBAL ALL ASSETS');
-    // console.log(globalAllAssets);
-    // console.log('OBJS: ', objs);
-    // console.log('this.members[0].memberId: ' + this.user.memberId);
-    let done = false;
-    const memberOwner = Number(this.user.memberId);
-    const claimsArray = [];
-    await Promise.resolve()
-        .then(() => {
-          for (const cl of objs) {
-            let c: ClaimModel;
-            // console.log('This is claim with ISC ' + cl.ISC + ' and splitPart ' + cl.splitPart + '.');
-            Promise.resolve()
-                .then(() => {
-                  switch (cl.rightHolderRole.length) {
-                    case 0: {
-                      // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
-                      c = {
-                        creationDate: new Date().getTime(),
-                        lastChange: new Date().getTime(),
-                        messageLog: [''],
-                        claimId: undefined,
-                        claimType: ClaimTypeEnum.SOUND_RECORDING,
-                        memberOwner: memberOwner,
-                        status: ClaimModel.StatusClaimEnum.CLAIMED,
-                        oldClaimData: [
-                          ['ISRC', cl.ISC],
-                          ['countries', cl.countries],
-                          ['startDate', cl.startDate],
-                          ['endDate', cl.endDate],
-                          ['useTypes', cl.types],
-                          ['splitPart', cl.splitPart],
-                          ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
-                          ['title', cl.title]
-                        ],
-                        claimData: [
-                          ['ISRC', cl.ISC],
-                          ['countries', cl.countries],
-                          ['startDate', cl.startDate],
-                          ['endDate', cl.endDate],
-                          ['useTypes', cl.types],
-                          ['splitPart', cl.splitPart],
-                          ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
-                          ['title', cl.title]
-                        ]
-                      };
-                      break;
+    } else {
+      const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
+      // console.log('GLOBAL ALL ASSETS');
+      // console.log(globalAllAssets);
+      // console.log('OBJS: ', objs);
+      // console.log('this.members[0].memberId: ' + this.user.memberId);
+      let done = false;
+      const memberOwner = Number(this.user.memberId);
+      const claimsArray = [];
+      await Promise.resolve()
+          .then(() => {
+            for (const cl of objs) {
+              let c: ClaimModel;
+              // console.log('This is claim with ISC ' + cl.ISC + ' and splitPart ' + cl.splitPart + '.');
+              Promise.resolve()
+                  .then(() => {
+                    switch (cl.rightHolderRole.length) {
+                      case 0: {
+                        // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
+                        c = {
+                          creationDate: new Date().getTime(),
+                          lastChange: new Date().getTime(),
+                          messageLog: [''],
+                          claimId: undefined,
+                          claimType: ClaimTypeEnum.SOUND_RECORDING,
+                          memberOwner: memberOwner,
+                          status: ClaimModel.StatusClaimEnum.CLAIMED,
+                          oldClaimData: [
+                            ['ISRC', cl.ISC],
+                            ['countries', cl.countries],
+                            ['startDate', cl.startDate],
+                            ['endDate', cl.endDate],
+                            ['useTypes', cl.types],
+                            ['splitPart', cl.splitPart],
+                            ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                            ['title', cl.title]
+                          ],
+                          claimData: [
+                            ['ISRC', cl.ISC],
+                            ['countries', cl.countries],
+                            ['startDate', cl.startDate],
+                            ['endDate', cl.endDate],
+                            ['useTypes', cl.types],
+                            ['splitPart', cl.splitPart],
+                            ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                            ['title', cl.title]
+                          ]
+                        };
+                        break;
+                      }
+                      default: {
+                        // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
+                        c = {
+                          creationDate: new Date().getTime(),
+                          lastChange: new Date().getTime(),
+                          messageLog: [''],
+                          claimId: undefined,
+                          claimType: ClaimTypeEnum.MUSICAL_WORK,
+                          memberOwner: memberOwner,
+                          status: ClaimModel.StatusClaimEnum.CLAIMED,
+                          oldClaimData: [
+                            ['ISWC', cl.ISC],
+                            ['countries', cl.countries],
+                            ['startDate', cl.startDate],
+                            ['endDate', cl.endDate],
+                            ['rightTypes', cl.types],
+                            ['splitPart', cl.splitPart],
+                            ['rightHolderRole', cl.rightHolderRole],
+                            ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                            ['title', cl.title]
+                          ],
+                          claimData: [
+                            ['ISWC', cl.ISC],
+                            ['countries', cl.countries],
+                            ['startDate', cl.startDate],
+                            ['endDate', cl.endDate],
+                            ['rightTypes', cl.types],
+                            ['splitPart', cl.splitPart],
+                            ['rightHolderRole', cl.rightHolderRole],
+                            ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                            ['title', cl.title]
+                          ]
+                        };
+                        break;
+                      }
                     }
-                    default: {
-                      // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
-                      c = {
-                        creationDate: new Date().getTime(),
-                        lastChange: new Date().getTime(),
-                        messageLog: [''],
-                        claimId: undefined,
-                        claimType: ClaimTypeEnum.MUSICAL_WORK,
-                        memberOwner: memberOwner,
-                        status: ClaimModel.StatusClaimEnum.CLAIMED,
-                        oldClaimData: [
-                          ['ISWC', cl.ISC],
-                          ['countries', cl.countries],
-                          ['startDate', cl.startDate],
-                          ['endDate', cl.endDate],
-                          ['rightTypes', cl.types],
-                          ['splitPart', cl.splitPart],
-                          ['rightHolderRole', cl.rightHolderRole],
-                          ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
-                          ['title', cl.title]
-                        ],
-                        claimData: [
-                          ['ISWC', cl.ISC],
-                          ['countries', cl.countries],
-                          ['startDate', cl.startDate],
-                          ['endDate', cl.endDate],
-                          ['rightTypes', cl.types],
-                          ['splitPart', cl.splitPart],
-                          ['rightHolderRole', cl.rightHolderRole],
-                          ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
-                          ['title', cl.title]
-                        ]
-                      };
-                      break;
-                    }
-                  }
-                })
-                .then(() => {
-                  claimsArray.push(c);
-                });
-            // console.log('claimsArray: ', claimsArray);
-            // console.log('c: ', c);
-            // claimsArray.push(c);
-            // console.log('claimsArray: ', claimsArray);
-            // claimsArray.forEach((claim) => {
-            //   console.log(claim.claimData);
+                  })
+                  .then(() => {
+                    claimsArray.push(c);
+                  });
+              // console.log('claimsArray: ', claimsArray);
+              // console.log('c: ', c);
+              // claimsArray.push(c);
+              // console.log('claimsArray: ', claimsArray);
+              // claimsArray.forEach((claim) => {
+              //   console.log(claim.claimData);
+              // });
+            }
+          })
+          .then(async () => {
+            // const claimsArray3 = [];
+            // claimsArray.forEach( ({c}) => {
+            //   claimsArray3.push(c);
             // });
-          }
-        })
-        .then(async () => {
-          // const claimsArray3 = [];
-          // claimsArray.forEach( ({c}) => {
-          //   claimsArray3.push(c);
-          // });
-          // console.log('claimsArray ');
-          // console.log(claimsArray);
-          // console.log('claimsArray3 ');
-          // console.log(claimsArray3);
-          // claimsArray = claimsArray3;
-          // Fix random title if necessary
-          await Promise.resolve('DONE')
-              .then( () => {
-                // let claimsArray2 = [];
-                // console.log('claimsArray:');
-                // console.log(claimsArray);
-                // console.log(claimsArray.length);
-                // console.log(claimsArray[1]);
-                // console.log(claimsArray[2]);
-                for (const submittedAsset of claimsArray) {
-                  // for (let i = 0; i < claimsArray.length; i++) {
-                  //   const submittedAsset = claimsArray[i];
-                  // console.log(submittedAsset);
-                  // }
-                  // for (const submittedAsset of claimsArray) {
-                  //   for (const realAsset of globalAllAssets) {
-                  Promise.resolve('DONE')
-                      .then(() => {
-                        // globalAllAssets.forEach((realAsset) => {
+            // console.log('claimsArray ');
+            // console.log(claimsArray);
+            // console.log('claimsArray3 ');
+            // console.log(claimsArray3);
+            // claimsArray = claimsArray3;
+            // Fix random title if necessary
+            await Promise.resolve('DONE')
+                .then(() => {
+                  // let claimsArray2 = [];
+                  // console.log('claimsArray:');
+                  // console.log(claimsArray);
+                  // console.log(claimsArray.length);
+                  // console.log(claimsArray[1]);
+                  // console.log(claimsArray[2]);
+                  for (const submittedAsset of claimsArray) {
+                    // for (let i = 0; i < claimsArray.length; i++) {
+                    //   const submittedAsset = claimsArray[i];
+                    // console.log(submittedAsset);
+                    // }
+                    // for (const submittedAsset of claimsArray) {
+                    //   for (const realAsset of globalAllAssets) {
+                    Promise.resolve('DONE')
+                        .then(() => {
+                          // globalAllAssets.forEach((realAsset) => {
                           // console.log(realAsset);
                           const index = claimsArray.indexOf(submittedAsset);
                           if (globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1])) {
@@ -433,24 +433,25 @@ export class AssetCardComponent implements OnInit {
                           // }
                           // }
                           // claimsArray = claimsArray2;
-                        // }
-                      });
-                }
-              });
-        })
-        .then(async () => {
-          if (!done) {
-            done = true;
-            // console.log(claimsArray);
-            for (let j = 0; j < claimsArray.length; j++) {
-            // for (const asset of claimsArray) {
-            //   console.log(claimsArray[j]);
-              // console.log(asset);
-              // await this.claimsContract.addClaim(asset).then();
-              await this.claimsContract.addClaim(claimsArray[j]).then();
+                          // }
+                        });
+                  }
+                });
+          })
+          .then(async () => {
+            if (!done) {
+              done = true;
+              // console.log(claimsArray);
+              for (let j = 0; j < claimsArray.length; j++) {
+                // for (const asset of claimsArray) {
+                //   console.log(claimsArray[j]);
+                // console.log(asset);
+                // await this.claimsContract.addClaim(asset).then();
+                await this.claimsContract.addClaim(claimsArray[j]).then();
+              }
             }
-          }
-        });
+          });
+    }
   }
 
   public async delay(ms: number) {    // await this.delay(500);

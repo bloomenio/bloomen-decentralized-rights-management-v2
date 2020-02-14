@@ -156,7 +156,7 @@ export class ClaimsContract extends Contract {
                             });
                             claim.claimData = data;
 
-                            // console.log(claim);
+                            console.log(claim);
                             return claim;
                         });
                     })

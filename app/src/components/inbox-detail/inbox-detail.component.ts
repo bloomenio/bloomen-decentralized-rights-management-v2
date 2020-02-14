@@ -40,7 +40,7 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   public member: MemberModel;
   public member$: Subscription;
-
+  private members: MemberModel[];
   public currentMember: MemberModel;
 
   constructor(
@@ -55,6 +55,7 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
     this.claimType = ClaimModel.ClaimTypeEnum;
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers).pipe(
       map((members) => {
+        this.members = members;
         return members.find((member) => member.memberId === this.message.memberId || member.memberId === this.message.memberOwner);
       })
     ).subscribe((member) => {
@@ -95,6 +96,7 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
   }
 
   public onUpdate(message) {
+    this.claimsComponent.members = this.members;
     this.claimsComponent.clickEdit(message, true);
     // tslint:disable-next-line:no-life-cycle-call
     this.inboxComponent.ngOnInit();

@@ -50,7 +50,10 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
         const status = parseInt(user.status, 10);
         if (status === StatusEnum.ACCEPTED || user.role === ROLES.SUPER_USER) {
           this.ngZone.run(() => {
-            this.router.navigate(['inbox']);
+            this.router.navigate(['inbox'])
+                .then(() => {
+                  window.location.reload();
+                });
           });
         }
       }

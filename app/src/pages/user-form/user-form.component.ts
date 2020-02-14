@@ -33,12 +33,9 @@ const log = new Logger('user-form.component');
 export class UserFormComponent implements OnInit, OnDestroy {
 
   public userForm: FormGroup;
-
   private members: MemberModel[];
   public cmos: string[];
-
   public membersFiltered: MemberModel[];
-
   public roles: string[];
 
   public member$: Subscription;
