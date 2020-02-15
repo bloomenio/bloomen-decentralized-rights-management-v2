@@ -84,32 +84,78 @@ contract Claims {
   function getClaimsByMemberId(uint _page) view public returns (Claim[] memory) {
 
     uint256 pageIndex = SafeMath.mul(PAGE_SIZE, _page);
-    uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
-    uint count = _Users._getClaimsCountByMember(_memberId);
-    uint256 pageNumber = SafeMath.div(count, PAGE_SIZE);
+    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
+    if (keccak256(currentUser.role) != keccak256("Super admin")) { // If user IS NOT "Super admin".
+      uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
+      uint count = _Users._getClaimsCountByMember(_memberId);
+      uint256 pageNumber = SafeMath.div(count, PAGE_SIZE);
 
-    if (count == 0 || pageIndex > count - 1 || _page > pageNumber) {
-      return;
-    }
-
-    uint256[] memory claimsId = _Users._getClaimsIdByMember(_memberId);
-
-    Claim[] memory _claims = new Claim[](PAGE_SIZE);
-    uint256 returnCounter = 0;
-    for (uint i = pageIndex; i < claimsId.length; ++i) {
-      if(returnCounter < PAGE_SIZE) {
-        _claims[returnCounter] = claims_[claimsId[i]];
-        ++returnCounter;
-      } else {
-        break;
+      if (count == 0 || pageIndex > count - 1 || _page > pageNumber) {
+        return;
       }
+
+      uint256[] memory claimsId = _Users._getClaimsIdByMember(_memberId);
+
+      Claim[] memory _claims = new Claim[](PAGE_SIZE);
+      uint256 returnCounter = 0;
+      for (uint i = pageIndex; i < claimsId.length; ++i) {
+        if(returnCounter < PAGE_SIZE) {
+          _claims[returnCounter] = claims_[claimsId[i]];
+          ++returnCounter;
+        } else {
+          break;
+        }
+      }
+      return _claims;
+    } else {  // If user IS "Super admin".
+
+      uint[] memory memberIds = _Users._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
+      count = 0;
+      for (uint j = 0; j < memberIds.length; ++j) {
+        count += _Users._getClaimsCountByMember(memberIds[j]); // count+count+...+count
+      }
+      pageNumber = SafeMath.div(count, PAGE_SIZE);
+
+      if (count == 0 || pageIndex > count - 1 || _page > pageNumber) {
+        return;
+      }
+
+      uint[] memory allClaimsId = new uint[](count);
+      count = 0;  // now, use it for iterator
+      for (j = 0; j < memberIds.length; ++j) {
+        claimsId = _Users._getClaimsIdByMember(memberIds[j]);
+        for (i=0; i < claimsId.length; ++i) {
+          allClaimsId[count++] = claimsId[i];
+        }
+      }
+
+      _claims = new Claim[](PAGE_SIZE);
+      returnCounter = 0;
+      for (i = pageIndex; i < allClaimsId.length; ++i) {
+        if(returnCounter < PAGE_SIZE) {
+          _claims[returnCounter] = claims_[allClaimsId[i]];
+          ++returnCounter;
+        } else {
+          break;
+        }
+      }
+      return _claims;
     }
-    return _claims;
   }
 
   function getClaimsCountByMemberId() view public returns (uint) {
-    uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
-    return _Users._getClaimsCountByMember(_memberId);
+    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
+    if (keccak256(currentUser.role) != keccak256("Super admin")) { // If user IS NOT "Super admin".
+      uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
+      return _Users._getClaimsCountByMember(_memberId);
+    } else {                                                       // If user IS "Super admin".
+      uint[] memory memberIds = _Users._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
+      uint count = 0;
+      for (uint j = 0; j < memberIds.length; ++j) {
+        count += _Users._getClaimsCountByMember(memberIds[j]); // count+count+...+count
+      }
+      return count;
+    }
   }
 
   function _saveClaim(uint256 _claimId, uint256 _creationDate, bytes _claimData, bool _claimType,

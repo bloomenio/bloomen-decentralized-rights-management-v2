@@ -13,10 +13,11 @@ import { MemberModel } from '@core/models/member.model';
 import {interval, Subscription} from 'rxjs';
 import { ClaimModel } from '@core/models/claim.model';
 import { ClaimsContract } from '@core/core.module';
-import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
+import {InboxComponent, unreadMessages, currentUser, currentMember} from '@pages/inbox/inbox.component';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {ShellComponent} from '@shell/shell.component';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
+import { ROLES } from '@core/constants/roles.constants';
 
 const log = new Logger('claims.component');
 
@@ -34,7 +35,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public displayedColumns: string[];
     public dataSource: ClaimsDataSource;
     public usersPageNumber: number;
-
+    public roles: object = ROLES;
     public members: MemberModel[];
     private members$: Subscription;
 
@@ -61,9 +62,20 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.members = members;
         });
 
-        this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view']; // , 'delete'];
+        if (currentUser.role === ROLES.SUPER_USER) {
+            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view']; // , 'delete'];
+        } else {
+            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view']; // , 'delete'];
+        }
         this.dataSource = new ClaimsDataSource(this.claimsContract);
+        this.dataSource.cmo = this.members.filter( (m) => m.cmo === currentUser.cmo)[0].cmo;
+        this.dataSource.user = currentUser;
+        this.dataSource.members = this.members;
+        // if (currentUser.role === ROLES.SUPER_USER) {
+        //     this.dataSource.loadSuperClaims();
+        // } else {
         this.dataSource.loadClaims();
+        // }
         this.claimType = ClaimModel.ClaimTypeEnum;
 
         // this.newMessagesInterval$ = interval(5000).subscribe(() => {
@@ -106,12 +118,21 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public loadClaimsPage() {
         if (this.dataSource) {    // for when inbox detail call its claimsComponent
-            this.dataSource.loadClaims(
-                '',
-                'asc',
-                this.paginator.pageIndex,
-                this.paginator.pageSize
-            );
+            // if (currentUser.role === ROLES.SUPER_USER) {
+            //     this.dataSource.loadSuperClaims(
+            //         '',
+            //         'asc',
+            //         this.paginator.pageIndex,
+            //         this.paginator.pageSize
+            //     );
+            // } else {
+                this.dataSource.loadClaims(
+                    '',
+                    'asc',
+                    this.paginator.pageIndex,
+                    this.paginator.pageSize
+                );
+            // }
         }
         // if (this.shellComponent.newMessagesGet()) {
         //     console.log('You have new CONFLICT messages.');

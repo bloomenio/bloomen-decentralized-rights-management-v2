@@ -16,6 +16,7 @@ import * as fromUserSelectors from '@stores/user/user.selectors';
 import {UserModel} from '@core/models/user.model';
 import ClaimTypeEnum = ClaimModel.ClaimTypeEnum;
 import {globalAllAssets} from '@core/core.module';
+import { ROLES } from '@core/constants/roles.constants';
 
 const log = new Logger('assets-card.component');
 
@@ -34,7 +35,7 @@ export class AssetCardComponent implements OnInit {
 
   public membersFiltered: MemberModel[];
 
-  public roles: string[];
+  public roles: object;
 
   public member$: Subscription;
   public cmos$: Subscription;
@@ -54,6 +55,7 @@ export class AssetCardComponent implements OnInit {
   ) { }
 
   public ngOnInit() {
+    this.roles = ROLES;
     this.expanded = false;
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
       skipWhile(user => !user),

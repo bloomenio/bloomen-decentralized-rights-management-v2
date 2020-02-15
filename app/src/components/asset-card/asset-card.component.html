@@ -6,8 +6,6 @@
                 <div *ngIf="!asset.image" class="image-asset"
                      [style.backgroundImage]="'url(assets/asset_placeholder.png)'"></div>
             </mat-panel-title>
-
-
             <mat-panel-description>
                 <div fxFlex fxLayout="column">
                     <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.ISRC || asset.type === 'Sound Recording'">
@@ -177,7 +175,7 @@
     <mat-expansion-panel hideToggle class="action-panel-wrapper" [expanded]="false" #actionExpansionPanel>
         <mat-expansion-panel-header (click)="expandPanel(actionExpansionPanel, $event)">
             <div class="action-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
-                <button mat-stroked-button color="primary"
+                <button mat-stroked-button color="primary" *ngIf="user?.role !== roles.SUPER_USER"
                         (click)="claim()">{{ 'claim' | translate | uppercase }}</button>
                 <button *ngIf="!expanded" mat-button color="primary"
                         (click)="changeStateAccordion($event)">{{ 'See more' | translate }}</button>

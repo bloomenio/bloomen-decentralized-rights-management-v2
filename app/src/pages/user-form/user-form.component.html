@@ -1,7 +1,15 @@
 <div class="user-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+    <div class="multiCMO" *ngIf="autoFillMultiCMO">
+        <button mat-button type="button" (click)="autoMultiCMO('Alex')" color="primary">{{ 'Alex' | uppercase }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Gonçal')" color="primary">{{ 'Gonçal' | uppercase }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Mirko')" color="primary">{{ 'Mirko' | uppercase }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Amaryllis')" color="primary">{{ 'Amaryllis' | uppercase }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Jordi')" color="primary">{{ 'Jordi' | uppercase }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Daniel')" color="primary">{{ 'Daniel' | uppercase }}</button>
+    </div>
     <div class="user-form-box" fxLayout="column" fxLayoutAlign="start center">
         <div class="brand"></div>
-        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between" (mouseover)="autoFill ? onChange() : nothing" (ngSubmit)="autoFill ? onSubmitAutoFill() : onSubmit()">
+        <form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-between" (mousemove)="autoFill ? onChange() : nothing" (ngSubmit)="autoFill ? onSubmitAutoFill() : onSubmit()">
             <mat-form-field fxFlex="45">
                 <mat-label>{{ 'user_form.label.CMO' | translate }}</mat-label>
                 <mat-select formControlName="cmo" (selectionChange)="onChange()">

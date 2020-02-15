@@ -19,13 +19,11 @@
         <div class="icon-bar ic-inbox"></div>
         <span class="text-bar" translate>Inbox <sup class="sup" *ngIf="unreadMessages">({{ unreadMessages }})</sup></span>
         </mat-list-item>
-        <mat-list-item routerLink="/repertoire" routerLinkActive="active" (click)="isMobile && sidenav.close()"
-          *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">
+        <mat-list-item routerLink="/repertoire" routerLinkActive="active" (click)="isMobile && sidenav.close()">
           <div class="icon-bar ic-dashboard"></div>
           <span class="text-bar" translate>Repertoire</span>
         </mat-list-item>
-        <mat-list-item routerLink="/claims" routerLinkActive="active" (click)="isMobile && sidenav.close()"
-          *ngIf="user?.role === roles.USER || user?.role === roles.ADMIN">
+        <mat-list-item routerLink="/claims" routerLinkActive="active" (click)="isMobile && sidenav.close()">
           <div class="icon-bar ic-claim"></div>
           <span class="text-bar" translate>Claims</span>
         </mat-list-item>
@@ -70,7 +68,7 @@
         <div *ngIf="currentPageRoute === 'Member management'">
           <button mat-button (click)="openDialogAddMember()">{{ 'Add member' | translate | uppercase }}</button>
         </div>
-        <div *ngIf="currentPageRoute === 'Claims'">
+        <div *ngIf="currentPageRoute === 'Claims' && user?.role !== roles.SUPER_USER">
           <button mat-button (click)="openInput()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>
           <input id="fileInput" hidden name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
         </div>

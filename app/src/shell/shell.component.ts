@@ -287,7 +287,11 @@ export class ShellComponent implements OnInit, OnDestroy {
 
             // Refresh Claims page: claims.component
             this.dataSource = new ClaimsDataSource(this.claimsContract);
+            // if (this.user.role === ROLES.SUPER_USER) {    // Until 14-2-2020 there is no trello card for a SUPER_USER to UPLOAD CLAIMS anyway.
+            //   this.dataSource.loadSuperClaims();
+            // } else {
             this.dataSource.loadClaims();
+            // }
               })
               .then(() => {
             // this.router.navigateByUrl('/repertoire')

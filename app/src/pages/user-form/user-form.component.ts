@@ -42,6 +42,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   public cmos$: Subscription;
 
   public autoFill: boolean;
+  public autoFillMultiCMO: boolean;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -51,6 +52,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
+    this.autoFillMultiCMO = false;
     this.autoFill = false;
     if (!this.autoFill) {
       this.userForm = this.fb.group({
@@ -119,6 +121,86 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['waiting-approve']);
     console.log('onSubmit_2 member value is ' + this.userForm.get('member').value);
 
+  }
+
+  public autoMultiCMO(name: string) {
+    let user;
+    switch (name) {
+      case 'Alex':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Alex',
+          lastName: 'Psyhas',
+          memberId: Number(1).toString(),   // CMO1's Id is 5, but we input memberId of a CMO1's member.
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Gonçal':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Gonçal',
+          lastName: 'Calvo',
+          memberId: Number(1).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Mirko':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Mirko',
+          lastName: 'Lorenz',
+          memberId: Number(2).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Amaryllis':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Amaryllis',
+          lastName: 'Raouzaiou',
+          memberId: Number(2).toString(),   // CMO2's Id is 6, but we input memberId of a CMO2's member.
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Jordi':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Jordi',
+          lastName: 'Escudero',
+          memberId: Number(3).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Daniel':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Daniel',
+          lastName: 'Harris',
+          memberId: Number(4).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      default:
+        break;
+    }
   }
 
   public onSubmitAutoFill() {

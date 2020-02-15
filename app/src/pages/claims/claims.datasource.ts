@@ -1,16 +1,18 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { UserModel } from '@core/models/user.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-
 import { ClaimsContract } from '@core/core.module.js';
 import { Inject } from '@angular/core';
+import {MemberModel} from '@models/member.model';
 
 export class ClaimsDataSource implements DataSource<UserModel> {
 
     private claims$ = new BehaviorSubject<UserModel[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-
+    public cmo: string;
+    public user: UserModel;
     public loading$ = this.loadingSubject.asObservable();
+    public members: MemberModel[];
 
     constructor(
         @Inject(ClaimsContract) private claimsContract
@@ -29,6 +31,22 @@ export class ClaimsDataSource implements DataSource<UserModel> {
         // Remove mock and do the request paginated
         // console.log('claims.datasource.loadClaims.getClaimByMemId');
         // console.log('input: ', filter, sortDirection, pageIndex, pageSize);
+        this.loadingSubject.next(true);
+        this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {
+        // this.claimsContract.getClaimById('1').then((claims) => {
+        //     console.log('claims.datasource.claimsContract.getClaimsByMemId ');
+            // console.log(claims);
+            this.claims$.next(claims);
+            this.loadingSubject.next(false);
+        });
+    }
+
+    public loadSuperClaims(filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
+        console.log('DATASOURCE SUPERCLAIMS');
+        console.log(this.members.filter((m) => m.cmo === this.cmo));
+        console.log(this.cmo);
+        this.members = this.members.filter((m) => m.cmo === this.cmo);
+
         this.loadingSubject.next(true);
         this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {
         // this.claimsContract.getClaimById('1').then((claims) => {

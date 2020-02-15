@@ -32,12 +32,12 @@ const routes: Routes = [
   {
     path: 'repertoire',
     loadChildren: 'pages/repertoire/repertoire.module#RepertoireModule',
-    canActivate: [GuardAuthRouteService, GuardUserAdminRouteService]
+    canActivate: [GuardAuthRouteService]
   },
   {
     path: 'claims',
     loadChildren: 'pages/claims/claims.module#ClaimsModule',
-    canActivate: [GuardAuthRouteService, GuardUserAdminRouteService]
+    canActivate: [GuardAuthRouteService]
   },
   {
     path: 'member-management',

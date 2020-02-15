@@ -23,8 +23,8 @@ contract Members is Random, Registry {
 
   uint256 constant private PAGE_SIZE = 10;
 
-  mapping (uint256 => Member) public members_;
-  uint256 public memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
+  mapping (uint256 => Member) members_;
+  uint256 memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
 
   uint256[] private membersList_;
 
@@ -102,6 +102,16 @@ contract Members is Random, Registry {
     members_[_memberId] = member;
     membersList_.push(_memberId);
 
+  }
+
+  function _getMemberIdsOfCurrentCMO(string currentCMO, uint256 currentCMOId) public returns(uint[]) {
+    uint[] memberIds;
+    for (uint j = 0; j < membersList_.length; ++j) {
+      if (keccak256(members_[membersList_[j]].cmo) == keccak256(currentCMO) && members_[membersList_[j]].memberId != currentCMOId) {
+        memberIds.push(members_[membersList_[j]].memberId);
+      }
+    }
+    return memberIds;
   }
 
   function _getClaimsIdByMember(uint _memberId) public view returns(uint[])  {

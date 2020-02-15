@@ -14,7 +14,7 @@ contract Users is Members {
     uint256 requestId;
     string role;
     StatusUserEnum status;
-    address owner;
+    address owner;  // primary key
     string cmo;
     string[] groups;
   }
@@ -25,7 +25,7 @@ contract Users is Members {
     ACCEPTED
   }
 
-  mapping (address => User) public users_;
+  mapping (address => User) private users_;
   address[] private usersList_;
 
   uint256 constant private PAGE_SIZE = 10;
