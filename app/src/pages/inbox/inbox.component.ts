@@ -14,7 +14,7 @@ import * as fromMemberActions from '@stores/member/member.actions';
 import * as fromAppActions from '@stores/application-data/application-data.actions';
 import * as fromClaimActions from '@stores/claim/claim.actions';
 import { MemberModel } from '@core/models/member.model';
-import { UserContract, ClaimsContract, FunctionsContract } from '@core/core.module';
+import {UserContract, ClaimsContract, FunctionsContract, globalAllAssets} from '@core/core.module';
 import { INBOX } from '@core/constants/inbox.constants';
 import { UserModel } from '@core/models/user.model';
 import { ROLES } from '@core/constants/roles.constants';

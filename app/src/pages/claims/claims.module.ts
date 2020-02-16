@@ -17,6 +17,9 @@ import { ClaimsComponent } from './claims.component';
 import { UserProfileShellModule } from '@components/user-profile-shell/user-profile-shell.module';
 import { MusicalDialogModule } from '@components/claim-dialog/musical-dialog/musical-dialog.module';
 import { SoundDialogModule } from '@components/claim-dialog/sound-dialog/sound-dialog.module';
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+import {AssetCardModule} from '@components/asset-card/asset-card.module';
+import {AssetCardReadOnlyModule} from '@components/asset-card-readOnly/asset-card-readOnly.module';
 
 /**
  * Module to import and export all the components for the home page.
@@ -32,7 +35,8 @@ import { SoundDialogModule } from '@components/claim-dialog/sound-dialog/sound-d
     ShellModule,
     UserProfileShellModule,
     MusicalDialogModule,
-    SoundDialogModule
+    SoundDialogModule,
+    AssetCardReadOnlyModule
   ],
   declarations: [ClaimsComponent]
 })

@@ -58,7 +58,6 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
         public router: Router,
         public fb: FormBuilder,
         public assetsApiService: AssetsApiService,
-        @Inject(InboxComponent) private inboxComponent2,
         public inboxComponent: InboxComponent,
         public shellComponent: ShellComponent
   ) { }
@@ -82,6 +81,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.registrationForm = new FormGroup({ type: new FormControl() });
       this.registrationForm = this.fb.group({ type: ['all'] });
 
+      if (this.shellComponent.user === undefined) {
+        this.router.navigate(['inbox']);
+      }
       console.log('this.user.group is ', this.shellComponent.user.groups);
       this.assetsApiService.groups = this.shellComponent.user.groups;
       console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);

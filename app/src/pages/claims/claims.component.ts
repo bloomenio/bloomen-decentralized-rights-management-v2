@@ -18,6 +18,10 @@ import * as fromMemberActions from '@stores/member/member.actions';
 import {ShellComponent} from '@shell/shell.component';
 import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
 import { ROLES } from '@core/constants/roles.constants';
+import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
+import {globalAllAssets} from '@core/core.module';
+import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 
 const log = new Logger('claims.component');
 
@@ -61,7 +65,21 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.members$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe(members => {
             this.members = members;
         });
-
+        if (currentUser === undefined) {
+            this.router.navigate(['inbox']);
+        }
+        if (globalAllAssets === undefined) {
+            // alert('Bloomen Decentralized Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
+            //         'In order to fetch the appropriate information on assets.');
+            Promise.resolve()
+                .then(() => {
+                    this.router.navigate(['repertoire']);
+                })
+                // .then(() => {
+                //     this.router.navigate(['claims']);
+                // })
+            ;
+        }
         if (currentUser.role === ROLES.SUPER_USER) {
             this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view']; // , 'delete'];
         } else {
@@ -225,6 +243,38 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 });
             }
         });
+    }
+
+    public showAsset(element) {
+
+        Promise.resolve('DONE')
+            .then(async () => {
+                const temp = globalAllAssets;
+                this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+                        filter: element.claimData.title,
+                        pageIndex: 0,
+                        pageSize: 300
+                    }
+                ));
+                // while (globalAllAssets.length === temp.length) {
+                await new Promise( resolve => setTimeout(resolve, 1000) );
+                // }
+                // console.log(globalAllAssets);
+            })
+            .then(() => {
+                if (globalAllAssets) {
+                    const assetToShow = globalAllAssets
+                        .filter((asset) => (asset.ISWC || asset.ISRC) === element.claimData.ISC);
+                    console.log(assetToShow);
+                    this.dialog.open(AssetCardReadOnlyComponent, {
+                        data: {
+                            asset: assetToShow[0],
+                            members: this.members
+                        },
+                        // width: '200px'
+                    });
+                }
+            });
     }
 
     public ngOnDestroy() {

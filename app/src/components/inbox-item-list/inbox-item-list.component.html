@@ -37,6 +37,9 @@
             <div class='subtitle'>{{ 'claimStatus.'+ message.status | translate | uppercase }}</div>
         </div>
     </div>
+    <div fxLayoutAlign="end">
+        <mat-icon (click)="showAsset(message)">pageview</mat-icon>
+    </div>
 </mat-card>
 <mat-card class='card' fxFlex fxLayout='column' *ngIf="message.type === inboxEnum.TYPES.CLAIM && message.read"
     (click)="onClickMessage()" [class.active]="isActive" [class.unread]="isUnread">
@@ -50,5 +53,8 @@
             <div class='title'>{{ message.claimData.title }}</div>
             <div class='subtitle'>{{ 'claimStatus.'+ message.status | translate | uppercase }}</div>
         </div>
+    </div>
+    <div fxLayoutAlign="end">
+        <mat-icon (click)="showAsset(message)">pageview</mat-icon>
     </div>
 </mat-card>

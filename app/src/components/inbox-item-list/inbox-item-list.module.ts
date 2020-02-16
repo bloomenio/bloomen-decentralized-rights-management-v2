@@ -10,6 +10,7 @@ import { MaterialModule } from '@app/material.module';
 
 // Components
 import { InboxItemListComponent } from './inbox-item-list.component';
+import {AssetCardReadOnlyModule} from '@components/asset-card-readOnly/asset-card-readOnly.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { InboxItemListComponent } from './inbox-item-list.component';
     RouterModule,
     FlexLayoutModule,
     MaterialModule,
+    AssetCardReadOnlyModule
   ],
   declarations: [InboxItemListComponent],
   exports: [InboxItemListComponent],
