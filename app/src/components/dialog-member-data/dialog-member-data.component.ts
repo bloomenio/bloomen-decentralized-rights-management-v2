@@ -30,7 +30,8 @@ export class DialogMemberDataComponent implements OnInit {
       name: [this.data.member.name, [Validators.required]],
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
-      logo: [this.data.member.logo, [Validators.required]]
+      logo: [this.data.member.logo, [Validators.required]],
+      totalTokens: [this.data.member.totalTokens, [Validators.required]]
       // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();

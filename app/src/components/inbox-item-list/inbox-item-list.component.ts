@@ -4,7 +4,7 @@ import { INBOX } from '@core/constants/inbox.constants';
 import { ClaimModel } from '@core/models/claim.model';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import {first, skipWhile} from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {UserModel} from '@models/user.model';
 import {Store} from '@ngrx/store';
 import {isUpperCase} from 'tslint/lib/utils';
@@ -14,6 +14,9 @@ import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
+import * as fromRepertoireSelector from "@stores/repertoire/repertoire.selectors";
+import {ShellComponent} from "@shell/shell.component";
+import {AssetsApiService} from "@api/assets-api.service";
 
 
 /**
@@ -34,12 +37,15 @@ export class InboxItemListComponent implements OnInit {
   public claimType: any;
   private user$: Subscription;
   public user: UserModel;
+  public repertoire$: Observable<any[]>; // AssetModel
+  public repertoireCount$: Observable<number>;
 
   constructor(
       public store: Store<any>,
       public inboxComponent: InboxComponent,
       public dialog: MatDialog,
-      public router: Router
+      public router: Router,
+      public assetsApiService: AssetsApiService
   ) { }
 
   public ngOnInit() {
@@ -51,6 +57,26 @@ export class InboxItemListComponent implements OnInit {
     ).subscribe((user) => {
       this.user = user;
     });
+
+    if (globalAllAssets === undefined) {
+      // console.log('globalAllAssets IS UNDEFINED');
+      this.assetsApiService.type = 'all';
+      this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
+      this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
+
+      // console.log('this.user.group is ', this.inboxComponent.user.groups);
+      this.assetsApiService.groups = this.inboxComponent.user.groups;
+      // console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
+
+      this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+            filter: '',
+            pageIndex: 0,
+            pageSize: 300
+          }
+      ));
+      this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
+          {filter: ''}));
+    }
   }
 
   public onClickMessage() {
@@ -85,7 +111,7 @@ export class InboxItemListComponent implements OnInit {
           .then(async () => {
             const temp = globalAllAssets;
             this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
-                  filter: message.claimData.title,
+                  filter: message.claimData.ISRC || message.claimData.ISWC,
                   pageIndex: 0,
                   pageSize: 300
                 }
@@ -96,7 +122,7 @@ export class InboxItemListComponent implements OnInit {
             // console.log(globalAllAssets);
           })
           .then(() => {
-            if (globalAllAssets) {
+            if (globalAllAssets.length) {
               const assetToShow = globalAllAssets
                   .filter((asset) => (asset.ISWC || asset.ISRC) === (message.claimData.ISRC || message.claimData.ISWC));
               console.log(assetToShow);
@@ -107,6 +133,8 @@ export class InboxItemListComponent implements OnInit {
                 },
                 // width: '200px'
               });
+            } else {
+              console.log('INBOX ITEM LIST SAYS globalAllAssets is ', globalAllAssets);
             }
           });
     }

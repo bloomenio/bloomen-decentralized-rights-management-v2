@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
-import { Subscription, interval, from } from 'rxjs';
+import {Subscription, interval, from, Observable} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { skipWhile, takeWhile, map, switchMap, first } from 'rxjs/operators';
 import { THEMES } from '@core/constants/themes.constants';
@@ -19,6 +19,10 @@ import { INBOX } from '@core/constants/inbox.constants';
 import { UserModel } from '@core/models/user.model';
 import { ROLES } from '@core/constants/roles.constants';
 import {ShellComponent} from '@shell/shell.component';
+import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
+import {FormControl, FormGroup} from '@angular/forms';
+import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
+import {AssetsApiService} from '@api/assets-api.service';
 // import {getType} from '@angular/flex-layout/typings/extended/style/style-transforms';
 // import {type} from "os";
 
@@ -49,8 +53,6 @@ export class InboxComponent implements OnInit, OnDestroy {
   public message: any;
   public currentCMO: any;
   public currentMember: MemberModel;
-  // public lastInboxLengthUsers = 0;
-  // public lastInboxLengthUserRequests = 0;
 
   constructor(
     public store: Store<any>,
@@ -325,24 +327,24 @@ export class InboxComponent implements OnInit, OnDestroy {
 
     // Update lastInboxLength
     // if (this.member && this.inbox) {
-    console.log('this.inbox.length BEFORE: ' + this.inbox.length);
-    console.log('this.lastInboxLength BEFORE: ' + lastInboxLength);
+    // console.log('this.inbox.length BEFORE: ' + this.inbox.length);
+    // console.log('this.lastInboxLength BEFORE: ' + lastInboxLength);
     if (this.inbox.length !== lastInboxLength) {
       if (this.inbox.length > lastInboxLength) {
-        console.log('You have new CONFLICT messages.');
+        // console.log('You have new CONFLICT messages.');
       }
     }
     unreadMessages = inboxReadClaims.filter((x) => !x.read).length;
     this.shellComponent.newMessagesSet(unreadMessages);
     lastInboxLength = this.inbox.length;
-    console.log('this.inbox.length AFTER: ' + this.inbox.length);
-    console.log('this.lastInboxLength AFTER: ' + lastInboxLength);
+    // console.log('this.inbox.length AFTER: ' + this.inbox.length);
+    // console.log('this.lastInboxLength AFTER: ' + lastInboxLength);
     // }
-    console.log('INBOXREADCLAIMS');
+    // console.log('INBOXREADCLAIMS');
     // console.log(inboxReadClaims);
 
     // Print inbox.
-    console.log('INBOX');
+    // console.log('INBOX');
     // console.log(this.inbox);
   }
 

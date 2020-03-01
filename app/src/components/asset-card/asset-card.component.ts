@@ -459,4 +459,11 @@ export class AssetCardComponent implements OnInit {
   public async delay(ms: number) {    // await this.delay(500);
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
+
+  public select(s) {
+      s.select();
+      document.execCommand('copy');
+      s.setSelectionRange(0, 0);
+
+  }
 }

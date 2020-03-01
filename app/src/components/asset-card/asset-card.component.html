@@ -11,7 +11,7 @@
                     <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="asset.ISRC || asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
-                            <div>{{ asset.ISRC }}</div>
+                            <div (click)="select( asset.ISRC )">{{ asset.ISRC }}</div>
                         </div>
                         <mat-icon>speaker</mat-icon>
                     </div>

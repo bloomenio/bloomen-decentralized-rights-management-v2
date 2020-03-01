@@ -14,6 +14,7 @@ export class MemberManagementDataSource implements DataSource<UserModel> {
     private cmos: string[];
     private currentMember: MemberModel;
     private member$: Subscription;
+    // public companiesPageNumber: number;
 
     constructor(
         @Inject(MemberContract) private memberContract,
@@ -41,6 +42,8 @@ export class MemberManagementDataSource implements DataSource<UserModel> {
         this.loadingSubject.next(true);
         this.memberContract.getMembers(pageIndex, currentUser.cmo)
             .then((members) => {
+                // console.log('MEMBERS FROM loadCompanies are ', members.length);
+                // this.companiesPageNumber = members.length;
                 this.users$.next(members);
                 this.loadingSubject.next(false);
             });

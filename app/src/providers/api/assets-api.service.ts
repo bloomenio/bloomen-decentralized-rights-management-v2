@@ -83,7 +83,7 @@ export class AssetsApiService {
         }
     }
 
-    public getAssetsCount(filter: string): Observable<number> {
+    public getAssetsCount(filter: string): Observable<any[]> {
 
         const params = new HttpParams()
             .set('q', filter);
@@ -99,22 +99,58 @@ export class AssetsApiService {
                     catchError(() => of('Error, could not load assets :-('))
                 );
         } else {
-            return this.httpClient
-                .post(`https://bloomen.herokuapp.com/sound/search`,
-                    '{\"term\": \"'  +
-                    params.get('q') +
-                    '\", \"group\": \"' +
-                    this.group +
-                    '\"}',
-                    {
-                    headers: this.headers,
-                    params: params
-                })
-                .pipe(
-                    map((data: any) => {
-                        return data.length;
-                    })
+            const assetsFromAllGroups = [];
+            console.log('q: ', params.get('q'));
+            let i: number;
+            // this.groups = ['second'];
+            for (i = 0; i < this.groups.length; i++) {
+                this.group = this.groups[i];
+                const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
+                assetsFromAllGroups.push(
+                    this.httpClient
+                        .post(`https://bloomen.herokuapp.com/sound/search`, body, {
+                            headers: this.headers,
+                            params: params
+                        })
+                        // .subscribe(data => { this.tempo = data; })
+                        .pipe(
+                            map((data: any) => {
+                                if (this.type === 'iswc') {
+                                    return data.filter((x: any) => x.ISWC);
+                                } else if (this.type === 'isrc') {
+                                    return data.filter((x: any) => x.ISRC);
+                                } else {
+                                    return data;
+                                }
+                            })
+                        )
                 );
+                console.log('FROM GROUP ', this.group);
+                console.log(assetsFromAllGroups);
+            }
+            // while (i !== this.groups.length) { }
+            // console.log('assetsFromAllGroups');
+            // console.log(assetsFromAllGroups);
+            console.log('forkJoin(assetsFromAllGroups)');
+            console.log(forkJoin(assetsFromAllGroups));
+            return forkJoin(assetsFromAllGroups);
+
+            // return this.httpClient
+            //     .post(`https://bloomen.herokuapp.com/sound/search`,
+            //         '{\"term\": \"'  +
+            //         params.get('q') +
+            //         '\", \"group\": \"' +
+            //         this.group +
+            //         '\"}',
+            //         {
+            //             headers: this.headers,
+            //             params: params
+            //         })
+            //     .pipe(
+            //         map((data: any) => {
+            //             return data.length;
+            //         })
+            //     );
         }
     }
 }

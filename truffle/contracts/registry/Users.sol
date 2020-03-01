@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "./Members.sol";
 import "./Claims.sol";
 
+
 contract Users is Members {
 
   struct User {
@@ -17,6 +18,7 @@ contract Users is Members {
     address owner;  // primary key
     string cmo;
     string[] groups;
+    uint tokens;
   }
 
   enum StatusUserEnum {
@@ -87,8 +89,12 @@ contract Users is Members {
     require((uint(users_[msg.sender].status) == uint(StatusUserEnum.ACCEPTED)) || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == StatusUserEnum.PENDING, "Only pending users can be accepted");
 
-    users_[_userToAccept].status = StatusUserEnum.ACCEPTED;
-    _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
+    if (    members_[users_[_userToAccept].memberId].totalTokens - 100 > 0) {
+      users_[_userToAccept].status = StatusUserEnum.ACCEPTED;
+      users_[_userToAccept].tokens = 100;
+      members_[users_[_userToAccept].memberId].totalTokens -= 100;
+      _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
+    }
   }
 
   function getcountUsers() public view returns(uint) {

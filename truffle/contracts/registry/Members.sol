@@ -18,7 +18,7 @@ contract Members is Random, Registry {
     uint256[] claimInbox;
     uint256[] claims;
     address[] userRequests;
-//    string[] groups;
+    uint totalTokens;
   }
 
   uint256 constant private PAGE_SIZE = 10;
@@ -39,6 +39,8 @@ contract Members is Random, Registry {
     require(members_[_memberId].memberId == 0, "Member already exists");
     _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
 //    members_[_memberId].group = _group;
+    members_[_memberId].totalTokens = 1000;
+
     return _memberId;
   }
 

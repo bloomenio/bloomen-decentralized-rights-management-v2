@@ -251,7 +251,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             .then(async () => {
                 const temp = globalAllAssets;
                 this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
-                        filter: element.claimData.title,
+                        filter: element.claimData.ISC,
                         pageIndex: 0,
                         pageSize: 300
                     }
@@ -262,7 +262,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.log(globalAllAssets);
             })
             .then(() => {
-                if (globalAllAssets) {
+                if (globalAllAssets.length) {
                     const assetToShow = globalAllAssets
                         .filter((asset) => (asset.ISWC || asset.ISRC) === element.claimData.ISC);
                     console.log(assetToShow);
@@ -273,6 +273,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         },
                         // width: '200px'
                     });
+                } else {
+                    console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
                 }
             });
     }

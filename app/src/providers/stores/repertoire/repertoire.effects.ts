@@ -54,7 +54,18 @@ export class RepertoireEffects {
             // Repertoire DB
             // must be fromActions.RepertoireActionTypes.SEARCH_REPERTOIRE_COUNT
             return this.repertoireApiService.getAssetsCount(action.payload.filter).pipe(
-            map(count => new fromActions.RepertoireSearchCountSuccess(count)),
+            // map(count => new fromActions.RepertoireSearchCountSuccess(count)),
+            map(assets => {
+                console.log('EFFECTS: ');
+                const allAssets = [];
+                for (let j = 0; j < assets.length; j++) {
+                    for (let i = 0; i < assets[j].length; i++) {
+                        allAssets.push(assets[j][i]);
+                    }
+                }
+                console.log(allAssets);
+                return new fromActions.RepertoireSearchCountSuccess(allAssets.length);
+            }),
                 catchError(
                     switchMap(error => {
                         log.error(error);

@@ -97,13 +97,21 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public ngAfterViewInit() {
 
     // Simulate get number of items from the server
-    this.memberContract.getCountMembers().then((count) => {
-      this.companiesPageNumber = count;
+    // this.memberContract.getCountMembers().then((count) => {
+    //   this.companiesPageNumber = count;
+    // });
+    this.memberContract.getMembers(0, this.inboxComponent.currentCMO.toString())
+        .then((members) => {
+          this.companiesPageNumber = members.length;
     });
 
+  // .then(() => {
+  //   this.companiesPageNumber = this.dataSource.companiesPageNumber;
+    // });
     this.paginator.page.pipe(
       tap(() => this.loadUsersPage())
     ).subscribe();
+
   }
 
   public loadUsersPage() {

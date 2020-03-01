@@ -1,9 +1,9 @@
 <div class="user-management-wrapper">
     <div class="container mat-elevation-z8">
-        <div class="loading-shade" *ngIf="dataSource.loading$ | async">
-            <mat-spinner></mat-spinner>
-        </div>
-        <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$ | async) }">
+<!--        <div class="loading-shade" *ngIf="dataSource.loading$ | async">-->
+<!--            <mat-spinner></mat-spinner>-->
+<!--        </div>-->
+        <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$) }">
             <table mat-table [dataSource]="dataSource" class="table" matSort matSortDirection="asc" matSortDisableClear>
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
@@ -55,7 +55,6 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-
         <mat-paginator [length]="usersPageNumber" [pageSize]="10"></mat-paginator>
     </div>
 </div>
