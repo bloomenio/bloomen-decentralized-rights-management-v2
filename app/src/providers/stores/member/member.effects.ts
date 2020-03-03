@@ -44,8 +44,8 @@ export class MemberEffects {
                             memberId: member.memberId,
                             name: member.name,
                             theme: member.theme,
-                            userRequests: member.userRequests
-                            // group: member.group
+                            userRequests: member.userRequests,
+                            totalTokens: member.totalTokens
                         };
                         memberModelArray.push(newMember);
                     });

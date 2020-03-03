@@ -69,7 +69,7 @@
           <button mat-button (click)="openDialogAddMember()">{{ 'Add member' | translate | uppercase }}</button>
         </div>
         <div *ngIf="currentPageRoute === 'Claims' && user?.role !== roles.SUPER_USER">
-          <button mat-button (click)="openInput()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>
+          <button mat-button (click)="allowTransactionSubmissions ? openInput() : alertUser()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>
           <input id="fileInput" hidden name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
         </div>
 <!--        <div class="add-claim">-->

@@ -40,7 +40,7 @@ export class MemberContract extends Contract {
     public updateMember(member: MemberModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.updateMember(member.memberId, member.creationDate, member.name, member.logo, member.country, member.cmo,
-                member.theme).send(this.args);  // , member.group).send(this.args);
+                member.theme, member.totalTokens).send(this.args);  // , member.group).send(this.args);
         });
     }
 

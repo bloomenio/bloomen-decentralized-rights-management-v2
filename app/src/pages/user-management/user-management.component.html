@@ -47,7 +47,7 @@
                 <ng-container matColumnDef="edit">
                     <th mat-header-cell *matHeaderCellDef>Edit</th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon (click)="clickEdit(element)">edit</mat-icon>
+                        <mat-icon (mouseover)="updateUserInfo()" (click)="clickEdit(element)">edit</mat-icon>
                     </td>
                 </ng-container>
 

@@ -66,7 +66,8 @@ export class UserEffects {
                 memberId: userBc.memberId,
                 owner: userBc.owner,
                 cmo: userBc.cmo,
-                groups: userBc.groups
+                groups: userBc.groups,
+                tokens: userBc.tokens
             };
             console.log('FROM ADD USER: ');
             console.log(user);

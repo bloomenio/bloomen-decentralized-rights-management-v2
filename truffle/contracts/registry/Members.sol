@@ -44,7 +44,8 @@ contract Members is Random, Registry {
     return _memberId;
   }
 
-  function updateMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public {
+  function updateMember(uint256 _memberId, uint256 _creationDate,
+    string _name, string _logo, string _country, string _cmo, string _theme, uint _totalTokens) onlySigner public {
   // , string _group) onlySigner public {
     require(members_[_memberId].memberId > 0, "Member not exists");
     require(members_[_memberId].creationDate == _creationDate, "Creation Date is immutable");
@@ -52,6 +53,7 @@ contract Members is Random, Registry {
 //    members_[_memberId].group = _group;
     members_[_memberId].name = _name;
     members_[_memberId].theme = _theme;
+    members_[_memberId].totalTokens = _totalTokens;
   }
 
   function getMembers() public view returns (Member[] memory) {
@@ -133,17 +135,33 @@ contract Members is Random, Registry {
     members_[_memberId].claims.push(_claimId);
   }
 
-  function _removeClaimIdFromMember(uint _memberId, uint _claimId) public {
+  function _removeClaimIdFromMember2(uint _memberId, uint _claimId) public {
 //    _rP(_memberId, _claimId);
 //  }
 //
 //  function _rP(uint _memberId, uint _claimId) private {
-    uint claimCount = members_[_memberId].claims.length;
-    if (claimCount > 0) { // require(claimCount > 0, "not enough claims in member");
-      members_[_memberId].claims[_claimId] = members_[_memberId].claims[claimCount-1];
-      members_[_memberId].claims[claimCount-1] = _claimId;
+    uint memberClaimsLength = members_[_memberId].claims.length;
+    if (memberClaimsLength > 0) { // require(memberClaimsLength > 0, "not enough claims in member");
+      members_[_memberId].claims[_claimId] = members_[_memberId].claims[memberClaimsLength-1];
+      members_[_memberId].claims[memberClaimsLength-1] = _claimId;
       members_[_memberId].claims.length--;
     }
+  }
+
+  function _removeClaimIdFromMember(uint _memberId, uint _claimId) public {
+    bool found = false;
+    for (uint j = 0; j < members_[_memberId].claims.length - 1; j++) {
+      if(members_[_memberId].claims[j] == _claimId) {
+        found = true;
+      }
+      if(found) {
+        members_[_memberId].claims[j] = members_[_memberId].claims[j + 1];
+      }
+    }
+    //    if (found) {
+    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
+    members_[_memberId].claims.length--;
+    //    }
   }
 
   function _addClaimFromInbox(uint _memberId, uint _claimId) public {

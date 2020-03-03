@@ -1,5 +1,5 @@
 // Basic
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input} from '@angular/core';
 import { MatSnackBar, MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
@@ -42,8 +42,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public roles: object = ROLES;
     public members: MemberModel[];
     private members$: Subscription;
-
     public claimType: any;
+    // public allowTransactionSubmissions: boolean;
+    // public price: number;
 
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
@@ -60,7 +61,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
 
         this.members$ = this.store.select(fromMemberSelectors.selectAllMembers).subscribe(members => {
             this.members = members;
@@ -75,18 +76,18 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 .then(() => {
                     this.router.navigate(['repertoire']);
                 })
-                // .then(() => {
-                //     this.router.navigate(['claims']);
-                // })
+            // .then(() => {
+            //     this.router.navigate(['claims']);
+            // })
             ;
         }
         if (currentUser.role === ROLES.SUPER_USER) {
-            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view']; // , 'delete'];
+            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view', 'delete'];
         } else {
-            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view']; // , 'delete'];
+            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         }
         this.dataSource = new ClaimsDataSource(this.claimsContract);
-        this.dataSource.cmo = this.members.filter( (m) => m.cmo === currentUser.cmo)[0].cmo;
+        this.dataSource.cmo = this.members.filter((m) => m.cmo === currentUser.cmo)[0].cmo;
         this.dataSource.user = currentUser;
         this.dataSource.members = this.members;
         // if (currentUser.role === ROLES.SUPER_USER) {
@@ -120,6 +121,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(unreadMessages);
         this.router.navigate(['claims']);
 
+        // this.allowTransactionSubmissions = this.inboxComponent.allowTransactionSubmissions;
+        // this.price = this.inboxComponent.price;
+        // console.log(this.members);
     }
 
     public ngAfterViewInit() {
@@ -240,6 +244,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.claimsContract.delClaim(value).then(() => {
                     this.loadClaimsPage();
                     this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the inbox
+                    // tslint:disable-next-line:no-life-cycle-call
+                    this.ngAfterViewInit();
+                    // this.dataSource.loadClaims();
+                    // tslint:disable-next-line:no-life-cycle-call
+                    // this.ngOnInit().then();
                 });
             }
         });
@@ -285,4 +294,5 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.newMessagesInterval$.unsubscribe();
         }
     }
+
 }

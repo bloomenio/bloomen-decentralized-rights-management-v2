@@ -50,7 +50,15 @@ export class UserContract extends Contract {
 
     public updateUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role, user.owner).send(this.args);
+            return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role, user.owner, user.tokens).send(this.args);
+        });
+    }
+
+    public getUsedTokens(memberId): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            this.web3Service.ready(() => {
+                return this.contract.methods.getUsedTokens(memberId).call(this.args).then(resolve, reject);
+            });
         });
     }
 

@@ -28,6 +28,7 @@ export class SoundDialogComponent implements OnInit {
     public members: MemberModel[];
     private error: any = {isError: false, errorMessage: ''};
     public affiliations: string[];
+    public currentMember: MemberModel;
 
     public useTypesAll: string[] =
         ['Public Performance', 'Airlines', 'Radio Broadcasting', 'Radio Dubbing', 'TV Broadcasting', 'TV Dubbing', 'Background Music',
@@ -130,9 +131,10 @@ export class SoundDialogComponent implements OnInit {
         this.countries = this.data.claim.claimData.countries || [];
         this.countriesAll = COUNTRIES;
         this.members = this.data.members;
+        this.currentMember = this.data.currentMember;
         this.affiliations = await this.registryContract.getCMOs();
-        console.log('this.affiliations');
-        console.log(this.affiliations);
+        // console.log('this.affiliations');
+        // console.log(this.affiliations);
     }
 
     private compareStartEndDates()  {

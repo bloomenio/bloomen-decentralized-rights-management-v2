@@ -20,6 +20,10 @@ import {interval, Subscription} from 'rxjs';
 import { MemberModel } from '@core/models/member.model.js';
 import {InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import {ShellComponent} from '@shell/shell.component';
+import {UserModel} from '@models/user.model';
+import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
+import * as fromMemberActions from '@stores/member/member.actions';
+import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
 
 const log = new Logger('user-management.component');
 
@@ -44,6 +48,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
   public member: MemberModel;
 
   public usersPageNumber: number;
+  public usedTokens: number;
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
   @ViewChild(MatSort) public sort: MatSort;
@@ -53,17 +58,18 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
     public router: Router,
     public dialog: MatDialog,
     private userContract: UserContract,
+    private applicationDatabaseService: ApplicationDataDatabaseService,
     private store: Store<any>,
     public inboxComponent: InboxComponent,
     public shellComponent: ShellComponent
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.displayedColumns = ['name', 'id', 'member', 'role', 'creationDate', 'edit'];
     this.dataSource = new UserManagementDataSource(this.userContract);
 
     this.user$ = this.store.select(fromUserSelector.getUser).pipe(
-      skipWhile((user) => !user)
+        skipWhile((user) => !user)
     ).subscribe(() => {
       this.dataSource.loadUsers();
     });
@@ -73,17 +79,21 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
     });
 
     // this.newMessagesInterval$ = interval(5000).subscribe(() => {
-      // FOR "NEW MESSAGES" INBOX NOTIFICATION.
-      // tslint:disable-next-line:no-life-cycle-call
+    // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+    // tslint:disable-next-line:no-life-cycle-call
     this.inboxComponent.ngOnInit();
     if (!this.shellComponent.newMessagesGet()) {
-        this.inboxComponent.checkNewMessages();
-      }
-      // tslint:disable-next-line:no-life-cycle-call
+      this.inboxComponent.checkNewMessages();
+    }
+    // tslint:disable-next-line:no-life-cycle-call
     this.shellComponent.ngOnInit();
     // });
     this.shellComponent.unreadMessages = unreadMessages;
     this.router.navigate(['user-management']);
+
+    await this.userContract.getUsedTokens(this.member.memberId).then((count) => {
+      this.usedTokens = count;
+    });
   }
 
   public ngAfterViewInit() {
@@ -109,12 +119,22 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
 
   public clickEdit(element) {
     const dialogRef = this.dialog.open(DialogUserDataComponent, {
-      data: { user: element }
+      data: {
+        user: element,
+        usedTokens: this.usedTokens,
+        member: this.member
+      }
     });
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
         this.store.dispatch(new fromUserActions.UpdateUser(value));
       }
+    });
+  }
+
+  public async updateUserInfo() {
+    await this.userContract.getUsedTokens(this.member.memberId).then((count) => {
+      this.usedTokens = count;
     });
   }
 

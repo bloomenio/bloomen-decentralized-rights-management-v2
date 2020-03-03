@@ -24,17 +24,17 @@
         </div>
     </form>
     <div fxLayout="column" *ngIf="assetsApiService.type === 'all' && assetsApiService.productionMode">
-        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
+        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members" [currentMember]="inboxComponent.member"></blo-asset-card>
     </div>
     <div fxLayout="column" *ngIf="assetsApiService.type === 'iswc' && assetsApiService.productionMode">
-        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
+        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members" [currentMember]="inboxComponent.member"></blo-asset-card>
     </div>
     <div fxLayout="column" *ngIf="assetsApiService.type === 'isrc' && assetsApiService.productionMode">
-        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
+        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members" [currentMember]="inboxComponent.member"></blo-asset-card>
     </div>
     <div fxLayout="column" *ngIf="(assetsApiService.type === 'all' || assetsApiService.type === 'iswc' || assetsApiService.type === 'isrc')
     && !assetsApiService.productionMode">
-        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members"></blo-asset-card>
+        <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members" [currentMember]="inboxComponent.member"></blo-asset-card>
     </div>
     <mat-paginator [length]="repertoireCount$ | async" [pageSize]="300" [pageSizeOptions]="[300,600,900]"
         [ngClass]="{ 'hide': !(repertoireCount$ | async) }">

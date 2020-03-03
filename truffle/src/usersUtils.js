@@ -87,11 +87,12 @@ async function updateUser() {
         { type: 'number', name: 'memberId', message: 'Specify the member Id:' },
         { type: 'input', name: 'role', message: 'Specify the role user:' },
         { type: 'input', name: 'address', message: 'Specify the address:' },
+        { type: 'input', name: 'tokens', message: 'Specify the tokens:' },
     ];
 
     let answer = await inquirer.prompt(questions);
 
-    contractInstance.methods.updateUser(answer.firstName, answer.lastName, answer.memberId, answer.role, answer.address)
+    contractInstance.methods.updateUser(answer.firstName, answer.lastName, answer.memberId, answer.role, answer.address, answer.tokens)
         .send(transactionObject).then(checkTransaction);
 }
 

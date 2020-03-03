@@ -6,11 +6,13 @@
 
             <div fxLayout="row">
                 <mat-form-field fxFlex="50">
-                    <mat-label>{{ 'Right Holder Name' | translate }}</mat-label>
+                    <mat-label>
+                        {{ currentMember.name }}
+                    </mat-label>
                     <mat-select formControlName="rightHolderName">
-                        <mat-option *ngFor="let member of members" [value]="member.memberId">
-                            {{ member.name }}
-                        </mat-option>
+<!--                        <mat-option *ngFor="let member of members" [value]="member.memberId">-->
+<!--                            {{ member.name }}-->
+<!--                        </mat-option>-->
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field fxFlex="50">

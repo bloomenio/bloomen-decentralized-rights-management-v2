@@ -13,23 +13,25 @@ import { ShellModule } from '@shell/shell.module';
 import { UserProfileShellModule } from '@components/user-profile-shell/user-profile-shell.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
+import {DialogMemberDataModule} from '@components/dialog-member-data/dialog-member-data.module';
 
 /**
  * Module to import and export all the components for the home page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    SharedModule,
-    FlexLayoutModule,
-    MaterialModule,
-    ShellModule,
-    UserProfileShellModule,
-    ReactiveFormsModule
-  ],
-  declarations: [DialogUserDataComponent],
-  providers: [DialogUserDataComponent, DatePipe],
-  entryComponents: [DialogUserDataComponent]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        SharedModule,
+        FlexLayoutModule,
+        MaterialModule,
+        ShellModule,
+        UserProfileShellModule,
+        ReactiveFormsModule,
+        DialogMemberDataModule
+    ],
+    declarations: [DialogUserDataComponent],
+    providers: [DialogUserDataComponent, DatePipe],
+    entryComponents: [DialogUserDataComponent]
 })
 export class DialogUserDataModule { }

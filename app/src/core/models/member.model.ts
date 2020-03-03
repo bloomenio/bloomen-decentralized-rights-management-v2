@@ -10,4 +10,5 @@ export interface MemberModel {
     claims?: string[];
     userRequests?: string[];
     group?: string;
+    totalTokens?: number;
 }

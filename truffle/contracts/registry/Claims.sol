@@ -9,9 +9,11 @@ import "./strings.sol";
 contract Claims {
 
   Users private _Users;
+//  Users.User private currentUser;
 
   constructor (address _UsersAddr) public {
     _Users = Users(_UsersAddr);
+//    currentUser = _Users.getUserByAddress(msg.sender);
   }
 
   using RLPReader for bytes;
@@ -38,6 +40,7 @@ contract Claims {
   mapping (uint256 => Claim) private claims_;
   mapping (uint256 => uint16) private maxSplits_;
   uint256 constant private PAGE_SIZE = 50;
+  uint256 constant private transactionPrice = 1;
 
   uint256 private claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones
   //   uint256[] private claimIdIndex;
@@ -47,39 +50,52 @@ contract Claims {
   function computeClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint256 _memberOwner, bool register_or_update,
     uint256 _claimId, bytes _oldClaimData, uint _lastChange, bool _updateClaimId) public {
 
-    if (register_or_update) {             // Register new claim.
-      _claimId = ++claimIdCounter_;
-      //    require(claims_[_claimId].claimId == 0, "Claim already exists");
-      require(_Users._memberExists(_memberOwner), "Member do not exists");
-//      _memberOwner = _Users._memberIdFromCurrentAddress(msg.sender);
+//    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
+//    if (currentUser.tokens > transactionPrice) {
+    if (_Users.getUserTokensByAddress(msg.sender) > transactionPrice) {
+      _Users.updateUserTokens(msg.sender, transactionPrice);
+      if (register_or_update) {             // Register new claim.
+        _claimId = ++claimIdCounter_;
+        //    require(claims_[_claimId].claimId == 0, "Claim already exists");
+        require(_Users._memberExists(_memberOwner), "Member do not exists");
+  //      _memberOwner = _Users._memberIdFromCurrentAddress(msg.sender);
 
-      _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
-      _Users._addClaimIdToMemberOwner(_memberOwner, _claimId);
+        _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
+        _Users._addClaimIdToMemberOwner(_memberOwner, _claimId);
 
-      checkClaimStatus(_claimId, _claimType, _claimData, true);
-    } else {                     // Update existing claim.
-
-      checkClaimStatus(_claimId, _claimType, _oldClaimData, false);
-//      if (_updateClaimId) {
-//        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
-//        _saveClaim(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _creationDate, _claimData, _claimType,
-//          _memberOwner, claims_[_claimId].status, _lastChange);
-//      } else {
         checkClaimStatus(_claimId, _claimType, _claimData, true);
-        _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
-//      }
+      } else {                     // Update existing claim.
 
-      if (_creationDate == 0) {  // Delete claim.
-//        _removeClaimIdFromMember(_memberOwner, _claimId);
-//        _removeClaim(_claimId);
+          checkClaimStatus(_claimId, _claimType, _oldClaimData, false);
+    //      if (_updateClaimId) {
+    //        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
+    //        _saveClaim(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _creationDate, _claimData, _claimType,
+    //          _memberOwner, claims_[_claimId].status, _lastChange);
+    //      } else {
+          checkClaimStatus(_claimId, _claimType, _claimData, true);
+          _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
+
+          if (_creationDate == 0) {  // Delete claim.
+            _Users._removeClaimIdFromMember(_memberOwner, _claimId);
+//            _removeClaimFromMapping(_claimId);
+          }
       }
+    } else {
+      // USER DOES NOT HAVE ENOUGH TOKENS TO SUBMIT THE TRANSACTION.
     }
+  }
+
+//  function _removeClaimFromMapping(uint claimId) private {
+    // maybe do split = 0% -> already in sound & musical components.OnDelete()
+//  }
+
+  function getTransactionPrice() pure public returns (uint) {
+    return transactionPrice;
   }
 
   function getClaim(uint256 _claimId) view public returns (Claim) {
     return claims_[_claimId];
   }
-
 
   function getClaimsByMemberId(uint _page) view public returns (Claim[] memory) {
 

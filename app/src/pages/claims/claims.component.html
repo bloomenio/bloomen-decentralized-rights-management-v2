@@ -69,9 +69,9 @@
                         Edit
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon [class.disabled]="element.status === '2'"
+                        <mat-icon [class.disabled]="element.status === '2' || !shellComponent.allowTransactionSubmissions"
                                   *ngIf="element.status !== undefined"
-                                (click)="clickEdit(element, true)">
+                                (click)="shellComponent.allowTransactionSubmissions ? clickEdit(element, true) : shellComponent.alertUser()">
                             edit
                         </mat-icon>
                     </td>
@@ -95,7 +95,8 @@
                         Delete
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <mat-icon (click)="delClaim(element)">delete</mat-icon>
+                        <mat-icon [class.disabled]="!shellComponent.allowTransactionSubmissions" *ngIf="element.status !== undefined"
+                                  (click)="shellComponent.allowTransactionSubmissions ? delClaim(element) : shellComponent.alertUser()">delete</mat-icon>
                     </td>
                 </ng-container>
 

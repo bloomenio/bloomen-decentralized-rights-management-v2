@@ -28,6 +28,7 @@ export class MusicalDialogComponent implements OnInit {
     public claim: any;
     public affiliations: string[];
     public members: MemberModel[];
+    public currentMember: MemberModel;
 
     public oldISWC: any;
     public oldCountries: string[];
@@ -110,6 +111,10 @@ export class MusicalDialogComponent implements OnInit {
         this.countries = this.data.claim.claimData.countries || [];
         this.countriesAll = COUNTRIES;
         this.members = this.data.members;
+        // console.log(this.members);
+        // console.log(this.data.members);
+        // console.log(this.data.currentMember);
+        this.currentMember = this.data.currentMember;
         this.affiliations = await this.registryContract.getCMOs();
     }
 

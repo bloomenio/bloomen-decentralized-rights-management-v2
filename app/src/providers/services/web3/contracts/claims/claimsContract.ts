@@ -79,13 +79,21 @@ export class ClaimsContract extends Contract {
         } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
             claimType = true;
         }
-        console.log('ClaimsContract.delClaim');
+        console.log('CLAIMSCONTRACT DELCLAIM');
         console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
             claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(0, encodeData, claimType, claim.memberOwner, false,
                 claim.claimId, encodeOldData, new Date().getTime(), false   // oldClaimData==claimData
             ).send(this.args);
+        });
+    }
+
+    public getTransactionPrice(): Promise<number> {
+        return new Promise<any>((resolve, reject) => {
+            this.web3Service.ready(() => {
+                this.contract.methods.getTransactionPrice().call(this.args).then(resolve, reject);
+            });
         });
     }
 
@@ -155,7 +163,6 @@ export class ClaimsContract extends Contract {
                                 }
                             });
                             claim.claimData = data;
-
                             // console.log(claim);
                             return claim;
                         });

@@ -8,7 +8,6 @@ import {ClaimModel} from '@core/models/claim.model';
 import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
 import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
 import {ClaimsContract} from '@core/core.module';
-import {ASSET} from '@core/constants/assets.constants';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {first, reduce, skipWhile} from 'rxjs/operators';
@@ -32,19 +31,18 @@ export class AssetCardComponent implements OnInit {
 
   // private members: MemberModel[];
   public cmos: string[];
-
   public membersFiltered: MemberModel[];
-
   public roles: object;
-
   public member$: Subscription;
   public cmos$: Subscription;
-
   public expanded: Boolean;
   public user: UserModel;
+  public allowTransactionSubmissions: boolean;
+  public price: number;
 
   @Input() public asset: any;
   @Input() public members: MemberModel[];
+  @Input() public currentMember: MemberModel;
 
   private user$: Subscription;
 
@@ -54,15 +52,25 @@ export class AssetCardComponent implements OnInit {
     private claimsContract: ClaimsContract
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.roles = ROLES;
     this.expanded = false;
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
-      skipWhile(user => !user),
-      first()
+        skipWhile(user => !user),
+        first()
     ).subscribe((user) => {
       this.user = user;
     });
+
+    // To check if user tokens are enough to submit transactions.
+    if (this.user.role !== ROLES.SUPER_USER) {
+      await this.claimsContract.getTransactionPrice().then(price => {
+        this.price = Number(price);
+        this.allowTransactionSubmissions = this.price <= this.user.tokens;
+        // console.log('AssetCardComponent says user tokens are ', this.user.tokens, ', transaction price is ', this.price,
+        //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
+      });
+    }
 
     /* Programmer enables loading in batch several claims by:
     *   - filling claims as in 'loadinBatchFile.json' and
@@ -104,8 +112,8 @@ export class AssetCardComponent implements OnInit {
   public claim() {
     let dialog: any;
 
-    console.log('user.memberId in CLAIM');
-    console.log(this.user.memberId);
+    // console.log('user.memberId in CLAIM');
+    // console.log(this.user.memberId);
     if (this.asset.ISWC) {
         dialog = this.dialog.open(MusicalDialogComponent, {
           data: {
@@ -121,6 +129,7 @@ export class AssetCardComponent implements OnInit {
               }
             },
             members: this.members,
+            currentMember: this.currentMember,
             disableMemberEdit: false,
             isEditable: true
           },
@@ -143,6 +152,7 @@ export class AssetCardComponent implements OnInit {
               }
             },
             members: this.members,
+            currentMember: this.currentMember,
             disableMemberEdit: false,
             isEditable: true
           },
@@ -465,5 +475,10 @@ export class AssetCardComponent implements OnInit {
       document.execCommand('copy');
       s.setSelectionRange(0, 0);
 
+  }
+
+  public alertUser() {
+    alert('Bloomen Decentralized Management App:\n\n\nYou do not have enough tokens to file claim changes.\n\n' +
+        'Please refer to your Administrator or CMO.');
   }
 }

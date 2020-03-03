@@ -1,4 +1,3 @@
-// Basic
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
@@ -53,6 +52,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   public message: any;
   public currentCMO: any;
   public currentMember: MemberModel;
+  public allowTransactionSubmissions: boolean;
+  public price: number;
 
   constructor(
     public store: Store<any>,
@@ -64,7 +65,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     public shellComponent: ShellComponent
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember).subscribe((member) => {
       this.currentMember = member;
     });
@@ -96,9 +97,25 @@ export class InboxComponent implements OnInit, OnDestroy {
         console.log(this.user);
         console.log(this.member);
       }
-    //  }
+      //  }
     });
     // this.store.dispatch(new fromUserActions.AddUser());   // in order to update groups from newly submitted from its Super User
+
+    // To check if user tokens are enough to submit transactions.
+    // if (currentUser.role !== ROLES.SUPER_USER) {
+    //   await this.claimsContract.getTransactionPrice().then(price => {
+    //     this.price = Number(price) + 99;
+    //     this.allowTransactionSubmissions = this.price <= currentUser.tokens;
+    //     console.log('currentUser.tokens');
+    //     console.log(currentUser.tokens);
+    //     console.log('this.price+99');
+    //     console.log(this.price);
+    //     console.log('allowTransactionSubmissions');
+    //     console.log(this.allowTransactionSubmissions);
+    //   });
+    // }
+    // this.allowTransactionSubmissions = this.shellComponent.allowTransactionSubmissions;
+    // this.price = this.shellComponent.price;
 
     this.refreshInbox();
     if (unreadMessages === undefined) {
@@ -110,8 +127,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   public print() {
 
     currentMember = this.currentMember;
-    console.log('currentMember');
-    console.log(this.currentMember);
+    // console.log('currentMember');
+    // console.log(this.currentMember);
   }
 
   public ngOnDestroy() {
@@ -146,16 +163,16 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public onMessageSelected(event) {
     this.message = { ...event };
-    console.log('MESSAGE in onMessageSelected InboxComponent');
-    console.log(this.message);
-    console.log(this.message.read);
+    // console.log('MESSAGE in onMessageSelected InboxComponent');
+    // console.log(this.message);
+    // console.log('read = ', this.message.read);
   }
 
   public refreshInbox() {
     // console.log('Works!');
     // console.log(this.user);
 
-    if (/*this.user &&*/ this.user.role === ROLES.SUPER_USER) {
+    if (this.user && this.user.role === ROLES.SUPER_USER) {
       this.fillInboxSuperUser();
     } else {
       this.store.dispatch(new fromMemberActions.InitMember());
@@ -223,6 +240,16 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
 
     this.clearMessage();
+
+    // IN CASE CLAIMED CLAIMS ARE LEFT IN INBOX BY ACCIDENT.
+    for (let i = 0; i < this.inbox.length; i++) {
+      // console.log(this.inbox[i].status);
+      if (!this.inbox[i].status) {
+        this.inbox.splice(i, 1);
+        this.inbox = this.inbox.splice(i, 1);
+      }
+    }
+    // console.log(this.inbox);
     this.checkNewMessages();
     // console.log('INBOX');
     // console.log(this.inbox);
@@ -317,7 +344,9 @@ export class InboxComponent implements OnInit, OnDestroy {
       const m = this.inbox[i];
       // console.log('m');
       // console.log((inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read);
-      m.read = (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read;
+      if (m) {
+        m.read = (inboxReadClaims.filter((x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string))[0].read;
+      }
     }
     inboxReadClaims = [];
     for (let i = 0; i < this.inbox.length; ++i) {

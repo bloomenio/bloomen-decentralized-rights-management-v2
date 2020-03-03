@@ -176,7 +176,7 @@
         <mat-expansion-panel-header (click)="expandPanel(actionExpansionPanel, $event)">
             <div class="action-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
                 <button mat-stroked-button color="primary" *ngIf="user?.role !== roles.SUPER_USER"
-                        (click)="claim()">{{ 'claim' | translate | uppercase }}</button>
+                        (click)="allowTransactionSubmissions ? claim() : alertUser()">{{ 'claim' | translate | uppercase }}</button>
                 <button *ngIf="!expanded" mat-button color="primary"
                         (click)="changeStateAccordion($event)">{{ 'See more' | translate }}</button>
                 <button *ngIf="expanded" mat-button color="primary"

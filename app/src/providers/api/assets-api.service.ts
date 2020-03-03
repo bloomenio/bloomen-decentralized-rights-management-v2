@@ -71,14 +71,14 @@ export class AssetsApiService {
                             })
                         )
                 );
-                console.log('FROM GROUP ', this.group);
-                console.log(assetsFromAllGroups);
+                // console.log('FROM GROUP ', this.group);
+                // console.log(assetsFromAllGroups);
             }
             // while (i !== this.groups.length) { }
             // console.log('assetsFromAllGroups');
             // console.log(assetsFromAllGroups);
-            console.log('forkJoin(assetsFromAllGroups)');
-            console.log(forkJoin(assetsFromAllGroups));
+            // console.log('forkJoin(assetsFromAllGroups)');
+            // console.log(forkJoin(assetsFromAllGroups));
             return forkJoin(assetsFromAllGroups);
         }
     }
@@ -100,7 +100,7 @@ export class AssetsApiService {
                 );
         } else {
             const assetsFromAllGroups = [];
-            console.log('q: ', params.get('q'));
+            // console.log('q: ', params.get('q'));
             let i: number;
             // this.groups = ['second'];
             for (i = 0; i < this.groups.length; i++) {
@@ -125,14 +125,14 @@ export class AssetsApiService {
                             })
                         )
                 );
-                console.log('FROM GROUP ', this.group);
-                console.log(assetsFromAllGroups);
+                // console.log('FROM GROUP ', this.group);
+                // console.log(assetsFromAllGroups);
             }
             // while (i !== this.groups.length) { }
             // console.log('assetsFromAllGroups');
             // console.log(assetsFromAllGroups);
-            console.log('forkJoin(assetsFromAllGroups)');
-            console.log(forkJoin(assetsFromAllGroups));
+            // console.log('forkJoin(assetsFromAllGroups)');
+            // console.log(forkJoin(assetsFromAllGroups));
             return forkJoin(assetsFromAllGroups);
 
             // return this.httpClient

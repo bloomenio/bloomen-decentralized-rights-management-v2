@@ -1,4 +1,4 @@
-<button mat-icon-button [matMenuTriggerFor]="menu">
+<button mat-icon-button [matMenuTriggerFor]="menu" (mouseover)="updateUserInfo()">
     <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
@@ -9,6 +9,10 @@
     <button mat-menu-item (click)="doEdit()" *ngIf="user?.role === 'Super admin'">
         <mat-icon>edit</mat-icon>
         <span>Edit</span>
+    </button>
+    <button mat-menu-item *ngIf="user?.role !== 'Super admin'">
+        <mat-icon>attach_money</mat-icon>
+        <span>{{ user?.tokens }}</span>
     </button>
     <button mat-menu-item (click)="doLogout()">
         <mat-icon>exit_to_app</mat-icon>

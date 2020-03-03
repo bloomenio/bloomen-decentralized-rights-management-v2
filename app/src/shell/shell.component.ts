@@ -26,6 +26,7 @@ import {currentUser} from '@pages/inbox/inbox.component';
 import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
 import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
 import * as fromMemberActions from '@stores/member/member.actions';
+import {MemberModel} from '@models/member.model';
 
 export let newMessagesE: boolean;
 
@@ -46,12 +47,15 @@ export class ShellComponent implements OnInit, OnDestroy {
   public powered: boolean;
   public userName: string;
   public user: UserModel;
+  public currentMember: MemberModel;
   public userInitials: string;
   public roles: object;
   public theme$: Subscription;
   public user$: Subscription;
   public member$: Subscription;
   public currentPageRoute: string;
+  public allowTransactionSubmissions: boolean;
+  public price: number;
 
   @ViewChild(BloButtonsHostDirective) public bloButtons: BloButtonsHostDirective;
   @ViewChild(BloBackButtonHostDirective) public bloBackButton: BloBackButtonHostDirective;
@@ -85,7 +89,7 @@ export class ShellComponent implements OnInit, OnDestroy {
     // });
   }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.roles = ROLES;
 
     this.theme$ = this.store.select(fromSelectors.getTheme).subscribe((themeObv) => {
@@ -93,7 +97,7 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
 
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
-      skipWhile((user) => !user)
+        skipWhile((user) => !user)
     ).subscribe((user) => {
       if (user) {
         this.user = user;
@@ -111,12 +115,13 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
 
     this.member$ = this.store.select(fromMemberSelectors.getCurrentMember)
-      .pipe(skipWhile((currentMember) => !currentMember))
-      .subscribe((currentMember) => {
-        if (currentMember) {
-          this.imgToolbar = currentMember.logo;
-        }
-      });
+        .pipe(skipWhile((currentMember) => !currentMember))
+        .subscribe((currentMember) => {
+          if (currentMember) {
+            this.imgToolbar = currentMember.logo;
+            this.currentMember = currentMember;
+          }
+        });
 
     this.findChildRoute(this.activatedRoute).data.subscribe(event => {
       this.loadAuxiliarOptions(event);
@@ -125,21 +130,31 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
 
     this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map((route) => {
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      }),
-      filter((route) => route.outlet === 'primary'),
-      mergeMap((route) => route.data)
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map((route) => {
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route;
+        }),
+        filter((route) => route.outlet === 'primary'),
+        mergeMap((route) => route.data)
     ).subscribe((event) => {
       this.loadAuxiliarOptions(event);
       this.loadBackButton(event);
     });
     // console.log('SHELL COMPONENT says newMessagesE: ', newMessagesE);
+
+    // To check if user tokens are enough to submit transactions.
+    if (this.user && this.user.role !== ROLES.SUPER_USER) {
+      await this.claimsContract.getTransactionPrice().then(price => {
+        this.price = Number(price);
+        this.allowTransactionSubmissions = this.price <= this.user.tokens;
+        // console.log('ShellComponent says user tokens are ', this.user.tokens, ', transaction price is ', this.price,
+        //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
+      });
+    }
   }
 
   public async renewUserRights() {
@@ -154,7 +169,8 @@ export class ShellComponent implements OnInit, OnDestroy {
       memberId: userBc.memberId,
       owner: userBc.owner,
       cmo: userBc.cmo,
-      groups: userBc.groups
+      groups: userBc.groups,
+      tokens: userBc.tokens
     };
     // console.log('FROM RENEW USER GROUP RIGHTS: ');
     // console.log(user);
@@ -332,5 +348,10 @@ export class ShellComponent implements OnInit, OnDestroy {
     }
     // return result; //JavaScript object
     return JSON.stringify(result); // JSON
+  }
+
+  public alertUser() {
+    alert('Bloomen Decentralized Management App:\n\n\nYou do not have enough tokens to file claim changes.\n\n' +
+        'Please refer to your Administrator or CMO.');
   }
 }

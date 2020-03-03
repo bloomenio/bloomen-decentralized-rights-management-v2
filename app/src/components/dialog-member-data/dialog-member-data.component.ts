@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ROLES } from '@core/constants/roles.constants';
 import {MemberModel} from '@models/member.model';
 import * as fromMemberAction from '@stores/member/member.actions';
 import {Store} from '@ngrx/store';
+import {UserContract} from '@services/web3/contracts';
 
 export let collections: string[] = ['test', 'first', 'second', 'third'];
 
@@ -19,23 +20,31 @@ export class DialogMemberDataComponent implements OnInit {
   public editMemberForm: FormGroup;
   public collections = collections;
 
+  public usedTokens: any;
+
   constructor(public dialogRef: MatDialogRef<DialogMemberDataComponent>,
     private fb: FormBuilder,
     private store: Store<any>,
+    private userContract: UserContract,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.editMemberForm = this.fb.group({
       name: [this.data.member.name, [Validators.required]],
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
       logo: [this.data.member.logo, [Validators.required]],
-      totalTokens: [this.data.member.totalTokens, [Validators.required]]
+      totalTokens: [this.data.member.totalTokens, [Validators.required, Validators.min(this.usedTokens), Validators.max(9999)]]
       // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();
     this.editMemberForm.get('memberId').disable();
+
+    await this.userContract.getUsedTokens(this.data.member.memberId).then((count) => {
+      this.usedTokens = count;
+    });
+    console.log('this.usedTokens is ', this.usedTokens);
     // this.editMemberForm.get('claims').disable();
     // this.editMemberForm.get('claimInbox').disable();
     // this.editMemberForm.get('userRequests').disable();
@@ -49,8 +58,8 @@ export class DialogMemberDataComponent implements OnInit {
       logo: this.editMemberForm.get('logo').value,
       country: this.data.member.country,
       cmo: this.data.member.cmo,
-      theme: this.editMemberForm.get('theme').value
-      // group: this.editMemberForm.get('group').value
+      theme: this.editMemberForm.get('theme').value,
+      totalTokens: this.editMemberForm.get('totalTokens').value
     };
     // console.log('MEMBER\n', member);
     this.dialogRef.close(member);

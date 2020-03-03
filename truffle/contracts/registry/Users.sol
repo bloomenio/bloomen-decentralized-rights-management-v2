@@ -29,8 +29,9 @@ contract Users is Members {
 
   mapping (address => User) private users_;
   address[] private usersList_;
-
   uint256 constant private PAGE_SIZE = 10;
+
+  uint256 constant private userStartTokens = 100;
 
   // PUBLIC
 
@@ -45,16 +46,32 @@ contract Users is Members {
     _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, uint256(StatusUserEnum.PENDING), msg.sender, 0);
   }
 
-  function updateUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner) public {
+  function updateUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner, uint _tokens) public {
 
     require(users_[owner].owner > address(0), "This user not exists");
     require(uint(users_[owner].status) == uint(StatusUserEnum.ACCEPTED), "You are not accepted");
+    if (users_[owner].tokens > _tokens) {
+      members_[users_[owner].memberId].totalTokens += users_[owner].tokens - _tokens;
+    } else {
+      members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens;
+    }
+    users_[owner].tokens = _tokens;
 
     uint256 _requestId = users_[owner].requestId;
     uint256 _creationDate = users_[owner].creationDate;
     uint256 _status = uint(users_[owner].status);
 
     _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, _status, owner, 1);
+  }
+
+  function getUsedTokens(uint256 _memberId) public returns (uint){
+    uint usedTokens = 0;
+    for (uint i = 0; i < usersList_.length; ++i) {
+      if (users_[usersList_[i]].memberId == _memberId) {
+        usedTokens += users_[usersList_[i]].tokens;
+      }
+    }
+    return usedTokens;
   }
 
   function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner, string[] _groups) public {
@@ -89,11 +106,13 @@ contract Users is Members {
     require((uint(users_[msg.sender].status) == uint(StatusUserEnum.ACCEPTED)) || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == StatusUserEnum.PENDING, "Only pending users can be accepted");
 
-    if (    members_[users_[_userToAccept].memberId].totalTokens - 100 > 0) {
+    if (members_[users_[_userToAccept].memberId].totalTokens > userStartTokens) {
       users_[_userToAccept].status = StatusUserEnum.ACCEPTED;
-      users_[_userToAccept].tokens = 100;
-      members_[users_[_userToAccept].memberId].totalTokens -= 100;
       _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
+      users_[_userToAccept].tokens = userStartTokens;
+      members_[users_[_userToAccept].memberId].totalTokens -= userStartTokens;
+    } else {
+      rejectUser(_userToAccept);
     }
   }
 
@@ -113,6 +132,7 @@ contract Users is Members {
     users_[account].role = "Super admin";
     users_[account].memberId = ++memberIdCounter_;
     users_[account].cmo = _cmo;
+//    users_[account].tokens = 0; // should "Super admin" have tokens?
     users_[account].status = StatusUserEnum.ACCEPTED;
     users_[account].groups = ["test"];
     addSigner(account);
@@ -196,4 +216,11 @@ contract Users is Members {
     return users_[addr].memberId;
   }
 
+  function updateUserTokens(address addr, uint transactionPrice) public {
+    users_[addr].tokens -= transactionPrice;
+  }
+
+  function getUserTokensByAddress(address addr) view public returns(uint) {
+    return users_[addr].tokens;
+  }
 }

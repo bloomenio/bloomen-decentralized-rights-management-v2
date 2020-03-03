@@ -67,13 +67,14 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.countAssets = 0;
       this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
       this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
-
+      // this.members = this.inboxComponent.member;
       this.member$ = this.store.select(fromMemberSelectors.getCurrentMember)
           .subscribe((member) => {
           if (member) {
               this.member = member;
               // this.currentGroup = member.group;
               console.log('CURRENT MEMBER is  ', this.member);
+              // console.log('INBOXCOMPONENT MEMBER is  ', this.inboxComponent.member);
           }
       });
       // this.assetsApiService.group = this.currentGroup;

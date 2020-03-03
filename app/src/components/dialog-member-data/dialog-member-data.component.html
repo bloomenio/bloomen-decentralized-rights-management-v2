@@ -5,13 +5,14 @@
 <div mat-dialog-content>
   <form [formGroup]="editMemberForm" (ngSubmit)="onSubmit()">
     <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
-      <mat-form-field fxFlex="100" class="field-item">
+      <mat-form-field fxFlex="50" class="field-item">
         <input matInput placeholder="Name" formControlName="name" />
       </mat-form-field>
-<!--      <mat-form-field fxFlex="50" class="field-item">-->
-<!--        <input matInput placeholder="Total Balance" formControlName="totalTokes" type="number" maxlength="4"-->
-<!--               oninput="if (value.length > maxLength) value = value.slice(0, maxLength);" />-->
-<!--      </mat-form-field>-->
+      <mat-form-field fxFlex="50" class="field-item">
+        <input matInput placeholder="Total Balance" formControlName="totalTokens" type="number" max="9999" maxlength="4" min="{{usedTokens}}"/>
+<!--               oninput="if (value > max || value.length > max.length) value = value.slice(0, maxLength);-->
+<!--               if (value < min || value.length < min.length) value = value.slice(0, min.length);"/>-->
+      </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
       <mat-form-field fxFlex="50" class="field-item">

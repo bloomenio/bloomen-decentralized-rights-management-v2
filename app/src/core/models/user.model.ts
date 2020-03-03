@@ -9,6 +9,7 @@ export interface UserModel {
     owner?: string;
     cmo?: string;
     groups?: string[];
+    tokens?: number;
 }
 
 export enum StatusEnum {

@@ -10,9 +10,9 @@ import { MemberModel } from '@core/models/member.model';
 import { COUNTRIES } from '@constants/countries.constants';
 import {startWith, map, skipWhile, first} from 'rxjs/operators';
 import {collections} from '@components/dialog-member-data/dialog-member-data.component';
-import * as fromUserSelectors from "@stores/user/user.selectors";
-import {ROLES} from "@constants/roles.constants";
-import {UserModel} from "@models/user.model";
+import * as fromUserSelectors from '@stores/user/user.selectors';
+import {ROLES} from '@constants/roles.constants';
+import {UserModel} from '@models/user.model';
 
 const log = new Logger('add-member-dialog');
 

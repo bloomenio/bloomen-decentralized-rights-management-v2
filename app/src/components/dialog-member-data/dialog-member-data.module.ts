@@ -18,18 +18,21 @@ import {DialogMemberDataComponent} from '@components/dialog-member-data/dialog-m
  * Module to import and export all the components for the home page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    SharedModule,
-    FlexLayoutModule,
-    MaterialModule,
-    ShellModule,
-    UserProfileShellModule,
-    ReactiveFormsModule
-  ],
-  declarations: [DialogMemberDataComponent],
-  providers: [DialogMemberDataComponent, DatePipe],
-  entryComponents: [DialogMemberDataComponent]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        SharedModule,
+        FlexLayoutModule,
+        MaterialModule,
+        ShellModule,
+        UserProfileShellModule,
+        ReactiveFormsModule
+    ],
+    declarations: [DialogMemberDataComponent],
+    providers: [DialogMemberDataComponent, DatePipe],
+    exports: [
+        DialogMemberDataComponent
+    ],
+    entryComponents: [DialogMemberDataComponent]
 })
 export class DialogMemberDataModule { }

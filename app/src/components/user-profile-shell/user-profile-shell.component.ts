@@ -14,12 +14,15 @@ import {first, skipWhile} from 'rxjs/operators';
 import {ROLES} from '@constants/roles.constants';
 import {Subscription} from 'rxjs';
 import {UserModel} from '@models/user.model';
-import {MemberContract} from '@services/web3/contracts';
+import {MemberContract, UserContract} from '@services/web3/contracts';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import {MemberModel} from '@models/member.model';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogSuperUserComponent} from '@components/dialog-super-user/dialog-super-user.component';
-import {currentUser} from "@pages/inbox/inbox.component";
+import {currentUser} from '@pages/inbox/inbox.component';
+import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
+import * as fromMemberActions from '@stores/member/member.actions';
+import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
 
 /**
  * Home-options-shell component
@@ -45,6 +48,8 @@ export class UserProfileShellComponent implements OnInit {
     private userStore: Store<UserModel>,
     public dialog: MatDialog,
     @Inject(MemberContract) private memberContract,
+    public userContract: UserContract,
+    private applicationDatabaseService: ApplicationDataDatabaseService,
     private clipboard: ClipboardService
   ) { }
 
@@ -73,6 +78,31 @@ export class UserProfileShellComponent implements OnInit {
             // console.log('ALL MEMBERS:  ', this.members);
           }
         });
+  }
+
+  public async updateUserInfo() {
+    const userBc = await this.userContract.getMe();
+    const user: UserModel = {
+      creationDate: userBc.creationDate,
+      firstName: userBc.firstName,
+      lastName: userBc.lastName,
+      role: userBc.role,
+      requestId: userBc.requestId,
+      status: userBc.status,
+      memberId: userBc.memberId,
+      owner: userBc.owner,
+      cmo: userBc.cmo,
+      groups: userBc.groups,
+      tokens: userBc.tokens
+    };
+    // console.log('FROM RENEW USER GROUP RIGHTS: ');
+    // console.log(user);
+    this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
+    this.store.dispatch(new fromUserActions.AddUserSuccess(user));
+    this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
+    // @ts-ignore
+    this.user = user;
+
   }
 
   /*

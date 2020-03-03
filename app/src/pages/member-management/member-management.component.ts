@@ -5,7 +5,7 @@ import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
 import { MemberManagementDataSource } from './member-management.datasource';
 import { tap, map, skipWhile } from 'rxjs/operators';
-import {MemberContract, RegistryContract} from '@core/core.module';
+import {MemberContract, RegistryContract, UserContract} from '@core/core.module';
 import { Store } from '@ngrx/store';
 import * as fromMemberSelector from '@stores/member/member.selectors';
 import * as fromMemberActions from '@stores/member/member.actions';
@@ -38,6 +38,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public member$: Subscription;
   public currentMember$: Subscription;
   public companiesPageNumber: number;
+  public usedTokens: number;
 
   @ViewChild(MatPaginator) public paginator: MatPaginator;
   @ViewChild(MatSort) public sort: MatSort;
@@ -48,13 +49,12 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     private memberContract: MemberContract,
     private registryContract: RegistryContract,
     private store: Store<any>,
-    // public dialogMemberDataComponent: DialogMemberDataComponent,
     public dialog: MatDialog,
     public inboxComponent: InboxComponent,
     public shellComponent: ShellComponent
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
 
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers)
         // .pipe(      skipWhile((member) => !member))
@@ -75,23 +75,24 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(
-      skipWhile((members) => !members)
+        skipWhile((members) => !members)
     ).subscribe(() => {
       this.dataSource.loadCompanies();
     });
 
     // this.newMessagesInterval$ = interval(5000).subscribe(() => {
-      // FOR "NEW MESSAGES" INBOX NOTIFICATION.
-      // tslint:disable-next-line:no-life-cycle-call
+    // FOR "NEW MESSAGES" INBOX NOTIFICATION.
+    // tslint:disable-next-line:no-life-cycle-call
     this.inboxComponent.ngOnInit();
     if (!this.shellComponent.newMessagesGet()) {
-        this.inboxComponent.checkNewMessages();
-      }
-      // tslint:disable-next-line:no-life-cycle-call
+      this.inboxComponent.checkNewMessages();
+    }
+    // tslint:disable-next-line:no-life-cycle-call
     this.shellComponent.ngOnInit();
     // });
     this.shellComponent.unreadMessages = unreadMessages;
     this.router.navigate(['member-management']);
+
   }
 
   public ngAfterViewInit() {
@@ -125,7 +126,9 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
 
   public clickEdit(element) {
     const dialogRef = this.dialog.open(DialogMemberDataComponent, {
-      data: { member: element }
+      data: {
+        member: element
+      }
     });
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
