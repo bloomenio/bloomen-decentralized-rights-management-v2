@@ -135,19 +135,6 @@ contract Members is Random, Registry {
     members_[_memberId].claims.push(_claimId);
   }
 
-  function _removeClaimIdFromMember2(uint _memberId, uint _claimId) public {
-//    _rP(_memberId, _claimId);
-//  }
-//
-//  function _rP(uint _memberId, uint _claimId) private {
-    uint memberClaimsLength = members_[_memberId].claims.length;
-    if (memberClaimsLength > 0) { // require(memberClaimsLength > 0, "not enough claims in member");
-      members_[_memberId].claims[_claimId] = members_[_memberId].claims[memberClaimsLength-1];
-      members_[_memberId].claims[memberClaimsLength-1] = _claimId;
-      members_[_memberId].claims.length--;
-    }
-  }
-
   function _removeClaimIdFromMember(uint _memberId, uint _claimId) public {
     bool found = false;
     for (uint j = 0; j < members_[_memberId].claims.length - 1; j++) {

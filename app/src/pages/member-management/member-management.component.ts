@@ -48,6 +48,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     public router: Router,
     private memberContract: MemberContract,
     private registryContract: RegistryContract,
+    private userContract: UserContract,
     private store: Store<any>,
     public dialog: MatDialog,
     public inboxComponent: InboxComponent,
@@ -124,10 +125,14 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     );
   }
 
-  public clickEdit(element) {
+  public async clickEdit(element) {
+    await this.userContract.getUsedTokens(element.memberId).then((count) => {
+      this.usedTokens = count;
+    });
     const dialogRef = this.dialog.open(DialogMemberDataComponent, {
       data: {
-        member: element
+        member: element,
+        usedTokens: this.usedTokens
       }
     });
     dialogRef.afterClosed().subscribe(value => {

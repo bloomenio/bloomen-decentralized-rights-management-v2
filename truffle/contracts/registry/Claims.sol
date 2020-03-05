@@ -16,6 +16,7 @@ contract Claims {
 //    currentUser = _Users.getUserByAddress(msg.sender);
   }
 
+
   using RLPReader for bytes;
   using RLPReader for uint;
   using RLPReader for RLPReader.RLPItem;
@@ -53,7 +54,7 @@ contract Claims {
 //    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
 //    if (currentUser.tokens > transactionPrice) {
     if (_Users.getUserTokensByAddress(msg.sender) > transactionPrice) {
-      _Users.updateUserTokens(msg.sender, transactionPrice);
+      _Users.updateTokens(msg.sender, transactionPrice);
       if (register_or_update) {             // Register new claim.
         _claimId = ++claimIdCounter_;
         //    require(claims_[_claimId].claimId == 0, "Claim already exists");

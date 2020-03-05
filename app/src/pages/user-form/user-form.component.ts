@@ -81,7 +81,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     });
 
     this.roles = [ROLES.USER, ROLES.ADMIN];
-    console.log('ngOnInit member value is ' + this.userForm.get('member').value);
+    // console.log('ngOnInit member value is ' + this.userForm.get('member').value);
   }
 
   public onChange() {
@@ -107,9 +107,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit() {
-    console.log('onSubmit membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
+    // console.log('onSubmit membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
     // console.log('onSubmit membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
-    console.log('onSubmit_1 member value is ' + this.userForm.get('member').value);
+    // console.log('onSubmit_1 member value is ' + this.userForm.get('member').value);
     const user: UserModel = {
       creationDate: new Date().getTime(),
       firstName: this.userForm.get('firstName').value,
@@ -119,7 +119,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     };
     this.store.dispatch(new fromUserActions.SendUser(user));
     this.router.navigate(['waiting-approve']);
-    console.log('onSubmit_2 member value is ' + this.userForm.get('member').value);
+    // console.log('onSubmit_2 member value is ' + this.userForm.get('member').value);
 
   }
 

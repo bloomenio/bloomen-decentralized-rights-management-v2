@@ -1,21 +1,21 @@
 <mat-accordion class="headers-align">
     <mat-expansion-panel hideToggle [(expanded)]="expanded" class="main-panel-wrapper">
-        <mat-expansion-panel-header [expandedHeight]="'350px'" [collapsedHeight]="'190px'">
+        <mat-expansion-panel-header [expandedHeight]="'220px'" [collapsedHeight]="'190px'">
             <mat-panel-title>
-                <div *ngIf="data.asset.image" class="image-data.asset" [style.backgroundImage]="'url('+ data.asset.image +')'"></div>
-                <div *ngIf="!data.asset.image" class="image-data.asset"
-                     [style.backgroundImage]="'url(assets/asset_placeholder.png)'"></div>
+<!--                <div *ngIf="data.asset.image" class="image-data.asset" [style.backgroundImage]="'url('+ data.asset.image +')'"></div>-->
+<!--                <div *ngIf="!data.asset.image" class="image-data.asset" [style.backgroundImage]="'url(assets/asset_placeholder.png)'"></div>-->
+                <div style="padding: 4px"></div>
             </mat-panel-title>
             <mat-panel-description>
                 <div fxFlex fxLayout="column">
-                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="data.asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
                             <div>{{ data.asset.ISRC }}</div>
                         </div>
                         <mat-icon>speaker</mat-icon>
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
                         <div class="sections-container" *ngIf="data.asset.ISWC">
                             <div class="data-section-title">{{ 'repertoire.ISWC' | translate }}</div>
                             <div>{{ data.asset.ISWC }}</div>
@@ -60,7 +60,7 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div fxLayout="row" style="padding-left: 184px;" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
+        <div fxLayout="row" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
             <div fxFlex fxLayout="column">
 
                 <div class="sections-container" *ngIf="data.asset.duration">
@@ -105,7 +105,7 @@
         </div>
 
 
-        <div fxLayout="row"  style="padding-left: 184px;">
+        <div fxLayout="row"  >
             <div fxFlex class="sections-container" *ngIf="data.asset.releases">
                 <div class="data-section-title" >{{ 'repertoire.releases' | translate | uppercase }}</div>
                 <div>
@@ -129,7 +129,7 @@
             </div>
         </div>
 
-        <div fxLayout="row" style="padding-left: 184px;" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
+        <div fxLayout="row" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
             <div fxFlex fxLayout="column">
                 <div class="sections-container" *ngIf="data.asset.creators">
                     <div class="data-section-title">{{ 'repertoire.creators' | translate | uppercase }}</div>

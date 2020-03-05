@@ -196,7 +196,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.inbox = [...usersArray];
 
     this.clearMessage();
-    this.checkNewMessages();
+    if (this.inbox) {
+      this.checkNewMessages();
+    }
   }
 
   private async fillInbox() {

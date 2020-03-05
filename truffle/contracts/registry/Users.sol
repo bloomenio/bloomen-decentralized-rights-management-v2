@@ -176,12 +176,10 @@ contract Users is Members {
   }
 
   function getMe() public view returns(User) {
-    //TODO: require
     User memory user = users_[msg.sender];
     return user;
   }
 
-  // PRIVATE
 
   function _saveUser(uint256 _creationDate, string _firstName, string _lastName, uint256 _memberId,
     uint256 _requestId, string _role, uint256 _status, address owner, uint isCreate) internal {
@@ -216,8 +214,9 @@ contract Users is Members {
     return users_[addr].memberId;
   }
 
-  function updateUserTokens(address addr, uint transactionPrice) public {
+  function updateTokens(address addr, uint transactionPrice) public {
     users_[addr].tokens -= transactionPrice;
+    members_[users_[addr].memberId].totalTokens -= transactionPrice;
   }
 
   function getUserTokensByAddress(address addr) view public returns(uint) {

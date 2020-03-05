@@ -29,22 +29,22 @@ export class DialogMemberDataComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  public async ngOnInit(): Promise<void> {
+  public ngOnInit(): void {
     this.editMemberForm = this.fb.group({
       name: [this.data.member.name, [Validators.required]],
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
       logo: [this.data.member.logo, [Validators.required]],
-      totalTokens: [this.data.member.totalTokens, [Validators.required, Validators.min(this.usedTokens), Validators.max(9999)]]
+      totalTokens: [this.data.member.totalTokens, [Validators.required, Validators.min(this.data.usedTokens), Validators.max(9999)]]
       // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();
     this.editMemberForm.get('memberId').disable();
 
-    await this.userContract.getUsedTokens(this.data.member.memberId).then((count) => {
-      this.usedTokens = count;
-    });
-    console.log('this.usedTokens is ', this.usedTokens);
+    // await this.userContract.getUsedTokens(this.data.member.memberId).then((count) => {
+    //   this.usedTokens = count;
+    // });
+    console.log('this.data.usedTokens is ', this.data.usedTokens);
     // this.editMemberForm.get('claims').disable();
     // this.editMemberForm.get('claimInbox').disable();
     // this.editMemberForm.get('userRequests').disable();
