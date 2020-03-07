@@ -170,6 +170,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
+                        currentMember: this.inboxComponent.currentMember,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false
@@ -183,6 +184,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
+                        currentMember: this.inboxComponent.currentMember,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false
@@ -214,6 +216,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
+                        currentMember: this.inboxComponent.currentMember,
                         disableMemberEdit: true,
                         isEditable: false,
                         toDelete: true
@@ -227,6 +230,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
+                        currentMember: this.inboxComponent.currentMember,
                         disableMemberEdit: true,
                         isEditable: false,
                         toDelete: true

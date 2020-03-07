@@ -132,7 +132,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
     });
   }
 
-  public async updateUserInfo() {
+  public async updateMemberAndUserInfo() {
+    this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the member info
     await this.userContract.getUsedTokens(this.member.memberId).then((count) => {
       this.usedTokens = count;
     });
