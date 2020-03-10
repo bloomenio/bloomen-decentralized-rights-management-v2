@@ -95,6 +95,13 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
     this.rejectEvent.emit(this.message.owner);
   }
 
+  public initializeCurrentMember() {
+    if (this.claimsComponent.currentMember === undefined) {
+      this.claimsComponent.currentMember = this.currentMember;
+    }
+    // console.log(this.claimsComponent.currentMember, ' = ', this.currentMember);
+  }
+
   public onUpdate(message) {
     this.claimsComponent.members = this.members;
     this.claimsComponent.clickEdit(message, true);

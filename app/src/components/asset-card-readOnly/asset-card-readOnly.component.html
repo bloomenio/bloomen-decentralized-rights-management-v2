@@ -1,6 +1,6 @@
 <mat-accordion class="headers-align">
     <mat-expansion-panel hideToggle [(expanded)]="expanded" class="main-panel-wrapper">
-        <mat-expansion-panel-header [expandedHeight]="'220px'" [collapsedHeight]="'190px'">
+        <mat-expansion-panel-header [collapsedHeight]="'190px'" [expandedHeight]="'220px'">
             <mat-panel-title>
 <!--                <div *ngIf="data.asset.image" class="image-data.asset" [style.backgroundImage]="'url('+ data.asset.image +')'"></div>-->
 <!--                <div *ngIf="!data.asset.image" class="image-data.asset" [style.backgroundImage]="'url(assets/asset_placeholder.png)'"></div>-->
@@ -172,7 +172,7 @@
         </div>
 
     </mat-expansion-panel>
-    <mat-expansion-panel hideToggle class="action-panel-wrapper" #actionExpansionPanel>
+    <mat-expansion-panel hideToggle class="action-panel-wrapper" [expanded]="false" #actionExpansionPanel>
         <mat-expansion-panel-header (click)="expandPanel(actionExpansionPanel, $event)">
             <div class="action-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
                 <button *ngIf="!expanded" mat-button color="primary"

@@ -43,7 +43,7 @@ export class AssetCardReadOnlyComponent implements OnInit {
 
   public ngOnInit() {
     this.roles = ROLES;
-    this.expanded = true;
+    this.expanded = false;
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
       skipWhile(user => !user),
       first()

@@ -43,6 +43,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public members: MemberModel[];
     private members$: Subscription;
     public claimType: any;
+    public currentMember: MemberModel;
     // public allowTransactionSubmissions: boolean;
     // public price: number;
 
@@ -170,7 +171,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
-                        currentMember: this.inboxComponent.currentMember,
+                        currentMember: this.inboxComponent.currentMember || this.currentMember,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false
@@ -184,7 +185,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
-                        currentMember: this.inboxComponent.currentMember,
+                        currentMember: this.inboxComponent.currentMember || this.currentMember,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false
