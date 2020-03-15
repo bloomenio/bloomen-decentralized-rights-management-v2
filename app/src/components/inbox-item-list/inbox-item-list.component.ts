@@ -131,7 +131,7 @@ export class InboxItemListComponent implements OnInit {
                   asset: assetToShow[0],
                   // members: this.members
                 },
-                // width: '200px'
+                width: '560px'
               });
             } else {
               console.log('INBOX ITEM LIST SAYS globalAllAssets is ', globalAllAssets);

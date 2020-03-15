@@ -37,7 +37,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
         this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {
         // this.claimsContract.getClaimById('1').then((claims) => {
         //     console.log('claims.datasource.claimsContract.getClaimsByMemId ');
-            console.log('FROM DATASOURCE LOADCLAIMS');
+        //     console.log('FROM DATASOURCE LOADCLAIMS');
             // SORT by title, then by creationDate.
             claims = claims.sort((a, b) => (a.claimData.title  < b.claimData.title ? -1 : 1));
             claims = claims.sort((a, b) => (a.claimData.title === b.claimData.title
@@ -65,7 +65,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
                 }
                 previous = item;
             }
-            console.log(claims);
+            // console.log(claims);
             this.claims$.next(claims);
             this.loadingSubject.next(false);
         });

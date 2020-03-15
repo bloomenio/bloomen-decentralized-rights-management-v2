@@ -40,9 +40,9 @@ export class ClaimsContract extends Contract {
         } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
             claimType = true;
         }
-        console.log('ClaimsContract.addClaim');
-        console.log(claim.creationDate, claim.claimData, claimType, claim.memberOwner, true,
-            1, claim.claimData, new Date().getTime());
+        // console.log('ClaimsContract.addClaim');
+        // console.log(claim.creationDate, claim.claimData, claimType, claim.memberOwner, true,
+        //     1, claim.claimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType, claim.memberOwner, true,
                 1, encodeOldData, new Date().getTime(), false
@@ -59,10 +59,10 @@ export class ClaimsContract extends Contract {
             claim.oldClaimData[3][1] !== claim.claimData[3][1] || claim.oldClaimData[4][1] !== claim.claimData[4][1]) {
             updateClaimId = true;
         }
-        console.log('updateClaimId: ' + updateClaimId);
-        console.log('ClaimsContract.updateCl');
-        console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
-            claim.claimId, claim.oldClaimData, new Date().getTime(), updateClaimId);
+        // console.log('updateClaimId: ' + updateClaimId);
+        // console.log('ClaimsContract.updateCl');
+        // console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
+        //     claim.claimId, claim.oldClaimData, new Date().getTime(), updateClaimId);
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
                 claim.claimId, encodeOldData, new Date().getTime(), false
@@ -79,9 +79,9 @@ export class ClaimsContract extends Contract {
         } else if (claim.claimType === ClaimTypeEnum.SOUND_RECORDING) {
             claimType = true;
         }
-        console.log('CLAIMSCONTRACT DELCLAIM');
-        console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
-            claim.claimId, claim.oldClaimData, new Date().getTime());
+        // console.log('CLAIMSCONTRACT DELCLAIM');
+        // console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
+        //     claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(0, encodeData, claimType, claim.memberOwner, false,
                 claim.claimId, encodeOldData, new Date().getTime(), false   // oldClaimData==claimData
@@ -100,7 +100,7 @@ export class ClaimsContract extends Contract {
     public changingState(claimId: string, state: number, message: string, memberId: string, memberLogo: string) {
         return this.transactionService.addTransaction(this.args.gas, () => {
             // Change this when contract message claims changed
-            console.log('ClaimsContract.changingState');
+            // console.log('ClaimsContract.changingState');
             const lastUpdate = new Date().getTime();
             const messageItem = {
                 memberId,
@@ -109,7 +109,7 @@ export class ClaimsContract extends Contract {
                 memberLogo
             };
             const stringMessage = global.JSON.stringify(messageItem);
-            console.log(claimId, state, lastUpdate, stringMessage);
+            // console.log(claimId, state, lastUpdate, stringMessage);
             return this.contract.methods.changeState(claimId, state, stringMessage, lastUpdate).send(this.args);
         });
     }

@@ -73,7 +73,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
           if (member) {
               this.member = member;
               // this.currentGroup = member.group;
-              console.log('CURRENT MEMBER is  ', this.member);
+              // console.log('CURRENT MEMBER is  ', this.member);
               // console.log('INBOXCOMPONENT MEMBER is  ', this.inboxComponent.member);
           }
       });
@@ -85,9 +85,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.shellComponent.user === undefined) {
         this.router.navigate(['inbox']);
       }
-      console.log('this.user.group is ', this.shellComponent.user.groups);
+      // console.log('this.user.group is ', this.shellComponent.user.groups);
       this.assetsApiService.groups = this.shellComponent.user.groups;
-      console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
+      // console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
 
       this.filter = '';
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch({

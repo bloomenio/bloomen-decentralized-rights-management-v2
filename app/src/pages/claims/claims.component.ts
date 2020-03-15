@@ -285,7 +285,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                             asset: assetToShow[0],
                             members: this.members
                         },
-                        // width: '200px'
+                        width: '560px'
                     });
                 } else {
                     console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);

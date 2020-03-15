@@ -269,7 +269,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   public uploadFile(event) {
     const file = event.target.files;
     if (file.length > 0) {
-      console.log(file); // You will see the file
+      // console.log(file); // You will see the file
       //
       const f = new Blob(file, {type: 'text/plain'});
       const reader = new FileReader();
@@ -293,7 +293,7 @@ export class ShellComponent implements OnInit, OnDestroy {
           rightCSVFormat = false;
         }});
         if (rightCSVFormat) {
-          console.log(this.csvJSON(papa.data));
+          // console.log(this.csvJSON(papa.data));
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();

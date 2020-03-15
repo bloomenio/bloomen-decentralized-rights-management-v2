@@ -25,14 +25,14 @@ export class RepertoireEffects {
             return this.repertoireApiService.getAssets(action.payload.filter, action.payload.pageIndex, action.payload.pageSize)
                 .pipe(
                 map(assets => {
-                    console.log('EFFECTS: ');
+                    // console.log('EFFECTS from getAssets: ');
                     const allAssets = [];
                     for (let j = 0; j < assets.length; j++) {
                         for (let i = 0; i < assets[j].length; i++) {
                             allAssets.push(assets[j][i]);
                         }
                     }
-                    console.log(allAssets);
+                    // console.log(allAssets);
                     globalAllAssets = allAssets;
                     return new fromActions.RepertoireSearchSuccess(allAssets);
                 }),
@@ -56,14 +56,14 @@ export class RepertoireEffects {
             return this.repertoireApiService.getAssetsCount(action.payload.filter).pipe(
             // map(count => new fromActions.RepertoireSearchCountSuccess(count)),
             map(assets => {
-                console.log('EFFECTS: ');
+                // console.log('EFFECTS from getAssetsCount: ');
                 const allAssets = [];
                 for (let j = 0; j < assets.length; j++) {
                     for (let i = 0; i < assets[j].length; i++) {
                         allAssets.push(assets[j][i]);
                     }
                 }
-                console.log(allAssets);
+                // console.log(allAssets);
                 return new fromActions.RepertoireSearchCountSuccess(allAssets.length);
             }),
                 catchError(

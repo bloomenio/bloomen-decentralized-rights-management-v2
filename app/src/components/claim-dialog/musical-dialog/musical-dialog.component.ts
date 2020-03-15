@@ -184,8 +184,8 @@ export class MusicalDialogComponent implements OnInit {
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value
         };
-        console.log('MusicalDialogComponent.onSubmit');
-        console.log(claim);
+        // console.log('MusicalDialogComponent.onSubmit');
+        // console.log(claim);
         this.dialogRef.close(claim);
     }
 

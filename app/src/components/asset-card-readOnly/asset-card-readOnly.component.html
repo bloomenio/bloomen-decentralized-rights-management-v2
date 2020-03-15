@@ -8,14 +8,14 @@
             </mat-panel-title>
             <mat-panel-description>
                 <div fxFlex fxLayout="column">
-                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between end" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="data.asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
                             <div>{{ data.asset.ISRC }}</div>
                         </div>
                         <mat-icon>speaker</mat-icon>
                     </div>
-                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between end" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
                         <div class="sections-container" *ngIf="data.asset.ISWC">
                             <div class="data-section-title">{{ 'repertoire.ISWC' | translate }}</div>
                             <div>{{ data.asset.ISWC }}</div>
@@ -59,7 +59,7 @@
                 </div>
             </mat-panel-description>
         </mat-expansion-panel-header>
-
+        <div *ngIf="expanded">
         <div fxLayout="row" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
             <div fxFlex fxLayout="column">
 
@@ -167,10 +167,9 @@
                         {{ associatedISRC }}
                     </div>
                 </div>
-
             </div>
         </div>
-
+        </div>
     </mat-expansion-panel>
     <mat-expansion-panel hideToggle class="action-panel-wrapper" [expanded]="false" #actionExpansionPanel>
         <mat-expansion-panel-header (click)="expandPanel(actionExpansionPanel, $event)">

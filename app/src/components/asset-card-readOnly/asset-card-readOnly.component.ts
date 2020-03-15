@@ -27,7 +27,7 @@ export class AssetCardReadOnlyComponent implements OnInit {
   public cmos: string[];
   public roles: object;
   public member$: Subscription;
-  public expanded: Boolean = true;
+  public expanded: Boolean = false;
   public user: UserModel;
 
   @Input() public members: MemberModel[];

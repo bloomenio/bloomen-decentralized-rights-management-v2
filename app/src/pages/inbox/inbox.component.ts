@@ -194,6 +194,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     }
 
     this.inbox = [...usersArray];
+    this.inbox = this.inbox.filter((m) => m.cmo === this.currentCMO);
+    // console.log(this.inbox);
 
     this.clearMessage();
     if (this.inbox) {
@@ -244,14 +246,15 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.clearMessage();
 
     // IN CASE CLAIMED CLAIMS ARE LEFT IN INBOX BY ACCIDENT.
-    for (let i = 0; i < this.inbox.length; i++) {
-      // console.log(this.inbox[i].status);
-      if (!this.inbox[i].status) {
-        this.inbox.splice(i, 1);
-        this.inbox = this.inbox.splice(i, 1);
-      }
-    }
+    // for (let i = 0; i < this.inbox.length; i++) {
+    //   console.log(this.inbox[i].status);
+    //   if (!this.inbox[i].status) {
+    //     this.inbox.splice(i, 1);
+    //     this.inbox = this.inbox.splice(i, 1);
+    //   }
+    // }
     // console.log(this.inbox);
+    this.inbox = this.inbox.filter((m) => m.status);
     this.checkNewMessages();
     // console.log('INBOX');
     // console.log(this.inbox);
@@ -306,10 +309,10 @@ export class InboxComponent implements OnInit, OnDestroy {
           }
         }
         if (!found) {
-          console.log('TO DELETE');
-          console.log(mm);
+          // console.log('TO DELETE');
+          // console.log(mm);
           const toDel = inboxReadClaims.splice(i, 1);
-          console.log(toDel);
+          // console.log(toDel);
           // console.log('INBOXREADCLAIMS');
           // console.log(inboxReadClaims);
         }
@@ -373,8 +376,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     // }
     // console.log('INBOXREADCLAIMS');
     // console.log(inboxReadClaims);
-
-    // Print inbox.
+    //
+    // // Print inbox.
     // console.log('INBOX');
     // console.log(this.inbox);
   }
