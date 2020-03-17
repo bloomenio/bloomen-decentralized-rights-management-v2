@@ -94,8 +94,8 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.fillInboxSuperUser();
         console.log('fillInboxSuperUser');
         this.currentCMO = this.user.cmo;
-        console.log(this.user);
-        console.log(this.member);
+        // console.log(this.user);
+        // console.log(this.member);
       }
       //  }
     });
@@ -255,7 +255,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     // }
     // console.log(this.inbox);
     this.inbox = this.inbox.filter((m) => m.status);
-    this.checkNewMessages();
+    if (this.inbox) {
+      this.checkNewMessages();
+    }
     // console.log('INBOX');
     // console.log(this.inbox);
   }

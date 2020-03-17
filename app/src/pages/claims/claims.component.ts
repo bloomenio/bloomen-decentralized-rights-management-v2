@@ -83,7 +83,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             ;
         }
         if (currentUser.role === ROLES.SUPER_USER) {
-            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view', 'delete'];
+            this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view'];
         } else {
             this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         }
@@ -102,7 +102,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
         this.inboxComponent.ngOnInit();
-        if (!this.shellComponent.newMessagesGet()) {
+        if (!this.shellComponent.newMessagesGet() && this.inboxComponent.inbox) {
             this.inboxComponent.checkNewMessages();
         }
         // tslint:disable-next-line:no-life-cycle-call
@@ -165,13 +165,17 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public clickEdit(element, isEdit) {
         let dialog;
 
+        // console.log(this.inboxComponent.currentMember, '\n', this.currentMember);
+        // console.log(element);
+        // console.log(this.members.filter(m => m.memberId === element.memberOwner));
+        const currentMemberWhenSuperAdmin = this.members.filter(m => m.memberId === element.memberOwner)[0];
         switch (element.claimType) {
             case false:
                 dialog = this.dialog.open(MusicalDialogComponent, {
                     data: {
                         claim: element,
                         members: this.members,
-                        currentMember: this.inboxComponent.currentMember || this.currentMember,
+                        currentMember: this.inboxComponent.currentMember || this.currentMember || currentMemberWhenSuperAdmin,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false
@@ -185,7 +189,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     data: {
                         claim: element,
                         members: this.members,
-                        currentMember: this.inboxComponent.currentMember || this.currentMember,
+                        currentMember: this.inboxComponent.currentMember || this.currentMember || currentMemberWhenSuperAdmin,
                         disableMemberEdit: true,
                         isEditable: isEdit,
                         toDelete: false

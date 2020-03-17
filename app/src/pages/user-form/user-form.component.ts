@@ -131,7 +131,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           creationDate: new Date().getTime(),
           firstName: 'Alex',
           lastName: 'Psyhas',
-          memberId: Number(1).toString(),   // CMO1's Id is 5, but we input memberId of a CMO1's member.
+          memberId: Number(1).toString(),   // memberId will be '5' when approved as CMO, but we input a memberId of a CMO1's member.
           role: 'Admin'
         };
         console.log(user);
@@ -167,7 +167,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           creationDate: new Date().getTime(),
           firstName: 'Amaryllis',
           lastName: 'Raouzaiou',
-          memberId: Number(2).toString(),   // CMO2's Id is 6, but we input memberId of a CMO2's member.
+          memberId: Number(2).toString(),   // memberId will be '6' when approved as CMO, but we input a memberId of a CMO2's member.
           role: 'Admin'
         };
         console.log(user);

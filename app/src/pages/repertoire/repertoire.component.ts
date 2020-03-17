@@ -103,7 +103,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
       this.inboxComponent.ngOnInit();
-      if (!this.shellComponent.newMessagesGet()) {
+      if (!this.shellComponent.newMessagesGet() && this.inboxComponent.inbox) {
           this.inboxComponent.checkNewMessages();
       }
       // tslint:disable-next-line:no-life-cycle-call
