@@ -269,7 +269,7 @@ export class AssetCardComponent implements OnInit {
       const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
       // console.log('GLOBAL ALL ASSETS');
       // console.log(globalAllAssets);
-      // console.log('OBJS: ', objs);
+      console.log('OBJS: ', objs);
       // console.log('this.members[0].memberId: ' + this.user.memberId);
       let done = false;
       const memberOwner = Number(this.user.memberId);
@@ -354,6 +354,7 @@ export class AssetCardComponent implements OnInit {
                   })
                   .then(() => {
                     claimsArray.push(c);
+                    console.log('claimsArray: ', claimsArray[0]);
                   });
               // console.log('claimsArray: ', claimsArray);
               // console.log('c: ', c);
@@ -378,15 +379,15 @@ export class AssetCardComponent implements OnInit {
             await Promise.resolve('DONE')
                 .then(() => {
                   // let claimsArray2 = [];
-                  // console.log('claimsArray:');
-                  // console.log(claimsArray);
+                  console.log('claimsArray:');
+                  console.log(claimsArray);
                   // console.log(claimsArray.length);
                   // console.log(claimsArray[1]);
                   // console.log(claimsArray[2]);
-                  for (const submittedAsset of claimsArray) {
-                    // for (let i = 0; i < claimsArray.length; i++) {
-                    //   const submittedAsset = claimsArray[i];
-                    // console.log(submittedAsset);
+                  // for (const submittedAsset of claimsArray) {
+                  for (let i = 0; i < claimsArray.length; ++i) {
+                      const submittedAsset = claimsArray[i];
+                      console.log(submittedAsset);
                     // }
                     // for (const submittedAsset of claimsArray) {
                     //   for (const realAsset of globalAllAssets) {
@@ -394,7 +395,8 @@ export class AssetCardComponent implements OnInit {
                         .then(() => {
                           // globalAllAssets.forEach((realAsset) => {
                           // console.log(realAsset);
-                          const index = claimsArray.indexOf(submittedAsset);
+                          // const index = claimsArray.indexOf(submittedAsset);
+                          const index = i;
                           if (globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1])) {
                             const realAsset = globalAllAssets.find(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1]);
                             // console.log(realAsset);
@@ -456,7 +458,7 @@ export class AssetCardComponent implements OnInit {
               // console.log(claimsArray);
               for (let j = 0; j < claimsArray.length; j++) {
                 // for (const asset of claimsArray) {
-                //   console.log(claimsArray[j]);
+                  console.log(claimsArray[j]);
                 // console.log(asset);
                 // await this.claimsContract.addClaim(asset).then();
                 await this.claimsContract.addClaim(claimsArray[j]).then();

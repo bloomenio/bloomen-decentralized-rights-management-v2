@@ -34,9 +34,7 @@
               <mat-chip *ngFor="let group of editUserForm.get('groups').value">{{ group }}</mat-chip>
             </mat-chip-list>
           </mat-select-trigger>
-          <mat-option *ngFor="let group of allGroups" [value]="group">
-            {{ group }}
-          </mat-option>
+          <mat-option *ngFor="let group of allGroups" [value]="group">{{ group }}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field fxFlex="50" class="field-item">

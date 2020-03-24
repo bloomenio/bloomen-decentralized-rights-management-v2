@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 const log = new Logger('application-data.effects');
 
 export let globalAllAssets: any;
+export let collections: any;
 
 @Injectable()
 export class RepertoireEffects {
@@ -17,6 +18,27 @@ export class RepertoireEffects {
         private actions$: Actions<fromActions.RepertoireActions>,
         private repertoireApiService: AssetsApiService
     ) { }
+
+    @Effect() public countRepertoireGroups = this.actions$.pipe(
+        ofType(fromActions.RepertoireActionTypes.COUNT_REPERTOIRE_GROUPS)
+    ).pipe(
+        switchMap(() => {
+            return this.repertoireApiService.getGroups().pipe(
+                map(groupList => {
+                    // console.log('EFFECTS from getGroups: ');
+                    // console.log(groupList);
+                    collections = groupList;
+                    return new fromActions.CountRepertoireGroupsSuccess(groupList);
+                }),
+                catchError(
+                    switchMap(error => {
+                        log.error(error);
+                        return of(error);
+                    })
+                )
+            );
+        })
+    );
 
     @Effect() public searchRepertoireList = this.actions$.pipe(
         ofType(fromActions.RepertoireActionTypes.SEARCH_REPERTOIRE_LIST)

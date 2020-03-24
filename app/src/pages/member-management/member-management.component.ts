@@ -17,6 +17,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {MemberModel} from '@models/member.model';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import {currentUser} from '@pages/inbox/inbox.component';
+import {HttpRequest} from '@angular/common/http';
+import {AssetsApiService} from '@api/assets-api.service';
+import * as fromRepertoireActions from "@stores/repertoire/repertoire.actions";
+
 
 const log = new Logger('company-management.component');
 
@@ -52,7 +56,8 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     private store: Store<any>,
     public dialog: MatDialog,
     public inboxComponent: InboxComponent,
-    public shellComponent: ShellComponent
+    public shellComponent: ShellComponent,
+    public assetsApiService: AssetsApiService
   ) { }
 
   public async ngOnInit() {
@@ -62,14 +67,14 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
         .subscribe((member) => {
           if (member) {
             this.members = member;
-            console.log('CURRENT MEMBER is  ', this.members);
+            // console.log('CURRENT MEMBER is  ', this.members);
           }
         });
 
     this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];   // , 'collection', 'edit'];
 
     if (this.inboxComponent.currentCMO === undefined) {
-      console.log('CURRENT MEMBER is  ', undefined);
+      console.log('CURRENT MEMBER.cmo is undefined');
       this.dataSource = new MemberManagementDataSource(this.memberContract, 'cmo1');
     } else {
       this.dataSource = new MemberManagementDataSource(this.memberContract, this.inboxComponent.currentCMO.toString());

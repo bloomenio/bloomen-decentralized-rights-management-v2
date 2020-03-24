@@ -293,7 +293,7 @@ export class ShellComponent implements OnInit, OnDestroy {
           rightCSVFormat = false;
         }});
         if (rightCSVFormat) {
-          // console.log(this.csvJSON(papa.data));
+          console.log(this.csvJSON(papa.data));
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();

@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ROLES } from '@core/constants/roles.constants';
 import { UserModel } from '@core/models/user.model';
-import {collections} from '@components/dialog-member-data/dialog-member-data.component';
+// import {collections} from '@core/core.module';
+import {collections} from '@stores/repertoire/repertoire.effects';
 
 @Component({
   selector: 'blo-dialog-user-data',

@@ -3,7 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '@shared/shared.module';
 import { repertoireReducer } from './repertoire.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import {globalAllAssets, RepertoireEffects} from './repertoire.effects';
+import {globalAllAssets, collections, RepertoireEffects} from './repertoire.effects';
 
 @NgModule({
     imports: [
@@ -17,3 +17,4 @@ import {globalAllAssets, RepertoireEffects} from './repertoire.effects';
 
 export class RepertoireStoreModule { }
 export { globalAllAssets };
+export { collections };

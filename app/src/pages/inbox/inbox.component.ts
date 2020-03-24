@@ -100,6 +100,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       //  }
     });
     // this.store.dispatch(new fromUserActions.AddUser());   // in order to update groups from newly submitted from its Super User
+    await this.store.dispatch(new fromRepertoireActions.CountRepertoireGroups());
 
     // To check if user tokens are enough to submit transactions.
     // if (currentUser.role !== ROLES.SUPER_USER) {

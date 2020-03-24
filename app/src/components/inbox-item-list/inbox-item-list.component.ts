@@ -14,9 +14,9 @@ import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import * as fromRepertoireSelector from "@stores/repertoire/repertoire.selectors";
-import {ShellComponent} from "@shell/shell.component";
-import {AssetsApiService} from "@api/assets-api.service";
+import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
+import {ShellComponent} from '@shell/shell.component';
+import {AssetsApiService} from '@api/assets-api.service';
 
 
 /**

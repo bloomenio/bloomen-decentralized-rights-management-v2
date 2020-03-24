@@ -30,6 +30,7 @@ import { MemberContract, UserContract, ClaimsContract, RegistryContract, Functio
 
 import { reducers, metaReducers } from './core.state';
 import { globalAllAssets} from '@stores/repertoire/repertoire.effects';
+import { collections} from '@stores/repertoire/repertoire.effects';
 
 @NgModule({
   imports: [
@@ -112,3 +113,4 @@ export function genericContractFactory(type: any) {
 
 export * from '@services/web3/contracts';
 export { globalAllAssets };
+export { collections };

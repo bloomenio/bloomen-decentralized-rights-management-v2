@@ -6,8 +6,8 @@ import {MemberModel} from '@models/member.model';
 import * as fromMemberAction from '@stores/member/member.actions';
 import {Store} from '@ngrx/store';
 import {UserContract} from '@services/web3/contracts';
-
-export let collections: string[] = ['test', 'first', 'second', 'third'];
+// import {collections} from '@core/core.module';
+import {collections} from '@stores/repertoire/repertoire.effects';
 
 @Component({
   selector: 'blo-dialog-member-data',

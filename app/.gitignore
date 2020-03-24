@@ -1,5 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 claims.csv
+claims_digit.csv
 
 # Compiled output
 /dist
