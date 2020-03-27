@@ -51,7 +51,7 @@ export class MemberManagementDataSource implements DataSource<UserModel> {
         this.memberContract.getAllMembers()
             .then((members) => {
                 // console.log('MEMBERS FROM loadCompanies2 are ', members);
-                // members = members.filter(m => m.cmo === currentUser.cmo);
+                members = members.filter(m => m.cmo === currentUser.cmo);
                 // pageIndex = page * pageSize
                 // pageNumber = members.length/pageSize
                 // this.memberCount.next(members.length);
