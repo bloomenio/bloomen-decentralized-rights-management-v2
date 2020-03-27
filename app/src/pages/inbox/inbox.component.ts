@@ -94,7 +94,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.fillInboxSuperUser();
         console.log('fillInboxSuperUser');
         this.currentCMO = this.user.cmo;
-        // console.log(this.user);
+        // console.log(currentUser);
         // console.log(this.member);
       }
       //  }

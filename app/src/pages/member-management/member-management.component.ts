@@ -19,8 +19,8 @@ import * as fromMemberSelectors from '@stores/member/member.selectors';
 import {currentUser} from '@pages/inbox/inbox.component';
 import {HttpRequest} from '@angular/common/http';
 import {AssetsApiService} from '@api/assets-api.service';
-import * as fromRepertoireActions from "@stores/repertoire/repertoire.actions";
-
+import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
+import { companiesPageNumber} from './member-management.datasource';
 
 const log = new Logger('company-management.component');
 
@@ -67,23 +67,27 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
         .subscribe((member) => {
           if (member) {
             this.members = member;
-            // console.log('CURRENT MEMBER is  ', this.members);
+            // console.log('MEMBERS ARE ', this.members);
           }
         });
 
     this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];   // , 'collection', 'edit'];
 
     if (this.inboxComponent.currentCMO === undefined) {
-      console.log('CURRENT MEMBER.cmo is undefined');
-      this.dataSource = new MemberManagementDataSource(this.memberContract, 'cmo1');
+      console.log('CURRENT MEMBER.CMO IS UNDEFINED');
+      this.dataSource = new MemberManagementDataSource(this.memberContract, 0);
     } else {
-      this.dataSource = new MemberManagementDataSource(this.memberContract, this.inboxComponent.currentCMO.toString());
+      console.log('CURRENT MEMBER.CMO IS ', this.inboxComponent.currentCMO);
+      this.dataSource = new MemberManagementDataSource(this.memberContract, 0);
     }
 
     this.member$ = this.store.select(fromMemberSelector.selectAllMembers).pipe(
         skipWhile((members) => !members)
     ).subscribe(() => {
-      this.dataSource.loadCompanies();
+      this.dataSource.loadCompanies2()
+          .then(() => {
+            this.companiesPageNumber = this.dataSource.companiesPN;
+          });
     });
 
     // this.newMessagesInterval$ = interval(5000).subscribe(() => {
@@ -103,14 +107,16 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
 
   public ngAfterViewInit() {
 
+    // console.log('ngAfterViewInit');
     // Simulate get number of items from the server
     // this.memberContract.getCountMembers().then((count) => {
     //   this.companiesPageNumber = count;
     // });
-    this.memberContract.getMembers(0, this.inboxComponent.currentCMO.toString())
-        .then((members) => {
-          this.companiesPageNumber = members.length;
-    });
+
+    // this.memberContract.getMembers(0, this.inboxComponent.currentCMO.toString())
+    //     .then((members) => {
+    //       this.companiesPageNumber = members.length;
+    // });
 
   // .then(() => {
   //   this.companiesPageNumber = this.dataSource.companiesPageNumber;
@@ -122,12 +128,13 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public loadUsersPage() {
-    this.dataSource.loadCompanies(
+    this.dataSource.loadCompanies2(
       '',
       'asc',
       this.paginator.pageIndex,
       this.paginator.pageSize
     );
+    this.companiesPageNumber = companiesPageNumber;
   }
 
   public async clickEdit(element) {
