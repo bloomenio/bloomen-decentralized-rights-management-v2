@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, Input} from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
@@ -10,8 +10,14 @@ export class AssetsApiService {
 
     constructor(
         private httpClient: HttpClient
+        // @Inject(RepertoireComponent) public repertoireComponent
     ) { }
 
+    // @Inject(Number) public repertoirePageIndex: any;
+    public nextLength = 0;
+    public page: number;
+    public urlInit = `https://bloomen.herokuapp.com/sound/search?page=`;
+    public url = `https://bloomen.herokuapp.com/sound/search`;
     public type: string;
     public group = 'second';
     public groups = ['second'];
@@ -60,7 +66,7 @@ export class AssetsApiService {
         ;
 
         // console.log('API TYPE: ', this.type);
-        if (!this.productionMode && (this.type === 'all' || this.type === 'iswc' || this.type === 'isrc')) {
+        if ( !this.productionMode && (this.type === 'all' || this.type === 'iswc' || this.type === 'isrc')) {
             return this.httpClient
                 .get(`https://regtool.wlilab.eu/api/search`, {params})
                 .pipe(
@@ -72,6 +78,7 @@ export class AssetsApiService {
         } else {
             const assetsFromAllGroups = [];
             console.log('q: ', params.get('q'));
+            console.log('page: ', this.page);
             let i: number;
             // this.groups = ['second'];
             for (i = 0; i < this.groups.length; i++) {
@@ -79,7 +86,7 @@ export class AssetsApiService {
                 const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
                 assetsFromAllGroups.push(
                     this.httpClient
-                        .post(`https://bloomen.herokuapp.com/sound/search`, body, {
+                        .post(this.url, body, {
                             headers: this.headers,
                             params: params
                         })
@@ -93,9 +100,26 @@ export class AssetsApiService {
                                 } else {
                                     return data;
                                 }
-                            })
-                        )
+                        }))
                 );
+                // assetsFromAllGroups.push(
+                //     this.httpClient
+                //         .post(this.urlInit + Number(this.page + 1), body, {
+                //             headers: this.headers,
+                //             params: params
+                //         })
+                //         // .subscribe(data => { this.tempo = data; })
+                //         .pipe(
+                //             map((data: any) => {
+                //                 if (this.type === 'iswc') {
+                //                     return data.filter((x: any) => x.ISWC);
+                //                 } else if (this.type === 'isrc') {
+                //                     return data.filter((x: any) => x.ISRC);
+                //                 } else {
+                //                     return data;
+                //                 }
+                //             }))
+                // );
                 // console.log('FROM GROUP ', this.group);
                 // console.log(assetsFromAllGroups);
             }
@@ -133,7 +157,7 @@ export class AssetsApiService {
                 const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
                 assetsFromAllGroups.push(
                     this.httpClient
-                        .post(`https://bloomen.herokuapp.com/sound/search`, body, {
+                        .post(this.url, body, {
                             headers: this.headers,
                             params: params
                         })
@@ -150,6 +174,24 @@ export class AssetsApiService {
                             })
                         )
                 );
+                // assetsFromAllGroups.push(
+                //     this.httpClient
+                //         .post(this.urlInit + Number(this.page + 1), body, {
+                //             headers: this.headers,
+                //             params: params
+                //         })
+                //         // .subscribe(data => { this.tempo = data; })
+                //         .pipe(
+                //             map((data: any) => {
+                //                 if (this.type === 'iswc') {
+                //                     return data.filter((x: any) => x.ISWC);
+                //                 } else if (this.type === 'isrc') {
+                //                     return data.filter((x: any) => x.ISRC);
+                //                 } else {
+                //                     return data;
+                //                 }
+                //             }))
+                // );
                 // console.log('FROM GROUP ', this.group);
                 // console.log(assetsFromAllGroups);
             }

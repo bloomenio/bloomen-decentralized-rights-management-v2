@@ -140,7 +140,7 @@ export class ClaimsContract extends Contract {
     public getClaimsByMemId(page): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {
-                console.log('ClaimsContract.getClaimByMemId');
+                // console.log('ClaimsContract.getClaimByMemId');
                 // console.log('serverUrl: ', environment.serverUrl);
                 // console.log('page: ' + page);
                 // console.log('this.args.from: ' + this.args.from);

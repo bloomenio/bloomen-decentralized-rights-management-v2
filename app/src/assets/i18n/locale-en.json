@@ -97,8 +97,8 @@
   },
   "company_management": {
     "table": {
-      "companyName": "Company Name",
-      "image": "Image",
+      "companyName": "Member Name",
+      "image": "Logo",
       "cmo": "CMO",
       "country": "Country",
       "creationDate": "Creation Date"

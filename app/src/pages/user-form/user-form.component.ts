@@ -52,7 +52,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.autoFillMultiCMO = false;
+    this.autoFillMultiCMO = true;
     this.autoFill = false;
     if (!this.autoFill) {
       this.userForm = this.fb.group({
@@ -192,6 +192,18 @@ export class UserFormComponent implements OnInit, OnDestroy {
           firstName: 'Daniel',
           lastName: 'Harris',
           memberId: Number(4).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Turo':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Turo',
+          lastName: 'Pekari',
+          memberId: Number(5).toString(),
           role: 'Admin'
         };
         console.log(user);
