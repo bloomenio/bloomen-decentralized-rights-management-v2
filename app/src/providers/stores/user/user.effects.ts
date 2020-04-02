@@ -69,8 +69,8 @@ export class UserEffects {
                 groups: userBc.groups,
                 tokens: userBc.tokens
             };
-            console.log('FROM ADD USER: ');
-            console.log(user);
+            // console.log('FROM ADD USER: ');
+            // console.log(user);
             this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
             this.store.dispatch(new fromUserActions.AddUserSuccess(user));
             this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
