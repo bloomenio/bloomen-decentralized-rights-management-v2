@@ -59,8 +59,6 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public allPagesSize: number;
     public allAssets: any[];
     public pageAssets: any[];
-    public restAssets: any[];
-    public repertoirePageIndex: any;
 
     constructor(
         private store: Store<any>, // AssetModel
@@ -83,11 +81,11 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.repertoireLengthSub = this.repertoire$
           .subscribe((assets) => {
               // console.log('page from Whole: ', this.assetsApiServiceWhole.page = this.paginator.pageIndex);
-              // this.assetsApiService.page = this.paginator.pageIndex;
-              console.log('pageIndex=', this.paginator.pageIndex);
-              console.log('API page=', this.assetsApiService.page);
+              this.assetsApiService.page = this.paginator.pageIndex;
+              // console.log('pageIndex=', this.paginator.pageIndex);
+              // console.log('API page=', this.assetsApiService.page);
               this.count = this.count + assets.length;
-              console.log('COUNT= ', this.count);
+              // console.log('COUNT= ', this.count);
               this.allAssets = assets;
           // console.log(assets);
               if (assets.length > this.paginator.pageSize) {
@@ -101,7 +99,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
                   }
               }
               this.pageAssets = assets;
-              console.log(this.pageAssets);
+              // console.log(this.pageAssets);
           });
       this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
       this.repertoireCount$Sub = this.repertoireCount$.subscribe((count) => {
@@ -131,7 +129,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       // console.log('this.user.group is ', this.shellComponent.user.groups);
       this.assetsApiService.groups = this.shellComponent.user.groups;
-      console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
+      // console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
 
       this.filter = '';
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
@@ -168,7 +166,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public ngAfterViewInit() {
     this.page$ = this.paginator.page.pipe(
       tap(() => {
-          // this.assetsApiService.page = this.paginator.pageIndex;
+          this.assetsApiService.page = this.paginator.pageIndex;
           this.getAssets();
       })
     ).subscribe();
@@ -184,7 +182,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
          pageSize: this.paginator.pageSize }));
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
           {filter: this.filter}));
-      // this.assetsApiService.page = this.paginator.pageIndex;
+      this.assetsApiService.page = this.paginator.pageIndex;
       // console.log('THIS PAGINATOR: ', this.filter, this.paginator.pageIndex, this.paginator.pageSize);
     }
 

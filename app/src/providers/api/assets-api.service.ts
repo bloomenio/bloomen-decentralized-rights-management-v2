@@ -86,7 +86,7 @@ export class AssetsApiService {
                 const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
                 assetsFromAllGroups.push(
                     this.httpClient
-                        .post(this.url, body, {
+                        .post(this.urlInit + this.page, body, {
                             headers: this.headers,
                             params: params
                         })
@@ -157,7 +157,7 @@ export class AssetsApiService {
                 const body = '{\"term\": \"' + params.get('q') + '\", \"group\": \"' + this.group + '\"}';
                 assetsFromAllGroups.push(
                     this.httpClient
-                        .post(this.url, body, {
+                        .post(this.urlInit + this.page, body, {
                             headers: this.headers,
                             params: params
                         })

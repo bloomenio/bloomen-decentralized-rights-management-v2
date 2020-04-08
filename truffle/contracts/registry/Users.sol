@@ -134,7 +134,7 @@ contract Users is Members {
     users_[account].cmo = _cmo;
 //    users_[account].tokens = 0; // should "Super admin" have tokens?
     users_[account].status = StatusUserEnum.ACCEPTED;
-    users_[account].groups = ["test"];
+    users_[account].groups = ["digit100"];
     addSigner(account);
   }
 
@@ -205,7 +205,7 @@ contract Users is Members {
 //      if (users_[owner].status != StatusUserEnum.ACCEPTED) {
       _addUserToMemberRequest(_memberId);
 //      }
-      users_[owner].groups = ["test"];                  // by default
+      users_[owner].groups = ["digit100"];                  // by default
       users_[owner].cmo = members_[user.memberId].cmo;  // to initialize
     }
   }

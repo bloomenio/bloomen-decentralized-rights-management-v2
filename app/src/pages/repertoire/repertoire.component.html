@@ -35,7 +35,7 @@
     <div fxLayout="column" *ngIf="!assetsApiService.productionMode">
         <blo-asset-card *ngFor="let asset of repertoire$ | async" [asset]="asset" [members]="members" [currentMember]="inboxComponent.member"></blo-asset-card>
     </div>
-    <mat-paginator [length]="allAssets.length" [pageSize]="paginator.pageSize">
+    <mat-paginator [length]="allAssets.length < paginator.pageSize ? allAssets.length : count" [pageSize]="paginator.pageSize">
     </mat-paginator>
     <!--    [length]="repertoireCount$ | async"-->
     <!--    [ngClass]="{ 'hide': !(repertoireCount$ | async) }"-->
