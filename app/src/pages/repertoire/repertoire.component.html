@@ -37,7 +37,7 @@
     </div>
     <mat-paginator [length]="allAssets.length < paginator.pageSize ||
                             (once && prevFilter === filter)
-                            ? queriedCount : count" [pageSize]="paginator.pageSize">
+                            ? queriedCount : assetsApiService.total_count" [pageSize]="paginator.pageSize">
     </mat-paginator>
     <!--    [length]="repertoireCount$ | async"-->
     <!--    [ngClass]="{ 'hide': !(repertoireCount$ | async) }"-->

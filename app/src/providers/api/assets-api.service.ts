@@ -16,6 +16,7 @@ export class AssetsApiService {
     // @Inject(Number) public repertoirePageIndex: any;
     public nextLength = 0;
     public page: number;
+    public total_count: number;
     public urlInit = `https://bloomen.herokuapp.com/sound/search?page=`;
     public url = `https://bloomen.herokuapp.com/sound/search`;
     public type: string;
@@ -93,12 +94,15 @@ export class AssetsApiService {
                         // .subscribe(data => { this.tempo = data; })
                         .pipe(
                             map((data: any) => {
+                                // console.log(data.results);
+                                // console.log(data.total_count);
+                                this.total_count = data.total_count;
                                 if (this.type === 'iswc') {
-                                    return data.filter((x: any) => x.ISWC);
+                                    return data.results.filter((x: any) => x.ISWC);
                                 } else if (this.type === 'isrc') {
-                                    return data.filter((x: any) => x.ISRC);
+                                    return data.results.filter((x: any) => x.ISRC);
                                 } else {
-                                    return data;
+                                    return data.results;
                                 }
                         }))
                 );
@@ -164,12 +168,13 @@ export class AssetsApiService {
                         // .subscribe(data => { this.tempo = data; })
                         .pipe(
                             map((data: any) => {
+                                this.total_count = data.total_count;
                                 if (this.type === 'iswc') {
-                                    return data.filter((x: any) => x.ISWC);
+                                    return data.results.filter((x: any) => x.ISWC);
                                 } else if (this.type === 'isrc') {
-                                    return data.filter((x: any) => x.ISRC);
+                                    return data.results.filter((x: any) => x.ISRC);
                                 } else {
-                                    return data;
+                                    return data.results;
                                 }
                             })
                         )
