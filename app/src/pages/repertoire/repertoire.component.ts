@@ -37,6 +37,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public uploadedCSV2JSON: any;
     public assetMock: AssetModel;
     public filter: string;
+    public prevFilter: string;
     public repertoire$: Observable<any[]>; // AssetModel
     public repertoireLengthSub: Subscription;
     public repertoireCount$: Observable<number>;
@@ -49,14 +50,10 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentGroup: string;
     private page$: Subscription;
     public csvRecords: any[] = [];
-    public header = false;
+    public once = false;
     private bulletForm: any;
     public count: number;
-    public lastPageSize: number;
-    public lastPageIndex: number;
-    public prevPageIndex: number;
-    public prevAssetsApiServicePage: number;
-    public allPagesSize: number;
+    public queriedCount: number;
     public allAssets: any[];
     public pageAssets: any[];
 
@@ -77,6 +74,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.assetsApiService.page = this.paginator.pageIndex;
       this.paginator.pageSize = 10;
       this.count = this.paginator.pageSize;
+      this.once = false;
       this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
       this.repertoireLengthSub = this.repertoire$
           .subscribe((assets) => {
@@ -97,9 +95,21 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
                           assets.push(this.allAssets[pageIndex * this.paginator.pageSize + i]);
                       }
                   }
+              } else { // assets.length <= this.paginator.pageSize
+                  if (!this.once && assets.length < this.paginator.pageSize) {
+                      this.queriedCount = this.count - this.paginator.pageSize;
+                      this.once = true;
+                      // console.log('queriedCount', this.queriedCount);
+                      // console.log('assets.length', assets.length);
+                      if (this.queriedCount === 0) {
+                          this.once = false;
+                      }
+                  }
               }
               this.pageAssets = assets;
-              // console.log(this.pageAssets);
+              // console.log('allAssets.length', this.allAssets.length);
+              // console.log('pageAssets.length', this.pageAssets.length);
+              // console.log('count', this.count);
           });
       this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
       this.repertoireCount$Sub = this.repertoireCount$.subscribe((count) => {
@@ -140,6 +150,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
           ));
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
           {filter: this.filter}));
+      this.prevFilter = this.filter;
       // ++this.assetsApiService.page;
 
       // this.newMessagesInterval$ = interval(5000).subscribe(() => {
@@ -176,6 +187,14 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (this.filter.length === 0 ) {
       // this.store.dispatch(new fromRepertoireActions.RemoveRepertoire());
     // } else {
+      if (this.prevFilter !== this.filter) {
+          // this.assetsApiService.type = 'all';
+          this.paginator.pageIndex = 0;
+          this.assetsApiService.page = this.paginator.pageIndex;
+          this.paginator.pageSize = 10;
+          this.count = this.paginator.pageSize;
+          this.once = false;
+      }
       this.store.dispatch(new fromRepertoireActions.RepertoireSearch(
         {filter: this.filter,
          pageIndex: this.paginator.pageIndex,
@@ -183,6 +202,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
           {filter: this.filter}));
       this.assetsApiService.page = this.paginator.pageIndex;
+      this.prevFilter = this.filter;
       // console.log('THIS PAGINATOR: ', this.filter, this.paginator.pageIndex, this.paginator.pageSize);
     }
 

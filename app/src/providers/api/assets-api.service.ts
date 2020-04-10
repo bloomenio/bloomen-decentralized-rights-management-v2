@@ -77,8 +77,8 @@ export class AssetsApiService {
                 ;
         } else {
             const assetsFromAllGroups = [];
-            console.log('q: ', params.get('q'));
-            console.log('page: ', this.page);
+            // console.log('q: ', params.get('q'));
+            // console.log('page: ', this.page);
             let i: number;
             // this.groups = ['second'];
             for (i = 0; i < this.groups.length; i++) {
