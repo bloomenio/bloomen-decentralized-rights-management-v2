@@ -1,17 +1,17 @@
 {
   "name": "bloomen-decentralized-rights-management-app",
   "productName": "Bloomen Decentralized Rights Management App",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "The Bloomen Decentralized Rights Management Application",
   "author": {
     "name": "Bloomen",
     "email": "info@bloomen.io",
     "url": "http://bloomen.io/"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "build": {
     "appId": "com.electron.bloomen-decentralized-rights-management-app",
-    "copyright": "Copyright © 2019 Bloomen"
+    "copyright": "© Bloomen 2020"
   },
   "private": true,
   "engines": {

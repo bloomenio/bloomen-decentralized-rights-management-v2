@@ -27,6 +27,7 @@ import {ApplicationDataDatabaseService} from '@db/application-data-database.serv
 import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {MemberModel} from '@models/member.model';
+import {version, build} from './../../package.json';
 
 export let newMessagesE: boolean;
 
@@ -56,6 +57,8 @@ export class ShellComponent implements OnInit, OnDestroy {
   public currentPageRoute: string;
   public allowTransactionSubmissions: boolean;
   public price: number;
+  public version = version;
+  public copyright = build.copyright;
 
   @ViewChild(BloButtonsHostDirective) public bloButtons: BloButtonsHostDirective;
   @ViewChild(BloBackButtonHostDirective) public bloBackButton: BloBackButtonHostDirective;
