@@ -1,7 +1,11 @@
 <div>
-    <form [formGroup]="searchForm" class="form" (ngSubmit)="doNothing()">
+    <form [formGroup]="searchForm" class="form">
         <mat-form-field class="search-field" fxFill>
             <input color="primary" matInput placeholder="{{'repertoire.search' | translate}}" #input formControlName="search">
         </mat-form-field>
+        <div *ngIf="repertoireEffects.loading$ | async" fxLayoutAlign="center">
+            <mat-spinner></mat-spinner>
+<!--            <img src="assets/icons/loading_page.gif">-->
+        </div>
     </form>
 </div>

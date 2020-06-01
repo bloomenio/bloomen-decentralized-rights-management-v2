@@ -37,6 +37,8 @@ export class AssetsApiService {
             // tslint:disable-next-line:max-line-length
             .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGUiOlsicHVibGlzaGVyIiwiYWRtaW4iXSwicmVwdXRhdGlvbiI6eyJwb3NpdGl2ZSI6MCwibmVnYXRpdmUiOjB9LCJzZXR0aW5ncyI6eyJhdHRyaWJ1dGlvbiI6dHJ1ZX0sImt5YyI6eyJhZGRyZXNzIjoiIiwicGhvbmUiOiIiLCJmaXJzdG5hbWUiOiIiLCJsYXN0bmFtZSI6IiIsImlkMSI6IiIsImlkMiI6IiIsInN0YXR1cyI6MCwicmV2aWV3ZWRCeSI6IiJ9LCJfaWQiOiI1YjZjM2M5MDljOGU3NTBhYjRjN2YxMWYiLCJ1c2VybmFtZSI6InB1Ymxpc2hlciIsImhhc2giOiI1MmFkZWQxNjUzNjAzNTJhMGY1ODU3NTcxZDk2ZDY4ZiIsImVtYWlsIjoicHVibGlzaGVyQGNvbXBhbnkuZ3IiLCJvcmdhbmlzYXRpb24iOiJBVEMiLCJjcmVhdGVkQXRVVEMiOiIyMDE4LTA4LTA5VDEzOjA3OjI4LjA5NloiLCJfX3YiOjAsIm9yZyI6bnVsbCwiaWQiOiI1YjZjM2M5MDljOGU3NTBhYjRjN2YxMWYifSwiaWF0IjoxNTY3NjAyODEyfQ.jEDLx6KK2LBVpBjzHNB7mIX-mLQy_fXgwV0hG2agfnU')
             .set('accept', 'application/json')
+            // .set('Access-Control-Allow-Origin', '*');
+
         // .set('body', '{\"term\": \"\"}') DONT!
         ;
         // this.httpClient
@@ -153,7 +155,7 @@ export class AssetsApiService {
                 );
         } else {
             const assetsFromAllGroups = [];
-            // console.log('q: ', params.get('q'));
+            // console.log('q: ', params.get('q'), 'Count');
             let i: number;
             // this.groups = ['second'];
             for (i = 0; i < this.groups.length; i++) {

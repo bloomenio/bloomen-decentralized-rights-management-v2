@@ -67,19 +67,21 @@ contract Claims {
         checkClaimStatus(_claimId, _claimType, _claimData, true);
       } else {                     // Update existing claim.
 
-          checkClaimStatus(_claimId, _claimType, _oldClaimData, false);
-    //      if (_updateClaimId) {
-    //        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
-    //        _saveClaim(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _creationDate, _claimData, _claimType,
-    //          _memberOwner, claims_[_claimId].status, _lastChange);
-    //      } else {
-          checkClaimStatus(_claimId, _claimType, _claimData, true);
-          _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
+        checkClaimStatus(_claimId, _claimType, _oldClaimData, false);
+  //      if (_updateClaimId) {
+  //        checkClaimStatus(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _claimType, _claimData, true);
+  //        _saveClaim(updateClaimId(_claimId, _claimData, _memberOwner, _claimType), _creationDate, _claimData, _claimType,
+  //          _memberOwner, claims_[_claimId].status, _lastChange);
+  //      } else {
+        checkClaimStatus(_claimId, _claimType, _claimData, true);
+        _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
 
-          if (_creationDate == 0) {  // Delete claim.
-            _Users._removeClaimIdFromMember(_memberOwner, _claimId);
+        if (_creationDate == 0) {  // Delete claim.
+          _Users._removeClaimFromMember(_memberOwner, _claimId);
+          _Users._removeClaimFromInbox(_memberOwner, _claimId);
 //            _removeClaimFromMapping(_claimId);
-          }
+//            _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
+        }
       }
     } else {
       // USER DOES NOT HAVE ENOUGH TOKENS TO SUBMIT THE TRANSACTION.
@@ -269,6 +271,9 @@ contract Claims {
                     claims_[i].status = true;
                     _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
                   }
+                } else if (maxSplits_[i] + split <= 100) {
+                  claims_[_claimId].status = false;
+                  claims_[i].status = false;
                 }
 //                if (maxSplits_[i] == 0) {      // claims_[i].claimData[5].value = split = 0
 //                  claims_[i].status = false;

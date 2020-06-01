@@ -51,9 +51,8 @@ export class UserProfileShellComponent implements OnInit {
     public userContract: UserContract,
     private applicationDatabaseService: ApplicationDataDatabaseService,
     private clipboard: ClipboardService
-  ) { }
+  ) {
 
-  public ngOnInit() {
     this.store.select(fromMnemonicSelectors.getMnemonic).subscribe((mnemonic) => {
       this.mnemonic = mnemonic;
     });
@@ -80,6 +79,10 @@ export class UserProfileShellComponent implements OnInit {
         });
   }
 
+  public ngOnInit() {
+
+  }
+
   public async updateUserInfo() {
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
@@ -102,7 +105,6 @@ export class UserProfileShellComponent implements OnInit {
     this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
     // @ts-ignore
     this.user = user;
-
   }
 
   /*
@@ -115,7 +117,7 @@ export class UserProfileShellComponent implements OnInit {
     // console.log('this.user is ', this.user);
     // console.log('this.members is ', this.members);
     this.currentCMO = this.members.filter( (m) => m.cmo.toString() === this.user.cmo.toString() )[0].cmo;
-    console.log('currentCMO = ', this.currentCMO);
+    // console.log('currentCMO = ', this.currentCMO);
     // this.memberContract.getMembers(0, this.currentCMO).then((members) => { console.log('currentCMO\'s members', members); });
 
     const dialogRef = this.dialog.open(DialogSuperUserComponent, {
@@ -141,8 +143,8 @@ export class UserProfileShellComponent implements OnInit {
 
   public doCopyMnemonic() {
     this.clipboard.copyFromContent(this.mnemonic);
-    console.log('from UserProfileShellComponent user is: ');
-    console.log(this.user);
+    // console.log('from UserProfileShellComponent user is: ');
+    // console.log(this.user);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface

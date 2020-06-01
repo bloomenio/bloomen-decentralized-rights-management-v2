@@ -1,14 +1,17 @@
 <div class="reload-header" fxFill fxLayout="row" fxLayoutAlign="end start">
     <mat-icon (click)="refreshInbox()">autorenew</mat-icon>
 </div>
+
+<div class="loading-shade" fxLayoutAlign="center" style="padding-top: 100px" *ngIf="!inbox?.length && !timePassed">
+    <mat-spinner></mat-spinner>
+</div>
+
 <div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length">
 <!--    (mousemove)="print()">-->
-    <mat-icon class="large-icon" >inbox</mat-icon>
-    <div class="title-nomessage">{{ 'inbox.title_no_message' | translate }}</div>
-    <div class="text-nomessage">Welcome to Bloomen Blockchain Platform! You have no messages at the moment.</div>
-<!--    <div class="loading-shade" ng-repeat="!inbox?.length">-->
-<!--        <mat-spinner></mat-spinner>-->
-<!--    </div>-->
+    <mat-icon class="large-icon" *ngIf="timePassed">inbox</mat-icon>
+    <div class="title-nomessage" *ngIf="timePassed">{{ 'inbox.title_no_message' | translate }}</div>
+    <div class="text-nomessage" *ngIf="timePassed">
+        Welcome to Bloomen Blockchain Platform! You have no messages at the moment.</div>
 </div>
 
 <div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length">
@@ -33,7 +36,7 @@
             (rejectEvent)="onRejectEvent($event)" *ngIf="message; else NoMessage"></blo-inbox-detail>
         <ng-template #NoMessage>
             <mat-card fxLayout="column" fxFill fxLayoutAlign="center center">
-                <mat-icon class="large-icon"  >inbox</mat-icon>
+                <mat-icon class="large-icon">inbox</mat-icon>
                 <h1>{{ 'inbox.message_pick' | translate }}</h1>
             </mat-card>
         </ng-template>

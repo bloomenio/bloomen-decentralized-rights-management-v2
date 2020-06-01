@@ -44,6 +44,12 @@ export class MemberContract extends Contract {
         });
     }
 
+    public updateClaimInbox(member: MemberModel, newInbox: any): Promise<any> {
+        return this.transactionService.addTransaction(this.args.gas, () => {
+            return this.contract.methods.updateMemberClaimInbox(member.memberId, newInbox).send(this.args);
+        });
+    }
+
     public getAllMembers(): Promise<MemberModel[]> {
         return this.contract.methods.getMembers().call(this.args);
     }

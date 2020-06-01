@@ -57,3 +57,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
+/claims_digit_2017_100plays_ass2_Audiocoop.csv
+/claims_digit_2017_100plays_ass4_Getsound.csv
+/claims_digit_2017_100plays_ass3_Evolution_part1.csv
+/claims_digit_2017_Evo_TEST.csv

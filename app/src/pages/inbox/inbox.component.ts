@@ -13,7 +13,7 @@ import * as fromMemberActions from '@stores/member/member.actions';
 import * as fromAppActions from '@stores/application-data/application-data.actions';
 import * as fromClaimActions from '@stores/claim/claim.actions';
 import { MemberModel } from '@core/models/member.model';
-import {UserContract, ClaimsContract, FunctionsContract, globalAllAssets} from '@core/core.module';
+import {UserContract, ClaimsContract, FunctionsContract, globalAllAssets, MemberContract} from '@core/core.module';
 import { INBOX } from '@core/constants/inbox.constants';
 import { UserModel } from '@core/models/user.model';
 import { ROLES } from '@core/constants/roles.constants';
@@ -22,8 +22,9 @@ import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors
 import {FormControl, FormGroup} from '@angular/forms';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import {AssetsApiService} from '@api/assets-api.service';
-// import {getType} from '@angular/flex-layout/typings/extended/style/style-transforms';
-// import {type} from "os";
+import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
+import {MatDialog} from '@angular/material/dialog';
+import {RepertoireEffects} from '@stores/repertoire/repertoire.effects';
 
 export let lastInboxLength: number;
 export let inboxReadClaims: any; // claimId, lastChange, isRead
@@ -54,6 +55,10 @@ export class InboxComponent implements OnInit, OnDestroy {
   public currentMember: MemberModel;
   public allowTransactionSubmissions: boolean;
   public price: number;
+  public timePassed: boolean;
+  // public fetched: any;
+  public repertoire$: Observable<any[]>;
+  public repertoireCount$: Observable<number>;
 
   constructor(
     public store: Store<any>,
@@ -62,7 +67,11 @@ export class InboxComponent implements OnInit, OnDestroy {
     public claimsContract: ClaimsContract,
     public functionsContract: FunctionsContract,
     public userContract: UserContract,
-    public shellComponent: ShellComponent
+    public memberContract: MemberContract,
+    public shellComponent: ShellComponent,
+    public dialog: MatDialog,
+    public assetsApiService: AssetsApiService,
+    public repertoireEffects: RepertoireEffects
   ) { }
 
   public async ngOnInit() {
@@ -92,7 +101,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       currentUser = user;
       if (user.role === ROLES.SUPER_USER) {
         this.fillInboxSuperUser();
-        console.log('fillInboxSuperUser');
+        // console.log('fillInboxSuperUser');
         this.currentCMO = this.user.cmo;
         // console.log(currentUser);
         // console.log(this.member);
@@ -181,7 +190,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   public async fillInboxSuperUser() {
-    console.log('this is fillInboxSuperUser');
+    // console.log('this is fillInboxSuperUser');
     const userArray: any[] = await from(this.userContract.getUsersOwner()).pipe(
       map((users) => {
         return users.filter((user) => INBOX.STATUS[user.status] === INBOX.STATUS[1] && user.role === ROLES.ADMIN);
@@ -201,6 +210,10 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.clearMessage();
     if (this.inbox) {
       this.checkNewMessages();
+    }
+    // In order to load repertoire under the hood, when user has no messages.
+    if (this.inbox === []) {
+      await this.inboxIsEmptyLoadRepertoire();
     }
   }
 
@@ -255,12 +268,21 @@ export class InboxComponent implements OnInit, OnDestroy {
     //   }
     // }
     // console.log(this.inbox);
-    this.inbox = this.inbox.filter((m) => m.status);
+    if (this.inbox !== this.inbox.filter((m) => m.status)) { // 'delete claim' garbage collector
+      this.inbox = this.inbox.filter((m) => m.status);
+      // await this.memberContract.updateClaimInbox(this.member, this.inbox);
+    }
     if (this.inbox) {
       this.checkNewMessages();
     }
+    // In order to load repertoire under the hood, when user has no messages.
+    if (!this.inbox.length) {
+      // console.log(this.inbox);
+      await this.inboxIsEmptyLoadRepertoire();
+    }
     // console.log('INBOX');
     // console.log(this.inbox);
+    // console.log(this.member);
   }
 
   public clearMessage() {
@@ -274,6 +296,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public checkNewMessages() {
 
+    this.timePassed = false;
     // this.unreadMessages = 0;
     // console.log(typeof lastInboxLength);
     if (lastInboxLength === undefined) {
@@ -352,7 +375,8 @@ export class InboxComponent implements OnInit, OnDestroy {
       const m = this.inbox[i];
       // console.log('m');
       // console.log((inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read);
-      if (m) {
+      if (m && ( (inboxReadClaims !== undefined && inboxReadClaims.filter(x => m.creationDate ===
+            x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string)[0] !== undefined) )) {
         m.read = (inboxReadClaims.filter((x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string))[0].read;
       }
     }
@@ -381,8 +405,12 @@ export class InboxComponent implements OnInit, OnDestroy {
     // console.log(inboxReadClaims);
     //
     // // Print inbox.
-    // console.log('INBOX');
-    // console.log(this.inbox);
+    // console.log('member\'s inbox: ', this.inbox);
+    // console.log('member\'s claimInbox: ', this.member.claimInbox);
+    // console.log('member\'s claims: ', this.member.claims);
+    // console.log('member\'s memberId: ', this.member.memberId);
+    // console.log('member\'s name: ', this.member.name);
+    this.timePassed = true;
   }
 
   public markAsRead(creationDate, string) {
@@ -399,8 +427,36 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   public isRead (message) {
+    if (inboxReadClaims === undefined || inboxReadClaims.filter(x => message.creationDate ===
+        x.creationDate && (message.claimId ? message.claimId : message.firstName) === x.string)[0] === undefined
+    ) {
+      return undefined;
+    }
     return (inboxReadClaims
         .filter( (x) => message.creationDate === x.creationDate && (message.claimId ? message.claimId : message.firstName) === x.string ))[0].read;
   }
 
+  public async inboxIsEmptyLoadRepertoire() {
+
+    this.dialog.open(AssetCardReadOnlyComponent, {}); // only mat-spinner, when opened with config = {}
+    this.assetsApiService.type = 'all';
+    this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
+    this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
+    this.assetsApiService.groups = this.user.groups;
+    // console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
+    this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+          filter: '',
+          pageIndex: 0,
+          pageSize: 300
+        }
+    ));
+    while (this.repertoireEffects.globalAllAssetsVariable === undefined) {
+      await new Promise((res) => {
+        setTimeout(res, 1000);
+      });
+    }
+    if (this.dialog.openDialogs) {
+      this.dialog.closeAll();
+    }
+  }
 }

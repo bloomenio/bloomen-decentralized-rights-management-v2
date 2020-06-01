@@ -52,7 +52,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.autoFillMultiCMO = false;
+    this.autoFillMultiCMO = true;
     this.autoFill = false;
     if (!this.autoFill) {
       this.userForm = this.fb.group({
@@ -130,8 +130,130 @@ export class UserFormComponent implements OnInit, OnDestroy {
         user = {
           creationDate: new Date().getTime(),
           firstName: 'Alex',
-          lastName: 'Psyhas',
-          memberId: Number(1).toString(),   // memberId will be '5' when approved as CMO, but we input a memberId of a CMO1's member.
+          lastName: 'Psychas',
+          memberId: Number(1).toString(),
+          // when approved as CMO=cmo1, the memberId will be the next of the last member added through script,
+          // but we input the memberId of a CMO's member.
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Evolution':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'Evolution',
+          memberId: Number(1).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Audio':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'AudioCoop',
+          memberId: Number(2).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'AFI':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'AFI',
+          memberId: Number(3).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'GetSound':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'GetSound',
+          memberId: Number(4).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'ITSRIGHT':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'ITSRIGHT',
+          memberId: Number(5).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'SCF':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'SCF',
+          memberId: Number(6).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Turo':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Turo',
+          lastName: 'Pekari',
+          memberId: Number(7).toString(),
+          // when approved as CMO, the memberId will be the next of the last member added through script,
+          // but we input the memberId of a CMO's member.
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      case 'Test':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Admin',
+          lastName: 'Test Publisher',
+          memberId: Number(7).toString(),
+          role: 'Admin'
+        };
+        console.log(user);
+        this.store.dispatch(new fromUserActions.SendUser(user));
+        this.router.navigate(['waiting-approve']);
+        break;
+      default:
+        break;
+    }
+  }
+
+  public autoMultiCMOold(name: string) {
+    let user;
+    switch (name) {
+      case 'Alex':
+        user = {
+          creationDate: new Date().getTime(),
+          firstName: 'Alex',
+          lastName: 'Psychas',
+          memberId: Number(1).toString(),
+          // when approved as CMO, the memberId will be the next of the last member added through script,
+          // but we input the memberId of a CMO's member.
           role: 'Admin'
         };
         console.log(user);
@@ -167,7 +289,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
           creationDate: new Date().getTime(),
           firstName: 'Amaryllis',
           lastName: 'Raouzaiou',
-          memberId: Number(2).toString(),   // memberId will be '6' when approved as CMO, but we input a memberId of a CMO2's member.
+          memberId: Number(2).toString(),
+          // when approved as CMO, the memberId will be the next of the last member added through script,
+          // but we input the memberId of a CMO's member.
           role: 'Admin'
         };
         console.log(user);
@@ -204,6 +328,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
           firstName: 'Turo',
           lastName: 'Pekari',
           memberId: Number(5).toString(),
+          // when approved as CMO, the memberId will be the next of the last member added through script,
+          // but we input the memberId of a CMO's member.
           role: 'Admin'
         };
         console.log(user);

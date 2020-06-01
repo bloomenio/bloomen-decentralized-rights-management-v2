@@ -205,7 +205,7 @@ contract Users is Members {
 //      if (users_[owner].status != StatusUserEnum.ACCEPTED) {
       _addUserToMemberRequest(_memberId);
 //      }
-      users_[owner].groups = ["digit100"];                  // by default
+      users_[owner].groups = ["digit1"];                  // by default
       users_[owner].cmo = members_[user.memberId].cmo;  // to initialize
     }
   }

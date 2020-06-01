@@ -151,7 +151,7 @@ function getUsersOwner() {
 
 async function addWhitelist() {
     let questions = [
-        { type: 'input', name: 'address', message: 'Specify the address user:' },
+        { type: 'input', name: 'address', message: 'Specify the user address:' },
         { type: 'input', name: 'cmo', message: 'Specify cmo:' },
     ];
 
@@ -162,7 +162,7 @@ async function addWhitelist() {
 
 async function isSigner() {
     let questions = [
-        { type: 'input', name: 'address', message: 'Specify the address user:' }
+        { type: 'input', name: 'address', message: 'Specify the user address:' }
     ];
 
     let whitelistUser = await inquirer.prompt(questions);

@@ -16,7 +16,7 @@ import {ShellComponent} from '@shell/shell.component';
 import {InboxComponent, unreadMessages, currentUser} from '@pages/inbox/inbox.component';
 import {AssetsApiService} from '@api/assets-api.service';
 import * as fromUserActions from '@stores/user/user.actions';
-import {MemberContract} from "@services/web3/contracts";
+import {MemberContract} from '@services/web3/contracts';
 
 const log = new Logger('repertoire.component');
 
@@ -51,7 +51,7 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
     private page$: Subscription;
     public csvRecords: any[] = [];
     public once = false;
-    private bulletForm: any;
+    public bulletForm: any;
     public count: number;
     public queriedCount: number;
     public allAssets: any[];
@@ -146,10 +146,9 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
                   filter: this.filter,
                   pageIndex: this.paginator.pageIndex,
                   pageSize: this.paginator.pageSize
-              }
-          ));
-      this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
-          {filter: this.filter}));
+      }));
+      // this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
+      //     {filter: this.filter}));
       this.prevFilter = this.filter;
       // ++this.assetsApiService.page;
 
@@ -199,11 +198,10 @@ export class RepertoireComponent implements OnInit, AfterViewInit, OnDestroy {
         {filter: this.filter,
          pageIndex: this.paginator.pageIndex,
          pageSize: this.paginator.pageSize }));
-      this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
-          {filter: this.filter}));
+      // this.store.dispatch(new fromRepertoireActions.RepertoireSearchCount(
+      //     {filter: this.filter}));
       this.assetsApiService.page = this.paginator.pageIndex;
       this.prevFilter = this.filter;
-      // console.log('THIS PAGINATOR: ', this.filter, this.paginator.pageIndex, this.paginator.pageSize);
     }
 
     public applyFilter(filterValue: string) {

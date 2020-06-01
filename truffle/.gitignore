@@ -1,6 +1,7 @@
 .env
 compile_contracts.sh
 addMembers.sh
+addMembers2.sh
 package-lock.json
 
 # Node files #
@@ -32,3 +33,4 @@ bin/
 #data
 ganache_db/*
 !ganache_db/.ignoreme
+/addMembers2.sh

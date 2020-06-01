@@ -83,7 +83,7 @@ export class ClaimsContract extends Contract {
         // console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
         //     claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.computeClaim(0, encodeData, claimType, claim.memberOwner, false,
+            return this.contract.methods.computeClaim(0, encodeData, claim.claimType, claim.memberOwner, false,
                 claim.claimId, encodeOldData, new Date().getTime(), false   // oldClaimData==claimData
             ).send(this.args);
         });
@@ -148,7 +148,7 @@ export class ClaimsContract extends Contract {
                     map((claims: ClaimModel[]) => {
                         // console.log('ClaimsContract.getClaimByMemId.map1');
                         return claims.filter((claim: ClaimModel) => {
-                            return claim.claimId > 0;
+                            return (claim.claimId > 0 && claim.creationDate > 0);
                         });
                     }),
                     map((claims) => {

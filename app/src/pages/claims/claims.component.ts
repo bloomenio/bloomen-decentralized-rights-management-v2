@@ -20,11 +20,15 @@ import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.compon
 import { ROLES } from '@core/constants/roles.constants';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import {globalAllAssets} from '@core/core.module';
+import {RepertoireEffects} from '@stores/repertoire/repertoire.effects';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
+import {globalFetched} from '@components/inbox-item-list/inbox-item-list.component';
 
 const log = new Logger('claims.component');
 
+export let globalFetchedInClaims: any;
+export let tempUrlClaims: any;
 /**
  * Claims page
  */
@@ -44,8 +48,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     private members$: Subscription;
     public claimType: any;
     public currentMember: MemberModel;
-    // public allowTransactionSubmissions: boolean;
-    // public price: number;
+    public allowTransactionSubmissions: boolean;
+    public price: number;
 
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
@@ -58,7 +62,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         public claimsContract: ClaimsContract,
         public store: Store<any>,
         public inboxComponent: InboxComponent,
-        public shellComponent: ShellComponent
+        public shellComponent: ShellComponent,
+        public repertoireEffects: RepertoireEffects
     ) {
     }
 
@@ -97,7 +102,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.loadClaims();
         // }
         this.claimType = ClaimModel.ClaimTypeEnum;
-
+        tempUrlClaims = this.router.url;
+        globalFetchedInClaims = globalFetched;
         // this.newMessagesInterval$ = interval(5000).subscribe(() => {
         // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
@@ -125,6 +131,16 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // this.allowTransactionSubmissions = this.inboxComponent.allowTransactionSubmissions;
         // this.price = this.inboxComponent.price;
         // console.log(this.members);
+
+        // To check if user tokens are enough to submit transactions.
+        if (currentUser.role !== ROLES.SUPER_USER) {
+            await this.claimsContract.getTransactionPrice().then(price => {
+                this.price = Number(price);
+                this.allowTransactionSubmissions = this.price <= currentUser.tokens;
+                // console.log('AssetCardComponent says user tokens are ', this.user.tokens, ', transaction price is ', this.price,
+                //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
+            });
+        }
     }
 
     public ngAfterViewInit() {
@@ -263,7 +279,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    public showAsset(element) {
+    public showAssetOld(element) {
 
         Promise.resolve('DONE')
             .then(async () => {
@@ -295,6 +311,86 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
                 }
             });
+    }
+
+
+    public showAsset(message: any) {
+        // console.log('showAsset(): ', message);
+
+        if (globalAllAssets === undefined) {
+            alert('Information not loaded yet!\n\n' +
+                'Please try now...');
+        } else {
+            let assetToShow;
+            Promise.resolve('DONE')
+                .then(async () => {
+                    // console.log('fetched initially: ', globalFetchedInClaims);
+                    // console.log('globalFetchedInClaims initially: ', globalFetchedInClaims);
+                    if (globalFetchedInClaims && globalFetchedInClaims
+                        .filter((asset) => (asset.ISWC || asset.ISRC || asset.ISC) === (message.claimData.ISC)).length > 0 ) {
+                        assetToShow = globalFetchedInClaims.filter((asset) => (asset.ISWC || asset.ISRC || asset.ISC) ===
+                            (message.claimData.ISC));
+                        // console.log('fetched.filter', assetToShow);
+                        this.dialog.open(AssetCardReadOnlyComponent, {});
+                    } else {
+                        this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+                                filter: message.claimData.ISC,
+                                pageIndex: 0,
+                                pageSize: 10
+                        }));
+                        this.dialog.open(AssetCardReadOnlyComponent, {});
+                        // const oldVariable = this.repertoireEffects.globalAllAssetsVariable;
+                        // console.log('message.claimData.ISC: ', message.claimData.ISC);
+                        while (this.repertoireEffects.globalAllAssetsVariable.length > 1) {
+                            await new Promise((res) => {
+                                // console.log('Variable: ', this.repertoireEffects.globalAllAssetsVariable);
+                                setTimeout(res, 1000);
+                                // console.log(this.dialog.openDialogs);
+                            });
+                            if (this.router.url !== tempUrlClaims) {
+                                break; // break if navigate to different page
+                            }
+                        }
+                        // console.log('tempUrlClaims', tempUrlClaims);
+                        if (this.router.url === tempUrlClaims) {  // break if navigate to different page
+                            assetToShow = this.repertoireEffects.globalAllAssetsVariable;
+                            if (globalFetchedInClaims === undefined) {
+                                // console.log('undefined fetched');
+                                globalFetchedInClaims = new Object([]);
+                            }
+                            globalFetchedInClaims.push(this.repertoireEffects.globalAllAssetsVariable[0]);
+                            // console.log('fetched: ', globalFetchedInClaims);
+                            if (this.repertoireEffects.globalAllAssetsVariable.length <= 1) {
+                                // Increase length; to stuck on "while + await new Promise" when questioning next 🔍🔍🔍🔍🔎"pageview" <mat-icon>.
+                                this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
+                                        filter: '',
+                                        pageIndex: 0,
+                                        pageSize: 10
+                                    }
+                                ));
+                            }
+                        }
+                        globalFetched.concat(globalFetchedInClaims); // ??
+                        // console.log(globalFetched);
+                    }
+                })
+                .then(() => {
+                    // console.log('then() => Variable: ', this.repertoireEffects.globalAllAssetsVariable);
+                    // console.log('assetToShow: ', assetToShow);
+                    if (this.router.url === tempUrlClaims) {  // break if navigate to different page
+                        if (this.dialog.openDialogs.length) {
+                            this.dialog.closeAll();
+                            this.dialog.open(AssetCardReadOnlyComponent, {
+                                data: {
+                                    asset: assetToShow[0],
+                                    members: this.members
+                                },
+                                width: '560px'
+                            });
+                        }
+                    }
+                });
+        }
     }
 
     public ngOnDestroy() {

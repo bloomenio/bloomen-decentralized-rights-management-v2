@@ -241,6 +241,7 @@ export class SoundDialogComponent implements OnInit {
             claimType: this.data.claim.claimType,
             memberOwner: this.claimForm.get('rightHolderName').value
         };
+        console.log(claim);
         this.dialogRef.close(claim);
     }
 

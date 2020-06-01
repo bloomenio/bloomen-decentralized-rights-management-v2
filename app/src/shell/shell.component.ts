@@ -292,15 +292,16 @@ export class ShellComponent implements OnInit, OnDestroy {
         // console.log('CSV.DATA PAPAPARSE:');
         let rightCSVFormat = true;
         papa.data.forEach( (x: any) => { if (x.length !== 9) {
-          console.log('CSV HAS WRONG INFO.');
+          console.log('CSV has wrong information. An odd line is printed here:');
+          console.log(x);
           rightCSVFormat = false;
         }});
         if (rightCSVFormat) {
-          console.log(this.csvJSON(papa.data));
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
+          // console.log(this.uploadedCSV2JSON);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();
-          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON)
+          this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON, this.price, this.user.tokens)
               .then( () => {
             // console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
 
@@ -323,7 +324,7 @@ export class ShellComponent implements OnInit, OnDestroy {
           // End Of Refresh Claims page: claims.component
 
         } else {
-          console.log('E r r o r: CSV HAS WRONG INFO.');
+          console.log('CSV has wrong information.');
           alert('E r r o r: The uploaded CSV file has an undesired format.\n\n' +
               // 'Right Holder Role spot is left empty for Sound Recordings\n' +
               'Please make sure each claim has 9 fields and that there are no empty lines.');
@@ -337,6 +338,15 @@ export class ShellComponent implements OnInit, OnDestroy {
     const result = [];
     const line = csv;
     const headers = line[0];
+    // must be isc,countries,startDate,endDate,types,splitPart,rightHolderRole,rightHolderProprietaryID,title
+    if (headers[0] !== 'isc' || headers[1] !== 'countries' || headers[2] !== 'startDate' || headers[3] !== 'endDate' ||
+        headers[4] !== 'types' || headers[5] !== 'splitPart' || headers[6] !== 'rightHolderRole' ||
+        headers[7] !== 'rightHolderProprietaryID' || headers[8] !== 'title'
+    ) {
+      alert('Please upload a valid file with headers: \n' +
+          '\'isc,countries,startDate,endDate,types,splitPart,rightHolderRole,' +
+          'rightHolderProprietaryID,title\'\n');
+    }
     for (let i = 1; i < line.length; i++) {
       const obj = {};
       for (let j = 0; j < headers.length; j++) {

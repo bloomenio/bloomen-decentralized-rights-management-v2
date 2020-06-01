@@ -1,4 +1,8 @@
-<mat-accordion class="headers-align">
+<div class="loading-shade" fxLayoutAlign="center center" style="background-color: transparent" *ngIf="!data">
+    <mat-spinner></mat-spinner>
+</div>
+
+<mat-accordion class="headers-align" *ngIf="data">
     <mat-expansion-panel hideToggle [(expanded)]="expanded" class="main-panel-wrapper">
         <mat-expansion-panel-header [collapsedHeight]="'190px'" [expandedHeight]="'220px'">
             <mat-panel-title>

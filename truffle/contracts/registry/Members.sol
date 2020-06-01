@@ -56,6 +56,10 @@ contract Members is Random, Registry {
     members_[_memberId].totalTokens = _totalTokens;
   }
 
+  function updateMemberClaimInbox(uint256 _memberId, uint256[] newInbox) {
+    members_[_memberId].claimInbox = newInbox;
+  }
+
   function getMembers() public view returns (Member[] memory) {
     Member[] memory memberPage = new Member[](membersList_.length);
     for (uint i = 0; i < membersList_.length; ++i) {
@@ -135,7 +139,7 @@ contract Members is Random, Registry {
     members_[_memberId].claims.push(_claimId);
   }
 
-  function _removeClaimIdFromMember(uint _memberId, uint _claimId) public {
+  function _removeClaimFromMember(uint _memberId, uint _claimId) public {
     bool found = false;
     for (uint j = 0; j < members_[_memberId].claims.length - 1; j++) {
       if(members_[_memberId].claims[j] == _claimId) {
@@ -146,9 +150,18 @@ contract Members is Random, Registry {
       }
     }
     //    if (found) {
-    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
-    members_[_memberId].claims.length--;
+//    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
+//    members_[_memberId].claims.length--;
     //    }
+    if (found) {
+//      if (members_[_memberId].claims.length == 1) {
+//        delete members_[_memberId].claims;
+//      }
+//      else {
+      delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
+        members_[_memberId].claims.length--;
+//      }
+    }
   }
 
   function _addClaimFromInbox(uint _memberId, uint _claimId) public {

@@ -16,6 +16,7 @@ import {UserModel} from '@core/models/user.model';
 import ClaimTypeEnum = ClaimModel.ClaimTypeEnum;
 import {globalAllAssets} from '@core/core.module';
 import { ROLES } from '@core/constants/roles.constants';
+import * as assert from 'assert';
 
 const log = new Logger('assets-card.component');
 
@@ -162,9 +163,10 @@ export class AssetCardComponent implements OnInit {
     }
 
     dialog.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
+      // console.log('The dialog was closed.');
       if (result) {
-        this.claimsContract.addClaim(result).then();
+        this.claimsContract.addClaim(result).then(() => {
+              console.log('A new claim was added successfully: ', result); });
       }
     });
   }
@@ -246,13 +248,16 @@ export class AssetCardComponent implements OnInit {
           break;
         }
       }
+      if (this.price > this.user.tokens) {
+        this.alertUser();
+      }
       await this.claimsContract.addClaim(c);
     }
   }
 
-  public async repertoireBulkUpload(uploadedCSV2JSON: any) {
+  public async repertoireBulkUpload(uploadedCSV2JSON: any, price, userTokens) {
     interface MyJSON {
-      ISC: string;
+      isc: string;
       countries: string;
       startDate: Number;
       endDate: Number;
@@ -263,13 +268,24 @@ export class AssetCardComponent implements OnInit {
       title: string;
     }
     if (globalAllAssets === undefined) {
-      alert('Bloomen Decentralized Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
+      alert('Bloomen Decentralized Rights Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
           'In order to fetch the appropriate decentralized user rights on assets.');
     } else {
       const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
       // console.log('GLOBAL ALL ASSETS');
       // console.log(globalAllAssets);
-      console.log('OBJS: ', objs);
+      console.log('We have ', objs.length, ' claims to upload: ', objs);
+      // let dialog;
+      if (objs.length * price > userTokens) {
+        this.alertUser2();
+        // console.log('user tokens is ', userTokens, 'transaction price is ', price,
+        //     'cost of upload is ', objs.length * price);
+        // dialog = this.dialog.open(SoundDialogComponent, { } );
+      }
+      // dialog.afterClosed().subscribe(value => {
+      //   if (value) {
+      //   }
+      // });
       // console.log('this.members[0].memberId: ' + this.user.memberId);
       let done = false;
       const memberOwner = Number(this.user.memberId);
@@ -283,6 +299,10 @@ export class AssetCardComponent implements OnInit {
                   .then(() => {
                     Promise.resolve()
                         .then(() => {
+                          if (!cl.rightHolderProprietaryID) {
+                            objs.forEach(o => o.rightHolderProprietaryID = Number(0));
+                            // objs.forEach(o => console.log(o.rightHolderProprietaryID));
+                          }
                           switch (cl.rightHolderRole) {
                             case '': {
                               // console.log('cl.rightHolderRole: ', cl.rightHolderRole);
@@ -295,23 +315,23 @@ export class AssetCardComponent implements OnInit {
                                 memberOwner: memberOwner,
                                 status: ClaimModel.StatusClaimEnum.CLAIMED,
                                 oldClaimData: [
-                                  ['ISRC', cl.ISC],
+                                  ['ISRC', cl.isc],
                                   ['countries', cl.countries],
                                   ['startDate', cl.startDate],
                                   ['endDate', cl.endDate],
                                   ['useTypes', cl.types],
                                   ['splitPart', cl.splitPart],
-                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID.toString()],
                                   ['title', cl.title]
                                 ],
                                 claimData: [
-                                  ['ISRC', cl.ISC],
+                                  ['ISRC', cl.isc],
                                   ['countries', cl.countries],
                                   ['startDate', cl.startDate],
                                   ['endDate', cl.endDate],
                                   ['useTypes', cl.types],
                                   ['splitPart', cl.splitPart],
-                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID.toString()],
                                   ['title', cl.title]
                                 ]
                               };
@@ -328,25 +348,25 @@ export class AssetCardComponent implements OnInit {
                                 memberOwner: memberOwner,
                                 status: ClaimModel.StatusClaimEnum.CLAIMED,
                                 oldClaimData: [
-                                  ['ISWC', cl.ISC],
+                                  ['ISWC', cl.isc],
                                   ['countries', cl.countries],
                                   ['startDate', cl.startDate],
                                   ['endDate', cl.endDate],
                                   ['rightTypes', cl.types],
                                   ['splitPart', cl.splitPart],
                                   ['rightHolderRole', cl.rightHolderRole],
-                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID.toString()],
                                   ['title', cl.title]
                                 ],
                                 claimData: [
-                                  ['ISWC', cl.ISC],
+                                  ['ISWC', cl.isc],
                                   ['countries', cl.countries],
                                   ['startDate', cl.startDate],
                                   ['endDate', cl.endDate],
                                   ['rightTypes', cl.types],
                                   ['splitPart', cl.splitPart],
                                   ['rightHolderRole', cl.rightHolderRole],
-                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID],
+                                  ['rightHolderProprietaryID', cl.rightHolderProprietaryID.toString()],
                                   ['title', cl.title]
                                 ]
                               };
@@ -388,9 +408,13 @@ export class AssetCardComponent implements OnInit {
             // Fix random title if necessary
             await Promise.resolve('DONE')
                 .then(() => {
-                  // let claimsArray2 = [];
-                  console.log('claimsArray:');
-                  console.log(claimsArray);
+                  // let tempLength = 0;
+                  // for (let i = 0; i < claimsArray.length; ++i) {
+                  //   console.log(i, ': ', claimsArray[i]);
+                  //   tempLength = claimsArray.length;
+                  //   console.log('WE ARE ALLOWED TO ADD ', tempLength, ' claims: ', claimsArray);
+                  // }
+                  // assert(claimsArray.length !== 0);
                   // console.log(claimsArray.length);
                   // console.log(claimsArray[1]);
                   // console.log(claimsArray[2]);
@@ -468,10 +492,14 @@ export class AssetCardComponent implements OnInit {
               // console.log(claimsArray);
               for (let j = 0; j < claimsArray.length; j++) {
                 // for (const asset of claimsArray) {
-                  console.log(claimsArray[j]);
                 // console.log(asset);
                 // await this.claimsContract.addClaim(asset).then();
-                  await this.claimsContract.addClaim(claimsArray[j]).then();
+                if (this.price > this.user.tokens) {
+                  this.alertUser();
+                }
+                await this.claimsContract.addClaim(claimsArray[j]).then(() => {
+                console.log('Claim No', j + 1, ' of', claimsArray.length,
+                        ' was added successfully:\n', claimsArray[j]); });
               }
             }
           });
@@ -490,7 +518,12 @@ export class AssetCardComponent implements OnInit {
   }
 
   public alertUser() {
-    alert('Bloomen Decentralized Management App:\n\n\nYou do not have enough tokens to file claim changes.\n\n' +
+    alert('You do not have enough tokens to perform claim creation or modification.\n\n' +
         'Please refer to your Administrator or CMO.');
+  }
+
+  public alertUser2() {
+    alert('You do not have enough tokens to create all claims.\n\n' +
+        'Only the minimum number of claims will be created.');
   }
 }
