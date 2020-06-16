@@ -69,4 +69,21 @@
     color: #fa3e3e;
     font-style: italic;
   }
+
+
+  .-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    text-overflow: ellipsis;
+    white-space:pre-line;
+    position:relative;
+    top:-7px;
+
+  }
+  .-moz-placeholder { /* Firefox 19+ */
+    white-space:pre-line;
+    position:relative;
+    top:-7px;
+  }
+  .input-placeholder {
+    text-overflow: ellipsis;
+  }
 }

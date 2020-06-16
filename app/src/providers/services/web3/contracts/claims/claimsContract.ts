@@ -172,6 +172,44 @@ export class ClaimsContract extends Contract {
         });
     }
 
+    public getClaimsByMemIdFiltered(page, filter): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.web3Service.ready(() => {
+                // console.log('ClaimsContract.getClaimByMemId');
+                // console.log('serverUrl: ', environment.serverUrl);
+                // console.log('page: ' + page);
+                // console.log('this.args.from: ' + this.args.from);
+                const filters = filter.status;
+                return from(this.contract.methods.getClaimsByMemberId(page).call(this.args)).pipe(
+                    map((claims: ClaimModel[]) => {
+                        // console.log('ClaimsContract.getClaimByMemId.map1');
+                        return claims.filter((claim: ClaimModel) => {
+                            return (claim.claimId > 0 && claim.creationDate > 0
+                                // && claim.claimData.status.isIncluded(filters)
+                            );
+                        });
+                    }),
+                    map((claims) => {
+                        // console.log('ClaimsContract.getClaimByMemId.map2');
+                        return claims.map(claim => {
+                            const data = {};
+                            claim.claimData.forEach(dataItem => {
+                                if (dataItem[0] === 'countries' || dataItem[0] === 'useTypes' || dataItem[0] === 'rightTypes') {
+                                    data[dataItem[0]] = dataItem[1].split(',');
+                                } else {
+                                    data[dataItem[0]] = dataItem[1];
+                                }
+                            });
+                            claim.claimData = data;
+                            // console.log(claim);
+                            return claim;
+                        });
+                    })
+                ).toPromise().then(resolve, reject);
+            });
+        });
+    }
+
     public getClaimsCountByMemId(): Promise<number> {
         return new Promise<any>((resolve, reject) => {
             this.web3Service.ready(() => {

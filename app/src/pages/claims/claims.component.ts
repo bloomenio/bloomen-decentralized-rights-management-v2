@@ -1,29 +1,27 @@
 // Basic
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, Input} from '@angular/core';
-import { MatSnackBar, MatPaginator, MatSort, MatDialog } from '@angular/material';
-import { Logger } from '@services/logger/logger.service';
-import { Router } from '@angular/router';
-import { ClaimsDataSource } from './claims.datasource';
-import { tap } from 'rxjs/operators';
-import { MusicalDialogComponent } from '@components/claim-dialog/musical-dialog/musical-dialog.component';
-import { SoundDialogComponent } from '@components/claim-dialog/sound-dialog/sound-dialog.component';
-import { Store } from '@ngrx/store';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatPaginator, MatSnackBar, MatSort} from '@angular/material';
+import {Logger} from '@services/logger/logger.service';
+import {Router} from '@angular/router';
+import {ClaimsDataSource} from './claims.datasource';
+import {tap} from 'rxjs/operators';
+import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
+import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
+import {Store} from '@ngrx/store';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
-import { MemberModel } from '@core/models/member.model';
-import {interval, Subscription} from 'rxjs';
-import { ClaimModel } from '@core/models/claim.model';
-import { ClaimsContract } from '@core/core.module';
-import {InboxComponent, unreadMessages, currentUser, currentMember} from '@pages/inbox/inbox.component';
+import {MemberModel} from '@core/models/member.model';
+import {Subscription} from 'rxjs';
+import {ClaimModel} from '@core/models/claim.model';
+import {ClaimsContract, globalAllAssets} from '@core/core.module';
+import {currentUser, InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {ShellComponent} from '@shell/shell.component';
-import {DeleteClaimComponent} from '@components/delete-claim/delete-claim.component';
-import { ROLES } from '@core/constants/roles.constants';
+import {ROLES} from '@core/constants/roles.constants';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
-import {globalAllAssets} from '@core/core.module';
 import {RepertoireEffects} from '@stores/repertoire/repertoire.effects';
-import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 import {globalFetched} from '@components/inbox-item-list/inbox-item-list.component';
+import {FormControl} from '@angular/forms';
 
 const log = new Logger('claims.component');
 
@@ -50,10 +48,23 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentMember: MemberModel;
     public allowTransactionSubmissions: boolean;
     public price: number;
-
+    public selection: any;
+    public sF = new FormControl();
+    public statusList = [{label: 'CONFLICT', value: true}, {label: 'CLAIMED', value: false}];
+    private prevFilter = '';
+    public statusFilter: any;
+    public claimsFilter = [];
+    public dataSourceClaims: any;
+    private prevValue = '';
+    private anyFilter: any;
+    private filtered: any;
+    public datesFilter: any;
+    public cStatus = {conflict: false, claimed: false};
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
     @ViewChild(MatSort) public sort: MatSort;
+    private filteredAny: any;
+    private filteredStatus: any;
 
     constructor(
         public snackBar: MatSnackBar,
@@ -141,6 +152,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
             });
         }
+
+        this.dataSourceClaims = this.dataSource.claims;
+        this.dataSource.claims$.subscribe((claims) => {
+            this.dataSourceClaims = claims;
+            // console.log('this.dataSourceClaims: ', this.dataSourceClaims);
+        });
     }
 
     public ngAfterViewInit() {
@@ -171,6 +188,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.paginator.pageIndex,
                     this.paginator.pageSize
                 );
+                this.dataSourceClaims = this.dataSource.claims;
+                console.log('this.dataSourceClaims: ', this.dataSourceClaims);
             // }
         }
         // if (this.shellComponent.newMessagesGet()) {
@@ -398,6 +417,191 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.newMessagesInterval$) {
             this.newMessagesInterval$.unsubscribe();
         }
+    }
+
+    public searchStatusFilter(searchStatusFilter: string) {
+        if (!searchStatusFilter.length || this.prevFilter.length > searchStatusFilter.length) {
+            this.statusList = [{label: 'CONFLICT', value: true}, {label: 'CLAIMED', value: false}];
+            this.statusFilter = [];
+        }
+        this.statusList = this.statusList
+            .filter((s) => s.label.includes(searchStatusFilter.trim().toUpperCase()));
+        this.prevFilter = searchStatusFilter;
+    }
+
+    public applyStatusFilter(statusFilter: any) {
+        this.dataSource.claims = this.dataSourceClaims;
+        if (this.anyFilter && this.anyFilter[0] !== '') {
+            this.dataSource.claims = this.filteredAny;
+        }
+        if (statusFilter.value.length === 1) { // Either CLAIMED or CONFLICT.
+            this.filteredStatus = this.dataSource.claims.filter((claim) => {
+                if (claim.status === statusFilter.value[0] || claim.claimData.ISC) {
+                    return claim;
+                }
+            });
+            this.dataSource.claims = this.filterLabelsOrNot(this.filteredStatus);
+        }
+        this.statusFilter = statusFilter;
+        // console.log(statusFilter);
+        if (this.statusFilter && this.statusFilter.value && this.statusFilter.value.length !== 1 &&
+            this.anyFilter && this.anyFilter[0] !== '') {
+            this.applyAnythingFilter(this.anyFilter.toString());
+        }
+    }
+
+    public applyAnythingFilter(anythingFilter: string) {
+        const anyFilter = anythingFilter.trim().toLowerCase().split(' ');
+        this.dataSource.claims = this.dataSourceClaims;
+        if (this.statusFilter && this.statusFilter.value && this.statusFilter.value.length === 1) {
+            this.dataSource.claims = this.filteredStatus;
+        }
+        this.anyFilter = anyFilter;
+        // let askStatus = false;
+        // if (this.anyFilter.includes('conflict') || this.anyFilter.includes('claimed')) {
+        //     this.calcStatus(this.anyFilter);
+            // askStatus = true;
+        // }
+        let asksDates = false;
+        if (this.anyFilter.length >= 2 &&
+            (this.anyFilter.includes('from') || this.anyFilter.includes('to') || this.anyFilter.includes('year'))) {
+            this.calcDates(this.anyFilter);
+            asksDates = true;
+        }
+        this.filteredAny = this.dataSource.claims.filter((claim) => {
+            if (claim.claimData.ISC) {
+                return claim;
+            }
+            // if (askStatus) {
+            //     if (this.cStatus.conflict && claim.status === true) {
+            //         to return
+                // }
+                // if (this.cStatus.claimed && claim.status === false) {
+                //     to return
+                // }
+            // }
+            if (asksDates) {
+                // console.assert();
+                const start = Number(claim.claimData.startDate);
+                const end = Number(claim.claimData.endDate);
+                console.log(
+                    start >= this.datesFilter.from && end <= this.datesFilter.to, '\n',
+                    start <= this.datesFilter.yearEnd && end >= this.datesFilter.year, '\n',
+                    start >= this.datesFilter.year && end <= this.datesFilter.yearEnd);
+                // console.log(
+                //     start, ' >= ', this.datesFilter.from, ' && ', end, ' <= ', this.datesFilter.to, '\n',
+                //     start, ' <= ', this.datesFilter.yearEnd, ' && ', end, ' >= ', this.datesFilter.year, '\n',
+                //     start, ' >= ', this.datesFilter.year, ' && ', end, ' <= ', this.datesFilter.yearEnd, '\n');
+                if (start >= this.datesFilter.from && end <= this.datesFilter.to ||
+                    start <= this.datesFilter.yearEnd && end >= this.datesFilter.year ||
+                    start >= this.datesFilter.year && end <= this.datesFilter.yearEnd) {
+                    const claimStr = claim.toString().toLowerCase();
+                    let count = 0;
+                    for (let i = 0; i < this.anyFilter.length; i++) {
+                        if (claimStr.includes(this.anyFilter[i])) {
+                            count++;
+                        }
+                    }
+                    if (count === this.anyFilter.length) { // if claim includes every word of the filter
+                        return claim;
+                    }
+                }
+            } else {
+                const claimStr = claim.toString().toLowerCase();
+                let count = 0;
+                for (let i = 0; i < this.anyFilter.length; i++) {
+                    if (claimStr.includes(this.anyFilter[i])) {
+                        count++;
+                    }
+                }
+                if (count === this.anyFilter.length) { // if claim includes every word of the filter
+                    return claim;
+                }
+            }
+        });
+        this.dataSource.claims = this.filterLabelsOrNot(this.filteredAny);
+        console.log('anyFilter: ', this.anyFilter);
+        // this.anyFilter = anyFilter;
+        if (this.anyFilter && this.anyFilter[0] === '' && this.statusFilter) {
+            this.applyStatusFilter(this.statusFilter);
+        }
+    }
+
+    public filterLabelsOrNot(filtered: any): any {
+        if (filtered && filtered.length) {
+            const filterLabels = [];
+            for (let i = 0; i < filtered.length - 1; i++) {
+                if (filtered[i].claimData.ISRC || filtered[i].claimData.ISWC ||
+                    filtered[i].claimData.ISC && !filtered[i + 1].claimData.ISC) {
+                    filterLabels.push(filtered[i]);
+                }
+            }
+            if (filtered[filtered.length - 1].claimData.ISRC || filtered[filtered.length - 1].claimData.ISWC) {
+                filterLabels.push(filtered[filtered.length - 1]);
+            }
+            return filterLabels;
+        } else {
+            return this.dataSourceClaims;
+        }
+    }
+
+    public calcStatus(anyFilter: any) {
+        const anyF = []; // to extract dates from this.anyFilter
+        let i = 0;
+        while (i < anyFilter.length) {
+            if (anyFilter[i] !== 'conflict' && anyFilter[i] !== 'claimed') {
+                anyF.push(anyFilter[i]);
+            } else if (anyFilter[i] === 'conflict') {
+                this.cStatus = { conflict: true, claimed: false};
+            } else { // anyFilter[i] === 'claimed'
+                this.cStatus = { conflict: false, claimed: true};
+            }
+            i++;
+        }
+        if (anyFilter.includes('conflict') && anyFilter.includes('claimed')) {
+            this.cStatus = { conflict: true, claimed: true};
+        }
+        const fValue = {source: {},
+                        value: anyFilter.toString().includes('conflict') && anyFilter.toString().includes('claimed') ? [true, false] :
+                            (anyFilter.toString().includes('conflict') && !anyFilter.toString().includes('claimed') ? [true] :
+                                (!anyFilter.toString().includes('conflict') && anyFilter.toString().includes('claimed') ? [false] : [])) };
+        // console.log(fValue.value);
+        this.applyStatusFilter(fValue);
+        this.anyFilter = anyF;
+    }
+
+    public calcDates(anyFilter: any) {
+        const ranges = { from: 0, to: 0, year: 0, yearEnd: 0};
+        const anyF = []; // to extract dates from this.anyFilter
+        let i = 0;
+        while (anyFilter.length >= 2 && i < anyFilter.length) {
+            if (anyFilter[i] === 'from') {
+                ranges.from = new Date(anyFilter[i + 1]).getTime();
+                i++;
+            } else if (anyFilter[i] === 'to') {
+                ranges.to = new Date(anyFilter[i + 1]).getTime();
+                i++;
+            } else if (anyFilter[i] === 'year') {
+                // console.log(new Date(Number(claim.claimData.endDate)).getMonth() + 1, '/',
+                //             new Date(Number(claim.claimData.endDate)).getDate(), '/',
+                //             new Date(Number(claim.claimData.endDate)).getFullYear());
+                console.log(anyFilter[i + 1]);
+                // anyFilter[i + 1] = new Date('1 Jan' + anyFilter[i + 1]).getTime();
+                ranges.year = new Date('1 Jan' + anyFilter[i + 1]).getTime();
+                ranges.yearEnd = new Date('31 Dec' + anyFilter[i + 1]).getTime();
+                console.log(ranges.year, ' until ', ranges.yearEnd);
+                // ranges.push(anyFilter[i + 1]);
+                i++;
+                // console.log(new Date(anyFilter[i + 1]).getMonth() + 1, '/',
+                //             new Date(anyFilter[i + 1]).getDate(), '/',
+                //             new Date(anyFilter[i + 1]).getFullYear());
+            } else {
+                anyF.push(anyFilter[i]);
+            }
+            i++;
+        }
+        this.datesFilter = ranges;
+        this.anyFilter = anyF;
     }
 
 }

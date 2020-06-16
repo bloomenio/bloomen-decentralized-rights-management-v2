@@ -20,24 +20,26 @@ import { SoundDialogModule } from '@components/claim-dialog/sound-dialog/sound-d
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {AssetCardModule} from '@components/asset-card/asset-card.module';
 import {AssetCardReadOnlyModule} from '@components/asset-card-readOnly/asset-card-readOnly.module';
+import {ReactiveFormsModule} from "@angular/forms";
 
 /**
  * Module to import and export all the components for the home page.
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    SharedModule,
-    FlexLayoutModule,
-    MaterialModule,
-    ClaimsRoutingModule,
-    ShellModule,
-    UserProfileShellModule,
-    MusicalDialogModule,
-    SoundDialogModule,
-    AssetCardReadOnlyModule
-  ],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        SharedModule,
+        FlexLayoutModule,
+        MaterialModule,
+        ClaimsRoutingModule,
+        ShellModule,
+        UserProfileShellModule,
+        MusicalDialogModule,
+        SoundDialogModule,
+        AssetCardReadOnlyModule,
+        ReactiveFormsModule
+    ],
   declarations: [ClaimsComponent]
 })
 export class ClaimsModule { }
