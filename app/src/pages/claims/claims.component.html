@@ -32,7 +32,7 @@ Tip: I am NOT case sensitive.">
                         International Standard Code
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <div *ngIf="element.claimData.ISC">{{ element.claimData.ISC }}</div>
+                        <div class="all-copy" *ngIf="element.claimData.ISC">{{ element.claimData.ISC }}</div>
 <!--                        <div *ngIf="element.claimData.ISWC">{{ element.claimData.ISWC }}</div>-->
 <!--                        <div *ngIf="element.claimData.ISRC">{{ element.claimData.ISRC }}</div>-->
                     </td>
@@ -43,7 +43,7 @@ Tip: I am NOT case sensitive.">
                     <th mat-header-cell *matHeaderCellDef>
                         Title
                     </th>
-                    <td mat-cell *matCellDef="let element">{{ element.status === undefined ? element.claimData.title : nothing }}</td>
+                    <td class="all-copy" mat-cell *matCellDef="let element">{{ element.status === undefined ? element.claimData.title : nothing }}</td>
 <!--                    <td mat-cell *matCellDef="let element">{{ element.claimData.title }}</td>-->
                 </ng-container>
 
@@ -74,7 +74,7 @@ Tip: I am NOT case sensitive.">
                     <th mat-header-cell *matHeaderCellDef>
                         {{ 'user_management.table.creationDate' | translate }}
                     </th>
-                    <td mat-cell *matCellDef="let element">
+                    <td class="all-copy" mat-cell *matCellDef="let element">
                         {{ element.creationDate | date: 'dd/MM/yyyy' }}
                     </td>
                 </ng-container>

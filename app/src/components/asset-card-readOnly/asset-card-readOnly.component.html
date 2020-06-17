@@ -15,14 +15,14 @@
                     <div fxFlex fxLayout="row" fxLayoutAlign="space-between end" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="data.asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
-                            <div>{{ data.asset.ISRC }}</div>
+                            <div class="all-copy">{{ data.asset.ISRC }}</div>
                         </div>
                         <mat-icon>speaker</mat-icon>
                     </div>
                     <div fxFlex fxLayout="row" fxLayoutAlign="space-between end" *ngIf="data.asset.ISWC || data.asset.type === 'Musical Work'">
                         <div class="sections-container" *ngIf="data.asset.ISWC">
                             <div class="data-section-title">{{ 'repertoire.ISWC' | translate }}</div>
-                            <div>{{ data.asset.ISWC }}</div>
+                            <div class="all-copy">{{ data.asset.ISWC }}</div>
                         </div>
                         <mat-icon>queue_music</mat-icon>
                     </div>
@@ -30,21 +30,21 @@
                         <div fxFlex fxLayout="column">
                             <div class="sections-container" *ngIf="data.asset.mainArtist">
                                 <div class="data-section-title">{{ 'repertoire.mainArtist' | translate | uppercase }}</div>
-                                <div>{{ data.asset.mainArtist }}</div>
+                                <div class="all-copy">{{ data.asset.mainArtist }}</div>
                             </div>
                             <div class="sections-container" *ngIf="data.asset.title">
                                 <div class="data-section-title">{{ 'repertoire.title' | translate | uppercase }}</div>
-                                <div>{{ data.asset.title }}</div>
+                                <div class="all-copy">{{ data.asset.title }}</div>
                             </div>
                         </div>
                         <div fxFlex fxLayout="column">
                             <div class="sections-container" *ngIf="data.asset.featuredArtists">
                                 <div class="data-section-title">{{ 'repertoire.featuredArtists' | translate | uppercase }}</div>
-                                <div>{{ data.asset.featuredArtists }}</div>
+                                <div class="all-copy">{{ data.asset.featuredArtists }}</div>
                             </div>
                             <div class="sections-container" *ngIf="data.asset.versionTitle">
                                 <div class="data-section-title">{{ 'repertoire.versionTitle' | translate | uppercase }}</div>
-                                <div>{{ data.asset.versionTitle }}</div>
+                                <div class="all-copy">{{ data.asset.versionTitle }}</div>
                             </div>
                         </div>
                     </div>
@@ -52,11 +52,11 @@
                         <div fxFlex fxLayout="column">
                             <div class="sections-container" *ngIf="data.asset.originalTitle">
                                 <div class="data-section-title">{{ 'repertoire.originalTitle' | translate }}</div>
-                                <div>{{ data.asset.originalTitle }}</div>
+                                <div class="all-copy">{{ data.asset.originalTitle }}</div>
                             </div>
                             <div class="sections-container" *ngIf="data.asset.id">
                                 <div class="data-section-title">{{ 'repertoire.id' | translate }}</div>
-                                <div>{{ data.asset.id }}</div>
+                                <div class="all-copy">{{ data.asset.id }}</div>
                             </div>
                         </div>
                     </div>
@@ -69,19 +69,19 @@
 
                 <div class="sections-container" *ngIf="data.asset.duration">
                     <div class="data-section-title">{{ 'repertoire.duration' | translate | uppercase }}</div>
-                    <div>{{ data.asset.duration }}</div>
+                    <div class="all-copy">{{ data.asset.duration }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.territoryOfRecording">
                     <div class="data-section-title">{{ 'repertoire.territoryOfRecording' | translate | uppercase }}</div>
-                    <div>{{ data.asset.territoryOfRecording }}</div>
+                    <div class="all-copy">{{ data.asset.territoryOfRecording }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.originalReleaseDate">
                     <div class="data-section-title">{{ 'repertoire.originalReleaseDate' | translate | uppercase }}</div>
-                    <div>{{ data.asset.originalReleaseDate }}</div>
+                    <div class="all-copy">{{ data.asset.originalReleaseDate }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.creators">
                     <div class="data-section-title">{{ 'repertoire.creators' | translate | uppercase }}</div>
-                    <div *ngFor="let creator of data.asset.creators">
+                    <div *ngFor="let creator of data.asset.creators" class="all-copy">
                         {{ creator }}
                     </div>
                 </div>
@@ -91,19 +91,19 @@
 
                 <div class="sections-container" *ngIf="data.asset.yearOfRecording">
                     <div class="data-section-title">{{ 'repertoire.yearOfRecording' | translate | uppercase }}</div>
-                    <div>{{ data.asset.yearOfRecording }}</div>
+                    <div class="all-copy">{{ data.asset.yearOfRecording }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.languageOfPerformance">
                     <div class="data-section-title">{{ 'repertoire.languageOfPerformance' | translate | uppercase }}</div>
-                    <div>{{ data.asset.languageOfPerformance }}</div>
+                    <div class="all-copy">{{ data.asset.languageOfPerformance }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.originalReleaseLabel">
                     <div class="data-section-title">{{ 'repertoire.originalReleaseLabel' | translate | uppercase }}</div>
-                    <div>{{ data.asset.originalReleaseLabel }}</div>
+                    <div class="all-copy">{{ data.asset.originalReleaseLabel }}</div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.isVideo">
                     <div class="data-section-title">{{ 'repertoire.isVideo' | translate | uppercase }}</div>
-                    <div>{{ data.asset.isVideo }}</div>
+                    <div class="all-copy">{{ data.asset.isVideo }}</div>
                 </div>
             </div>
         </div>
@@ -122,13 +122,13 @@
                     <div fxFlex class="table-value">{{ 'release.isCompilation' | translate }}</div>
                 </div>
                 <div fxLayout="row" *ngFor="let release of data.asset.releases" >
-                    <div fxFlex>{{ release.title }}</div>
-                    <div fxFlex>{{ release.artist }}</div>
-                    <div fxFlex>{{ release.ICPN }}</div>
-                    <div fxFlex>{{ release.numberOfTracks }}</div>
-                    <div fxFlex>{{ release.label }}</div>
-                    <div fxFlex>{{ release.duration }}</div>
-                    <div fxFlex>{{ release.isCompilation }}</div>
+                    <div fxFlex class="all-copy">{{ release.title }}</div>
+                    <div fxFlex class="all-copy">{{ release.artist }}</div>
+                    <div fxFlex class="all-copy">{{ release.ICPN }}</div>
+                    <div fxFlex class="all-copy">{{ release.numberOfTracks }}</div>
+                    <div fxFlex class="all-copy">{{ release.label }}</div>
+                    <div fxFlex class="all-copy">{{ release.duration }}</div>
+                    <div fxFlex class="all-copy">{{ release.isCompilation }}</div>
                 </div>
             </div>
         </div>
@@ -146,28 +146,28 @@
 
                     <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let creator of data.asset.creators">
 
-                        <div fxFlex>{{ creator.name }}</div>
-                        <div fxFlex>{{ creator.IPINameNumber }}</div>
-                        <div fxFlex>{{ creator.role }}</div>
+                        <div fxFlex class="all-copy">{{ creator.name }}</div>
+                        <div fxFlex class="all-copy">{{ creator.IPINameNumber }}</div>
+                        <div fxFlex class="all-copy">{{ creator.role }}</div>
                     </div>
                 </div>
                 <div class="sections-container" *ngIf="data.asset.alternativeTitles">
                     <div class="data-section-title">{{ 'repertoire.alternativetTitle' | translate | uppercase }}</div>
-                    <div *ngFor="let alternativeTitle of data.asset.alternativeTitles">
+                    <div *ngFor="let alternativeTitle of data.asset.alternativeTitles" class="all-copy">
                         {{ alternativeTitle }}
                     </div>
                 </div>
 
                 <div class="sections-container" *ngIf="data.asset.associatedPerformers">
                     <div class="data-section-title">{{ 'repertoire.associatedPerformers' | translate | uppercase }}</div>
-                    <div *ngFor="let associatedPerformer of data.asset.associatedPerformers">
+                    <div *ngFor="let associatedPerformer of data.asset.associatedPerformers" class="all-copy">
                         {{ associatedPerformer }}
                     </div>
                 </div>
 
                 <div class="sections-container" *ngIf="data.asset.associatedISRCs">
                     <div class="data-section-title">{{ 'repertoire.associatedISRCs' | translate | uppercase }}</div>
-                    <div *ngFor="let associatedISRC of data.asset.associatedISRCs">
+                    <div *ngFor="let associatedISRC of data.asset.associatedISRCs" class="all-copy">
                         {{ associatedISRC }}
                     </div>
                 </div>
