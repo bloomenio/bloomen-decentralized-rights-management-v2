@@ -121,7 +121,7 @@
     "fs": "0.0.1-security",
     "hads": "1.7.0",
     "htmlhint": "0.10.0",
-    "https-proxy-agent": "2.2.2",
+    "https-proxy-agent": "2.2.3",
     "husky": "0.14.3",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "4.1.0",
