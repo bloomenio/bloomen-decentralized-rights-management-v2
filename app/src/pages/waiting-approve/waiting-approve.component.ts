@@ -52,7 +52,7 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             this.router.navigate(['inbox'])
                 .then(() => {
-                  window.location.reload();
+                  // window.location.reload();
                 });
           });
         }

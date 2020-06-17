@@ -34,7 +34,8 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="inbox-detail-wrapper" fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.CLAIM" (mouseover)="initializeCurrentMember()" >
+<mat-card class="inbox-detail-wrapper" fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.CLAIM"
+          (mouseover)="initializeCurrentMember()" >
     <div fxLayout="row" fxLayoutAlign="space-between start">
         <div fxLayout="column" class="header-wrapper">
             <div class="info-wrapper">

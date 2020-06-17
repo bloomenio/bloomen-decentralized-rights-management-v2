@@ -6,8 +6,8 @@
         <mat-form-field>
             <input matInput autocomplete="off" class="input-placeholder" (keyup)="applyAnythingFilter($event.target.value)"
                    style="font-size: 20px" placeholder="Search ISCs, titles, territories, use & right types.
-E.g.: Enter 'ISWC Greece from 1/1/2016 to 2/2/2020' to get all Musical Works related to Greece
-that have right dates between 1/1/2016 and 2/2/2020. For an asset relating to a specific year use: 'year 2020'.
+E.g.: Enter 'ISWC Greece from 1/31/2016 to 2/25/2020' to get all Musical Works related to Greece
+that have right dates between 1/31/2016 and 2/25/2020. For an asset relating to a specific year use: 'year 2020'.
 Tip: I am NOT case sensitive.">
         </mat-form-field>
         <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$ | async) }">
@@ -120,7 +120,7 @@ Tip: I am NOT case sensitive.">
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <mat-paginator [length]="usersPageNumber" [pageSize]="50"></mat-paginator>
-                      <!-- pageSize is the same as PAGE_SIZE in the corresponding *.sol file -->
+        <mat-paginator [length]="usersPageNumber" [pageSize]="usersPageNumber"></mat-paginator>
+                      <!-- pageSize must be the same as PAGE_SIZE in the corresponding *.sol file -->
     </div>
 </div>

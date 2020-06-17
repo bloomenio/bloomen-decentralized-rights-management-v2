@@ -18,6 +18,8 @@ import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/mu
 import {InboxComponent} from '@pages/inbox/inbox.component';
 import {ClaimsDataSource} from '@pages/claims/claims.datasource';
 import * as fromMemberActions from '@stores/member/member.actions';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from "@angular/router";
 
 const log = new Logger('inbox-detail.component');
 
@@ -47,7 +49,9 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private fb: FormBuilder,
     public claimsComponent: ClaimsComponent,
-    public inboxComponent: InboxComponent
+    public inboxComponent: InboxComponent,
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   public ngOnInit() {
@@ -100,13 +104,61 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
       this.claimsComponent.currentMember = this.currentMember;
     }
     // console.log(this.claimsComponent.currentMember, ' = ', this.currentMember);
+    // this.inboxComponent.shellComponent.renewUserRights().then(r => {});
   }
 
   public onUpdate(message) {
     this.claimsComponent.members = this.members;
-    this.claimsComponent.clickEdit(message, true);
+    let dialog;
+    const isEdit = true;
+    const element = message;
+    switch (element.claimType) {
+      case false:
+        dialog = this.dialog.open(MusicalDialogComponent, {
+          data: {
+            claim: element,
+            members: this.members,
+            currentMember: this.inboxComponent.currentMember || this.currentMember,
+            disableMemberEdit: true,
+            isEditable: isEdit,
+            toDelete: false
+          },
+          width: '900px',
+          height: '500px'
+        });
+        break;
+      case true:
+        dialog = this.dialog.open(SoundDialogComponent, {
+          data: {
+            claim: element,
+            members: this.members,
+            currentMember: this.inboxComponent.currentMember || this.currentMember,
+            disableMemberEdit: true,
+            isEditable: isEdit,
+            toDelete: false
+          },
+          width: '900px',
+          height: '500px'
+        });
+        break;
+      default:
+        break;
+    }
+
+    dialog.afterClosed().subscribe(value => {
+      if (value) {
+        this.claimsComponent.claimsContract.updateCl(value).then(() => {
+          // this.router.navigateByUrl('/repertoire')
+          this.router.navigate(['repertoire'])
+              .then(() => {
+                // this.router.navigateByUrl('/claims')
+                this.router.navigate(['inbox']);
+              });
+        });
+      }
+    });
+    // this.claimsComponent.clickEdit(message, true);
     // tslint:disable-next-line:no-life-cycle-call
-    this.inboxComponent.ngOnInit();
     // this.claimsComponent.dataSource = new ClaimsDataSource(this.claimsComponent.claimsContract); // still useless
     // this.claimsComponent.dataSource.loadClaims(); // still useless
     // this.claimsComponent.store.dispatch(new fromMemberActions.InitMember()); // still useless

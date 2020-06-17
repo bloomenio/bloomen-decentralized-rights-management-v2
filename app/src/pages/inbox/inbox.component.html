@@ -6,16 +6,16 @@
     <mat-spinner></mat-spinner>
 </div>
 
-<div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length">
-<!--    (mousemove)="print()">-->
+<div fxFill fxLayout="column" fxLayoutAlign="center center" *ngIf="!inbox?.length"
+    (mousemove)="updateInfo()">
     <mat-icon class="large-icon" *ngIf="timePassed">inbox</mat-icon>
     <div class="title-nomessage" *ngIf="timePassed">{{ 'inbox.title_no_message' | translate }}</div>
     <div class="text-nomessage" *ngIf="timePassed">
         Welcome to Bloomen Blockchain Platform! You have no messages at the moment.</div>
 </div>
 
-<div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length">
-<!--    (mousemove)="print()" >-->
+<div fxFill fxLayout="row" fxLayoutAlign="center start" *ngIf="inbox?.length"
+    (mousemove)="updateInfo()">
     <div fxFill fxFlex="30" fxLayout="column" class="detail-wrapper list-wrapper">
         <ng-container  *ngFor="let messageItem of inbox">
             <blo-inbox-item-list [message]="messageItem"

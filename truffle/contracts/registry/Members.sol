@@ -56,7 +56,7 @@ contract Members is Random, Registry {
     members_[_memberId].totalTokens = _totalTokens;
   }
 
-  function updateMemberClaimInbox(uint256 _memberId, uint256[] newInbox) {
+  function updateMemberClaimInbox(uint256 _memberId, uint256[] newInbox) public {
     members_[_memberId].claimInbox = newInbox;
   }
 

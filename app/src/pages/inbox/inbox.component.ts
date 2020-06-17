@@ -217,7 +217,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async fillInbox() {
+  public async fillInbox() {
     // console.log('this is fillInbox');
     const claimsArray = [];
     const usersArray = [];
@@ -458,5 +458,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     if (this.dialog.openDialogs) {
       this.dialog.closeAll();
     }
+  }
+
+  public updateInfo() {
+    // this.shellComponent.renewUserRights().then(r => {});
   }
 }

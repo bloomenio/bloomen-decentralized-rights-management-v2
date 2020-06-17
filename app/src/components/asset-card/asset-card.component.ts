@@ -46,6 +46,8 @@ export class AssetCardComponent implements OnInit {
   @Input() public currentMember: MemberModel;
 
   private user$: Subscription;
+  private insertedClaimsCount: number;
+  private maxinsertedClaimsCount: number;
 
   constructor(
     private store: Store<any>,
@@ -269,15 +271,18 @@ export class AssetCardComponent implements OnInit {
     }
     if (globalAllAssets === undefined) {
       alert('Bloomen Decentralized Rights Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
-          'In order to fetch the appropriate decentralized user rights on assets.');
+          'In order to fetch from blockchain the appropriate user rights on assets.');
     } else {
       const objs = JSON.parse(uploadedCSV2JSON) as MyJSON[];
       // console.log('GLOBAL ALL ASSETS');
       // console.log(globalAllAssets);
       console.log('We have ', objs.length, ' claims to upload: ', objs);
       // let dialog;
+      this.insertedClaimsCount = -1;
       if (objs.length * price > userTokens) {
-        this.alertUser2();
+        this.alertUser2(userTokens, price);
+        this.insertedClaimsCount = 1;
+        this.maxinsertedClaimsCount = userTokens / price;
         // console.log('user tokens is ', userTokens, 'transaction price is ', price,
         //     'cost of upload is ', objs.length * price);
         // dialog = this.dialog.open(SoundDialogComponent, { } );
@@ -497,9 +502,20 @@ export class AssetCardComponent implements OnInit {
                 if (this.price > this.user.tokens) {
                   this.alertUser();
                 }
-                await this.claimsContract.addClaim(claimsArray[j]).then(() => {
-                console.log('Claim No', j + 1, ' of', claimsArray.length,
-                        ' was added successfully:\n', claimsArray[j]); });
+                if (this.insertedClaimsCount >= 0 && this.insertedClaimsCount <= this.maxinsertedClaimsCount) {
+                  await this.claimsContract.addClaim(claimsArray[j]).then(() => {
+                    console.log('Claim No', j + 1, ' of', claimsArray.length,
+                        ' was added successfully:\n', claimsArray[j]);
+                    this.insertedClaimsCount++; // count of next
+                    // console.log(this.insertedClaimsCount);
+                  });
+                  // console.log(this.insertedClaimsCount);
+                } else if (this.insertedClaimsCount === -1) {
+                  await this.claimsContract.addClaim(claimsArray[j]).then(() => {
+                    console.log('Claim No', j + 1, ' of', claimsArray.length,
+                        ' was added successfully:\n', claimsArray[j]);
+                  });
+                }
               }
             }
           });
@@ -522,8 +538,9 @@ export class AssetCardComponent implements OnInit {
         'Please refer to your Administrator or CMO.');
   }
 
-  public alertUser2() {
-    alert('You do not have enough tokens to create all claims.\n\n' +
-        'Only the minimum number of claims will be created.');
+  public alertUser2(userTokens: any, price: any) {
+    const message = 'You only have ' + userTokens + ' tokens to spend.\n\n' +
+        'Hence only tokens/claim_price = ' + userTokens / price + ' claims will be created.';
+    alert(message);
   }
 }

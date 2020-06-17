@@ -298,6 +298,9 @@ export class ShellComponent implements OnInit, OnDestroy {
         }});
         if (rightCSVFormat) {
           this.uploadedCSV2JSON = this.csvJSON(papa.data);
+          if (this.uploadedCSV2JSON === '') {
+            return;
+          }
           // console.log(this.uploadedCSV2JSON);
           // tslint:disable-next-line:no-life-cycle-call
           this.assetCardComponent.ngOnInit();
@@ -346,21 +349,23 @@ export class ShellComponent implements OnInit, OnDestroy {
       alert('Please upload a valid file with headers: \n' +
           '\'isc,countries,startDate,endDate,types,splitPart,rightHolderRole,' +
           'rightHolderProprietaryID,title\'\n');
-    }
-    for (let i = 1; i < line.length; i++) {
-      const obj = {};
-      for (let j = 0; j < headers.length; j++) {
-        const currentline = line[i];
-        if (j === 2 || j === 3) {
-          obj[headers[j]] = Date.parse(currentline[j]).toString();
-        } else {
-          obj[headers[j]] = (currentline[j]).toString();
+      return '';
+    } else {
+      for (let i = 1; i < line.length; i++) {
+        const obj = {};
+        for (let j = 0; j < headers.length; j++) {
+          const currentline = line[i];
+          if (j === 2 || j === 3) {
+            obj[headers[j]] = Date.parse(currentline[j]).toString();
+          } else {
+            obj[headers[j]] = (currentline[j]).toString();
+          }
         }
+        result.push(obj);
       }
-      result.push(obj);
+      // return result; //JavaScript object
+      return JSON.stringify(result); // JSON
     }
-    // return result; //JavaScript object
-    return JSON.stringify(result); // JSON
   }
 
   public alertUser() {

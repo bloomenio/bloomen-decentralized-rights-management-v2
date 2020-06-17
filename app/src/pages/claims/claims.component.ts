@@ -144,14 +144,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(this.members);
 
         // To check if user tokens are enough to submit transactions.
-        if (currentUser.role !== ROLES.SUPER_USER) {
-            await this.claimsContract.getTransactionPrice().then(price => {
-                this.price = Number(price);
-                this.allowTransactionSubmissions = this.price <= currentUser.tokens;
-                // console.log('AssetCardComponent says user tokens are ', this.user.tokens, ', transaction price is ', this.price,
-                //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
-            });
-        }
+        // if (currentUser.role !== ROLES.SUPER_USER) {
+        //     await this.claimsContract.getTransactionPrice().then(price => {
+        //         this.price = Number(price);
+        //         this.allowTransactionSubmissions = this.price <= currentUser.tokens;
+        //         // console.log('AssetCardComponent says user tokens are ', this.user.tokens, ', transaction price is ', this.price,
+        //         //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
+        //     });
+        // }
 
         this.dataSourceClaims = this.dataSource.claims;
         this.dataSource.claims$.subscribe((claims) => {
@@ -189,7 +189,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.paginator.pageSize
                 );
                 this.dataSourceClaims = this.dataSource.claims;
-                console.log('this.dataSourceClaims: ', this.dataSourceClaims);
+                // console.log('this.dataSourceClaims: ', this.dataSourceClaims);
             // }
         }
         // if (this.shellComponent.newMessagesGet()) {
@@ -520,7 +520,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         });
         this.dataSource.claims = this.filterLabelsOrNot(this.filteredAny);
-        console.log('anyFilter: ', this.anyFilter);
+        // console.log('anyFilter: ', this.anyFilter);
         // this.anyFilter = anyFilter;
         if (this.anyFilter && this.anyFilter[0] === '' && this.statusFilter) {
             this.applyStatusFilter(this.statusFilter);
