@@ -1,5 +1,8 @@
 # Bloomen Decentralized Rights Management v2
- The prototype consists of three different modules that allow to have a complete and fully operational solution: 
+ This branch of the project implements the required modules and components for the Anonymous Personalization innovation and the special Know Your Customer (KYC) features of the element.
+ 
+ The online demonstration is available on http://demo5.bloomen.io. 
+
 
 ## Bloomen Decentralized Rights Management v2 / [api](api/README.md)
  Since it is the first iteration of prototype we have chosen to build a lightweight middleware that provides a set of data for demonstration purposes.

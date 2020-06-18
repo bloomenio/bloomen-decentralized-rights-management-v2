@@ -60,7 +60,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
         lastName: ['', [Validators.required]],
         cmo: ['', [Validators.required]],
         member: ['', [Validators.required]],
-        role: ['', [Validators.required]]
+        role: ['', [Validators.required]],
+        kycData: ['', [Validators.required]]
       });
     } else {
       this.userForm = this.fb.group({
