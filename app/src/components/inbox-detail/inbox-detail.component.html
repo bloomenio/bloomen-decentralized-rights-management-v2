@@ -2,8 +2,8 @@
     <div fxLayout="row" fxLayoutAlign="space-between start">
         <div fxLayout="column" class="header-wrapper">
             <div class="info-wrapper">
-                <div class="username">{{ message.firstName + " " + message.lastName }}</div>
-                <div class="date">{{ message.creationDate | date }}</div>
+                <div class="username all-copy">{{ message.firstName + " " + message.lastName }}</div>
+                <div class="date all-copy">{{ message.creationDate | date }}</div>
             </div>
             <mat-chip-list>
                 <mat-chip>{{ inboxEnum.STATUS[message.status] | translate }}</mat-chip>
@@ -12,12 +12,12 @@
         <div fxLayout="row" *ngIf="member">
             <div fxLayout="column" class="sender-box" fxLayoutAlign="space-between">
                 <div fxLayout="column" class="sender-wrapper">
-                    <div class="sender-title">{{'company_management.table.cmo' | translate}}</div>
-                    <div class="sender-name">{{ member.cmo }}</div>
+                    <div class=" sender-title all-copy">{{'company_management.table.cmo' | translate}}</div>
+                    <div class=" sender-name all-copy">{{ member.cmo }}</div>
                 </div>
                 <div fxLayout="column" class="sender-wrapper">
-                    <div class="sender-title">{{'user_dialog.member' | translate }}</div>
-                    <div class="sender-name">{{ member.name }}</div>
+                    <div class=" sender-title all-copy">{{'user_dialog.member' | translate }}</div>
+                    <div class=" sender-name all-copy">{{ member.name }}</div>
                 </div>
             </div>
             <div class="sender-logo" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
@@ -34,12 +34,13 @@
         </div>
     </div>
 </mat-card>
-<mat-card class="inbox-detail-wrapper" fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.CLAIM" (mouseover)="initializeCurrentMember()" >
+<mat-card class="inbox-detail-wrapper" fxLayout="column" *ngIf="message?.type === inboxEnum.TYPES.CLAIM"
+          (mouseover)="initializeCurrentMember()" >
     <div fxLayout="row" fxLayoutAlign="space-between start">
         <div fxLayout="column" class="header-wrapper">
             <div class="info-wrapper">
-                <div class="username">{{ message.claimData.title }}</div>
-                <div class="date">{{ message.lastChange | date }}</div>
+                <div class="username all-copy">{{ message.claimData.title }}</div>
+                <div class="date all-copy">{{ message.lastChange | date }}</div>
             </div>
             <mat-chip-list>
                 <mat-chip>{{'claimStatus.' + message.status | translate | uppercase}}</mat-chip>
@@ -48,15 +49,15 @@
         <div fxLayout="row" *ngIf="member">
             <div fxLayout="column" class="sender-box" fxLayoutAlign="space-between">
                 <div fxLayout="column" class="sender-wrapper">
-                    <div class="sender-title">{{'company_management.table.cmo' | translate}}</div>
-                    <div class="sender-name">{{ member.cmo }}</div>
+                    <div class=" sender-title all-copy all-copy">{{'company_management.table.cmo' | translate}}</div>
+                    <div class=" sender-name all-copy all-copy">{{ member.cmo }}</div>
                 </div>
                 <div fxLayout="column" class="sender-wrapper">
-                    <div class="sender-title">{{'user_dialog.member' | translate }}</div>
-                    <div class="sender-name">{{ member.name }}</div>
+                    <div class=" sender-title all-copy all-copy">{{'user_dialog.member' | translate }}</div>
+                    <div class=" sender-name all-copy all-copy">{{ member.name }}</div>
                 </div>
             </div>
-            <div class="sender-logo" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
+            <div class="sender-logo all-copy" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
         </div>
     </div>
     <div fxLayout="column" class="claim-info">
@@ -64,43 +65,43 @@
             <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="!message.claimType">
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">ISWC</div>
-                        <div class="sender-name">{{ message.claimData.ISWC }}</div>
+                        <div class=" sender-title all-copy">ISWC</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.ISWC }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Right Holder Proprietary ID</div>
-                        <div class="sender-name">{{ message.claimData.rightHolderProprietaryID }}</div>
+                        <div class=" sender-title all-copy">Right Holder Proprietary ID</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.rightHolderProprietaryID }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Right Types</div>
-                        <div class="sender-name" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
-                    </div>
-                </div>
-                <div fxLayout="column" class="info-wrapper">
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Start Date</div>
-                        <div class="sender-name">{{ message.claimData.startDate | date }}</div>
-                    </div>
-                    <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">End Date</div>
-                        <div class="sender-name">{{ message.claimData.endDate | date }}</div>
+                        <div class=" sender-title all-copy">Right Types</div>
+                        <div class=" sender-name all-copy" *ngFor="let rightType of message.claimData.rightTypes">{{ rightType }}</div>
                     </div>
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Right Holder Role</div>
-                        <div class="sender-name">{{ message.claimData.rightHolderRole }}</div>
+                        <div class=" sender-title all-copy">Start Date</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.startDate | date }}</div>
                     </div>
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Territories</div>
-                        <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}
+                        <div class=" sender-title all-copy">End Date</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.endDate | date }}</div>
+                    </div>
+                </div>
+                <div fxLayout="column" class="info-wrapper">
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class=" sender-title all-copy">Right Holder Role</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.rightHolderRole }}</div>
+                    </div>
+                    <div fxLayout="column" class="group-wrapper">
+                        <div class=" sender-title all-copy">Territories</div>
+                        <div class=" sender-name all-copy" *ngFor="let country of message.claimData.countries">{{ country }}
                         </div>
                     </div>
                 </div>
                 <div fxLayout="column" class="info-wrapper">
                     <div fxLayout="column" class="group-wrapper">
-                        <div class="sender-title">Split</div>
-                        <div class="sender-name">{{ message.claimData.splitPart }}%</div>
+                        <div class=" sender-title all-copy">Split</div>
+                        <div class=" sender-name all-copy">{{ message.claimData.splitPart }}%</div>
                     </div>
                 </div>
                 <div>
@@ -112,34 +113,34 @@
         <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="message.claimType">
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">ISRC</div>
-                    <div class="sender-name">{{ message.claimData.ISRC }}</div>
+                    <div class=" sender-title all-copy">ISRC</div>
+                    <div class=" sender-name all-copy">{{ message.claimData.ISRC }}</div>
                 </div>
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">Split</div>
-                    <div class="sender-name">{{ message.claimData.splitPart }}%</div>
-                </div>
-            </div>
-            <div fxLayout="column" class="info-wrapper">
-                <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">Start Date</div>
-                    <div class="sender-name">{{ message.claimData.startDate | date }}</div>
-                </div>
-                <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">End Date</div>
-                    <div class="sender-name">{{ message.claimData.endDate | date }}</div>
+                    <div class=" sender-title all-copy">Split</div>
+                    <div class=" sender-name all-copy">{{ message.claimData.splitPart }}%</div>
                 </div>
             </div>
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">Territories</div>
-                    <div class="sender-name" *ngFor="let country of message.claimData.countries">{{ country }}</div>
+                    <div class=" sender-title all-copy">Start Date</div>
+                    <div class=" sender-name all-copy">{{ message.claimData.startDate | date }}</div>
+                </div>
+                <div fxLayout="column" class="group-wrapper">
+                    <div class=" sender-title all-copy">End Date</div>
+                    <div class=" sender-name all-copy">{{ message.claimData.endDate | date }}</div>
                 </div>
             </div>
             <div fxLayout="column" class="info-wrapper">
                 <div fxLayout="column" class="group-wrapper">
-                    <div class="sender-title">Use Types</div>
-                    <div class="sender-name" *ngFor="let useType of message.claimData.useTypes">{{ useType }}</div>
+                    <div class=" sender-title all-copy">Territories</div>
+                    <div class=" sender-name all-copy" *ngFor="let country of message.claimData.countries">{{ country }}</div>
+                </div>
+            </div>
+            <div fxLayout="column" class="info-wrapper">
+                <div fxLayout="column" class="group-wrapper">
+                    <div class=" sender-title all-copy">Use Types</div>
+                    <div class=" sender-name all-copy" *ngFor="let useType of message.claimData.useTypes">{{ useType }}</div>
                 </div>
             </div>
             <div>

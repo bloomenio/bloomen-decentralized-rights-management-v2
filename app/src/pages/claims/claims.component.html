@@ -3,8 +3,15 @@
         <div class="loading-shade" *ngIf="dataSource.loading$ | async">
             <mat-spinner></mat-spinner>
         </div>
+        <mat-form-field>
+            <input matInput autocomplete="off" class="input-placeholder" (keyup)="applyAnythingFilter($event.target.value)"
+                   style="font-size: 20px" placeholder="Search ISCs, titles, territories, use & right types.
+E.g.: Enter 'ISWC Greece from 1/31/2016 to 2/25/2020' to get all Musical Works related to Greece
+that have right dates between 1/31/2016 and 2/25/2020. For an asset relating to a specific year use: 'year 2020'.
+Tip: I am NOT case sensitive.">
+        </mat-form-field>
         <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$ | async) }">
-            <table mat-table [dataSource]="dataSource" class="table" matSort matSortDirection="asc" matSortDisableClear>
+            <table mat-table [dataSource]="dataSource.claims" class="table" matSort matSortDirection="asc" matSortDisableClear>
 
                 <!-- Type Column -->
                 <ng-container matColumnDef="type">
@@ -25,7 +32,7 @@
                         International Standard Code
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <div *ngIf="element.claimData.ISC">{{ element.claimData.ISC }}</div>
+                        <div class="all-copy" *ngIf="element.claimData.ISC">{{ element.claimData.ISC }}</div>
 <!--                        <div *ngIf="element.claimData.ISWC">{{ element.claimData.ISWC }}</div>-->
 <!--                        <div *ngIf="element.claimData.ISRC">{{ element.claimData.ISRC }}</div>-->
                     </td>
@@ -36,18 +43,27 @@
                     <th mat-header-cell *matHeaderCellDef>
                         Title
                     </th>
-                    <td mat-cell *matCellDef="let element">{{ element.status === undefined ? element.claimData.title : nothing }}</td>
+                    <td class="all-copy" mat-cell *matCellDef="let element">{{ element.status === undefined ? element.claimData.title : nothing }}</td>
 <!--                    <td mat-cell *matCellDef="let element">{{ element.claimData.title }}</td>-->
                 </ng-container>
 
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef>
-                        {{ 'claims.table.status' | translate }}
+                        <mat-form-field>
+                            <mat-label>Status</mat-label>
+                            <mat-select [formControl]="sF" multiple (selectionChange)="applyStatusFilter($event)">
+<!--                                <input matInput autocomplete="off" (keyup)="searchStatusFilter($event.target.value)"-->
+<!--                                       style="font-size: 20px" placeholder="Search status...">-->
+                                <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.label }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </th>
                     <td mat-cell *matCellDef="let element" style="width: 50px">
                         <mat-chip-list fxLayoutAlign="center">
-                            <mat-chip *ngIf="element.status === true || element.status === false">{{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip>
+                            <mat-chip *ngIf="element.status === true || element.status === false">
+                                {{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip>
 <!--                            <mat-chip>{{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip>-->
                         </mat-chip-list>
                     </td>
@@ -58,7 +74,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         {{ 'user_management.table.creationDate' | translate }}
                     </th>
-                    <td mat-cell *matCellDef="let element">
+                    <td class="all-copy" mat-cell *matCellDef="let element">
                         {{ element.creationDate | date: 'dd/MM/yyyy' }}
                     </td>
                 </ng-container>
@@ -104,7 +120,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <mat-paginator [length]="usersPageNumber" [pageSize]="50"></mat-paginator>
-                      <!-- pageSize is the same as PAGE_SIZE in the corresponding *.sol file -->
+        <mat-paginator [length]="usersPageNumber" [pageSize]="usersPageNumber"></mat-paginator>
+                      <!-- pageSize must be the same as PAGE_SIZE in the corresponding *.sol file -->
     </div>
 </div>

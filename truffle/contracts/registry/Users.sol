@@ -64,7 +64,7 @@ contract Users is Members {
     _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, _status, owner, 1);
   }
 
-  function getUsedTokens(uint256 _memberId) public returns (uint){
+  function getUsedTokens(uint256 _memberId) public view returns (uint){
     uint usedTokens = 0;
     for (uint i = 0; i < usersList_.length; ++i) {
       if (users_[usersList_[i]].memberId == _memberId) {

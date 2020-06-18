@@ -40,7 +40,7 @@ contract Claims {
 
   mapping (uint256 => Claim) private claims_;
   mapping (uint256 => uint16) private maxSplits_;
-  uint256 constant private PAGE_SIZE = 50;
+  uint256 constant private PAGE_SIZE = 5000000;
   uint256 constant private transactionPrice = 1;
 
   uint256 private claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones
@@ -100,7 +100,7 @@ contract Claims {
     return claims_[_claimId];
   }
 
-  function getClaimsByMemberId(uint _page) view public returns (Claim[] memory) {
+  function getClaimsByMemberId(uint _page) public returns (Claim[] memory) {
 
     uint256 pageIndex = SafeMath.mul(PAGE_SIZE, _page);
     Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
@@ -162,7 +162,7 @@ contract Claims {
     }
   }
 
-  function getClaimsCountByMemberId() view public returns (uint) {
+  function getClaimsCountByMemberId() public returns (uint) {
     Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
     if (keccak256(currentUser.role) != keccak256("Super admin")) { // If user IS NOT "Super admin".
       uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);

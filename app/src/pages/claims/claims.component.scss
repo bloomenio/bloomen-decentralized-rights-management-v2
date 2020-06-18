@@ -26,7 +26,7 @@
 
   .table-container {
     position: relative;
-    max-height: 400px;
+    //max-height: 400px;
     overflow: auto;
   }
 
@@ -69,4 +69,29 @@
     color: #fa3e3e;
     font-style: italic;
   }
+
+
+  .-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    text-overflow: ellipsis;
+    white-space:pre-line;
+    position:relative;
+    top:-7px;
+
+  }
+  .-moz-placeholder { /* Firefox 19+ */
+    white-space:pre-line;
+    position:relative;
+    top:-7px;
+  }
+  .input-placeholder {
+    text-overflow: ellipsis;
+  }
 }
+
+.all-copy {
+  -webkit-user-select: all;  /* Chrome all / Safari all */
+  -moz-user-select: all;     /* Firefox all */
+  -ms-user-select: all;      /* IE 10+ */
+  user-select: all;          /* Likely future */
+}
+
