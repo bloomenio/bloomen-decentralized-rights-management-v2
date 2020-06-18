@@ -101,7 +101,7 @@ export class UserProfileShellComponent implements OnInit {
     // console.log('FROM RENEW USER GROUP RIGHTS: ');
     // console.log(user);
     this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
-    this.store.dispatch(new fromUserActions.AddUserSuccess(user));
+    // this.store.dispatch(new fromUserActions.AddUserSuccess(user));
     this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
     // @ts-ignore
     this.user = user;
