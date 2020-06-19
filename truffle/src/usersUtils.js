@@ -88,11 +88,13 @@ async function updateUser() {
         { type: 'input', name: 'role', message: 'Specify the role user:' },
         { type: 'input', name: 'address', message: 'Specify the address:' },
         { type: 'input', name: 'tokens', message: 'Specify the tokens:' },
+        { type: 'input', name: 'kycData', message: 'Specify the kycData IPFS address:' },
     ];
 
     let answer = await inquirer.prompt(questions);
 
-    contractInstance.methods.updateUser(answer.firstName, answer.lastName, answer.memberId, answer.role, answer.address, answer.tokens)
+    contractInstance.methods.updateUser(answer.firstName, answer.lastName, answer.memberId, answer.role,
+        answer.address, answer.tokens, answer.kycData)
         .send(transactionObject).then(checkTransaction);
 }
 

@@ -20,6 +20,7 @@ import { UserProfileShellModule } from '@components/user-profile-shell/user-prof
 import { InboxItemListModule } from '@components/inbox-item-list/inbox-item-list.module';
 import { InboxDetailModule } from '@components/inbox-detail/inbox-detail.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 /**
  * Module to import and export all the components for the home page.
@@ -36,7 +37,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ShellModule,
     UserProfileShellModule,
     InboxDetailModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMatFileInputModule
   ],
   declarations: [UserFormComponent]
 })

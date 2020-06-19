@@ -39,6 +39,18 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="items-container">
+      <mat-form-field fxFlex="45" appearance="outline">
+        <ngx-mat-file-input #removableInput formControlName="kycData" [multiple]="false" [accept]="'.txt'"
+                            [color]="null" placeholder="Select another .txt">
+          <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>
+        </ngx-mat-file-input>
+        <button *ngIf="removableInput.empty" mat-button (click)="openLink()">> Current KYC data.</button>
+        <button *ngIf="!removableInput.empty" mat-icon-button matSuffix (click)="clear()">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
     <div mat-dialog-actions fxLayoutAlign="end center">
       <button mat-button type="button" (click)="dialogRef.close()"> {{'common.cancel' | translate | uppercase}} </button>
       <button color="primary" [disabled]="!editUserForm.valid" mat-button> {{'common.accept' | translate | uppercase}} </button>

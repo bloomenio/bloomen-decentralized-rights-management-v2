@@ -19,6 +19,7 @@ contract Users is Members {
     string cmo;
     string[] groups;
     uint tokens;
+    string kycData;
   }
 
   enum StatusUserEnum {
@@ -35,7 +36,8 @@ contract Users is Members {
 
   // PUBLIC
 
-  function registerUserRequest(uint256 _creationDate, string _firstName, string _lastName, string _role, uint256 _memberId) public {
+  function registerUserRequest(uint256 _creationDate, string _firstName, string _lastName, string _role,
+    uint256 _memberId, string _kycData) public {
 
     require(_memberId != 0, "No valid memberId");
     require(_creationDate > 0, "CreationDate is mandatory");
@@ -43,10 +45,13 @@ contract Users is Members {
     require(_memberExists(_memberId), "Member not exists");
 
     uint256 _requestId = Random.rand(_creationDate);
-    _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, uint256(StatusUserEnum.PENDING), msg.sender, 0);
+    _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, uint256(StatusUserEnum.PENDING),
+      msg.sender, 0);
+    users_[msg.sender].kycData = _kycData;
   }
 
-  function updateUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner, uint _tokens) public {
+  function updateUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner,
+    uint _tokens, string _kycData) public {
 
     require(users_[owner].owner > address(0), "This user not exists");
     require(uint(users_[owner].status) == uint(StatusUserEnum.ACCEPTED), "You are not accepted");
@@ -56,6 +61,7 @@ contract Users is Members {
       members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens;
     }
     users_[owner].tokens = _tokens;
+    users_[owner].kycData = _kycData;
 
     uint256 _requestId = users_[owner].requestId;
     uint256 _creationDate = users_[owner].creationDate;
@@ -74,7 +80,8 @@ contract Users is Members {
     return usedTokens;
   }
 
-  function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner, string[] _groups) public {
+  function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role,
+    address owner,string[] _groups) public {
 
     users_[owner].firstName = _firstName;
     users_[owner].lastName = _lastName;
@@ -134,7 +141,7 @@ contract Users is Members {
     users_[account].cmo = _cmo;
 //    users_[account].tokens = 0; // should "Super admin" have tokens?
     users_[account].status = StatusUserEnum.ACCEPTED;
-    users_[account].groups = ["digit100"];
+    users_[account].groups = ["digit1"];
     addSigner(account);
   }
 
@@ -147,7 +154,6 @@ contract Users is Members {
     if (counter == 0 || pageIndex > counter || _page > pageNumber) {
       return;
     }
-
     User[] memory userPageBasic = new User[](PAGE_SIZE);
     uint256 counterFinal = 0;
 

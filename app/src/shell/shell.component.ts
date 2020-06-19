@@ -173,7 +173,8 @@ export class ShellComponent implements OnInit, OnDestroy {
       owner: userBc.owner,
       cmo: userBc.cmo,
       groups: userBc.groups,
-      tokens: userBc.tokens
+      tokens: userBc.tokens,
+      kycData: userBc.kycData
     };
     // console.log('FROM RENEW USER GROUP RIGHTS: ');
     // console.log(user);

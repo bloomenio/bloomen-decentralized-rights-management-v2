@@ -1,14 +1,14 @@
 <div class="user-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
     <div class="multiCMO" *ngIf="autoFillMultiCMO">
-        <button mat-button type="button" (click)="autoMultiCMO('Alex')" color="primary">{{'Alex'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('Evolution')" color="primary">{{'Evolution'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('Audio')" color="primary">{{'Audio'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('AFI')" color="primary">{{'AFI'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('GetSound')" color="primary">{{'GetSound'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('ITSRIGHT')" color="primary">{{'ITSRIGHT'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('SCF')" color="primary">{{'SCF'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('Turo')" color="primary">{{'Turo'}}</button>
-        <button mat-button type="button" (click)="autoMultiCMO('Test')" color="primary">{{'Test'}}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Alex')" color="primary">{{ 'Alex' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Evolution')" color="primary">{{ 'Evolution' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Audio')" color="primary">{{ 'Audio' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('AFI')" color="primary">{{ 'AFI' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('GetSound')" color="primary">{{ 'GetSound' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('ITSRIGHT')" color="primary">{{ 'ITSRIGHT' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('SCF')" color="primary">{{ 'SCF' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Turo')" color="primary">{{ 'Turo' }}</button>
+        <button mat-button type="button" (click)="autoMultiCMO('Test')" color="primary">{{ 'Test' }}</button>
     </div>
     <div class="user-form-box" fxLayout="column" fxLayoutAlign="start center">
         <div class="brand"></div>
@@ -43,15 +43,23 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-<!--            <mat-form-field fxFlex="45">-->
-<!--&lt;!&ndash;                <mat-label>Upload KYC documents in a single pdf file. </mat-label>&ndash;&gt;-->
-<!--                <div>-->
-<!--                    <md-icon class="material-icons">attach_file</md-icon>-->
-<!--                    <button mat-button (click)="openInput()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>-->
-<!--                    <input id="fileInput" hidden name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">-->
-<!--                </div>-->
-
-<!--            </mat-form-field>-->
+            <mat-form-field fxFlex="45" appearance="outline">
+                <ngx-mat-file-input #removableInput formControlName="kycData" [multiple]="false" [accept]="'.txt'"
+                                    [color]="null" placeholder="Select a .txt">
+                    <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>
+                </ngx-mat-file-input>
+<!--                <mat-label>Upload KYC documents in a single pdf file. </mat-label>-->
+<!--                <input matInput id="fileInput" formControlName="kycData" hidden name="file-field"-->
+<!--                       (change)="uploadFile($event)" accept=".pdf">-->
+<!--                <button mat-button (click)="openInput()"><mat-icon>attach_file</mat-icon></button>-->
+<!--                <button mat-button (click)="openInput()"></button>-->
+<!--                <input matInput id="kycData" formControlName="kycData" (change)="uploadFile($event)" #fileInput>-->
+<!--                <button type="button" mat-raised-button (click)="fileInput.click()">KYC upload</button>-->
+<!--                <input hidden matInput (change)="onFileSelected()" #fileInput id="file" formControlName="kycData">-->
+                <button *ngIf="!removableInput.empty" mat-icon-button matSuffix (click)="clear()">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </mat-form-field>
             <div class="actions-wrapper" fxFlex fxLayout="row" fxLayoutAlign="end">
                 <button mat-button type="button" (click)="onCancel()"
                     color="primary">{{ 'common.cancel' | translate | uppercase }}</button>

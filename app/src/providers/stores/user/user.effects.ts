@@ -67,7 +67,8 @@ export class UserEffects {
                 owner: userBc.owner,
                 cmo: userBc.cmo,
                 groups: userBc.groups,
-                tokens: userBc.tokens
+                tokens: userBc.tokens,
+                kycData: userBc.kycData
             };
             // console.log('FROM ADD USER: ');
             // console.log(user);
@@ -101,9 +102,11 @@ export class UserEffects {
                 }, (error) => { log.error(error); })
                     .then(() => {   // to refresh current user data
                         if (this.router.routerState.snapshot.url === '/inbox') {
-                            this.router.navigate(['member-management']).then(() => { this.router.navigate(['inbox']); });
+                            this.router.navigate(['member-management']).then(() => {
+                                this.router.navigate(['inbox']); });
                         } else {
-                            this.router.navigate(['inbox']).then(() => { this.router.navigate(['member-management']); });
+                            this.router.navigate(['inbox']).then(() => {
+                                this.router.navigate(['member-management']); });
                         }
                     });
             });

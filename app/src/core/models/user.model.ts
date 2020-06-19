@@ -10,6 +10,7 @@ export interface UserModel {
     cmo?: string;
     groups?: string[];
     tokens?: number;
+    kycData: string;
 }
 
 export enum StatusEnum {

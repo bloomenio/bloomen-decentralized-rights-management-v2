@@ -1,10 +1,10 @@
 // Basic
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 
 import { MatSnackBar } from '@angular/material';
 import { Logger } from '@services/logger/logger.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import * as fromMnemonicActions from '@stores/mnemonic/mnemonic.actions';
@@ -20,6 +20,7 @@ import { ROLES } from '@core/constants/roles.constants';
 import { UserModel } from '@core/models/user.model';
 
 const log = new Logger('user-form.component');
+const IPFS = require('ipfs');
 
 
 /**
@@ -44,6 +45,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   public autoFill: boolean;
   public autoFillMultiCMO: boolean;
 
+  @ViewChild('fileInput') public fileInput: ElementRef;
+  private kycData: any;
+
   constructor(
     public snackBar: MatSnackBar,
     public router: Router,
@@ -61,7 +65,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         cmo: ['', [Validators.required]],
         member: ['', [Validators.required]],
         role: ['', [Validators.required]],
-        kycData: ['', [Validators.required]]
+        kycData: [undefined, [Validators.required]]
       });
     } else {
       this.userForm = this.fb.group({
@@ -86,7 +90,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public onChange() {
-    console.log('onChange_1 member value is ' + this.userForm.get('member').value);
+    // console.log('onChange_1 member value is ' + this.userForm.get('member').value);
 
     of(this.members).pipe(
       map((members) => {
@@ -104,24 +108,39 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.membersFiltered = members;
       this.userForm.get('member').setValue(undefined);
     });
-    console.log('onChange_2 member value is ' + this.userForm.get('member').value);
+    // console.log('onChange_2 member value is ' + this.userForm.get('member').value);
   }
 
-  public onSubmit() {
+  public async onSubmit() {
     // console.log('onSubmit membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
     // console.log('onSubmit membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
-    // console.log('onSubmit_1 member value is ' + this.userForm.get('member').value);
-    const user: UserModel = {
-      creationDate: new Date().getTime(),
-      firstName: this.userForm.get('firstName').value,
-      lastName: this.userForm.get('lastName').value,
-      memberId: this.userForm.get('member').value,
-      role: this.userForm.get('role').value
-    };
-    this.store.dispatch(new fromUserActions.SendUser(user));
-    this.router.navigate(['waiting-approve']);
-    // console.log('onSubmit_2 member value is ' + this.userForm.get('member').value);
-
+    // console.log('KYC doc ' + this.userForm.get('kycData').value);
+    // console.assert();
+    // console.log(this.userForm.get('kycData').value);
+    Promise.resolve()
+        .then(() => {
+          Promise.resolve()
+              .then(() => {
+                this.onFileSelected(this.userForm.get('kycData').value);
+              })
+              .then(async () => {
+                console.log(this.kycData);
+                await this.ipfsManager()
+                    .then(r => {
+                      console.log(this.kycData);
+                      const user: UserModel = {
+                        creationDate: new Date().getTime(),
+                        firstName: this.userForm.get('firstName').value,
+                        lastName: this.userForm.get('lastName').value,
+                        memberId: this.userForm.get('member').value,
+                        role: this.userForm.get('role').value,
+                        kycData: this.userForm.get('kycData').value
+                      };
+                      this.store.dispatch(new fromUserActions.SendUser(user));
+                      this.router.navigate(['waiting-approve']);
+                });
+              });
+        });
   }
 
   public autoMultiCMO(name: string) {
@@ -352,7 +371,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
         firstName: 'Gonçal',
         lastName: 'Calvo',
         memberId: this.membersFiltered[0].memberId.toString(),
-        role: 'Admin'
+        role: 'Admin',
+        kycData: undefined
       };
       console.log(user);
       this.store.dispatch(new fromUserActions.SendUser(user));
@@ -367,7 +387,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
         firstName: 'Alex',
         lastName: 'Psyhas',
         memberId: this.membersFiltered[0].memberId.toString(),
-        role: 'Admin'
+        role: 'Admin',
+        kycData: undefined
       };
       console.log(user);
       this.store.dispatch(new fromUserActions.SendUser(user));
@@ -389,5 +410,94 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.member$.unsubscribe();
   }
 
+  public async ipfsManager() {
+    // Adding data to IPFS
+    const node = await IPFS.create();
 
+    // const version = await node.version();
+    // console.log('Version:', version.version);
+    const data = this.kycData; // 'kycData'; // this.userForm.get('kycData');
+    // add your data to to IPFS - this can be a string, a Buffer,
+    // a stream of Buffers, etc
+
+    const results = node.add(data);
+    // we loop over the results because 'add' supports multiple
+    // additions, but we only added one entry here so we only see
+    // one log line in the output
+
+    for await (const {cid} of results) {
+      // CID (Content IDentifier) uniquely addresses the data
+      console.log(cid.toString());
+      this.kycData = cid.toString();
+      this.userForm.get('kycData').setValue(this.kycData);
+      console.log(this.kycData);
+    }
+    // and can be used to get it again.
+    // Getting data from IPFS
+    // node = await IPFS.create();
+    //
+    // const stream = node.cat(results.toString());
+    // data = '';
+    //
+    // for await (const chunk of stream) {
+    //   // chunks of data are returned as a Buffer, convert it back to a string
+    //   data += chunk.toString();
+    // }
+    // console.log(data);
+    // Using the CLI
+    // npm install ipfs -g
+    // jsipfs cat QmXuxvjnjk2iT6Xmx3xmWQixy9CNwowGvZBkwMjifr3TxN
+    //
+    // Using the HTTP Gateway
+    // https://ipfs.io/ipfs/QmXuxvjnjk2iT6Xmx3xmWQixy9CNwowGvZBkwMjifr3TxN
+  }
+
+  public openInput() {
+    document.getElementById('kycData').click();
+  }
+
+  public uploadFile(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.userForm.get('kycData').setValue(file);
+    }
+  }
+
+  public readMyTxtFile(file) {
+    // if (event.target.files.length > 0) {
+    if (file.length > 0) {
+      // const file = event.target.files;
+      // if (file.length > 0) {
+        // console.log(file); // You will see the file
+        //
+        const f = new Blob(file, {type: 'text/plain'});
+        const reader = new FileReader();
+        reader.onload = () => {
+          const text = reader.result;
+          console.log(text);
+        };
+        reader.readAsText(f);
+      // }
+    }
+  }
+
+  public onFileSelected(inputNode) {
+    // const inputNode: any = document.querySelector('#file');
+
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.kycData = e.target.result;
+        console.log(this.kycData);
+      };
+
+      reader.readAsText(inputNode);
+    }
+  }
+
+  public clear() {
+    this.kycData = undefined;
+    this.userForm.get('kycData').setValue(undefined);
+  }
 }

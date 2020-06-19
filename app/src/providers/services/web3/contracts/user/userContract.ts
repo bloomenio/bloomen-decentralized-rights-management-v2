@@ -36,7 +36,8 @@ export class UserContract extends Contract {
      */
     public addUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerUserRequest(user.creationDate, user.firstName, user.lastName, user.role, user.memberId).send(this.args);
+            return this.contract.methods.registerUserRequest(user.creationDate, user.firstName, user.lastName,
+                user.role, user.memberId, user.kycData).send(this.args);
         });
     }
 
@@ -50,7 +51,8 @@ export class UserContract extends Contract {
 
     public updateUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role, user.owner, user.tokens).send(this.args);
+            return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role,
+                user.owner, user.tokens, user.kycData).send(this.args);
         });
     }
 
@@ -66,7 +68,8 @@ export class UserContract extends Contract {
         // console.log('from userContract.updateSuperUser\n', user);
         return this.transactionService.addTransaction(this.args.gas, () => {
             // console.log('from userContract.updateSuperUser ARGUMENTS: \n', user.firstName, user.lastName, user.memberId, user.role, user.owner, user.groups);
-            return this.contract.methods.updateSuperUser(user.firstName, user.lastName, user.memberId, user.role, user.owner, user.groups).send(this.args);
+            return this.contract.methods.updateSuperUser(user.firstName, user.lastName, user.memberId, user.role,
+                user.owner, user.groups).send(this.args);
         });
     }
 

@@ -14,6 +14,7 @@ import { UserProfileShellModule } from '@components/user-profile-shell/user-prof
 import {ReactiveFormsModule} from '@angular/forms';
 import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
 import {DialogMemberDataModule} from '@components/dialog-member-data/dialog-member-data.module';
+import {NgxMatFileInputModule} from '@angular-material-components/file-input';
 
 /**
  * Module to import and export all the components for the home page.
@@ -28,7 +29,8 @@ import {DialogMemberDataModule} from '@components/dialog-member-data/dialog-memb
         ShellModule,
         UserProfileShellModule,
         ReactiveFormsModule,
-        DialogMemberDataModule
+        DialogMemberDataModule,
+        NgxMatFileInputModule
     ],
     declarations: [DialogUserDataComponent],
     providers: [DialogUserDataComponent, DatePipe],

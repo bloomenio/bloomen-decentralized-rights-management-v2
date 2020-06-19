@@ -5,6 +5,8 @@ import { ROLES } from '@core/constants/roles.constants';
 import { UserModel } from '@core/models/user.model';
 import {currentMember} from '@pages/inbox/inbox.component';
 import {UserContract} from '@services/web3/contracts';
+import * as fromUserActions from '@stores/user/user.actions';
+const IPFS = require('ipfs');
 
 @Component({
   selector: 'blo-dialog-user-data',
@@ -20,6 +22,7 @@ export class DialogUserDataComponent implements OnInit {
   public usedTokens: number;
   private currentMember: any;
   private max: any;
+  private kycData: any;
 
   constructor(public dialogRef: MatDialogRef<DialogUserDataComponent>,
     private fb: FormBuilder,
@@ -34,7 +37,8 @@ export class DialogUserDataComponent implements OnInit {
       memberId: [this.data.user.memberId, [Validators.required]],
       role: [this.data.user.role, [Validators.required]],
       id: [this.data.user.owner, [Validators.required]],
-      tokens: [this.data.user.tokens, [Validators.required, Validators.min(0), Validators.max(this.data.member.totalTokens)]]
+      tokens: [this.data.user.tokens, [Validators.required, Validators.min(0), Validators.max(this.data.member.totalTokens)]],
+      kycData: [this.data.user.kycData, [Validators.required]]
     });
 
     this.currentMember = currentMember;
@@ -50,18 +54,107 @@ export class DialogUserDataComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    const user: UserModel = {
-      creationDate: this.data.user.creationDate,
-      firstName: this.editUserForm.get('firstName').value,
-      lastName: this.editUserForm.get('lastName').value,
-      memberId: this.editUserForm.get('memberId').value,
-      tokens: this.editUserForm.get('tokens').value,
-      owner: this.data.user.owner,
-      requestId: this.data.user.requestId,
-      role: this.editUserForm.get('role').value,
-      status: this.data.user.status
-    };
-    this.dialogRef.close(user);
+    if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
+      const user: UserModel = {
+        creationDate: this.data.user.creationDate,
+        firstName: this.editUserForm.get('firstName').value,
+        lastName: this.editUserForm.get('lastName').value,
+        memberId: this.editUserForm.get('memberId').value,
+        tokens: this.editUserForm.get('tokens').value,
+        owner: this.data.user.owner,
+        requestId: this.data.user.requestId,
+        role: this.editUserForm.get('role').value,
+        status: this.data.user.status,
+        kycData: this.data.user.kycData
+      };
+      this.dialogRef.close(user);
+    } else // new kycData
+    {  Promise.resolve()
+        .then(async () => {
+          await this.onFileSelected(this.editUserForm.get('kycData').value);
+          Promise.resolve()
+              .then(() => {
+                this.ipfsManager().then(r => {
+                  const user: UserModel = {
+                    creationDate: this.data.user.creationDate,
+                    firstName: this.editUserForm.get('firstName').value,
+                    lastName: this.editUserForm.get('lastName').value,
+                    memberId: this.editUserForm.get('memberId').value,
+                    tokens: this.editUserForm.get('tokens').value,
+                    owner: this.data.user.owner,
+                    requestId: this.data.user.requestId,
+                    role: this.editUserForm.get('role').value,
+                    status: this.data.user.status,
+                    kycData: this.kycData
+                  };
+                  this.dialogRef.close(user);
+                });
+              });
+        });
+    }
   }
 
+  public async ipfsManager() {
+    // Adding data to IPFS
+    const node = await IPFS.create();
+
+    const version = await node.version();
+    // console.log('Version:', version.version);
+    let data = this.kycData; // 'kycData'; // this.userForm.get('kycData');
+    // add your data to to IPFS - this can be a string, a Buffer,
+    // a stream of Buffers, etc
+
+    const results = node.add(data);
+    // we loop over the results because 'add' supports multiple
+    // additions, but we only added one entry here so we only see
+    // one log line in the output
+
+    for await (const {cid} of results) {
+      // CID (Content IDentifier) uniquely addresses the data
+      // console.log(cid.toString());
+    }
+    // and can be used to get it again.
+
+    // Getting data from IPFS
+    // node = await IPFS.create();
+
+    const stream = node.cat(results.toString());
+    data = '';
+
+    for await (const chunk of stream) {
+      // chunks of data are returned as a Buffer, convert it back to a string
+      data += chunk.toString();
+    }
+    // console.log(data);
+    // Using the CLI
+    // npm install ipfs -g
+    // jsipfs cat QmXuxvjnjk2iT6Xmx3xmWQixy9CNwowGvZBkwMjifr3TxN
+    //
+    // Using the HTTP Gateway
+    // https://ipfs.io/ipfs/QmXuxvjnjk2iT6Xmx3xmWQixy9CNwowGvZBkwMjifr3TxN
+  }
+
+  public onFileSelected(inputNode) {
+    // const inputNode: any = document.querySelector('#file');
+
+    if (typeof (FileReader) !== 'undefined') {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.kycData = e.target.result;
+        // console.log(this.kycData);
+      };
+
+      reader.readAsText(inputNode);
+    }
+  }
+
+  public openLink() {
+    window.open('https://ipfs.io/ipfs/' + this.data.user.kycData, '_blank');
+  }
+
+  public clear() {
+    this.kycData = undefined;
+    this.editUserForm.get('kycData').setValue(this.data.user.kycData);
+  }
 }
