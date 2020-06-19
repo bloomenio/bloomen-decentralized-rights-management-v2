@@ -23,9 +23,9 @@ contract Users is Members {
   }
 
   enum StatusUserEnum {
-    REJECTED,
-    PENDING,
-    ACCEPTED
+    REJECTED, // 0
+    PENDING,  // 1
+    ACCEPTED  // 2
   }
 
   mapping (address => User) private users_;
@@ -81,7 +81,7 @@ contract Users is Members {
   }
 
   function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role,
-    address owner,string[] _groups) public {
+    address owner, string[] _groups) public {
 
     users_[owner].firstName = _firstName;
     users_[owner].lastName = _lastName;
@@ -188,7 +188,7 @@ contract Users is Members {
 
 
   function _saveUser(uint256 _creationDate, string _firstName, string _lastName, uint256 _memberId,
-    uint256 _requestId, string _role, uint256 _status, address owner, uint isCreate) internal {
+    uint256 _requestId, string _role, uint256 _status, address owner, uint isCreate) private {
 
     require(_status >= 0 || _status <=2, "status is not valid");
     require(bytes(_role).length != 0, "role is mandatory");

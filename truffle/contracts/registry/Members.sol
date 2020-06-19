@@ -24,14 +24,15 @@ contract Members is Random, Registry {
   uint256 constant private PAGE_SIZE = 10;
 
   mapping (uint256 => Member) members_;
-  uint256 memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
+  uint256 internal memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
 
   uint256[] private membersList_;
 
   // METHODS
   // Public
 
-  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public returns(uint) {
+  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme)
+  onlySigner public returns(uint) {
     //  string _group) onlySigner public returns(uint) {
     require(_creationDate > 0, "CreationDate is mandatory");
 //    uint256 _memberId = Random.rand(_creationDate);
@@ -92,7 +93,8 @@ contract Members is Random, Registry {
 
   // Private
 
-  function _saveMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) internal {
+  function _saveMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country,
+    string _cmo, string _theme) private {
 
     require(bytes(_name).length != 0, "Name is mandatory");
     require(bytes(_cmo).length != 0, "CMO is mandatory");

@@ -19,7 +19,7 @@ contract Registry is SignerRole {
     cmos_.length--;
   }
 
-  function getCMOs() view public returns( string[] memory ) {
+  function getCMOs() view public returns(string[] memory ) {
     return cmos_;
   }
 

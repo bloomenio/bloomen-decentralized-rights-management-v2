@@ -137,6 +137,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
                         kycData: this.userForm.get('kycData').value
                       };
                       this.store.dispatch(new fromUserActions.SendUser(user));
+                      console.log(user);
                       this.router.navigate(['waiting-approve']);
                 });
               });
