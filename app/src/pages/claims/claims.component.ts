@@ -114,7 +114,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // console.log(this.dataSource.claims);
         this.claimType = ClaimModel.ClaimTypeEnum;
         tempUrlClaims = this.router.url;
-        globalFetchedInClaims = globalFetched;
+        if (!globalFetchedInClaims) {
+            globalFetchedInClaims = globalFetched;
+        }
         // this.newMessagesInterval$ = interval(5000).subscribe(() => {
         // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
@@ -141,7 +143,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // this.allowTransactionSubmissions = this.inboxComponent.allowTransactionSubmissions;
         // this.price = this.inboxComponent.price;
-        // console.log(this.members);
 
         // To check if user tokens are enough to submit transactions.
         // if (currentUser.role !== ROLES.SUPER_USER) {
@@ -335,7 +336,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public showAsset(message: any) {
         // console.log('showAsset(): ', message);
-
+        console.log('globalFetched: ', globalFetched);
+        console.log('globalFetchedInClaims: ', globalFetchedInClaims);
         if (globalAllAssets === undefined) {
             alert('Information not loaded yet!\n\n' +
                 'Please try now...');
@@ -389,8 +391,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                                 ));
                             }
                         }
-                        globalFetched.concat(globalFetchedInClaims); // ??
-                        // console.log(globalFetched);
+                        globalFetchedInClaims.concat(globalFetched); // ??
+
+                        if (globalFetched) {
+                            globalFetched.concat(globalFetchedInClaims); // ??
+                        }
+                        console.log('globalFetchedInClaims AFTER: ', globalFetchedInClaims);
                     }
                 })
                 .then(() => {
