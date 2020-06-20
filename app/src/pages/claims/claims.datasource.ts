@@ -32,7 +32,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
 
     public loadClaims(filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
         // Remove mock and do the request paginated
-        // console.log('claims.dataSource.loadClaims.getClaimByMemId');
+        // console.log('claims.dataSource.loadClaims()');
         // console.log('input: ', filter, sortDirection, pageIndex, pageSize);
         this.loadingSubject.next(true);
         this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {

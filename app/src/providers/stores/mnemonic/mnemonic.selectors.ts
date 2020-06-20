@@ -1,5 +1,4 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import * as fromReducer from '@stores/mnemonic/mnemonic.reducer';
 import { MnemonicModel } from '@core/models/mnemonic.model';
 

@@ -111,7 +111,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         //     this.dataSource.loadSuperClaims();
         // } else {
         this.dataSource.loadClaims();
-        // }
+        // console.log(this.dataSource.claims);
         this.claimType = ClaimModel.ClaimTypeEnum;
         tempUrlClaims = this.router.url;
         globalFetchedInClaims = globalFetched;
@@ -165,8 +165,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // Simulate get number of items from the server
         this.claimsContract.getClaimsCountByMemId().then((count) => {
             this.usersPageNumber = count;
+            // console.log('claims count is ', this.usersPageNumber);
         });
-
         this.paginator.page.pipe(
             tap(() => this.loadClaimsPage())
         ).subscribe();
@@ -327,7 +327,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         width: '560px'
                     });
                 } else {
-                    console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
+                    // console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
                 }
             });
     }
@@ -484,10 +484,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.assert();
                 const start = Number(claim.claimData.startDate);
                 const end = Number(claim.claimData.endDate);
-                console.log(
-                    start >= this.datesFilter.from && end <= this.datesFilter.to, '\n',
-                    start <= this.datesFilter.yearEnd && end >= this.datesFilter.year, '\n',
-                    start >= this.datesFilter.year && end <= this.datesFilter.yearEnd);
+                // console.log(
+                //     start >= this.datesFilter.from && end <= this.datesFilter.to, '\n',
+                //     start <= this.datesFilter.yearEnd && end >= this.datesFilter.year, '\n',
+                //     start >= this.datesFilter.year && end <= this.datesFilter.yearEnd);
                 // console.log(
                 //     start, ' >= ', this.datesFilter.from, ' && ', end, ' <= ', this.datesFilter.to, '\n',
                 //     start, ' <= ', this.datesFilter.yearEnd, ' && ', end, ' >= ', this.datesFilter.year, '\n',
@@ -585,11 +585,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.log(new Date(Number(claim.claimData.endDate)).getMonth() + 1, '/',
                 //             new Date(Number(claim.claimData.endDate)).getDate(), '/',
                 //             new Date(Number(claim.claimData.endDate)).getFullYear());
-                console.log(anyFilter[i + 1]);
+                // console.log(anyFilter[i + 1]);
                 // anyFilter[i + 1] = new Date('1 Jan' + anyFilter[i + 1]).getTime();
                 ranges.year = new Date('1 Jan' + anyFilter[i + 1]).getTime();
                 ranges.yearEnd = new Date('31 Dec' + anyFilter[i + 1]).getTime();
-                console.log(ranges.year, ' until ', ranges.yearEnd);
+                // console.log(ranges.year, ' until ', ranges.yearEnd);
                 // ranges.push(anyFilter[i + 1]);
                 i++;
                 // console.log(new Date(anyFilter[i + 1]).getMonth() + 1, '/',

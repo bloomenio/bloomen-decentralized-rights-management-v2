@@ -1,25 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
-import { Logger } from '@services/logger/logger.service';
-import { Router } from '@angular/router';
-import {Subscription, interval, from, Observable} from 'rxjs';
-import { Store } from '@ngrx/store';
-import { skipWhile, takeWhile, map, switchMap, first } from 'rxjs/operators';
-import { THEMES } from '@core/constants/themes.constants';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material';
+import {Logger} from '@services/logger/logger.service';
+import {Router} from '@angular/router';
+import {from, interval, Observable, Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {first, map, skipWhile} from 'rxjs/operators';
+import {THEMES} from '@core/constants/themes.constants';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import * as fromUserSelectors from '@stores/user/user.selectors';
 import * as fromUserActions from '@stores/user/user.actions';
 import * as fromMemberActions from '@stores/member/member.actions';
 import * as fromAppActions from '@stores/application-data/application-data.actions';
 import * as fromClaimActions from '@stores/claim/claim.actions';
-import { MemberModel } from '@core/models/member.model';
-import {UserContract, ClaimsContract, FunctionsContract, globalAllAssets, MemberContract} from '@core/core.module';
-import { INBOX } from '@core/constants/inbox.constants';
-import { UserModel } from '@core/models/user.model';
-import { ROLES } from '@core/constants/roles.constants';
+import {MemberModel} from '@core/models/member.model';
+import {ClaimsContract, FunctionsContract, MemberContract, UserContract} from '@core/core.module';
+import {INBOX} from '@core/constants/inbox.constants';
+import {UserModel} from '@core/models/user.model';
+import {ROLES} from '@core/constants/roles.constants';
 import {ShellComponent} from '@shell/shell.component';
 import * as fromRepertoireSelector from '@stores/repertoire/repertoire.selectors';
-import {FormControl, FormGroup} from '@angular/forms';
 import * as fromRepertoireActions from '@stores/repertoire/repertoire.actions';
 import {AssetsApiService} from '@api/assets-api.service';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
@@ -267,8 +266,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     //     this.inbox = this.inbox.splice(i, 1);
     //   }
     // }
-    // console.log(this.inbox);
-    if (this.inbox !== this.inbox.filter((m) => m.status)) { // 'delete claim' garbage collector
+    // 'delete claim' Garbage Collector
+    if (this.inbox !== this.inbox.filter((m) => m.status)) {
       this.inbox = this.inbox.filter((m) => m.status);
       // await this.memberContract.updateClaimInbox(this.member, this.inbox);
     }
@@ -280,9 +279,12 @@ export class InboxComponent implements OnInit, OnDestroy {
       // console.log(this.inbox);
       await this.inboxIsEmptyLoadRepertoire();
     }
-    // console.log('INBOX');
-    // console.log(this.inbox);
-    // console.log(this.member);
+    // Remove duplicates from this.inbox
+    this.inbox = Array.from(new Set(this.inbox.map(a => a.claimId)))
+        .map(claimId => {
+          return this.inbox.find(a => a.claimId === claimId);
+        });
+    // console.log('INBOX', this.inbox);
   }
 
   public clearMessage() {
