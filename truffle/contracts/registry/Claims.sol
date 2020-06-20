@@ -40,7 +40,7 @@ contract Claims {
 
   mapping (uint256 => Claim) private claims_;
   mapping (uint256 => uint16) private maxSplits_;
-  uint256 constant private PAGE_SIZE = 5000000;
+  uint256 constant private PAGE_SIZE = 999;
   uint256 constant private transactionPrice = 1;
 
   uint256 private claimIdCounter_ = 0; // has the number of claims ever inserted, including the deleted ones

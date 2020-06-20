@@ -111,10 +111,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         //     this.dataSource.loadSuperClaims();
         // } else {
         this.dataSource.loadClaims();
-        // }
+        // console.log(this.dataSource.claims);
         this.claimType = ClaimModel.ClaimTypeEnum;
         tempUrlClaims = this.router.url;
-        globalFetchedInClaims = globalFetched;
+        if (!globalFetchedInClaims) {
+            globalFetchedInClaims = globalFetched;
+        }
         // this.newMessagesInterval$ = interval(5000).subscribe(() => {
         // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
@@ -141,7 +143,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         // this.allowTransactionSubmissions = this.inboxComponent.allowTransactionSubmissions;
         // this.price = this.inboxComponent.price;
-        // console.log(this.members);
 
         // To check if user tokens are enough to submit transactions.
         // if (currentUser.role !== ROLES.SUPER_USER) {
@@ -165,8 +166,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // Simulate get number of items from the server
         this.claimsContract.getClaimsCountByMemId().then((count) => {
             this.usersPageNumber = count;
+            // console.log('claims count is ', this.usersPageNumber);
         });
-
         this.paginator.page.pipe(
             tap(() => this.loadClaimsPage())
         ).subscribe();
@@ -327,7 +328,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         width: '560px'
                     });
                 } else {
-                    console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
+                    // console.log('CLAIMS COMPONENT SAYS globalAllAssets is ', globalAllAssets);
                 }
             });
     }
@@ -335,7 +336,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public showAsset(message: any) {
         // console.log('showAsset(): ', message);
-
+        console.log('globalFetched: ', globalFetched);
+        console.log('globalFetchedInClaims: ', globalFetchedInClaims);
         if (globalAllAssets === undefined) {
             alert('Information not loaded yet!\n\n' +
                 'Please try now...');
@@ -389,8 +391,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                                 ));
                             }
                         }
-                        globalFetched.concat(globalFetchedInClaims); // ??
-                        // console.log(globalFetched);
+                        globalFetchedInClaims.concat(globalFetched); // ??
+
+                        if (globalFetched) {
+                            globalFetched.concat(globalFetchedInClaims); // ??
+                        }
+                        console.log('globalFetchedInClaims AFTER: ', globalFetchedInClaims);
                     }
                 })
                 .then(() => {
@@ -484,10 +490,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.assert();
                 const start = Number(claim.claimData.startDate);
                 const end = Number(claim.claimData.endDate);
-                console.log(
-                    start >= this.datesFilter.from && end <= this.datesFilter.to, '\n',
-                    start <= this.datesFilter.yearEnd && end >= this.datesFilter.year, '\n',
-                    start >= this.datesFilter.year && end <= this.datesFilter.yearEnd);
+                // console.log(
+                //     start >= this.datesFilter.from && end <= this.datesFilter.to, '\n',
+                //     start <= this.datesFilter.yearEnd && end >= this.datesFilter.year, '\n',
+                //     start >= this.datesFilter.year && end <= this.datesFilter.yearEnd);
                 // console.log(
                 //     start, ' >= ', this.datesFilter.from, ' && ', end, ' <= ', this.datesFilter.to, '\n',
                 //     start, ' <= ', this.datesFilter.yearEnd, ' && ', end, ' >= ', this.datesFilter.year, '\n',
@@ -585,11 +591,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                 // console.log(new Date(Number(claim.claimData.endDate)).getMonth() + 1, '/',
                 //             new Date(Number(claim.claimData.endDate)).getDate(), '/',
                 //             new Date(Number(claim.claimData.endDate)).getFullYear());
-                console.log(anyFilter[i + 1]);
+                // console.log(anyFilter[i + 1]);
                 // anyFilter[i + 1] = new Date('1 Jan' + anyFilter[i + 1]).getTime();
                 ranges.year = new Date('1 Jan' + anyFilter[i + 1]).getTime();
                 ranges.yearEnd = new Date('31 Dec' + anyFilter[i + 1]).getTime();
-                console.log(ranges.year, ' until ', ranges.yearEnd);
+                // console.log(ranges.year, ' until ', ranges.yearEnd);
                 // ranges.push(anyFilter[i + 1]);
                 i++;
                 // console.log(new Date(anyFilter[i + 1]).getMonth() + 1, '/',

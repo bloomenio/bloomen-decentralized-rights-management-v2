@@ -32,7 +32,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
 
     public loadClaims(filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
         // Remove mock and do the request paginated
-        // console.log('claims.dataSource.loadClaims.getClaimByMemId');
+        // console.log('claims.dataSource.loadClaims()');
         // console.log('input: ', filter, sortDirection, pageIndex, pageSize);
         this.loadingSubject.next(true);
         this.claimsContract.getClaimsByMemId(pageIndex).then((claims) => {
@@ -40,13 +40,14 @@ export class ClaimsDataSource implements DataSource<UserModel> {
         //     console.log('claims.datasource.claimsContract.getClaimsByMemId ');
         //     console.log('FROM DATASOURCE LOADCLAIMS');
             // SORT by title, then by creationDate.
-            claims = claims.sort((a, b) => (a.claimData.title  < b.claimData.title ? -1 : 1));
-            claims = claims.sort((a, b) => (a.claimData.title === b.claimData.title
+            claims = claims.sort((a, b) =>
+                (a.claimData.ISRC || a.claimData.ISWC  < b.claimData.ISRC || b.claimData.ISWC ? -1 : 1));
+            claims = claims.sort((a, b) => (a.claimData.ISRC || a.claimData.ISWC === b.claimData.ISRC || b.claimData.ISWC
                 ? (a.creationDate - b.creationDate)
-                : (a.claimData.title < b.claimData.title ? -1 : 1)));
+                : (a.claimData.ISRC || a.claimData.ISWC < b.claimData.ISRC || b.claimData.ISWC ? -1 : 1)));
             this.claims = claims;
-            // console.log(claims.length);
-            // Group claims; view claim info on first sequential appearance.
+            // console.log(claims);
+            // Group claims in order to showAsset() claim info only on first sequential appearance.
             let previous: any;
             let temp: any;
             if (claims.length) {
@@ -62,7 +63,7 @@ export class ClaimsDataSource implements DataSource<UserModel> {
                 const item = {
                     claimData: {ISC: claims[c].claimData.ISRC || claims[c].claimData.ISWC, title: claims[c].claimData.title},
                     claimType: claims[c].claimType};
-                if (item.claimData.title !== previous.claimData.title) {
+                if (item.claimData.ISC !== previous.claimData.ISC) {
                     claims.splice(c, 0, item);
                     claims.join();
                 }
