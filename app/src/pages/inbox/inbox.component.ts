@@ -267,8 +267,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     //     this.inbox = this.inbox.splice(i, 1);
     //   }
     // }
-    // console.log(this.inbox);
-    if (this.inbox !== this.inbox.filter((m) => m.status)) { // 'delete claim' garbage collector
+    // 'delete claim' Garbage Collector
+    if (this.inbox !== this.inbox.filter((m) => m.status)) {
       this.inbox = this.inbox.filter((m) => m.status);
       // await this.memberContract.updateClaimInbox(this.member, this.inbox);
     }
@@ -280,9 +280,12 @@ export class InboxComponent implements OnInit, OnDestroy {
       // console.log(this.inbox);
       await this.inboxIsEmptyLoadRepertoire();
     }
-    // console.log('INBOX');
-    // console.log(this.inbox);
-    // console.log(this.member);
+    // Remove duplicates from this.inbox
+    this.inbox = Array.from(new Set(this.inbox.map(a => a.claimId)))
+        .map(claimId => {
+          return this.inbox.find(a => a.claimId === claimId);
+        });
+    // console.log('INBOX', this.inbox);
   }
 
   public clearMessage() {
