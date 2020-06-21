@@ -3,9 +3,19 @@ pragma experimental ABIEncoderV2;
 
 import "./Members.sol";
 import "./Claims.sol";
+import "./SignerRole.sol";
+import "./random.sol";
 
 
-contract Users is Members {
+contract Users is Random, SignerRole {
+
+  Members private _Members;
+  //  Users.User private currentUser;
+
+  constructor (address _MembersAddr) public {
+    _Members = Members(_MembersAddr);
+    //    currentUser = _Users.getUserByAddress(msg.sender);
+  }
 
   struct User {
     uint256 creationDate;
@@ -56,9 +66,9 @@ contract Users is Members {
     require(users_[owner].owner > address(0), "This user not exists");
     require(uint(users_[owner].status) == uint(StatusUserEnum.ACCEPTED), "You are not accepted");
     if (users_[owner].tokens > _tokens) {
-      members_[users_[owner].memberId].totalTokens += users_[owner].tokens - _tokens;
+      _Members.getMembersMapping(); //[users_[owner].memberId].totalTokens += users_[owner].tokens - _tokens;
     } else {
-      members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens;
+      _Members.members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens;
     }
     users_[owner].tokens = _tokens;
     users_[owner].kycData = _kycData;
@@ -103,7 +113,7 @@ contract Users is Members {
     require(users_[_userToReject].status == StatusUserEnum.PENDING, "Only pending users can be rejected");
 
     users_[_userToReject].status = StatusUserEnum.REJECTED;
-    _clearUserFromMemberRequest(users_[_userToReject].memberId, _userToReject);
+    _Members._clearUserFromMemberRequest(users_[_userToReject].memberId, _userToReject);
   }
 
   function acceptUser(address _userToAccept) public {
@@ -113,11 +123,11 @@ contract Users is Members {
     require((uint(users_[msg.sender].status) == uint(StatusUserEnum.ACCEPTED)) || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == StatusUserEnum.PENDING, "Only pending users can be accepted");
 
-    if (members_[users_[_userToAccept].memberId].totalTokens > userStartTokens) {
+    if (_Members.members_[users_[_userToAccept].memberId].totalTokens > userStartTokens) {
       users_[_userToAccept].status = StatusUserEnum.ACCEPTED;
-      _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
+      _Members._clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
       users_[_userToAccept].tokens = userStartTokens;
-      members_[users_[_userToAccept].memberId].totalTokens -= userStartTokens;
+      _Members.members_[users_[_userToAccept].memberId].totalTokens -= userStartTokens;
     } else {
       rejectUser(_userToAccept);
     }
@@ -135,9 +145,9 @@ contract Users is Members {
   }
 
   function whitelistAdmin(address account, string _cmo) public onlySigner {
-    _clearUserFromMemberRequest(users_[account].memberId, account);
+    _Members._clearUserFromMemberRequest(users_[account].memberId, account);
     users_[account].role = "Super admin";
-    users_[account].memberId = ++memberIdCounter_;
+    users_[account].memberId = ++_Members.memberIdCounter_;
     users_[account].cmo = _cmo;
 //    users_[account].tokens = 0; // should "Super admin" have tokens?
     users_[account].status = StatusUserEnum.ACCEPTED;
@@ -209,10 +219,10 @@ contract Users is Members {
     if(isCreate == 0) {
       usersList_.push(owner);
 //      if (users_[owner].status != StatusUserEnum.ACCEPTED) {
-      _addUserToMemberRequest(_memberId);
+      _Members._addUserToMemberRequest(_memberId);
 //      }
       users_[owner].groups = ["digit1"];                  // by default
-      users_[owner].cmo = members_[user.memberId].cmo;  // to initialize
+      users_[owner].cmo = _Members.members_[user.memberId].cmo;  // to initialize
     }
   }
 
@@ -222,10 +232,87 @@ contract Users is Members {
 
   function updateTokens(address addr, uint transactionPrice) public {
     users_[addr].tokens -= transactionPrice;
-    members_[users_[addr].memberId].totalTokens -= transactionPrice;
+    _Members.members_[users_[addr].memberId].totalTokens -= transactionPrice;
   }
 
   function getUserTokensByAddress(address addr) view public returns(uint) {
     return users_[addr].tokens;
   }
+
+  // Moved from Members.sol
+  function _memberExists(uint _memberId) public view returns(bool) {
+    return _Members.members_[_memberId].memberId > 0;
+  }
+
+  function _addClaimIdToMemberOwner(uint _memberId, uint _claimId) public {
+    _Members.members_[_memberId].claims.push(_claimId);
+  }
+
+  function _removeClaimFromMember(uint _memberId, uint _claimId) public {
+    bool found = false;
+    for (uint j = 0; j < _Members.members_[_memberId].claims.length - 1; j++) {
+      if(_Members.members_[_memberId].claims[j] == _claimId) {
+        found = true;
+      }
+      if(found) {
+        _Members.members_[_memberId].claims[j] = _Members.members_[_memberId].claims[j + 1];
+      }
+    }
+    //    if (found) {
+    //    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
+    //    members_[_memberId].claims.length--;
+    //    }
+    if (found) {
+      //      if (members_[_memberId].claims.length == 1) {
+      //        delete members_[_memberId].claims;
+      //      }
+      //      else {
+      delete _Members.members_[_memberId].claims[_Members.members_[_memberId].claims.length - 1];
+      _Members.members_[_memberId].claims.length--;
+      //      }
+    }
+  }
+
+  function _removeClaimFromInbox(uint _memberId, uint _claimId) public {
+    bool found = false;
+    // Remove index
+    for (uint j = 0; j < _Members.members_[_memberId].claimInbox.length - 1; j++) {
+      if(_Members.members_[_memberId].claimInbox[j] == _claimId) {
+        found = true;
+      }
+      if(found) {
+        _Members.members_[_memberId].claimInbox[j] = _Members.members_[_memberId].claimInbox[j + 1];
+      }
+    }
+    if (found) {
+      delete _Members.members_[_memberId].claimInbox[_Members.members_[_memberId].claimInbox.length - 1];
+      _Members.members_[_memberId].claimInbox.length--;
+    }
+  }
+
+  function _getClaimsCountByMember(uint _memberId) public view returns(uint) {
+    return _Members.members_[_memberId].claims.length;
+  }
+
+  function _getClaimsIdByMember(uint _memberId) public view returns(uint[])  {
+    require(_Members.members_[_memberId].memberId > 0, "member not exists");
+    return _Members.members_[_memberId].claims;
+  }
+
+  function _getMemberIdsOfCurrentCMO(string currentCMO, uint256 currentCMOId) public returns(uint[]) {
+    uint[] memberIds;
+    for (uint j = 0; j < _Members.membersList_.length; ++j) {
+      if (keccak256(_Members.members_[_Members.membersList_[j]].cmo) == keccak256(currentCMO) &&
+      _Members.members_[_Members.membersList_[j]].memberId != currentCMOId) {
+        memberIds.push(_Members.members_[_Members.membersList_[j]].memberId);
+      }
+    }
+    return memberIds;
+  }
+
+  function _addClaimFromInbox(uint _memberId, uint _claimId) public {
+    _Members.members_[_memberId].claimInbox.push(_claimId);
+  }
+
 }
+

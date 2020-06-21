@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 import "./SafeMath.sol";
 import "./random.sol";
 import "./Registry.sol";
+import "./Users.sol";
 
 contract Members is Random, Registry {
 
@@ -23,12 +24,13 @@ contract Members is Random, Registry {
 
   uint256 constant private PAGE_SIZE = 10;
 
-  mapping (uint256 => Member) members_;
+  mapping (uint256 => Member) public members_;
   uint256 internal memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
 
-  uint256[] private membersList_;
+  uint256[] public membersList_;
 
   // METHODS
+
   // Public
 
   function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme)
@@ -91,7 +93,9 @@ contract Members is Random, Registry {
     return membersList_.length;
   }
 
-  // Private
+  function getMembersMapping() public view returns () {
+    return members_;
+  }
 
   function _saveMember(uint256 _memberId, uint256 _creationDate, string _name, string _logo, string _country,
     string _cmo, string _theme) private {
@@ -114,84 +118,11 @@ contract Members is Random, Registry {
 
   }
 
-  function _getMemberIdsOfCurrentCMO(string currentCMO, uint256 currentCMOId) public returns(uint[]) {
-    uint[] memberIds;
-    for (uint j = 0; j < membersList_.length; ++j) {
-      if (keccak256(members_[membersList_[j]].cmo) == keccak256(currentCMO) && members_[membersList_[j]].memberId != currentCMOId) {
-        memberIds.push(members_[membersList_[j]].memberId);
-      }
-    }
-    return memberIds;
-  }
-
-  function _getClaimsIdByMember(uint _memberId) public view returns(uint[])  {
-    require(members_[_memberId].memberId > 0, "member not exists");
-    return members_[_memberId].claims;
-  }
-
-  function _getClaimsCountByMember(uint _memberId) public view returns(uint) {
-    return members_[_memberId].claims.length;
-  }
-
-  function _addUserToMemberRequest(uint _memberId) internal {
+  function _addUserToMemberRequest(uint _memberId) public {
     members_[_memberId].userRequests.push(msg.sender);
   }
 
-  function _addClaimIdToMemberOwner(uint _memberId, uint _claimId) public {
-    members_[_memberId].claims.push(_claimId);
-  }
-
-  function _removeClaimFromMember(uint _memberId, uint _claimId) public {
-    bool found = false;
-    for (uint j = 0; j < members_[_memberId].claims.length - 1; j++) {
-      if(members_[_memberId].claims[j] == _claimId) {
-        found = true;
-      }
-      if(found) {
-        members_[_memberId].claims[j] = members_[_memberId].claims[j + 1];
-      }
-    }
-    //    if (found) {
-//    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
-//    members_[_memberId].claims.length--;
-    //    }
-    if (found) {
-//      if (members_[_memberId].claims.length == 1) {
-//        delete members_[_memberId].claims;
-//      }
-//      else {
-      delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
-        members_[_memberId].claims.length--;
-//      }
-    }
-  }
-
-  function _addClaimFromInbox(uint _memberId, uint _claimId) public {
-    members_[_memberId].claimInbox.push(_claimId);
-  }
-
-  function _memberExists(uint _memberId) public view returns(bool) {
-    return members_[_memberId].memberId > 0;
-  }
-
-  function _removeClaimFromInbox(uint _memberId, uint _claimId) public {
-    bool found = false;
-    // Remove index
-    for (uint j = 0; j < members_[_memberId].claimInbox.length - 1; j++) {
-      if(members_[_memberId].claimInbox[j] == _claimId) {
-        found = true;
-      }
-      if(found) {
-        members_[_memberId].claimInbox[j] = members_[_memberId].claimInbox[j + 1];
-      }
-    }
-    if (found) {
-      delete members_[_memberId].claimInbox[members_[_memberId].claimInbox.length - 1];
-      members_[_memberId].claimInbox.length--;
-    }
-  }
-
-  function _clearUserFromMemberRequest(uint _memberId, address userAddress) internal {
+  function _clearUserFromMemberRequest(uint _memberId, address userAddress) public {
      bool found = false;
     // Remove index
     for (uint j = 0; j < members_[_memberId].userRequests.length - 1; j++) {
