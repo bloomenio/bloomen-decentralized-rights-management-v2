@@ -10,7 +10,7 @@ import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-
 import {Store} from '@ngrx/store';
 import * as fromMemberSelectors from '@stores/member/member.selectors';
 import {MemberModel} from '@core/models/member.model';
-import {Subscription} from 'rxjs';
+import {noop, Subscription} from 'rxjs';
 import {ClaimModel} from '@core/models/claim.model';
 import {ClaimsContract, globalAllAssets} from '@core/core.module';
 import {currentUser, InboxComponent, unreadMessages} from '@pages/inbox/inbox.component';
@@ -22,6 +22,7 @@ import {RepertoireEffects} from '@stores/repertoire/repertoire.effects';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 import {globalFetched} from '@components/inbox-item-list/inbox-item-list.component';
 import {FormControl} from '@angular/forms';
+import {on} from 'cluster';
 
 const log = new Logger('claims.component');
 
@@ -40,7 +41,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     public newMessagesInterval$: any;
     public displayedColumns: string[];
     public dataSource: ClaimsDataSource;
-    public usersPageNumber: number;
+    public claimsCount: number;
     public roles: object = ROLES;
     public members: MemberModel[];
     private members$: Subscription;
@@ -54,7 +55,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     private prevFilter = '';
     public statusFilter: any;
     public claimsFilter = [];
-    public dataSourceClaims: any;
+    public dataSourceClaims = [];
     private prevValue = '';
     private anyFilter: any;
     private filtered: any;
@@ -65,6 +66,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort) public sort: MatSort;
     private filteredAny: any;
     private filteredStatus: any;
+    public pageSizeFromSol: number;
+    private dataSourceSub$: Subscription;
+    private prev = [];
 
     constructor(
         public snackBar: MatSnackBar,
@@ -153,49 +157,74 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         //         //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
         //     });
         // }
-
-        this.dataSourceClaims = this.dataSource.claims;
-        this.dataSource.claims$.subscribe((claims) => {
-            this.dataSourceClaims = claims;
-            // console.log('this.dataSourceClaims: ', this.dataSourceClaims);
-        });
+        // this.claimsContract.getClaimsCountByMemId().then((count) => {
+        //     this.claimsCount = count;
+        // });
+        this.claimsContract.getClaimsCountByMemId()
+            .then((count) => {
+                this.claimsCount = count;
+                // console.log('claims count is ', this.claimsCount);
+                // this.loadClaimsPage().then();
+            })
+            .then(() => {
+                this.loadClaimsPage();
+            })
+            .then(() => {
+                // this.dataSourceClaims = this.dataSource.claims;
+                this.dataSource.claims$.subscribe( (claims) => {
+                    // console.log('claims= ', claims);
+                    this.dataSourceClaims = this.prev.length ? claims.concat(this.prev) : claims;
+                    this.prev = this.dataSourceClaims;
+                    this.dataSource.claims = this.groupClaims(this.dataSourceClaims);
+                    this.dataSourceClaims = this.dataSource.claims;
+                    // if (!this.prev.includes(claims)) {
+                    // console.log('prev= ', this.prev, ' to not include ', claims);
+                    // console.log('dataSourceClaimsBEFORE= ', this.dataSourceClaims);
+                    // this.dataSourceClaims = claims.concat(this.dataSourceClaims);
+                    // console.log('dataSource.claims= ', this.dataSource.claims);
+                    // }
+                    // this.prev.push(claims);
+                });
+            });
     }
 
     public ngAfterViewInit() {
 
         // Simulate get number of items from the server
         this.claimsContract.getClaimsCountByMemId().then((count) => {
-            this.usersPageNumber = count;
-            // console.log('claims count is ', this.usersPageNumber);
+            this.claimsCount = count;
+            // console.log('claims count is ', this.claimsCount);
+            // this.loadClaimsPage().then();
         });
-        this.paginator.page.pipe(
-            tap(() => this.loadClaimsPage())
-        ).subscribe();
+        // this.paginator.page.pipe(
+        //     tap(() => this.loadClaimsPage())
+        // ).subscribe();
     }
 
     public loadClaimsPage() {
-        if (this.dataSource) {    // for when inbox detail call its claimsComponent
-            // if (currentUser.role === ROLES.SUPER_USER) {
-            //     this.dataSource.loadSuperClaims(
-            //         '',
-            //         'asc',
-            //         this.paginator.pageIndex,
-            //         this.paginator.pageSize
-            //     );
-            // } else {
-                this.dataSource.loadClaims(
-                    '',
-                    'asc',
-                    this.paginator.pageIndex,
-                    this.paginator.pageSize
-                );
-                this.dataSourceClaims = this.dataSource.claims;
-                // console.log('this.dataSourceClaims: ', this.dataSourceClaims);
-            // }
+        if (this.dataSource) {
+            this.claimsContract.getPageSize()
+                .then(pageSize => {
+                    this.pageSizeFromSol = pageSize;
+                    // console.log('pageSizeFromSol= ', this.pageSizeFromSol);
+                })
+                .then(() => {
+                    // console.log('claimsCount= ', this.claimsCount);
+                    for (let pageIndex = 1; pageIndex < this.claimsCount / this.pageSizeFromSol; pageIndex++) {
+                        Promise.resolve()
+                            .then(async () => {
+                                // console.log('pageIndex=', pageIndex);
+                                this.dataSource.loadClaims(
+                                    '',
+                                    'asc',
+                                    pageIndex,
+                                    this.pageSizeFromSol
+                                );
+                            });
+                    }
+                    // this.dataSourceClaims = this.dataSource.claims;
+                });
         }
-        // if (this.shellComponent.newMessagesGet()) {
-        //     console.log('You have new CONFLICT messages.');
-        // }
     }
 
     public clickEdit(element, isEdit) {
@@ -241,7 +270,17 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         dialog.afterClosed().subscribe(value => {
             if (value) {
                 this.claimsContract.updateCl(value).then(() => {
-                    this.loadClaimsPage();
+                    if (this.router.url.toString() === '/claims') {
+                        this.router.navigate(['inbox'])
+                            .then(() => {
+                                this.router.navigate(['claims']).then();
+                            });
+                    } else {
+                        this.router.navigate(['claims'])
+                            .then(() => {
+                                this.router.navigate(['inbox']).then();
+                            });
+                    }
                     this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the inbox
                 });
             }
@@ -287,7 +326,17 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         dialog.afterClosed().subscribe(value => {
             if (value) {
                 this.claimsContract.delClaim(value).then(() => {
-                    this.loadClaimsPage();
+                    if (this.router.url.toString() === '/claims') {
+                        this.router.navigate(['inbox'])
+                            .then(() => {
+                                this.router.navigate(['claims']).then();
+                            });
+                    } else {
+                        this.router.navigate(['claims'])
+                            .then(() => {
+                                this.router.navigate(['inbox']).then();
+                            });
+                    }
                     this.inboxComponent.store.dispatch(new fromMemberActions.InitMember()); // to update the inbox
                     // tslint:disable-next-line:no-life-cycle-call
                     this.ngAfterViewInit();
@@ -336,8 +385,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public showAsset(message: any) {
         // console.log('showAsset(): ', message);
-        console.log('globalFetched: ', globalFetched);
-        console.log('globalFetchedInClaims: ', globalFetchedInClaims);
         if (globalAllAssets === undefined) {
             alert('Information not loaded yet!\n\n' +
                 'Please try now...');
@@ -422,6 +469,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.members$.unsubscribe();
         if (this.newMessagesInterval$) {
             this.newMessagesInterval$.unsubscribe();
+        }
+        if (this.dataSourceSub$) {
+            this.dataSourceSub$.unsubscribe();
+            this.dataSourceClaims = undefined;
         }
     }
 
@@ -610,4 +661,42 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.anyFilter = anyF;
     }
 
+    public focus() {
+            document.getElementById('focushere').focus();
+    }
+
+    public groupClaims(claims: any[]): any[] {
+
+        let t, tempClaims;
+        t = claims.filter((c) => c.claimData.ISC === undefined);
+        tempClaims = t.sort((a, b) => (a[2][0][1] < b[2][0][1] ? -1 : 1));
+        // console.log(tempClaims);
+        let previous: any;
+        let temp: any;
+        if (tempClaims.length) {
+            temp = tempClaims[0];
+            previous = {
+                // claimData: {ISC: temp.claimData.ISRC || temp.claimData.ISWC, title: temp.claimData.title},
+                // claimType: temp.claimType};
+                claimData: {ISC: temp[2][0][1], title: temp.claimData.title},
+                claimType: temp[3]};
+            // previous = temp;
+            tempClaims.splice(0, 0, previous);
+            tempClaims.join();
+        }
+        for (let c = 1; c < tempClaims.length; c++) {
+            const item = {
+                // claimData: {ISC: tempClaims[c].claimData.ISRC || tempClaims[c].claimData.ISWC, title: tempClaims[c].claimData.title},
+                // claimType: tempClaims[c].claimType};
+                claimData: {ISC: tempClaims[c][2][0][1], title: tempClaims[c].claimData.title},
+                claimType: tempClaims[c][3]};
+            if (item.claimData.ISC !== previous.claimData.ISC) {
+                tempClaims.splice(c, 0, item);
+                tempClaims.join();
+            }
+            previous = item;
+        }
+        // console.log(tempClaims);
+        return tempClaims;
+    }
 }

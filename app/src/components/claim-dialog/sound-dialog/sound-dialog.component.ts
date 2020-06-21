@@ -209,7 +209,7 @@ export class SoundDialogComponent implements OnInit {
             memberOwner: this.claimForm.get('rightHolderName').value
         };
         // console.log('SoundDialogComponent.onSubmit');
-        // console.log(claim);
+        console.log(claim);
         this.dialogRef.close(claim);
     }
 
