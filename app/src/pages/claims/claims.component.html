@@ -120,7 +120,7 @@ Tip: I am NOT case sensitive.">
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <mat-paginator [length]="usersPageNumber" [pageSize]="usersPageNumber"></mat-paginator>
+        <mat-paginator [length]="claimsCount" [pageSize]="claimsCount"></mat-paginator>
                       <!-- pageSize must be the same as PAGE_SIZE in the corresponding *.sol file -->
     </div>
 </div>

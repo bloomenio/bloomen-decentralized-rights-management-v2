@@ -303,26 +303,25 @@ export class ShellComponent implements OnInit, OnDestroy {
           }
           // console.log(this.uploadedCSV2JSON);
           // tslint:disable-next-line:no-life-cycle-call
-          this.assetCardComponent.ngOnInit();
+          this.assetCardComponent.ngOnInit().then();
           this.assetCardComponent.repertoireBulkUpload(this.uploadedCSV2JSON, this.price, this.user.tokens)
-              .then( () => {
-            // console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
-
-            // Refresh Claims page: claims.component
-            this.dataSource = new ClaimsDataSource(this.claimsContract);
-            // if (this.user.role === ROLES.SUPER_USER) {    // Until 14-2-2020 there is no trello card for a SUPER_USER to UPLOAD CLAIMS anyway.
-            //   this.dataSource.loadSuperClaims();
-            // } else {
-            this.dataSource.loadClaims();
-            // }
+              .then(() => {
+                // console.log('this.uploadedCSV2JSON:\n', this.uploadedCSV2JSON);
+                // Refresh Claims page: claims.component
+                this.dataSource = new ClaimsDataSource(this.claimsContract);
+                // if (this.user.role === ROLES.SUPER_USER) {    // Until 14-2-2020 there is no trello card for a SUPER_USER to UPLOAD CLAIMS anyway.
+                //   this.dataSource.loadSuperClaims();
+                // } else {
+                this.dataSource.loadClaims();
+                // }
               })
               .then(() => {
-            // this.router.navigateByUrl('/repertoire')
-            this.router.navigate(['repertoire'])
-              .then(() => {
-                  // this.router.navigateByUrl('/claims')
-                  this.router.navigate(['claims']);
-                });
+                // this.router.navigateByUrl('/repertoire')
+                this.router.navigate(['inbox'])
+                    .then(() => {
+                      // this.router.navigateByUrl('/claims')
+                      this.router.navigate(['claims']).then();
+                    });
               });
           // End Of Refresh Claims page: claims.component
 

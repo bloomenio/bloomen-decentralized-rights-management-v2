@@ -53,7 +53,7 @@ contract Claims {
 
 //    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
 //    if (currentUser.tokens > transactionPrice) {
-    if (_Users.getUserTokensByAddress(msg.sender) > transactionPrice) {
+    if (_Users.getUserTokensByAddress(msg.sender) >= transactionPrice) {
       _Users.updateTokens(msg.sender, transactionPrice);
       if (register_or_update) {             // Register new claim.
         _claimId = ++claimIdCounter_;
@@ -76,9 +76,11 @@ contract Claims {
         checkClaimStatus(_claimId, _claimType, _claimData, true);
         _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
 
-        if (_creationDate == 0) {  // Delete claim.
+        if (_creationDate == 1) {  // Delete claim.
           _Users._removeClaimFromMember(_memberOwner, _claimId);
-          _Users._removeClaimFromInbox(_memberOwner, _claimId);
+          if (claims_[_claimId].status) {
+            _Users._removeClaimFromInbox(_memberOwner, _claimId);
+          }
 //            _removeClaimFromMapping(_claimId);
 //            _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
         }
@@ -94,6 +96,10 @@ contract Claims {
 
   function getTransactionPrice() pure public returns (uint) {
     return transactionPrice;
+  }
+
+  function getPageSize() pure public returns (uint) {
+    return PAGE_SIZE;
   }
 
   function getClaim(uint256 _claimId) view public returns (Claim) {

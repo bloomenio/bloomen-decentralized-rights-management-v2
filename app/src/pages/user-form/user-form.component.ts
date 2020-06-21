@@ -136,7 +136,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           // but we input the memberId of a CMO's member.
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -148,7 +148,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(1).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -160,7 +160,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(2).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -172,7 +172,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(3).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -184,7 +184,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(4).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -196,7 +196,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(5).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -208,7 +208,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(6).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -222,7 +222,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           // but we input the memberId of a CMO's member.
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -234,7 +234,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           memberId: Number(7).toString(),
           role: 'Admin'
         };
-        console.log(user);
+        // console.log(user);
         this.store.dispatch(new fromUserActions.SendUser(user));
         this.router.navigate(['waiting-approve']);
         break;
@@ -364,7 +364,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       const user: UserModel = {
         creationDate: new Date().getTime(),
         firstName: 'Alex',
-        lastName: 'Psyhas',
+        lastName: 'Psychas',
         memberId: this.membersFiltered[0].memberId.toString(),
         role: 'Admin'
       };

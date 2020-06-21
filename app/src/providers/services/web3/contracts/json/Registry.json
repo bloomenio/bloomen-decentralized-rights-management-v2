@@ -120,14 +120,14 @@
     "absolutePath": "/home/komodo/newUI2/bloomen-decentralized-rights-management-v2/truffle/contracts/registry/Registry.sol",
     "exportedSymbols": {
       "Registry": [
-        3216
+        3230
       ]
     },
-    "id": 3217,
+    "id": 3231,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3139,
+        "id": 3153,
         "literals": [
           "solidity",
           "^",
@@ -138,7 +138,7 @@
         "src": "0:24:4"
       },
       {
-        "id": 3140,
+        "id": 3154,
         "literals": [
           "experimental",
           "ABIEncoderV2"
@@ -149,10 +149,10 @@
       {
         "absolutePath": "/home/komodo/newUI2/bloomen-decentralized-rights-management-v2/truffle/contracts/registry/SignerRole.sol",
         "file": "./SignerRole.sol",
-        "id": 3141,
+        "id": 3155,
         "nodeType": "ImportDirective",
-        "scope": 3217,
-        "sourceUnit": 3542,
+        "scope": 3231,
+        "sourceUnit": 3556,
         "src": "60:26:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -163,41 +163,41 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 3142,
+              "id": 3156,
               "name": "SignerRole",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3541,
+              "referencedDeclaration": 3555,
               "src": "109:10:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SignerRole_$3541",
+                "typeIdentifier": "t_contract$_SignerRole_$3555",
                 "typeString": "contract SignerRole"
               }
             },
-            "id": 3143,
+            "id": 3157,
             "nodeType": "InheritanceSpecifier",
             "src": "109:10:4"
           }
         ],
         "contractDependencies": [
-          3541
+          3555
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3216,
+        "id": 3230,
         "linearizedBaseContracts": [
-          3216,
-          3541
+          3230,
+          3555
         ],
         "name": "Registry",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3146,
+            "id": 3160,
             "name": "cmos_",
             "nodeType": "VariableDeclaration",
-            "scope": 3216,
+            "scope": 3230,
             "src": "125:22:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -207,7 +207,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3144,
+                "id": 3158,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "125:6:4",
@@ -216,7 +216,7 @@
                   "typeString": "string"
                 }
               },
-              "id": 3145,
+              "id": 3159,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "125:8:4",
@@ -230,7 +230,7 @@
           },
           {
             "body": {
-              "id": 3159,
+              "id": 3173,
               "nodeType": "Block",
               "src": "206:27:4",
               "statements": [
@@ -240,11 +240,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 3156,
+                        "id": 3170,
                         "name": "_cmo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3148,
+                        "referencedDeclaration": 3162,
                         "src": "223:4:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -261,18 +261,18 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3153,
+                        "id": 3167,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "212:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3155,
+                      "id": 3169,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -286,7 +286,7 @@
                         "typeString": "function (string storage ref) returns (uint256)"
                       }
                     },
-                    "id": 3157,
+                    "id": 3171,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -300,28 +300,28 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 3158,
+                  "id": 3172,
                   "nodeType": "ExpressionStatement",
                   "src": "212:16:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3160,
+            "id": 3174,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 3151,
+                "id": 3165,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 3150,
+                  "id": 3164,
                   "name": "onlySigner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3474,
+                  "referencedDeclaration": 3488,
                   "src": "188:10:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -335,15 +335,15 @@
             "name": "addCMO",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3149,
+              "id": 3163,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3148,
+                  "id": 3162,
                   "name": "_cmo",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3160,
+                  "scope": 3174,
                   "src": "168:18:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -352,7 +352,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 3147,
+                    "id": 3161,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "168:6:4",
@@ -369,12 +369,12 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3152,
+              "id": 3166,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "206:0:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "152:81:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -382,20 +382,20 @@
           },
           {
             "body": {
-              "id": 3205,
+              "id": 3219,
               "nodeType": "Block",
               "src": "287:145:4",
               "statements": [
                 {
                   "body": {
-                    "id": 3190,
+                    "id": 3204,
                     "nodeType": "Block",
                     "src": "338:36:4",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 3188,
+                          "id": 3202,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -404,25 +404,25 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 3180,
+                              "id": 3194,
                               "name": "cmos_",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3146,
+                              "referencedDeclaration": 3160,
                               "src": "346:5:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                                 "typeString": "string storage ref[] storage ref"
                               }
                             },
-                            "id": 3182,
+                            "id": 3196,
                             "indexExpression": {
                               "argumentTypes": null,
-                              "id": 3181,
+                              "id": 3195,
                               "name": "i",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3168,
+                              "referencedDeclaration": 3182,
                               "src": "352:1:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -446,36 +446,36 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 3183,
+                              "id": 3197,
                               "name": "cmos_",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3146,
+                              "referencedDeclaration": 3160,
                               "src": "357:5:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                                 "typeString": "string storage ref[] storage ref"
                               }
                             },
-                            "id": 3187,
+                            "id": 3201,
                             "indexExpression": {
                               "argumentTypes": null,
                               "commonType": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               },
-                              "id": 3186,
+                              "id": 3200,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
                               "lValueRequested": false,
                               "leftExpression": {
                                 "argumentTypes": null,
-                                "id": 3184,
+                                "id": 3198,
                                 "name": "i",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 3168,
+                                "referencedDeclaration": 3182,
                                 "src": "363:1:4",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -487,7 +487,7 @@
                               "rightExpression": {
                                 "argumentTypes": null,
                                 "hexValue": "31",
-                                "id": 3185,
+                                "id": 3199,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": true,
@@ -525,7 +525,7 @@
                             "typeString": "string storage ref"
                           }
                         },
-                        "id": 3189,
+                        "id": 3203,
                         "nodeType": "ExpressionStatement",
                         "src": "346:21:4"
                       }
@@ -537,18 +537,18 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 3176,
+                    "id": 3190,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 3171,
+                      "id": 3185,
                       "name": "i",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3168,
+                      "referencedDeclaration": 3182,
                       "src": "315:1:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -563,7 +563,7 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       },
-                      "id": 3175,
+                      "id": 3189,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -572,18 +572,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 3172,
+                          "id": 3186,
                           "name": "cmos_",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3146,
+                          "referencedDeclaration": 3160,
                           "src": "319:5:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                             "typeString": "string storage ref[] storage ref"
                           }
                         },
-                        "id": 3173,
+                        "id": 3187,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -602,7 +602,7 @@
                       "rightExpression": {
                         "argumentTypes": null,
                         "hexValue": "31",
-                        "id": 3174,
+                        "id": 3188,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -629,18 +629,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 3191,
+                  "id": 3205,
                   "initializationExpression": {
                     "assignments": [
-                      3168
+                      3182
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 3168,
+                        "id": 3182,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 3206,
+                        "scope": 3220,
                         "src": "298:6:4",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -649,7 +649,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 3167,
+                          "id": 3181,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "298:4:4",
@@ -662,14 +662,14 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 3170,
+                    "id": 3184,
                     "initialValue": {
                       "argumentTypes": null,
-                      "id": 3169,
+                      "id": 3183,
                       "name": "_index",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3162,
+                      "referencedDeclaration": 3176,
                       "src": "307:6:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -682,7 +682,7 @@
                   "loopExpression": {
                     "expression": {
                       "argumentTypes": null,
-                      "id": 3178,
+                      "id": 3192,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -693,11 +693,11 @@
                       "src": "334:3:4",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 3177,
+                        "id": 3191,
                         "name": "i",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3168,
+                        "referencedDeclaration": 3182,
                         "src": "334:1:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -709,7 +709,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 3179,
+                    "id": 3193,
                     "nodeType": "ExpressionStatement",
                     "src": "334:3:4"
                   },
@@ -719,7 +719,7 @@
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3198,
+                    "id": 3212,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -732,25 +732,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 3192,
+                        "id": 3206,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "386:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3197,
+                      "id": 3211,
                       "indexExpression": {
                         "argumentTypes": null,
                         "commonType": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 3196,
+                        "id": 3210,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -759,18 +759,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 3193,
+                            "id": 3207,
                             "name": "cmos_",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3146,
+                            "referencedDeclaration": 3160,
                             "src": "392:5:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                               "typeString": "string storage ref[] storage ref"
                             }
                           },
-                          "id": 3194,
+                          "id": 3208,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
@@ -789,7 +789,7 @@
                         "rightExpression": {
                           "argumentTypes": null,
                           "hexValue": "31",
-                          "id": 3195,
+                          "id": 3209,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -826,14 +826,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3199,
+                  "id": 3213,
                   "nodeType": "ExpressionStatement",
                   "src": "379:28:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3203,
+                    "id": 3217,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -846,18 +846,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3200,
+                        "id": 3214,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "413:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3202,
+                      "id": 3216,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -876,28 +876,28 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 3204,
+                  "id": 3218,
                   "nodeType": "ExpressionStatement",
                   "src": "413:14:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3206,
+            "id": 3220,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 3165,
+                "id": 3179,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 3164,
+                  "id": 3178,
                   "name": "onlySigner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3474,
+                  "referencedDeclaration": 3488,
                   "src": "269:10:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -911,15 +911,15 @@
             "name": "deleteCMO",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3163,
+              "id": 3177,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3162,
+                  "id": 3176,
                   "name": "_index",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3206,
+                  "scope": 3220,
                   "src": "256:11:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -928,7 +928,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3161,
+                    "id": 3175,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "256:4:4",
@@ -945,12 +945,12 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3166,
+              "id": 3180,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "287:0:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "237:195:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -958,33 +958,33 @@
           },
           {
             "body": {
-              "id": 3214,
+              "id": 3228,
               "nodeType": "Block",
               "src": "494:23:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3212,
+                    "id": 3226,
                     "name": "cmos_",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3146,
+                    "referencedDeclaration": 3160,
                     "src": "507:5:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                       "typeString": "string storage ref[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 3211,
-                  "id": 3213,
+                  "functionReturnParameters": 3225,
+                  "id": 3227,
                   "nodeType": "Return",
                   "src": "500:12:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3215,
+            "id": 3229,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -992,22 +992,22 @@
             "name": "getCMOs",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3207,
+              "id": 3221,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "452:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 3211,
+              "id": 3225,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3210,
+                  "id": 3224,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3215,
+                  "scope": 3229,
                   "src": "476:8:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1017,7 +1017,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 3208,
+                      "id": 3222,
                       "name": "string",
                       "nodeType": "ElementaryTypeName",
                       "src": "476:6:4",
@@ -1026,7 +1026,7 @@
                         "typeString": "string"
                       }
                     },
-                    "id": 3209,
+                    "id": 3223,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "476:8:4",
@@ -1041,14 +1041,14 @@
               ],
               "src": "474:19:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "436:81:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3217,
+        "scope": 3231,
         "src": "88:432:4"
       }
     ],
@@ -1058,14 +1058,14 @@
     "absolutePath": "/home/komodo/newUI2/bloomen-decentralized-rights-management-v2/truffle/contracts/registry/Registry.sol",
     "exportedSymbols": {
       "Registry": [
-        3216
+        3230
       ]
     },
-    "id": 3217,
+    "id": 3231,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3139,
+        "id": 3153,
         "literals": [
           "solidity",
           "^",
@@ -1076,7 +1076,7 @@
         "src": "0:24:4"
       },
       {
-        "id": 3140,
+        "id": 3154,
         "literals": [
           "experimental",
           "ABIEncoderV2"
@@ -1087,10 +1087,10 @@
       {
         "absolutePath": "/home/komodo/newUI2/bloomen-decentralized-rights-management-v2/truffle/contracts/registry/SignerRole.sol",
         "file": "./SignerRole.sol",
-        "id": 3141,
+        "id": 3155,
         "nodeType": "ImportDirective",
-        "scope": 3217,
-        "sourceUnit": 3542,
+        "scope": 3231,
+        "sourceUnit": 3556,
         "src": "60:26:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1101,41 +1101,41 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 3142,
+              "id": 3156,
               "name": "SignerRole",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3541,
+              "referencedDeclaration": 3555,
               "src": "109:10:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SignerRole_$3541",
+                "typeIdentifier": "t_contract$_SignerRole_$3555",
                 "typeString": "contract SignerRole"
               }
             },
-            "id": 3143,
+            "id": 3157,
             "nodeType": "InheritanceSpecifier",
             "src": "109:10:4"
           }
         ],
         "contractDependencies": [
-          3541
+          3555
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 3216,
+        "id": 3230,
         "linearizedBaseContracts": [
-          3216,
-          3541
+          3230,
+          3555
         ],
         "name": "Registry",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 3146,
+            "id": 3160,
             "name": "cmos_",
             "nodeType": "VariableDeclaration",
-            "scope": 3216,
+            "scope": 3230,
             "src": "125:22:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1145,7 +1145,7 @@
             },
             "typeName": {
               "baseType": {
-                "id": 3144,
+                "id": 3158,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "125:6:4",
@@ -1154,7 +1154,7 @@
                   "typeString": "string"
                 }
               },
-              "id": 3145,
+              "id": 3159,
               "length": null,
               "nodeType": "ArrayTypeName",
               "src": "125:8:4",
@@ -1168,7 +1168,7 @@
           },
           {
             "body": {
-              "id": 3159,
+              "id": 3173,
               "nodeType": "Block",
               "src": "206:27:4",
               "statements": [
@@ -1178,11 +1178,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 3156,
+                        "id": 3170,
                         "name": "_cmo",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3148,
+                        "referencedDeclaration": 3162,
                         "src": "223:4:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
@@ -1199,18 +1199,18 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3153,
+                        "id": 3167,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "212:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3155,
+                      "id": 3169,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1224,7 +1224,7 @@
                         "typeString": "function (string storage ref) returns (uint256)"
                       }
                     },
-                    "id": 3157,
+                    "id": 3171,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1238,28 +1238,28 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 3158,
+                  "id": 3172,
                   "nodeType": "ExpressionStatement",
                   "src": "212:16:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3160,
+            "id": 3174,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 3151,
+                "id": 3165,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 3150,
+                  "id": 3164,
                   "name": "onlySigner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3474,
+                  "referencedDeclaration": 3488,
                   "src": "188:10:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1273,15 +1273,15 @@
             "name": "addCMO",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3149,
+              "id": 3163,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3148,
+                  "id": 3162,
                   "name": "_cmo",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3160,
+                  "scope": 3174,
                   "src": "168:18:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1290,7 +1290,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 3147,
+                    "id": 3161,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "168:6:4",
@@ -1307,12 +1307,12 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3152,
+              "id": 3166,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "206:0:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "152:81:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1320,20 +1320,20 @@
           },
           {
             "body": {
-              "id": 3205,
+              "id": 3219,
               "nodeType": "Block",
               "src": "287:145:4",
               "statements": [
                 {
                   "body": {
-                    "id": 3190,
+                    "id": 3204,
                     "nodeType": "Block",
                     "src": "338:36:4",
                     "statements": [
                       {
                         "expression": {
                           "argumentTypes": null,
-                          "id": 3188,
+                          "id": 3202,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1342,25 +1342,25 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 3180,
+                              "id": 3194,
                               "name": "cmos_",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3146,
+                              "referencedDeclaration": 3160,
                               "src": "346:5:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                                 "typeString": "string storage ref[] storage ref"
                               }
                             },
-                            "id": 3182,
+                            "id": 3196,
                             "indexExpression": {
                               "argumentTypes": null,
-                              "id": 3181,
+                              "id": 3195,
                               "name": "i",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3168,
+                              "referencedDeclaration": 3182,
                               "src": "352:1:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_uint256",
@@ -1384,36 +1384,36 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 3183,
+                              "id": 3197,
                               "name": "cmos_",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 3146,
+                              "referencedDeclaration": 3160,
                               "src": "357:5:4",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                                 "typeString": "string storage ref[] storage ref"
                               }
                             },
-                            "id": 3187,
+                            "id": 3201,
                             "indexExpression": {
                               "argumentTypes": null,
                               "commonType": {
                                 "typeIdentifier": "t_uint256",
                                 "typeString": "uint256"
                               },
-                              "id": 3186,
+                              "id": 3200,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
                               "lValueRequested": false,
                               "leftExpression": {
                                 "argumentTypes": null,
-                                "id": 3184,
+                                "id": 3198,
                                 "name": "i",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 3168,
+                                "referencedDeclaration": 3182,
                                 "src": "363:1:4",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -1425,7 +1425,7 @@
                               "rightExpression": {
                                 "argumentTypes": null,
                                 "hexValue": "31",
-                                "id": 3185,
+                                "id": 3199,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": true,
@@ -1463,7 +1463,7 @@
                             "typeString": "string storage ref"
                           }
                         },
-                        "id": 3189,
+                        "id": 3203,
                         "nodeType": "ExpressionStatement",
                         "src": "346:21:4"
                       }
@@ -1475,18 +1475,18 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 3176,
+                    "id": 3190,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
                       "argumentTypes": null,
-                      "id": 3171,
+                      "id": 3185,
                       "name": "i",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3168,
+                      "referencedDeclaration": 3182,
                       "src": "315:1:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -1501,7 +1501,7 @@
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       },
-                      "id": 3175,
+                      "id": 3189,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1510,18 +1510,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 3172,
+                          "id": 3186,
                           "name": "cmos_",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3146,
+                          "referencedDeclaration": 3160,
                           "src": "319:5:4",
                           "typeDescriptions": {
                             "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                             "typeString": "string storage ref[] storage ref"
                           }
                         },
-                        "id": 3173,
+                        "id": 3187,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -1540,7 +1540,7 @@
                       "rightExpression": {
                         "argumentTypes": null,
                         "hexValue": "31",
-                        "id": 3174,
+                        "id": 3188,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1567,18 +1567,18 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 3191,
+                  "id": 3205,
                   "initializationExpression": {
                     "assignments": [
-                      3168
+                      3182
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 3168,
+                        "id": 3182,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 3206,
+                        "scope": 3220,
                         "src": "298:6:4",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -1587,7 +1587,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 3167,
+                          "id": 3181,
                           "name": "uint",
                           "nodeType": "ElementaryTypeName",
                           "src": "298:4:4",
@@ -1600,14 +1600,14 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 3170,
+                    "id": 3184,
                     "initialValue": {
                       "argumentTypes": null,
-                      "id": 3169,
+                      "id": 3183,
                       "name": "_index",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3162,
+                      "referencedDeclaration": 3176,
                       "src": "307:6:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -1620,7 +1620,7 @@
                   "loopExpression": {
                     "expression": {
                       "argumentTypes": null,
-                      "id": 3178,
+                      "id": 3192,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1631,11 +1631,11 @@
                       "src": "334:3:4",
                       "subExpression": {
                         "argumentTypes": null,
-                        "id": 3177,
+                        "id": 3191,
                         "name": "i",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3168,
+                        "referencedDeclaration": 3182,
                         "src": "334:1:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1647,7 +1647,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 3179,
+                    "id": 3193,
                     "nodeType": "ExpressionStatement",
                     "src": "334:3:4"
                   },
@@ -1657,7 +1657,7 @@
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3198,
+                    "id": 3212,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1670,25 +1670,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 3192,
+                        "id": 3206,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "386:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3197,
+                      "id": 3211,
                       "indexExpression": {
                         "argumentTypes": null,
                         "commonType": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 3196,
+                        "id": 3210,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1697,18 +1697,18 @@
                           "argumentTypes": null,
                           "expression": {
                             "argumentTypes": null,
-                            "id": 3193,
+                            "id": 3207,
                             "name": "cmos_",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 3146,
+                            "referencedDeclaration": 3160,
                             "src": "392:5:4",
                             "typeDescriptions": {
                               "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                               "typeString": "string storage ref[] storage ref"
                             }
                           },
-                          "id": 3194,
+                          "id": 3208,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
@@ -1727,7 +1727,7 @@
                         "rightExpression": {
                           "argumentTypes": null,
                           "hexValue": "31",
-                          "id": 3195,
+                          "id": 3209,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -1764,14 +1764,14 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 3199,
+                  "id": 3213,
                   "nodeType": "ExpressionStatement",
                   "src": "379:28:4"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3203,
+                    "id": 3217,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1784,18 +1784,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 3200,
+                        "id": 3214,
                         "name": "cmos_",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3146,
+                        "referencedDeclaration": 3160,
                         "src": "413:5:4",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                           "typeString": "string storage ref[] storage ref"
                         }
                       },
-                      "id": 3202,
+                      "id": 3216,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -1814,28 +1814,28 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 3204,
+                  "id": 3218,
                   "nodeType": "ExpressionStatement",
                   "src": "413:14:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3206,
+            "id": 3220,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 3165,
+                "id": 3179,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 3164,
+                  "id": 3178,
                   "name": "onlySigner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 3474,
+                  "referencedDeclaration": 3488,
                   "src": "269:10:4",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -1849,15 +1849,15 @@
             "name": "deleteCMO",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3163,
+              "id": 3177,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3162,
+                  "id": 3176,
                   "name": "_index",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3206,
+                  "scope": 3220,
                   "src": "256:11:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1866,7 +1866,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3161,
+                    "id": 3175,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "256:4:4",
@@ -1883,12 +1883,12 @@
             },
             "payable": false,
             "returnParameters": {
-              "id": 3166,
+              "id": 3180,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "287:0:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "237:195:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -1896,33 +1896,33 @@
           },
           {
             "body": {
-              "id": 3214,
+              "id": 3228,
               "nodeType": "Block",
               "src": "494:23:4",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 3212,
+                    "id": 3226,
                     "name": "cmos_",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 3146,
+                    "referencedDeclaration": 3160,
                     "src": "507:5:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_string_storage_$dyn_storage",
                       "typeString": "string storage ref[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 3211,
-                  "id": 3213,
+                  "functionReturnParameters": 3225,
+                  "id": 3227,
                   "nodeType": "Return",
                   "src": "500:12:4"
                 }
               ]
             },
             "documentation": null,
-            "id": 3215,
+            "id": 3229,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -1930,22 +1930,22 @@
             "name": "getCMOs",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3207,
+              "id": 3221,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "452:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 3211,
+              "id": 3225,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3210,
+                  "id": 3224,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3215,
+                  "scope": 3229,
                   "src": "476:8:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -1955,7 +1955,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 3208,
+                      "id": 3222,
                       "name": "string",
                       "nodeType": "ElementaryTypeName",
                       "src": "476:6:4",
@@ -1964,7 +1964,7 @@
                         "typeString": "string"
                       }
                     },
-                    "id": 3209,
+                    "id": 3223,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "476:8:4",
@@ -1979,14 +1979,14 @@
               ],
               "src": "474:19:4"
             },
-            "scope": 3216,
+            "scope": 3230,
             "src": "436:81:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 3217,
+        "scope": 3231,
         "src": "88:432:4"
       }
     ],
@@ -1998,5 +1998,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2020-06-20T08:03:59.279Z"
+  "updatedAt": "2020-06-21T14:22:06.358Z"
 }
