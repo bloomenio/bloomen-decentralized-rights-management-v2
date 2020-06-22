@@ -7,7 +7,6 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import { Observable, Subscriber } from 'rxjs';
-
 import { HttpCacheService } from './http-cache.service';
 
 /**

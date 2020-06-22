@@ -3,6 +3,12 @@
 
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 const path = require('path');
+// const app = require('express')()
+// const basicAuth = require('express-basic-auth')
+//
+// app.use(basicAuth({
+//   users: { 'bloomen': 'secret' }
+// }))
 
 module.exports = function(config) {
   config.set({
