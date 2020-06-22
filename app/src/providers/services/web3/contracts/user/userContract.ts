@@ -32,11 +32,11 @@ export class UserContract extends Contract {
 
     /**
      * Save a member into the blockchain returning the memberId generated as a promise.
-     * @param member memberObject
+     * @param user
      */
     public addUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerUserRequest(user.creationDate, user.firstName, user.lastName,
+            return this.contract.methods.registerUserRequest(/* user.creationDate,*/ user.firstName, user.lastName,
                 user.role, user.memberId, user.kycData).send(this.args);
         });
     }
@@ -97,9 +97,10 @@ export class UserContract extends Contract {
                 // console.log('page: ', page);
                 return from(this.contract.methods.getUsers(page).call(this.args)).pipe(
                     map((users: UserModel[]) => {
-                        return users.filter((user: UserModel) => {
-                            return user.creationDate > 0;
-                        });
+                        return users
+                            // .filter((user: UserModel) => { return user.creationDate > 0; })
+                            .filter((user: UserModel) => Number(user.memberId) > 0)
+                            ;
                     })
                 ).toPromise().then(resolve, reject);
             });

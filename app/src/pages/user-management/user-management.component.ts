@@ -65,7 +65,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy
   ) { }
 
   public async ngOnInit() {
-    this.displayedColumns = ['name', 'id', 'member', 'role', 'creationDate', 'edit'];
+    this.displayedColumns = ['name', 'id', 'member', 'role', 'edit'];
     this.dataSource = new UserManagementDataSource(this.userContract);
 
     this.user$ = this.store.select(fromUserSelector.getUser).pipe(

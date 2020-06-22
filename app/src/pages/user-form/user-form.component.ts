@@ -90,7 +90,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public onChange() {
-    // console.log('onChange_1 member value is ' + this.userForm.get('member').value);
+    console.log('onChange_1 member value is ' + this.userForm.get('member').value);
 
     of(this.members).pipe(
       map((members) => {
@@ -124,12 +124,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
                 this.onFileSelected(this.userForm.get('kycData').value);
               })
               .then(async () => {
-                console.log(this.kycData);
+                // console.log(this.kycData);
                 await this.ipfsManager()
                     .then(r => {
                       console.log(this.kycData);
                       const user: UserModel = {
-                        creationDate: new Date().getTime(),
+                        // creationDate: new Date().getTime(),
                         firstName: this.userForm.get('firstName').value,
                         lastName: this.userForm.get('lastName').value,
                         memberId: this.userForm.get('member').value,
@@ -138,6 +138,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
                       };
                       this.store.dispatch(new fromUserActions.SendUser(user));
                       console.log(user);
+                      // console.log(new Date().getTime());
                       this.router.navigate(['waiting-approve']);
                 });
               });
@@ -149,7 +150,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     switch (name) {
       case 'Alex':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Alex',
           lastName: 'Psychas',
           memberId: Number(1).toString(),
@@ -163,7 +164,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'Evolution':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'Evolution',
           memberId: Number(1).toString(),
@@ -175,7 +176,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'Audio':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'AudioCoop',
           memberId: Number(2).toString(),
@@ -187,7 +188,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'AFI':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'AFI',
           memberId: Number(3).toString(),
@@ -199,7 +200,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'GetSound':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'GetSound',
           memberId: Number(4).toString(),
@@ -211,7 +212,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'ITSRIGHT':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'ITSRIGHT',
           memberId: Number(5).toString(),
@@ -223,7 +224,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'SCF':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'SCF',
           memberId: Number(6).toString(),
@@ -235,7 +236,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'Turo':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Turo',
           lastName: 'Pekari',
           memberId: Number(7).toString(),
@@ -249,7 +250,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
       case 'Test':
         user = {
-          creationDate: new Date().getTime(),
+          // creationDate: new Date().getTime(),
           firstName: 'Admin',
           lastName: 'Test Publisher',
           memberId: Number(7).toString(),
@@ -368,7 +369,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     console.log(isFirefox);
     if (isFirefox) {
       const user: UserModel = {
-        creationDate: new Date().getTime(),
+        // creationDate: new Date().getTime(),
         firstName: 'Gonçal',
         lastName: 'Calvo',
         memberId: this.membersFiltered[0].memberId.toString(),
@@ -384,7 +385,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
    // console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
     } else { // Opera
       const user: UserModel = {
-        creationDate: new Date().getTime(),
+        // creationDate: new Date().getTime(),
         firstName: 'Alex',
         lastName: 'Psychas',
         memberId: this.membersFiltered[0].memberId.toString(),
@@ -428,10 +429,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     for await (const {cid} of results) {
       // CID (Content IDentifier) uniquely addresses the data
-      console.log(cid.toString());
+      // console.log(cid.toString());
       this.kycData = cid.toString();
       this.userForm.get('kycData').setValue(this.kycData);
-      console.log(this.kycData);
+      // console.log(this.kycData);
     }
     // and can be used to get it again.
     // Getting data from IPFS
@@ -501,4 +502,5 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.kycData = undefined;
     this.userForm.get('kycData').setValue(undefined);
   }
+
 }

@@ -368,24 +368,24 @@ contract Claims {
 
   }
 
-//  function updateClaimId(uint _claimId, bytes _claimData, uint _memberOwner, bool _claimType) private returns (uint) {
-//    RLPReader.RLPItem memory item = _claimData.toRlpItem();
-//    RLPReader.RLPItem[] memory itemList = item.toList();
-//
-//    for(uint256 i = 1; i <= claimIdCounter_; i++) {
-//      if (_claimType == claims_[i].claimType && _claimId != i) {
-//        if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
-//        && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
-//        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
-//        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
-//        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same use/right-Types
-//        && keccak256(abi.encodePacked(itemList[5].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[5].value)) // same split
-//        && _memberOwner == claims_[i].memberOwner                                                                                       // same memberOwner
-//        ){
-//          return i;
-//        }
-//      }
-//    }
-//    return ++claimIdCounter_;
-//  }
+  function updateClaimId(uint _claimId, bytes _claimData, uint _memberOwner, bool _claimType) private returns (uint) {
+    RLPReader.RLPItem memory item = _claimData.toRlpItem();
+    RLPReader.RLPItem[] memory itemList = item.toList();
+
+    for(uint256 i = 1; i <= claimIdCounter_; i++) {
+      if (_claimType == claims_[i].claimType && _claimId != i) {
+        if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
+        && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
+        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
+        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
+        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same use/right-Types
+        && keccak256(abi.encodePacked(itemList[5].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[5].value)) // same split
+        && _memberOwner == claims_[i].memberOwner                                                                                       // same memberOwner
+        ){
+          return i;
+        }
+      }
+    }
+    return ++claimIdCounter_;
+  }
 }

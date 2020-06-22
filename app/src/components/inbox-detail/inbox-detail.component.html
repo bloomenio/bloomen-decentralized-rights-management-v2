@@ -22,12 +22,11 @@
             </div>
             <div class="sender-logo" [ngStyle]="{'background-image': 'url(' + member.logo + ')'}"></div>
         </div>
-        <div fxLayout="row">
-            <div class="info-wrapper">
-                <button class="sender-logo all-copy">{{ "https://ipfs.io/ipfs/" + message.kycData }}</button>
-            </div>
-        </div>
-        </div>
+    </div>
+    <div fxLayout="row" class="info-wrapper">
+            <a href="{{ 'https://ipfs.io/ipfs/' + message.kycData }}" mat-menu-item target="_blank"
+            style="background: rgba(0, 0, 0, 0.15)"><b>KYC Information</b></a>
+    </div>
     <div fxLayout="column">
         <div class="subject">{{ 'inbox_detail.get_Access' | translate }}</div>
         <div class="message">{{ 'inbox_detail.member_Access' | translate }} {{message.role}}</div>

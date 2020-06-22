@@ -1,6 +1,6 @@
 require('dotenv').config();
 const inquirer = require('inquirer');
-var HDWalletProvider = require("truffle-hdwallet-provider");
+var HDWalletProvider = require("@truffle/hdwallet-provider");
 
 var mnemonic = process.env.DEVELOPMENT_MNEMONIC;
 

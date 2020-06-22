@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { MnemonicDatabaseService } from '@db/mnemonic-database.service';
 import { ApplicationDataDatabaseService } from '@db/application-data-database.service';
-import { StatusEnum } from '@core/models/user.model';
+// import { StatusEnum } from '@core/models/user.model';
 import { APPLICATION_DATA_CONSTANTS } from '@core/constants/application-data.constants';
 import { ROLES } from '@core/constants/roles.constants';
 
@@ -26,11 +26,11 @@ export class GuardAuthRouteService implements CanActivate {
         } else if (mnemonic && !isFormFilled && !user) {
             this.router.navigate(['user-form']);
             return false;
-        } else if ((mnemonic && user && user.role !== ROLES.SUPER_USER && StatusEnum[user.status] === StatusEnum[StatusEnum.PENDING])
+        } else if ((mnemonic && user && user.role !== ROLES.SUPER_USER && user.status === 1)
             || (mnemonic && isFormFilled && !user)) {
             this.router.navigate(['waiting-approve']);
             return false;
-        } else if (mnemonic && user && user.role !== ROLES.SUPER_USER && StatusEnum[user.status] === StatusEnum[StatusEnum.REJECTED]) {
+        } else if (mnemonic && user && user.role !== ROLES.SUPER_USER && user.status === 0) {
             this.router.navigate(['login']);
             return false;
         }

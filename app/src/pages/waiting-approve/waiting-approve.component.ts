@@ -8,7 +8,7 @@ import { interval, Subscription, from } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { UserContract } from '@services/web3/contracts/user/userContract';
-import { StatusEnum, UserModel } from '@core/models/user.model';
+import { UserModel } from '@core/models/user.model';
 import { Web3Service } from '@services/web3/web3.service';
 
 import * as fromMnemonicActions from '@stores/mnemonic/mnemonic.actions';
@@ -45,10 +45,11 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
-    this.store.select(fromUserSelector.getUser).pipe(skipWhile((user) => !user)).subscribe((user) => {
+    this.store.select(fromUserSelector.getUser)
+        .pipe(skipWhile((user) => !user)).subscribe((user) => {
       if (user) {
-        const status = parseInt(user.status, 10);
-        if (status === StatusEnum.ACCEPTED || user.role === ROLES.SUPER_USER) {
+        const status = Number(user.status); // parseInt(user.status, 10);
+        if (status === 2 || user.role === ROLES.SUPER_USER) {
           this.ngZone.run(() => {
             this.router.navigate(['inbox'])
                 .then(() => {
@@ -62,12 +63,13 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
     this.web3Service.ready(async () => {
       this.interval$ = interval(1000).subscribe(async () => {
         this.userContract.getMe().then((user) => {
-          if (user.creationDate > 0) {
+          if (user.firstName.length > 0) {
             this.user = user;
-            const status = parseInt(user.status, 10);
-            if (status === StatusEnum.ACCEPTED || user.role === ROLES.SUPER_USER) {
+            // console.log(user);
+            const status = Number(user.status); // parseInt(user.status, 10);
+            if (status === 2 || user.role === ROLES.SUPER_USER) {
               this.store.dispatch(new fromUserActions.AddUser());
-            } else if (status === StatusEnum.REJECTED) {
+            } else if (status === 0) {
               log.debug('user not found');
               this.store.dispatch(new fromMnemonicActions.RemoveMnemonic());
               this.store.dispatch(new fromUserActions.RemoveUser());

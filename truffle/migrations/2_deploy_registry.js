@@ -21,6 +21,23 @@ async function doDeploy(deployer, network) {
     // console.log("Users    ", instanceOfUsers.address);
     return deployer.deploy(Claims, instanceOfUsers.address)
   });
+
+  // await deployer.deploy(Registry)
+  //   .then((instanceOfRegistry) => {
+  //       // console.log(network);
+  //       return deployer.deploy(Users, instanceOfRegistry.address)
+  //         .then((instanceOfUsers) => {
+  //           // console.log("Users    ", instanceOfUsers.address);
+  //           return deployer.deploy(Claims, instanceOfUsers.address)
+  //         });
+  //   });
+
   // console.log("Functions    ", Functions.address);
+  // await deployer.deploy(Registry)
+  //     .then(() => Registry.deployed())
+  //     .then(registry => deployer.deploy(Users, registry.address))
+  //     .then(() => Users.deployed())
+  //     .then(users => deployer.deploy(Claims, users.address));
+
 }
 

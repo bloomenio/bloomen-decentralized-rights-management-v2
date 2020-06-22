@@ -24,13 +24,14 @@ export class DialogUserDataComponent implements OnInit {
   private max: any;
   private kycData: any;
 
-  constructor(public dialogRef: MatDialogRef<DialogUserDataComponent>,
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public userContract: UserContract
+  constructor(
+      public dialogRef: MatDialogRef<DialogUserDataComponent>,
+      private fb: FormBuilder,
+      public userContract: UserContract,
+      @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  public async ngOnInit(): Promise<void> {
+  public async ngOnInit() {
     this.editUserForm = this.fb.group({
       firstName: [this.data.user.firstName, [Validators.required]],
       lastName: [this.data.user.lastName, [Validators.required]],
@@ -53,44 +54,53 @@ export class DialogUserDataComponent implements OnInit {
     this.nameIcon = this.data.user.firstName.trim()[0].toUpperCase() + this.data.user.lastName.trim()[0].toUpperCase();
   }
 
-  public onSubmit(): void {
-    if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
-      const user: UserModel = {
-        creationDate: this.data.user.creationDate,
-        firstName: this.editUserForm.get('firstName').value,
-        lastName: this.editUserForm.get('lastName').value,
-        memberId: this.editUserForm.get('memberId').value,
-        tokens: this.editUserForm.get('tokens').value,
-        owner: this.data.user.owner,
-        requestId: this.data.user.requestId,
-        role: this.editUserForm.get('role').value,
-        status: this.data.user.status,
-        kycData: this.data.user.kycData
-      };
-      this.dialogRef.close(user);
-    } else // new kycData
-    {  Promise.resolve()
-        .then(async () => {
-          await this.onFileSelected(this.editUserForm.get('kycData').value);
-          Promise.resolve()
-              .then(() => {
-                this.ipfsManager().then(r => {
-                  const user: UserModel = {
-                    creationDate: this.data.user.creationDate,
-                    firstName: this.editUserForm.get('firstName').value,
-                    lastName: this.editUserForm.get('lastName').value,
-                    memberId: this.editUserForm.get('memberId').value,
-                    tokens: this.editUserForm.get('tokens').value,
-                    owner: this.data.user.owner,
-                    requestId: this.data.user.requestId,
-                    role: this.editUserForm.get('role').value,
-                    status: this.data.user.status,
-                    kycData: this.kycData
-                  };
-                  this.dialogRef.close(user);
-                });
-              });
-        });
+  public onSubmit() {
+    if (this.editUserForm.get('firstName').value === this.data.user.firstName &&
+        this.editUserForm.get('lastName').value === this.data.user.lastName &&
+        this.editUserForm.get('memberId').value === this.data.user.memberId &&
+        this.editUserForm.get('tokens').value === this.data.user.tokens &&
+        this.editUserForm.get('role').value === this.data.user.role &&
+        this.editUserForm.get('kycData').value === this.data.user.kycData) {
+      // do nothing
+    } else {
+      if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
+        const user: UserModel = {
+          // creationDate: this.data.user.creationDate,
+          firstName: this.editUserForm.get('firstName').value,
+          lastName: this.editUserForm.get('lastName').value,
+          memberId: this.editUserForm.get('memberId').value,
+          tokens: this.editUserForm.get('tokens').value,
+          owner: this.data.user.owner,
+          requestId: this.data.user.requestId,
+          role: this.editUserForm.get('role').value,
+          status: this.data.user.status,
+          kycData: this.data.user.kycData
+        };
+        this.dialogRef.close(user);
+      } else {  // new kycData
+        Promise.resolve()
+            .then(async () => {
+              await this.onFileSelected(this.editUserForm.get('kycData').value);
+              Promise.resolve()
+                  .then(() => {
+                    this.ipfsManager().then(r => {
+                      const user: UserModel = {
+                        // creationDate: this.data.user.creationDate,
+                        firstName: this.editUserForm.get('firstName').value,
+                        lastName: this.editUserForm.get('lastName').value,
+                        memberId: this.editUserForm.get('memberId').value,
+                        tokens: this.editUserForm.get('tokens').value,
+                        owner: this.data.user.owner,
+                        requestId: this.data.user.requestId,
+                        role: this.editUserForm.get('role').value,
+                        status: this.data.user.status,
+                        kycData: this.kycData
+                      };
+                      this.dialogRef.close(user);
+                    });
+                  });
+            });
+      }
     }
   }
 

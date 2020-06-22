@@ -419,9 +419,17 @@ export class InboxComponent implements OnInit, OnDestroy {
     console.log('The message was just read.');
     for (let i = 0; i < this.inbox.length; ++i) {
       const m = this.inbox[i];
-      if ((m.claimId ? m.claimId : m.firstName) === string && m.creationDate === creationDate) {
-        (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read = true;
+      // console.log(m);
+      // console.log(inboxReadClaims);
+      if (inboxReadClaims.includes(m)) {
+        if ((m.claimId ? m.claimId : m.firstName) === string && m.creationDate === creationDate) {
+          (inboxReadClaims.filter((x) => m.creationDate === x.creationDate &&
+              (m.claimId ? m.claimId : m.firstName) === x.string))[0].read = true;
+          m.read = true;
+        }
+      } else {
         m.read = true;
+        inboxReadClaims.push(m);
       }
     }
     unreadMessages = inboxReadClaims.filter((x) => !x.read).length;

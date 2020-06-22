@@ -12,22 +12,21 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@truffle/hdwallet-provider": "^1.0.26",
-    "copyfiles": "^2.1.0",
-    "dotenv": "6.0.0",
-    "inquirer": "^6.2.2",
-    "openzeppelin-solidity": "2.0.0",
-    "rlp": "2.1.0",
-    "solidity-rlp": "1.1.0",
-    "truffle": "4.1.14",
-    "truffle-hdwallet-provider": "0.0.6",
-    "web3": "1.0.0-beta.36"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.0.35",
+    "copyfiles": "^2.3.0",
     "csv-parser": "^2.3.2",
-    "ganache-cli": "6.1.8",
+    "dotenv": "^6.0.0",
+    "ganache-cli": "^6.1.8",
+    "inquirer": "^6.5.2",
     "napa": "^3.0.0",
-    "nps": "^5.9.3"
+    "nps": "^5.9.12",
+    "openzeppelin-solidity": "^2.0.0",
+    "rlp": "^2.1.0",
+    "solidity-rlp": "^1.1.0",
+    "truffle": "^4.1.14",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.36"
   }
 }

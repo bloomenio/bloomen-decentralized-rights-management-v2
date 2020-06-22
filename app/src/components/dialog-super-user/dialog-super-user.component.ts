@@ -42,7 +42,7 @@ export class DialogSuperUserComponent implements OnInit {
 
   public onSubmit() {
     const user: UserModel = {
-      creationDate: this.data.user.creationDate,
+      // creationDate: this.data.user.creationDate,
       firstName: this.editUserForm.get('firstName').value,
       lastName: this.editUserForm.get('lastName').value,
       memberId: this.editUserForm.get('memberId').value,

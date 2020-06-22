@@ -1,5 +1,5 @@
 export interface UserModel {
-    creationDate: number;
+    // creationDate: number;
     firstName: string;
     lastName: string;
     memberId?: string;
@@ -13,8 +13,8 @@ export interface UserModel {
     kycData: string;
 }
 
-export enum StatusEnum {
-    REJECTED,
-    PENDING,
-    ACCEPTED
-}
+// export enum StatusEnum {
+//     REJECTED,
+//     PENDING,
+//     ACCEPTED
+// }
