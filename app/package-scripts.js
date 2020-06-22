@@ -48,7 +48,7 @@ module.exports = {
     },
 
     ng: {
-      serve: 'ng serve',
+      serve: 'ng serve --host 0.0.0.0 --disable-host-check',
       build: 'ng build',
       lint: 'ng lint',
       test: 'ng test',
