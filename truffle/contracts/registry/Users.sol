@@ -4,11 +4,24 @@ pragma experimental ABIEncoderV2;
 import "./Members.sol";
 import "./Claims.sol";
 
+contract Users {
 
-contract Users is Members {
+  Members private _Members;
+  //  Users.User private currentUser;
+
+  constructor (address _MembersAddr) public {
+    _Members = Members(_MembersAddr);
+    //    currentUser = _Users.getUserByAddress(msg.sender);
+  }
+
+  modifier onlySigner() {
+    require(_Members.isSigner(msg.sender));
+    _;
+  }
 
   struct User {
 //    uint256 creationDate;
+//    uint256 accountExpirationDate;
     address owner;  // primary key
     uint256 memberId;
     uint256 requestId;
@@ -42,9 +55,9 @@ contract Users is Members {
     require(_memberId != 0, "No valid memberId");
 //    require(_creationDate > 0, "CreationDate is mandatory");
 //    require(users_[msg.sender].creationDate == 0, "User already exists");
-    require(_memberExists(_memberId), "Member not exists");
+    require(_Members._memberExists(_memberId), "Member not exists");
 
-    uint256 _requestId = Random.rand(++requestIdCounter);
+    uint256 _requestId = _Members.calcRandom(++requestIdCounter);
     _saveUser(_firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 0);
     users_[msg.sender].kycData = _kycData;
   }
@@ -55,9 +68,11 @@ contract Users is Members {
     require(users_[owner].owner > address(0), "This user not exists");
     require(users_[owner].status == 2, "You are not accepted");
     if (users_[owner].tokens > _tokens) {
-      members_[users_[owner].memberId].totalTokens += users_[owner].tokens - _tokens;
+      _Members.increaseMemberTotalTokens(users_[owner].memberId, users_[owner].tokens - _tokens);
+//      members_[users_[owner].memberId].totalTokens += users_[owner].tokens - _tokens; // add new Members function
     } else {
-      members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens;
+      _Members.updateMemberTotalTokens(users_[owner].memberId, _tokens - users_[owner].tokens);
+//      members_[users_[owner].memberId].totalTokens -= _tokens - users_[owner].tokens; // -//-
     }
     users_[owner].tokens = _tokens;
     users_[owner].kycData = _kycData;
@@ -97,26 +112,28 @@ contract Users is Members {
   function rejectUser(address _userToReject) public {
 
     require(users_[_userToReject].owner > address(0), "This user not exists");
-    require((users_[msg.sender].memberId == users_[_userToReject].memberId) || isSigner(msg.sender), "You cannot accept this user");
-    require(users_[msg.sender].status == 2 || isSigner(msg.sender), "You are not accepted");
+    require((users_[msg.sender].memberId == users_[_userToReject].memberId) || _Members.isSigner(msg.sender), "You cannot accept this user");
+    require(users_[msg.sender].status == 2 || _Members.isSigner(msg.sender), "You are not accepted");
     require(users_[_userToReject].status == 1, "Only pending users can be rejected");
 
     users_[_userToReject].status = 0;
-    _clearUserFromMemberRequest(users_[_userToReject].memberId, _userToReject);
+    _Members._clearUserFromMemberRequest(users_[_userToReject].memberId, _userToReject);
   }
 
   function acceptUser(address _userToAccept) public {
 
     require(users_[_userToAccept].owner > address(0), "This user not exists");
-    require((users_[msg.sender].memberId == users_[_userToAccept].memberId) || isSigner(msg.sender), "You cannot accept this user");
-    require(users_[msg.sender].status == 2 || isSigner(msg.sender), "You are not accepted");
+    require((users_[msg.sender].memberId == users_[_userToAccept].memberId) || _Members.isSigner(msg.sender), "You cannot accept this user");
+    require(users_[msg.sender].status == 2 || _Members.isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == 1, "Only pending users can be accepted");
 
-    if (members_[users_[_userToAccept].memberId].totalTokens > userStartTokens) {
+    // new functions
+    if (_Members.getMemberTotalTokens(users_[_userToAccept].memberId) > userStartTokens) {
       users_[_userToAccept].status = 2;
-      _clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
+      _Members._clearUserFromMemberRequest(users_[_userToAccept].memberId, _userToAccept);
       users_[_userToAccept].tokens = userStartTokens;
-      members_[users_[_userToAccept].memberId].totalTokens -= userStartTokens;
+      _Members.updateMemberTotalTokens(users_[_userToAccept].memberId, userStartTokens);
+//      members_[users_[_userToAccept].memberId].totalTokens -= userStartTokens;
     } else {
       rejectUser(_userToAccept);
     }
@@ -134,14 +151,14 @@ contract Users is Members {
   }
 
   function whitelistAdmin(address account, string _cmo) public onlySigner {
-    _clearUserFromMemberRequest(users_[account].memberId, account);
+    _Members._clearUserFromMemberRequest(users_[account].memberId, account);
     users_[account].role = "Super admin";
-    users_[account].memberId = ++memberIdCounter_;
+    users_[account].memberId = _Members.returnUpdatedMemberIdCounter();
     users_[account].cmo = _cmo;
-//    users_[account].tokens = 0; // should "Super admin" have tokens?
+//    users_[account].tokens = 0; // should "Super admin" users have tokens?
     users_[account].status = 2;
     users_[account].groups = ["digit1"];
-    addSigner(account);
+    _Members.addSigner(account);
   }
 
   function getUsers(uint256 _page) public view returns(User[] memory) {
@@ -173,11 +190,9 @@ contract Users is Members {
 
   function getUsersOwner() onlySigner public view returns(User[] memory) {
     User[] memory userPageOwner = new User[](usersList_.length);
-
     for (uint i = 0; i < usersList_.length; ++i) {
       userPageOwner[i] = users_[usersList_[i]];
     }
-
     return userPageOwner;
   }
 
@@ -213,10 +228,10 @@ contract Users is Members {
     if (isCreate == 0) {
       usersList_.push(owner);
 //      if (users_[owner].status != 2) {
-      _addUserToMemberRequest(_memberId);
+      _Members._addUserToMemberRequest(_memberId);
 //      }
       users_[owner].groups = ["digit1"];                  // by default
-      users_[owner].cmo = members_[user.memberId].cmo;  // to initialize
+      users_[owner].cmo = _Members.getMemberCmo(user.memberId); // to initialize
     }
   }
 
@@ -226,10 +241,11 @@ contract Users is Members {
 
   function updateTokens(address addr, uint transactionPrice) public {
     users_[addr].tokens -= transactionPrice;
-    members_[users_[addr].memberId].totalTokens -= transactionPrice;
+    _Members.updateMemberTotalTokens(users_[addr].memberId, transactionPrice);
   }
 
   function getUserTokensByAddress(address addr) view public returns(uint) {
     return users_[addr].tokens;
   }
+
 }

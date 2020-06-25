@@ -68,15 +68,17 @@ async function registerUser() {
     let questions = [
         { type: 'input', name: 'firstName', message: 'Specify the first name:' },
         { type: 'input', name: 'lastName', message: 'Specify the last name:' },
-        { type: 'number', name: 'memberId', message: 'Specify the member Id:' },
-        { type: 'input', name: 'role', message: 'Specify the role user:' }
+        { type: 'input', name: 'memberId', message: 'Specify the member Id:' },
+        { type: 'input', name: 'role', message: 'Specify the role user:' },
+        { type: 'input', name: 'kycData', message: 'Specify the IPFS KYC CID link:' }
     ];
 
     let answer = await inquirer.prompt(questions);
 
     let creationDate = new Date().getTime();
 
-    contractInstance.methods.registerUserRequest(creationDate, answer.firstName, answer.lastName, answer.role, answer.memberId)
+    contractInstance.methods.registerUserRequest(creationDate, answer.firstName, answer.lastName, answer.role,
+        answer.memberId, answer.kycData)
         .send(transactionObject).then(checkTransaction);
 }
 
@@ -154,12 +156,15 @@ function getUsersOwner() {
 async function addWhitelist() {
     let questions = [
         { type: 'input', name: 'address', message: 'Specify the user address:' },
-        { type: 'input', name: 'cmo', message: 'Specify cmo:' },
+        { type: 'input', name: 'cmo', message: 'Specify the CMO:' },
     ];
 
     let whitelistUser = await inquirer.prompt(questions);
 
-    contractInstance.methods.whitelistAdmin(whitelistUser.address, whitelistUser.cmo.toString()).send(transactionObject).then(checkTransaction);
+    contractInstance.methods.whitelistAdmin(whitelistUser.address, whitelistUser.cmo.toString())
+        .send(transactionObject, (error) => {
+            console.log(error);
+        }).then(checkTransaction);
 }
 
 async function isSigner() {

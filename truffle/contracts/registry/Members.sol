@@ -24,7 +24,7 @@ contract Members is Random, Registry {
   uint256 constant private PAGE_SIZE = 10;
 
   mapping (uint256 => Member) members_;
-  uint256 memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
+  uint256 private memberIdCounter_ = 0; // Equals the number of (members + Super Admins) ever inserted, including the deleted ones.
 
   uint256[] private membersList_;
 
@@ -131,7 +131,7 @@ contract Members is Random, Registry {
     return members_[_memberId].claims.length;
   }
 
-  function _addUserToMemberRequest(uint _memberId) internal {
+  function _addUserToMemberRequest(uint _memberId) public {
     members_[_memberId].userRequests.push(msg.sender);
   }
 
@@ -189,7 +189,7 @@ contract Members is Random, Registry {
     }
   }
 
-  function _clearUserFromMemberRequest(uint _memberId, address userAddress) internal {
+  function _clearUserFromMemberRequest(uint _memberId, address userAddress) public {
      bool found = false;
     // Remove index
     for (uint j = 0; j < members_[_memberId].userRequests.length - 1; j++) {
@@ -204,6 +204,31 @@ contract Members is Random, Registry {
       delete members_[_memberId].userRequests[members_[_memberId].userRequests.length - 1];
       members_[_memberId].userRequests.length--;
 //    }
+  }
+
+  // New; after separated Users from Members contract
+  function updateMemberTotalTokens(uint memberId, uint cost) {
+    members_[memberId].totalTokens -= cost;
+  }
+
+  function increaseMemberTotalTokens(uint memberId, uint cost) {
+    members_[memberId].totalTokens += cost;
+  }
+
+  function getMemberCmo(uint memberId) public view returns(string) {
+    return members_[memberId].cmo;
+  }
+
+  function getMemberTotalTokens(uint memberId) public view returns(uint) {
+    return members_[memberId].totalTokens;
+  }
+
+  function calcRandom(uint seed) public view returns(uint) {
+    return Random.rand(seed);
+  }
+
+  function returnUpdatedMemberIdCounter() public returns(uint) {
+    return ++memberIdCounter_;
   }
 
 }

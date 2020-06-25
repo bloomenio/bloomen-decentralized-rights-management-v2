@@ -1,11 +1,32 @@
+const Members = artifacts.require("./registry/Members");
 const Users = artifacts.require("./registry/Users");
 const Claims = artifacts.require("./registry/Claims");
 
 module.exports = function (deployer, network) {
+  var membersInstance, usersInstance;
+  // deployer.deploy(Members)
+  //     // .then(() => Members.deployed())
+  //     .then((memInst) => {
+  //       membersInstance = memInst;
+  //       return deployer.deploy(Users, membersInstance.address)
+  //           // .then(() => Users.deployed())
+  //           .then((usrInst) => {
+  //             usersInstance = usrInst;
+  //             return deployer.deploy(Claims, usersInstance.address, membersInstance.address)
+  //           });
+  //     });
+    deployer.deploy(Members)
+        .then(() => Members.deployed())
+        .then(memInst => {
+            membersInstance = memInst;
+            return deployer.deploy(Users, memInst.address);
+        })
+        .then(() => Users.deployed())
+        .then(users => deployer.deploy(Claims, users.address, membersInstance.address));
 
-  deployer.then(async () => {
-    await doDeploy(deployer, network);
-  });
+    // deployer.then(async () => {
+  //   await doDeploy(deployer, network);
+  // });
 };
 
 

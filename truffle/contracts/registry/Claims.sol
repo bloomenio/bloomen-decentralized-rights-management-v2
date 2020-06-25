@@ -9,13 +9,12 @@ import "./strings.sol";
 contract Claims {
 
   Users private _Users;
-//  Users.User private currentUser;
+  Members private _Members;
 
-  constructor (address _UsersAddr) public {
-    _Users = Users(_UsersAddr);
-//    currentUser = _Users.getUserByAddress(msg.sender);
+  constructor (address _UsersAddr, address _MembersAddr) public {
+  _Users = Users(_UsersAddr);
+    _Members = Members(_MembersAddr);
   }
-
 
   using RLPReader for bytes;
   using RLPReader for uint;
@@ -58,11 +57,11 @@ contract Claims {
       if (register_or_update) {             // Register new claim.
         _claimId = ++claimIdCounter_;
         //    require(claims_[_claimId].claimId == 0, "Claim already exists");
-        require(_Users._memberExists(_memberOwner), "Member do not exists");
+        require(_Members._memberExists(_memberOwner), "Member do not exists");
   //      _memberOwner = _Users._memberIdFromCurrentAddress(msg.sender);
 
         _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, false, _creationDate);
-        _Users._addClaimIdToMemberOwner(_memberOwner, _claimId);
+        _Members._addClaimIdToMemberOwner(_memberOwner, _claimId);
 
         checkClaimStatus(_claimId, _claimType, _claimData, true);
       } else {                     // Update existing claim.
@@ -77,9 +76,9 @@ contract Claims {
         _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
 
         if (_creationDate == 1) {  // Delete claim.
-          _Users._removeClaimFromMember(_memberOwner, _claimId);
+          _Members._removeClaimFromMember(_memberOwner, _claimId);
           if (claims_[_claimId].status) {
-            _Users._removeClaimFromInbox(_memberOwner, _claimId);
+            _Members._removeClaimFromInbox(_memberOwner, _claimId);
           }
 //            _removeClaimFromMapping(_claimId);
 //            _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
@@ -112,14 +111,14 @@ contract Claims {
     Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
     if (keccak256(currentUser.role) != keccak256("Super admin")) { // If user IS NOT "Super admin".
       uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
-      uint count = _Users._getClaimsCountByMember(_memberId);
+      uint count = _Members._getClaimsCountByMember(_memberId);
       uint256 pageNumber = SafeMath.div(count, PAGE_SIZE);
 
       if (count == 0 || pageIndex > count - 1 || _page > pageNumber) {
         return;
       }
 
-      uint256[] memory claimsId = _Users._getClaimsIdByMember(_memberId);
+      uint256[] memory claimsId = _Members._getClaimsIdByMember(_memberId);
 
       Claim[] memory _claims = new Claim[](PAGE_SIZE);
       uint256 returnCounter = 0;
@@ -134,10 +133,10 @@ contract Claims {
       return _claims;
     } else {  // If user IS "Super admin".
 
-      uint[] memory memberIds = _Users._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
+      uint[] memory memberIds = _Members._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
       count = 0;
       for (uint j = 0; j < memberIds.length; ++j) {
-        count += _Users._getClaimsCountByMember(memberIds[j]); // count+count+...+count
+        count += _Members._getClaimsCountByMember(memberIds[j]); // count+count+...+count
       }
       pageNumber = SafeMath.div(count, PAGE_SIZE);
 
@@ -148,7 +147,7 @@ contract Claims {
       uint[] memory allClaimsId = new uint[](count);
       count = 0;  // now, use it for iterator
       for (j = 0; j < memberIds.length; ++j) {
-        claimsId = _Users._getClaimsIdByMember(memberIds[j]);
+        claimsId = _Members._getClaimsIdByMember(memberIds[j]);
         for (i=0; i < claimsId.length; ++i) {
           allClaimsId[count++] = claimsId[i];
         }
@@ -172,12 +171,12 @@ contract Claims {
     Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
     if (keccak256(currentUser.role) != keccak256("Super admin")) { // If user IS NOT "Super admin".
       uint256 _memberId = _Users._memberIdFromCurrentAddress(msg.sender);
-      return _Users._getClaimsCountByMember(_memberId);
+      return _Members._getClaimsCountByMember(_memberId);
     } else {                                                       // If user IS "Super admin".
-      uint[] memory memberIds = _Users._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
+      uint[] memory memberIds = _Members._getMemberIdsOfCurrentCMO(currentUser.cmo, currentUser.memberId);
       uint count = 0;
       for (uint j = 0; j < memberIds.length; ++j) {
-        count += _Users._getClaimsCountByMember(memberIds[j]); // count+count+...+count
+        count += _Members._getClaimsCountByMember(memberIds[j]); // count+count+...+count
       }
       return count;
     }
@@ -271,11 +270,11 @@ contract Claims {
                   if (!prevStatus) {
                     prevStatus = true;
                     claims_[_claimId].status = true; // true, means there IS a CONFLICT
-                    _Users._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                    _Members._addClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
                   }
                   if (!claims_[i].status) {
                     claims_[i].status = true;
-                    _Users._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+                    _Members._addClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
                   }
                 } else if (maxSplits_[i] + split <= 100) {
                   claims_[_claimId].status = false;
@@ -288,7 +287,7 @@ contract Claims {
                 if (split == 0 && prevStatus) {
                   prevStatus = false;
                   claims_[_claimId].status = false;
-                  _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                  _Members._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
                 }
                 if (maxSplits_[i] != 0) maxSplits_[i]+=split;                // build maxSplits_[i]
                 if (tempMaxSplitOnce && maxSplits_[i] != 0 && split != 0) {
@@ -304,13 +303,13 @@ contract Claims {
                 }
                 if (prevStatus) {                                        // set it CLAIMED
                   claims_[_claimId].status = false;
-                  _Users._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
+                  _Members._removeClaimFromInbox(claims_[_claimId].memberOwner, _claimId);
                   prevStatus = false;
                 }
                 if (maxSplits_[i] - split <= 100 || maxSplits_[i] == 0) {     // split != 0 here is redundant
                   if (claims_[i].status) {
                     claims_[i].status = false;
-                    _Users._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
+                    _Members._removeClaimFromInbox(claims_[i].memberOwner, claims_[i].claimId);
                   }
                 }
                 if (maxSplits_[i] != 0) maxSplits_[i]-=split;                // recalculate maxSplits_[i]
@@ -367,25 +366,25 @@ contract Claims {
     }
 
   }
-
-  function updateClaimId(uint _claimId, bytes _claimData, uint _memberOwner, bool _claimType) private returns (uint) {
-    RLPReader.RLPItem memory item = _claimData.toRlpItem();
-    RLPReader.RLPItem[] memory itemList = item.toList();
-
-    for(uint256 i = 1; i <= claimIdCounter_; i++) {
-      if (_claimType == claims_[i].claimType && _claimId != i) {
-        if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
-        && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
-        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
-        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
-        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same use/right-Types
-        && keccak256(abi.encodePacked(itemList[5].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[5].value)) // same split
-        && _memberOwner == claims_[i].memberOwner                                                                                       // same memberOwner
-        ){
-          return i;
-        }
-      }
-    }
-    return ++claimIdCounter_;
-  }
+//
+//  function updateClaimId(uint _claimId, bytes _claimData, uint _memberOwner, bool _claimType) private returns (uint) {
+//    RLPReader.RLPItem memory item = _claimData.toRlpItem();
+//    RLPReader.RLPItem[] memory itemList = item.toList();
+//
+//    for(uint256 i = 1; i <= claimIdCounter_; i++) {
+//      if (_claimType == claims_[i].claimType && _claimId != i) {
+//        if(keccak256(abi.encodePacked(itemList[0].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[0].value)) // same ISRC/ISWC
+//        && keccak256(abi.encodePacked(itemList[1].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[1].value)) // same countries
+//        && keccak256(abi.encodePacked(itemList[2].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[2].value)) // same startDate
+//        && keccak256(abi.encodePacked(itemList[3].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[3].value)) // same endDate
+//        && keccak256(abi.encodePacked(itemList[4].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[4].value)) // same use/right-Types
+//        && keccak256(abi.encodePacked(itemList[5].toList()[1].toBytes())) == keccak256(abi.encodePacked(claims_[i].claimData[5].value)) // same split
+//        && _memberOwner == claims_[i].memberOwner                                                                                       // same memberOwner
+//        ){
+//          return i;
+//        }
+//      }
+//    }
+//    return ++claimIdCounter_;
+//  }
 }

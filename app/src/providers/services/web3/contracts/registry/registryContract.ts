@@ -1,4 +1,4 @@
-import { default as JSON } from '../json/Users.json';
+import { default as JSON } from '../json/Members.json';
 import { Contract } from '../contract';
 
 // Environment
