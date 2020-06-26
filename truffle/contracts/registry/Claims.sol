@@ -12,7 +12,7 @@ contract Claims {
   Members private _Members;
 
   constructor (address _UsersAddr, address _MembersAddr) public {
-  _Users = Users(_UsersAddr);
+    _Users = Users(_UsersAddr);
     _Members = Members(_MembersAddr);
   }
 

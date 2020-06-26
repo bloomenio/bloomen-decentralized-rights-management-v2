@@ -143,7 +143,7 @@ function getMe() {
     contractInstance.methods.getMe().call(transactionObject).then(
         (result) => {
             console.log('GET:', result)
-        });
+        }).then(checkTransaction);
 }
 
 function getUsersOwner() {
@@ -162,9 +162,7 @@ async function addWhitelist() {
     let whitelistUser = await inquirer.prompt(questions);
 
     contractInstance.methods.whitelistAdmin(whitelistUser.address, whitelistUser.cmo.toString())
-        .send(transactionObject, (error) => {
-            console.log(error);
-        }).then(checkTransaction);
+        .send(transactionObject).then(checkTransaction);
 }
 
 async function isSigner() {
@@ -184,7 +182,7 @@ function checkTransaction(result) {
     console.log('koko',result);
     web3.eth.getTransactionReceipt(result,
         (status) => {
-            if (GAS == status.gasUsed) {
+            if (GAS === status.gasUsed) {
                 //transaction error
                 console.log('KO');
             } else {

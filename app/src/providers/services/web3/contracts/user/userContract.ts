@@ -36,7 +36,7 @@ export class UserContract extends Contract {
      */
     public addUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.registerUserRequest(/* user.creationDate,*/ user.firstName, user.lastName,
+            return this.contract.methods.registerUserRequest(user.creationDate, user.firstName, user.lastName,
                 user.role, user.memberId, user.kycData).send(this.args);
         });
     }
@@ -51,7 +51,7 @@ export class UserContract extends Contract {
 
     public updateUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateUser(user.firstName, user.lastName, user.memberId, user.role,
+            return this.contract.methods.updateUser(user.creationDate, user.firstName, user.lastName, user.memberId, user.role,
                 user.owner, user.tokens, user.kycData).send(this.args);
         });
     }
@@ -98,8 +98,8 @@ export class UserContract extends Contract {
                 return from(this.contract.methods.getUsers(page).call(this.args)).pipe(
                     map((users: UserModel[]) => {
                         return users
-                            // .filter((user: UserModel) => { return user.creationDate > 0; })
-                            .filter((user: UserModel) => Number(user.memberId) > 0)
+                            .filter((user: UserModel) => user.creationDate > 0)
+                            // .filter((user: UserModel) => Number(user.memberId) > 0)
                             ;
                     })
                 ).toPromise().then(resolve, reject);

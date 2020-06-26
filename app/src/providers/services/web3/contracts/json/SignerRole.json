@@ -284,7 +284,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6267,
+                          "referencedDeclaration": 6288,
                           "src": "270:3:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -392,7 +392,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6267,
+                              "referencedDeclaration": 6288,
                               "src": "335:3:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -458,10 +458,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6270,
-                        6271
+                        6291,
+                        6292
                       ],
-                      "referencedDeclaration": 6270,
+                      "referencedDeclaration": 6291,
                       "src": "318:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -820,7 +820,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6267,
+                          "referencedDeclaration": 6288,
                           "src": "608:3:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1490,7 +1490,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6267,
+                          "referencedDeclaration": 6288,
                           "src": "270:3:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1598,7 +1598,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6267,
+                              "referencedDeclaration": 6288,
                               "src": "335:3:7",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1664,10 +1664,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6270,
-                        6271
+                        6291,
+                        6292
                       ],
-                      "referencedDeclaration": 6270,
+                      "referencedDeclaration": 6291,
                       "src": "318:7:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -2026,7 +2026,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6267,
+                          "referencedDeclaration": 6288,
                           "src": "608:3:7",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2498,5 +2498,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2020-06-25T16:35:21.008Z"
+  "updatedAt": "2020-06-26T09:28:40.848Z"
 }

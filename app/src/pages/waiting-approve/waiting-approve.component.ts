@@ -63,7 +63,7 @@ export class WaitingApproveComponent implements OnInit, OnDestroy {
     this.web3Service.ready(async () => {
       this.interval$ = interval(1000).subscribe(async () => {
         this.userContract.getMe().then((user) => {
-          if (user.firstName.length > 0) {
+          if (user.creationDate > 0) {
             this.user = user;
             // console.log(user);
             const status = Number(user.status); // parseInt(user.status, 10);

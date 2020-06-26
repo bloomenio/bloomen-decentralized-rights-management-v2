@@ -65,7 +65,7 @@ export class DialogUserDataComponent implements OnInit {
     } else {
       if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
         const user: UserModel = {
-          // creationDate: this.data.user.creationDate,
+          creationDate: this.data.user.creationDate,
           firstName: this.editUserForm.get('firstName').value,
           lastName: this.editUserForm.get('lastName').value,
           memberId: this.editUserForm.get('memberId').value,
@@ -85,7 +85,7 @@ export class DialogUserDataComponent implements OnInit {
                   .then(() => {
                     this.ipfsManager().then(r => {
                       const user: UserModel = {
-                        // creationDate: this.data.user.creationDate,
+                        creationDate: this.data.user.creationDate,
                         firstName: this.editUserForm.get('firstName').value,
                         lastName: this.editUserForm.get('lastName').value,
                         memberId: this.editUserForm.get('memberId').value,

@@ -16,13 +16,18 @@ module.exports = function (deployer, network) {
   //           });
   //     });
     deployer.deploy(Members)
-        .then(() => Members.deployed())
+        // .then(() => Members.deployed())
         .then(memInst => {
             membersInstance = memInst;
+            // console.log('Members: ', membersInstance.address);
             return deployer.deploy(Users, memInst.address);
         })
-        .then(() => Users.deployed())
-        .then(users => deployer.deploy(Claims, users.address, membersInstance.address));
+        // .then(() => Users.deployed())
+        .then(users => {
+            usersInstance = users;
+            // console.log('Members: ', membersInstance.address, '\nUsers: ', usersInstance.address);
+            return deployer.deploy(Claims, users.address, membersInstance.address)
+        });
 
     // deployer.then(async () => {
   //   await doDeploy(deployer, network);

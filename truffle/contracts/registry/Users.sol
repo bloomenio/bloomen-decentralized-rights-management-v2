@@ -20,8 +20,8 @@ contract Users {
   }
 
   struct User {
-//    uint256 creationDate;
-//    uint256 accountExpirationDate;
+    uint256 creationDate;
+    uint256 accountExpirationDate;
     address owner;  // primary key
     uint256 memberId;
     uint256 requestId;
@@ -44,12 +44,12 @@ contract Users {
   mapping (address => User) private users_;
   address[] private usersList_;
   uint256 constant private PAGE_SIZE = 10;
-  uint private requestIdCounter = 1592831436680;
+//  uint private requestIdCounter = 1592831436681;
   uint256 constant private userStartTokens = 100;
 
   // PUBLIC
 
-  function registerUserRequest(string _firstName, string _lastName, string _role, uint256 _memberId,
+  function registerUserRequest(uint _creationDate, string _firstName, string _lastName, string _role, uint256 _memberId,
     string _kycData) public {
 
     require(_memberId != 0, "No valid memberId");
@@ -57,12 +57,12 @@ contract Users {
 //    require(users_[msg.sender].creationDate == 0, "User already exists");
     require(_Members._memberExists(_memberId), "Member not exists");
 
-    uint256 _requestId = _Members.calcRandom(++requestIdCounter);
-    _saveUser(_firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 0);
+    uint256 _requestId = _Members.calcRandom(_creationDate);
+    _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 0);
     users_[msg.sender].kycData = _kycData;
   }
 
-  function updateUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner,
+  function updateUser(uint _creationDate, string _firstName, string _lastName, uint256 _memberId, string _role, address owner,
     uint _tokens, string _kycData) public {
 
     require(users_[owner].owner > address(0), "This user not exists");
@@ -78,10 +78,10 @@ contract Users {
     users_[owner].kycData = _kycData;
 
     uint256 _requestId = users_[owner].requestId;
-//    uint256 _creationDate = users_[owner].creationDate;
+    _creationDate = users_[owner].creationDate;
     uint256 _status = users_[owner].status;
 
-    _saveUser(_firstName, _lastName, _memberId, _requestId, _role, _status, owner, 1);
+    _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, _status, owner, 1);
   }
 
   function getUsedTokens(uint256 _memberId) public view returns (uint){
@@ -152,7 +152,7 @@ contract Users {
 
   function whitelistAdmin(address account, string _cmo) public onlySigner {
     _Members._clearUserFromMemberRequest(users_[account].memberId, account);
-    users_[account].role = "Super admin";
+    users_[account].role = "Super admin"; // DO NOT MODIFY
     users_[account].memberId = _Members.returnUpdatedMemberIdCounter();
     users_[account].cmo = _cmo;
 //    users_[account].tokens = 0; // should "Super admin" users have tokens?
@@ -206,7 +206,7 @@ contract Users {
   }
 
 
-  function _saveUser(string _firstName, string _lastName, uint256 _memberId,
+  function _saveUser(uint _creationDate, string _firstName, string _lastName, uint256 _memberId,
     uint256 _requestId, string _role, uint256 _status, address owner, uint isCreate) internal {
 
     require(_status >= 0 && _status <=2, "status is not valid");
@@ -214,7 +214,7 @@ contract Users {
 
     User memory user = users_[owner];
 
-//    user.creationDate =  _creationDate;
+    user.creationDate =  _creationDate;
     user.firstName =  _firstName;
     user.lastName =  _lastName;
     user.memberId =  _memberId;

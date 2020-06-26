@@ -86,7 +86,7 @@ export class UserProfileShellComponent implements OnInit {
   public async updateUserInfo() {
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
-      // creationDate: userBc.creationDate,
+      creationDate: userBc.creationDate,
       firstName: userBc.firstName,
       lastName: userBc.lastName,
       role: userBc.role,
