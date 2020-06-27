@@ -35,7 +35,8 @@ export class DialogMemberDataComponent implements OnInit {
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
       logo: [this.data.member.logo, [Validators.required]],
-      totalTokens: [this.data.member.totalTokens, [Validators.required, Validators.min(this.data.usedTokens), Validators.max(9999)]]
+      totalTokens: [this.data.member.totalTokens, [ // given max = 9999999, can increase
+          Validators.required, Validators.min(this.data.usedTokens), /* Validators.max(9999) */]]
       // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();

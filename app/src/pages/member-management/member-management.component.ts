@@ -140,19 +140,21 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   public async clickEdit(element) {
     await this.userContract.getUsedTokens(element.memberId).then((count) => {
       this.usedTokens = count;
-    });
-    const dialogRef = this.dialog.open(DialogMemberDataComponent, {
-      data: {
-        member: element,
-        usedTokens: this.usedTokens
-      }
-    });
-    dialogRef.afterClosed().subscribe(value => {
-      if (value) {
-        // console.log('VALUE for UpdateMember: ', value);
-        this.store.dispatch(new fromMemberActions.UpdateMember(value));
-      }
-    });
+    })
+        .then(() => {
+          const dialogRef = this.dialog.open(DialogMemberDataComponent, {
+            data: {
+              member: element,
+              usedTokens: this.usedTokens
+            }
+          });
+          dialogRef.afterClosed().subscribe(value => {
+            if (value) {
+              // console.log('VALUE for UpdateMember: ', value);
+              this.store.dispatch(new fromMemberActions.UpdateMember(value));
+            }
+          });
+        });
   }
 
   public ngOnDestroy() {

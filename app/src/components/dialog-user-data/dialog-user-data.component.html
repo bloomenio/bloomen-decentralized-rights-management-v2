@@ -13,7 +13,8 @@
         <input matInput placeholder="{{'user_dialog.id' | translate }}" formControlName="id" />
       </mat-form-field>
       <mat-form-field fxFlex="50" class="field-item">
-        <input matInput placeholder="Balance" formControlName="tokens" type="number" max="{{data.member.totalTokens}}" min="0"/>
+        <input matInput placeholder="Balance" formControlName="tokens" type="number" min="0"
+               max="{{data.member.totalTokens - data.usedTokens}}"/>
 <!--               oninput="if (value > max || value.length > max.length) value = value.slice(0, maxLength);" />-->
       </mat-form-field>
     </div>

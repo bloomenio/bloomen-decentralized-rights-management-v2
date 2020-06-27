@@ -173,6 +173,7 @@ export class AssetCardComponent implements OnInit {
     });
   }
 
+  // programmatically
   public async loadInBatch() {
     console.log('this.members[0].memberId: ' + this.members[0].memberId);
     const memberOwner = this.members[0].memberId;
@@ -413,82 +414,84 @@ export class AssetCardComponent implements OnInit {
             // Fix random title if necessary
             await Promise.resolve('DONE')
                 .then(() => {
-                  // let tempLength = 0;
+                  /* beginning of NewComment */
+                  // // let tempLength = 0;
+                  // // for (let i = 0; i < claimsArray.length; ++i) {
+                  // //   console.log(i, ': ', claimsArray[i]);
+                  // //   tempLength = claimsArray.length;
+                  // //   console.log('WE ARE ALLOWED TO ADD ', tempLength, ' claims: ', claimsArray);
+                  // // }
+                  // // assert(claimsArray.length !== 0);
+                  // // console.log(claimsArray.length);
+                  // // console.log(claimsArray[1]);
+                  // // console.log(claimsArray[2]);
+                  // // for (const submittedAsset of claimsArray) {
                   // for (let i = 0; i < claimsArray.length; ++i) {
-                  //   console.log(i, ': ', claimsArray[i]);
-                  //   tempLength = claimsArray.length;
-                  //   console.log('WE ARE ALLOWED TO ADD ', tempLength, ' claims: ', claimsArray);
+                  //     const submittedAsset = claimsArray[i];
+                  //     console.log(submittedAsset);
+                  //   // }
+                  //   // for (const submittedAsset of claimsArray) {
+                  //   //   for (const realAsset of globalAllAssets) {
+                  //     Promise.resolve('DONE')
+                  //       .then(() => {
+                  //         // globalAllAssets.forEach((realAsset) => {
+                  //         // console.log(realAsset);
+                  //         // const index = claimsArray.indexOf(submittedAsset);
+                  //         const index = i;
+                  //         if (globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1])) {
+                  //           const realAsset = globalAllAssets.find(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1]);
+                  //           // console.log(realAsset);
+                  //           // console.log('globalAllAssets.includes(submittedAsset)');
+                  //           // console.log(globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1]));
+                  //           // console.log((realAsset.ISRC || realAsset.ISWC), ' EQUALS ', submittedAsset.claimData[0][1]);
+                  //           // console.log('INDEX: ', index);
+                  //           if (realAsset.ISRC && index > -1) {
+                  //             // console.log(realAsset.ISRC, ' is ISRC and equal with ', submittedAsset.claimData[0][1]);
+                  //             // const index = claimsArray.indexOf(realAsset.ISRC === submittedAsset.claimData[0][1], 0);
+                  //             claimsArray[index].claimData[7][1] = realAsset.title;
+                  //             claimsArray[index].oldClaimData[7][1] = realAsset.title;
+                  //           } else if (realAsset.ISWC && index > -1) {
+                  //             // console.log(realAsset.ISWC, ' is ISWC and equal with ', submittedAsset.claimData[0][1]);
+                  //             // const index = claimsArray.indexOf(realAsset.ISWC);
+                  //             // console.log('index: ', index);
+                  //             // console.log(realAsset.originalTitle);
+                  //             // console.log(submittedAsset);
+                  //             // console.log(index);
+                  //             // console.log(claimsArray[index]);
+                  //             // console.log(claimsArray[index].claimData[8][1]);
+                  //             claimsArray[index].claimData[8][1] = realAsset.originalTitle;
+                  //             claimsArray[index].oldClaimData[8][1] = realAsset.originalTitle;
+                  //           }
+                  //           // console.log('claimsArray[', index, '] = ');
+                  //           // console.log(claimsArray[index]);
+                  //         } else {  // Remove 'claimsArray[..]' element equal to 'submittedAsset';
+                  //           // because the User has eventually no rights to submit this asset!
+                  //           // let found = true;
+                  //           // do {
+                  //           // console.log('INDEX TO REMOVE: ', index);
+                  //           // const index = claimsArray.indexOf(submittedAsset);
+                  //           if (index > -1) {
+                  //             // console.log('REMOVE claimsArray[', index, '] = ', submittedAsset);
+                  //             const splice = claimsArray.splice(index, 1);
+                  //             // console.log('claimsArray.splice(', index, ', 1) = ', splice);
+                  //             // console.log('claimsArray:', claimsArray);
+                  //             // claimsArray2 = claimsArray2.concat(splice);
+                  //             // console.log('CLAIMS_ARRAY ITEM TO DELETE: ', claimsArray);
+                  //             // console.log('NEW CLAIMS_ARRAY: ', claimsArray2);
+                  //           }
+                  //           // } else {
+                  //           //   found = false;
+                  //           // }
+                  //           // } while (found);
+                  //           // claimsArray = claimsArray2; // older
+                  //         }
+                  //         // }
+                  //         // }
+                  //         // claimsArray = claimsArray2;
+                  //         // }
+                  //       });
                   // }
-                  // assert(claimsArray.length !== 0);
-                  // console.log(claimsArray.length);
-                  // console.log(claimsArray[1]);
-                  // console.log(claimsArray[2]);
-                  // for (const submittedAsset of claimsArray) {
-                  for (let i = 0; i < claimsArray.length; ++i) {
-                      const submittedAsset = claimsArray[i];
-                      console.log(submittedAsset);
-                    // }
-                    // for (const submittedAsset of claimsArray) {
-                    //   for (const realAsset of globalAllAssets) {
-                      Promise.resolve('DONE')
-                        .then(() => {
-                          // globalAllAssets.forEach((realAsset) => {
-                          // console.log(realAsset);
-                          // const index = claimsArray.indexOf(submittedAsset);
-                          const index = i;
-                          if (globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1])) {
-                            const realAsset = globalAllAssets.find(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1]);
-                            // console.log(realAsset);
-                            // console.log('globalAllAssets.includes(submittedAsset)');
-                            // console.log(globalAllAssets.some(real => (real.ISRC || real.ISWC) === submittedAsset.claimData[0][1]));
-                            // console.log((realAsset.ISRC || realAsset.ISWC), ' EQUALS ', submittedAsset.claimData[0][1]);
-                            // console.log('INDEX: ', index);
-                            if (realAsset.ISRC && index > -1) {
-                              // console.log(realAsset.ISRC, ' is ISRC and equal with ', submittedAsset.claimData[0][1]);
-                              // const index = claimsArray.indexOf(realAsset.ISRC === submittedAsset.claimData[0][1], 0);
-                              claimsArray[index].claimData[7][1] = realAsset.title;
-                              claimsArray[index].oldClaimData[7][1] = realAsset.title;
-                            } else if (realAsset.ISWC && index > -1) {
-                              // console.log(realAsset.ISWC, ' is ISWC and equal with ', submittedAsset.claimData[0][1]);
-                              // const index = claimsArray.indexOf(realAsset.ISWC);
-                              // console.log('index: ', index);
-                              // console.log(realAsset.originalTitle);
-                              // console.log(submittedAsset);
-                              // console.log(index);
-                              // console.log(claimsArray[index]);
-                              // console.log(claimsArray[index].claimData[8][1]);
-                              claimsArray[index].claimData[8][1] = realAsset.originalTitle;
-                              claimsArray[index].oldClaimData[8][1] = realAsset.originalTitle;
-                            }
-                            // console.log('claimsArray[', index, '] = ');
-                            // console.log(claimsArray[index]);
-                          } else {  // Remove 'claimsArray[..]' element equal to 'submittedAsset';
-                            // because the User has eventually no rights to submit this asset!
-                            // let found = true;
-                            // do {
-                            // console.log('INDEX TO REMOVE: ', index);
-                            // const index = claimsArray.indexOf(submittedAsset);
-                            if (index > -1) {
-                              // console.log('REMOVE claimsArray[', index, '] = ', submittedAsset);
-                              const splice = claimsArray.splice(index, 1);
-                              // console.log('claimsArray.splice(', index, ', 1) = ', splice);
-                              // console.log('claimsArray:', claimsArray);
-                              // claimsArray2 = claimsArray2.concat(splice);
-                              // console.log('CLAIMS_ARRAY ITEM TO DELETE: ', claimsArray);
-                              // console.log('NEW CLAIMS_ARRAY: ', claimsArray2);
-                            }
-                            // } else {
-                            //   found = false;
-                            // }
-                            // } while (found);
-                            // claimsArray = claimsArray2; // older
-                          }
-                          // }
-                          // }
-                          // claimsArray = claimsArray2;
-                          // }
-                        });
-                  }
+                  /* end of NewComment */
                 });
           })
           .then(async () => {

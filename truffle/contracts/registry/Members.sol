@@ -39,7 +39,7 @@ contract Members is Random, Registry {
     require(members_[_memberId].memberId == 0, "Member already exists");
     _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
 //    members_[_memberId].group = _group;
-    members_[_memberId].totalTokens = 999999;
+    members_[_memberId].totalTokens = 9999999;
 
     return _memberId;
   }
