@@ -1,5 +1,5 @@
 require('dotenv').config();
-var HDWalletProvider = require('@truffle/hdwallet-provider');
+var HDWalletProvider = require("@truffle/hdwallet-provider");
 
 var Web3 = require('web3');
 

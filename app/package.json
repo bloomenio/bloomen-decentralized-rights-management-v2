@@ -1,7 +1,7 @@
 {
   "name": "bloomen-decentralized-rights-management-app",
   "productName": "Bloomen Decentralized Rights Management App",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "The Bloomen Decentralized Rights Management Application",
   "author": {
     "name": "Bloomen",
@@ -53,7 +53,6 @@
     "package-mac": "electron-packager . Bloomen_Decentralized_Rights_Management_App_macOS --overwrite --platform=darwin --icon=../../assets/256x256.icns --out=../../desktop-apps --ignore=\"node_modules|package-lock.json|.gitignore\" --prune=true"
   },
   "dependencies": {
-    "@angular-material-components/file-input": "2.0.0",
     "@angular/animations": "7.0.0",
     "@angular/cdk": "7.0.1",
     "@angular/common": "7.0.0",
@@ -79,11 +78,7 @@
     "crypto-js": "3.1.9-1",
     "eth-lightwallet": "3.0.1",
     "ethjs-provider-signer": "0.1.4",
-    "express": "^4.17.1",
-    "express-basic-auth": "^1.2.0",
     "hammerjs": "2.0.8",
-    "ipfs": "^0.46.0",
-    "it-all": "^1.0.1",
     "localforage": "1.7.3",
     "lodash": "^4.17.10",
     "material-design-icons-iconfont": "3.0.3",
