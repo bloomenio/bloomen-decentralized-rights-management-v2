@@ -19,7 +19,7 @@ import {InboxComponent} from '@pages/inbox/inbox.component';
 import {ClaimsDataSource} from '@pages/claims/claims.datasource';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {MatDialog} from '@angular/material/dialog';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 const log = new Logger('inbox-detail.component');
 
@@ -78,6 +78,12 @@ export class InboxDetailComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.member$.unsubscribe();
+  }
+
+  public getDate(): any {
+    const expireDate = new Date(parseInt(this.message.accountExpirationDate, 10));
+    return expireDate.getDate().toString() + '/' + (expireDate.getMonth() + 1).toString() + '/'
+        + expireDate.getFullYear().toString();
   }
 
   public onAccept() {

@@ -24,8 +24,20 @@
         </div>
     </div>
     <div fxLayout="row" class="info-wrapper">
+        <div style="padding-right: 10px">
             <a href="{{ 'https://ipfs.io/ipfs/' + message.kycData }}" mat-menu-item target="_blank"
             style="background: rgba(0, 0, 0, 0.15)"><b>KYC Information</b></a>
+        </div>
+        <div style="font-style: italic">
+            <br><u>to approve with expiration date:</u>
+        </div>
+        <div fxFlex="45" style="padding-left: 10px">
+            <mat-form-field fxFlex="45">
+                <input disabled matInput placeholder="{{getDate()}}">
+<!--                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>-->
+<!--                <mat-datepicker #pickerStart></mat-datepicker>-->
+            </mat-form-field>
+        </div>
     </div>
     <div fxLayout="column">
         <div class="subject">{{ 'inbox_detail.get_Access' | translate }}</div>

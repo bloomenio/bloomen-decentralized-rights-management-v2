@@ -200,8 +200,8 @@ export class ShellComponent implements OnInit, OnDestroy {
     // Check KYC expiration date.
     if (this.user && this.user.role !== ROLES.SUPER_USER  /* && this.user.role !== ROLES.ADMIN */) {
         if (this.accountExpirationDate) {
-          console.log('KYCExpireDate: ', this.accountExpirationDate);
-          console.log('Now: ', new Date().getTime());
+          // console.log('KYCExpireDate: ', this.accountExpirationDate);
+          // console.log('Now: ', new Date().getTime());
           if (new Date().getTime() > this.accountExpirationDate && !this.isIn) {
             this.isIn = true;
             // pop up user management, if not Admin then disable all other edit options.
@@ -214,6 +214,7 @@ export class ShellComponent implements OnInit, OnDestroy {
             });
             dialogRef.afterClosed().subscribe(value => {
               if (value) {
+                this.isIn = true;
                 this.store.dispatch(new fromUserActions.UpdateUser(value));
                 new Promise( resolve => setTimeout(resolve, 6000) )
                     .then(() => {
@@ -227,8 +228,9 @@ export class ShellComponent implements OnInit, OnDestroy {
                             this.router.navigate(['login']);
                           });
                     });
+              } else {
+                this.isIn = false;
               }
-              this.isIn = false;
             });
           }
         }

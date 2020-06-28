@@ -93,7 +93,7 @@ export class KYCDialogUserDataComponent implements OnInit {
               Promise.resolve()
                   .then(() => {
                     this.ipfsManager().then(r => {
-                      console.log(this.kycData);
+                      // console.log('onSubmit ', this.kycData);
                       const user: UserModel = {
                         creationDate: this.data.user.creationDate,
                         firstName: this.editUserForm.get('firstName').value,
@@ -134,7 +134,7 @@ export class KYCDialogUserDataComponent implements OnInit {
       // console.log(cid.toString());
       this.kycData = cid.toString();
       this.editUserForm.get('kycData').setValue(this.kycData);
-      // console.log(this.kycData);
+      // console.log('ipfsManager.awaitCID ', this.kycData);
     }
     // and can be used to get it again.
 
@@ -165,9 +165,9 @@ export class KYCDialogUserDataComponent implements OnInit {
 
       reader.onload = (e: any) => {
         this.kycData = e.target.result;
-        console.log(this.kycData);
+        // console.log(this.kycData);
+        // console.log('onFileSelected');
       };
-
       reader.readAsText(inputNode);
     }
   }

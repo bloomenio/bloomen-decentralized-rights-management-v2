@@ -37,10 +37,14 @@ export class MemberContract extends Contract {
         });
     }
 
-    public updateMember(member: MemberModel): Promise<any> {
+    public updateMember(member: MemberModel) {
+        // console.log(typeof member.memberId, typeof member.creationDate, typeof member.name,
+        //     typeof member.logo, typeof member.country, typeof member.cmo, typeof member.theme, typeof member.totalTokens);
+        console.log(member.memberId, member.creationDate, member.name,
+            member.logo, member.country, member.cmo, member.theme, member.totalTokens);
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateMember(member.memberId, member.creationDate, member.name, member.logo, member.country, member.cmo,
-                member.theme, member.totalTokens).send(this.args);  // , member.group).send(this.args);
+            return this.contract.methods.updateMember(member.memberId, member.creationDate, member.name,
+                member.logo, member.country, member.cmo, member.theme, member.totalTokens).send(this.args);  // , member.group).send(this.args);
         });
     }
 

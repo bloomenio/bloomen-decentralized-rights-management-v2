@@ -32,6 +32,9 @@ function doStuff() {
         case 'add':
             addMember();
             break;
+        case 'update':
+            updateMember();
+            break;
         case 'count':
             count(process.argv[3]);
             break;
@@ -77,6 +80,29 @@ async function addMember() {
     let creationDate = new Date().getTime();
 
     contractInstance.methods.addMember(creationDate, answer.name, answer.logo, answer.country, answer.cmo, answer.theme) // , answer.group)
+        .send(transactionObject).then(checkTransaction);
+
+}
+
+//UPDATE
+
+async function updateMember() {
+
+    let questions = [
+        { type: 'input', name: 'memberId', message: 'Specify memberId:' },
+        { type: 'input', name: 'creationDate', message: 'Specify creationDate:' },
+        { type: 'input', name: 'name', message: 'Specify name:' },
+        { type: 'input', name: 'logo', message: 'Specify logo:' },
+        { type: 'input', name: 'country', message: 'Specify country:' },
+        { type: 'input', name: 'cmo', message: 'Specify cmo:' },
+        { type: 'input', name: 'theme', message: 'Specify theme:' },
+        { type: 'input', name: 'totalTokens', message: 'Specify totalTokens:' },
+    ];
+
+    let answer = await inquirer.prompt(questions);
+
+    contractInstance.methods.updateMember(answer.memberId, answer.creationDate,
+        answer.name, answer.logo, answer.country, answer.cmo, answer.theme, answer.totalTokens) // , answer.group)
         .send(transactionObject).then(checkTransaction);
 
 }

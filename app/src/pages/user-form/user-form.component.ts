@@ -91,7 +91,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public onChange() {
-    console.log('onChange_1 member value is ' + this.userForm.get('member').value);
+    // console.log('onChange_1 member value is ' + this.userForm.get('member').value);
 
     of(this.members).pipe(
       map((members) => {
@@ -139,7 +139,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
                         accountExpirationDate: this.userForm.get('accountExpirationDate').value.getTime()
                       };
                       this.store.dispatch(new fromUserActions.SendUser(user));
-                      console.log(user);
+                      // console.log(user);
                       // console.log(new Date().getTime());
                       this.router.navigate(['waiting-approve']);
                 });
@@ -489,7 +489,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
       reader.onload = (e: any) => {
         this.kycData = e.target.result;
-        console.log(this.kycData);
+        // console.log(this.kycData);
       };
 
       reader.readAsText(inputNode);

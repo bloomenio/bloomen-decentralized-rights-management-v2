@@ -66,8 +66,10 @@ export class DialogUserDataComponent implements OnInit {
         this.editUserForm.get('memberId').value === this.data.user.memberId &&
         this.editUserForm.get('tokens').value === this.data.user.tokens &&
         this.editUserForm.get('role').value === this.data.user.role &&
-        this.editUserForm.get('kycData').value === this.data.user.kycData) {
-      // do nothing
+        this.editUserForm.get('kycData').value === this.data.user.kycData &&
+        this.editUserForm.get('accountExpirationDate').value.getTime() ===
+        new Date(parseInt(this.data.user.accountExpirationDate, 10)) ) {
+      alert('Should not upload the same documents.');
     } else {
       if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
         const user: UserModel = {

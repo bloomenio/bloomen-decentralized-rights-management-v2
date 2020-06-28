@@ -61,8 +61,10 @@ export class MemberEffects {
             this.web3Service.ready(() => {
                 this.memberContract.updateMember(action.payload).then(() => {
                     this.store.dispatch(new fromActions.InitMember);
+                    console.log(action.payload);
                 }, (error) => {
                     log.error(error);
+                    // console.log(error);
                 });
             });
         })

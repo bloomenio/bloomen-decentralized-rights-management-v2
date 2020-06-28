@@ -31,7 +31,8 @@ contract Members is Random, Registry {
   // METHODS
   // Public
 
-  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme) onlySigner public returns(uint) {
+  function addMember(uint256 _creationDate, string _name, string _logo, string _country, string _cmo, string _theme)
+  onlySigner public returns(uint) {
     //  string _group) onlySigner public returns(uint) {
     require(_creationDate > 0, "CreationDate is mandatory");
 //    uint256 _memberId = Random.rand(_creationDate);
@@ -39,7 +40,7 @@ contract Members is Random, Registry {
     require(members_[_memberId].memberId == 0, "Member already exists");
     _saveMember(_memberId, _creationDate, _name, _logo, _country, _cmo, _theme);
 //    members_[_memberId].group = _group;
-    members_[_memberId].totalTokens = 1000;
+    members_[_memberId].totalTokens = 10000;
 
     return _memberId;
   }

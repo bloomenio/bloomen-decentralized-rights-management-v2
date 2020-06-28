@@ -35,7 +35,8 @@ export class DialogMemberDataComponent implements OnInit {
       memberId: [this.data.member.memberId, [Validators.required]],
       theme: [this.data.member.theme, [Validators.required]],
       logo: [this.data.member.logo, [Validators.required]],
-      totalTokens: [this.data.member.totalTokens, [Validators.required, Validators.min(this.data.usedTokens), Validators.max(9999)]]
+      totalTokens: [this.data.member.totalTokens, [
+        Validators.required, Validators.min(this.data.usedTokens), /* Validators.max(9999) */]]
       // group: [this.data.member.group, [Validators.required]]
     });
     this.editMemberForm.get('theme').disable();
@@ -44,7 +45,7 @@ export class DialogMemberDataComponent implements OnInit {
     // await this.userContract.getUsedTokens(this.data.member.memberId).then((count) => {
     //   this.usedTokens = count;
     // });
-    console.log('this.data.usedTokens is ', this.data.usedTokens);
+    // console.log('this.data.usedTokens is ', this.data.usedTokens);
     // this.editMemberForm.get('claims').disable();
     // this.editMemberForm.get('claimInbox').disable();
     // this.editMemberForm.get('userRequests').disable();
@@ -61,7 +62,7 @@ export class DialogMemberDataComponent implements OnInit {
       theme: this.editMemberForm.get('theme').value,
       totalTokens: this.editMemberForm.get('totalTokens').value
     };
-    // console.log('MEMBER\n', member);
+    console.log('MEMBER\n', member);
     this.dialogRef.close(member);
   }
 

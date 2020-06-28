@@ -64,9 +64,9 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
 
     this.member$ = this.store.select(fromMemberSelectors.selectAllMembers)
         // .pipe(      skipWhile((member) => !member))
-        .subscribe((member) => {
-          if (member) {
-            this.members = member;
+        .subscribe((members) => {
+          if (members) {
+            this.members = members;
             // console.log('MEMBERS ARE ', this.members);
           }
         });
@@ -74,10 +74,10 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     this.displayedColumns = ['companyName', 'image', 'cmo', 'country', 'creationDate', 'edit'];   // , 'collection', 'edit'];
 
     if (this.inboxComponent.currentCMO === undefined) {
-      console.log('CURRENT MEMBER.CMO IS UNDEFINED');
+      // console.log('CURRENT MEMBER.CMO IS UNDEFINED');
       this.dataSource = new MemberManagementDataSource(this.memberContract, 0);
     } else {
-      console.log('CURRENT MEMBER.CMO IS ', this.inboxComponent.currentCMO);
+      // console.log('CURRENT MEMBER.CMO IS ', this.inboxComponent.currentCMO);
       this.dataSource = new MemberManagementDataSource(this.memberContract, 0);
     }
 
@@ -102,6 +102,7 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
     // });
     this.shellComponent.unreadMessages = unreadMessages;
     this.router.navigate(['member-management']);
+    // console.log('CURRENT MEMBER.CMO IS ', this.inboxComponent.currentCMO);
 
   }
 
@@ -138,21 +139,25 @@ export class MemberManagementComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   public async clickEdit(element) {
-    await this.userContract.getUsedTokens(element.memberId).then((count) => {
-      this.usedTokens = count;
-    });
-    const dialogRef = this.dialog.open(DialogMemberDataComponent, {
-      data: {
-        member: element,
-        usedTokens: this.usedTokens
-      }
-    });
-    dialogRef.afterClosed().subscribe(value => {
-      if (value) {
-        // console.log('VALUE for UpdateMember: ', value);
-        this.store.dispatch(new fromMemberActions.UpdateMember(value));
-      }
-    });
+    await this.userContract.getUsedTokens(element.memberId)
+        .then((count) => {
+          this.usedTokens = count;
+        })
+        .then(() => {
+          // console.log('CMO = ', element.cmo);
+          const dialogRef = this.dialog.open(DialogMemberDataComponent, {
+            data: {
+              member: element,
+              usedTokens: this.usedTokens
+            }
+          });
+          dialogRef.afterClosed().subscribe(value => {
+            if (value) {
+              // console.log('VALUE for UpdateMember: ', value);
+              this.store.dispatch(new fromMemberActions.UpdateMember(value));
+            }
+          });
+        });
   }
 
   public ngOnDestroy() {
