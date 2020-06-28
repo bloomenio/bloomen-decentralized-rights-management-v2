@@ -204,7 +204,11 @@ export class InboxComponent implements OnInit, OnDestroy {
 
     this.inbox = [...usersArray];
     this.inbox = this.inbox.filter((m) => m.cmo === this.currentCMO);
-    // console.log(this.inbox);
+    // Remove duplicates from this.inbox
+    this.inbox = Array.from(new Set(this.inbox.map(a => a.requestId)))
+        .map(requestId => {
+          return this.inbox.find(a => a.requestId === requestId);
+        });
 
     this.clearMessage();
     if (this.inbox) {
@@ -240,6 +244,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         const user = await this.userContract.getUserByAddress(this.member.userRequests[i]);
         user.type = INBOX.TYPES.USER;
         usersArray.push(user);
+        // console.log(user);
       }
     }
 
@@ -266,6 +271,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     //     this.inbox = this.inbox.splice(i, 1);
     //   }
     // }
+    this.inbox = this.inbox.filter(m => !m.creationDate);
+    // const inboxUsers = this.inbox .filter(m => !m.claimData);
+    // this.inbox = this.inbox.filter(m => m.claimData);
     // 'delete claim' Garbage Collector
     if (this.inbox !== this.inbox.filter((m) => m.status)) {
       this.inbox = this.inbox.filter((m) => m.status);
@@ -284,7 +292,8 @@ export class InboxComponent implements OnInit, OnDestroy {
         .map(claimId => {
           return this.inbox.find(a => a.claimId === claimId);
         });
-    // console.log('INBOX', this.inbox);
+    // console.log('INBOX', this.inbox.concat(inboxUsers));
+    // this.inbox = this.inbox.concat(inboxUsers);
   }
 
   public clearMessage() {
@@ -470,7 +479,8 @@ export class InboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updateInfo() {
-    // this.shellComponent.renewUserRights().then(r => {});
+  public async updateInfo() {
+    // Update info in no longer used.
+    // this.shellComponent.renewUserRights().then();
   }
 }

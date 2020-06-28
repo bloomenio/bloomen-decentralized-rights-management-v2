@@ -48,17 +48,15 @@
                                     [color]="null" placeholder="Select a .txt">
                     <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>
                 </ngx-mat-file-input>
-<!--                <mat-label>Upload KYC documents in a single pdf file. </mat-label>-->
-<!--                <input matInput id="fileInput" formControlName="kycData" hidden name="file-field"-->
-<!--                       (change)="uploadFile($event)" accept=".pdf">-->
-<!--                <button mat-button (click)="openInput()"><mat-icon>attach_file</mat-icon></button>-->
-<!--                <button mat-button (click)="openInput()"></button>-->
-<!--                <input matInput id="kycData" formControlName="kycData" (change)="uploadFile($event)" #fileInput>-->
-<!--                <button type="button" mat-raised-button (click)="fileInput.click()">KYC upload</button>-->
-<!--                <input hidden matInput (change)="onFileSelected()" #fileInput id="file" formControlName="kycData">-->
-                <button *ngIf="!removableInput.empty" mat-icon-button matSuffix (click)="clear()">
-                    <mat-icon>clear</mat-icon>
-                </button>
+<!--                <button *ngIf="!removableInput.empty" mat-icon-button matSuffix (click)="clear()">-->
+<!--                    <mat-icon>clear</mat-icon>-->
+<!--                </button>-->
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+                <input matInput [max]="maxDate" [matDatepicker]="pickerStart"
+                       placeholder="{{'Account Expire Date' | translate}}" formControlName="accountExpirationDate">
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
             </mat-form-field>
             <div class="actions-wrapper" fxFlex fxLayout="row" fxLayoutAlign="end">
                 <button mat-button type="button" (click)="onCancel()"

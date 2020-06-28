@@ -37,7 +37,7 @@ export class UserContract extends Contract {
     public addUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.registerUserRequest(user.creationDate, user.firstName, user.lastName,
-                user.role, user.memberId, user.kycData).send(this.args);
+                user.role, user.memberId, user.kycData, user.accountExpirationDate).send(this.args);
         });
     }
 
@@ -51,8 +51,17 @@ export class UserContract extends Contract {
 
     public updateUser(user: UserModel): Promise<any> {
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.updateUser(user.creationDate, user.firstName, user.lastName, user.memberId, user.role,
-                user.owner, user.tokens, user.kycData).send(this.args);
+            return this.contract.methods.updateUser(user.creationDate, user.firstName, user.lastName,
+                user.memberId, user.role, user.owner, user.tokens, user.kycData, user.accountExpirationDate)
+                .send(this.args);
+        });
+    }
+
+    public checkKYCExpire(address): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            this.web3Service.ready(() => {
+                return this.contract.methods.checkKYCExpire(address).call(this.args).then(resolve, reject);
+            });
         });
     }
 

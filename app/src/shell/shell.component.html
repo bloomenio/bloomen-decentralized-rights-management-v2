@@ -1,4 +1,4 @@
-<mat-sidenav-container fxFill (mouseover)="renewUserRights()">
+<mat-sidenav-container fxFill (mouseover)="renewUserRightsCheckKYC()">
   <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" [disableClose]="!isMobile">
     <blo-loader [isLoading]="isLoading"></blo-loader>
     <nav>
@@ -10,8 +10,8 @@
       </div>
       <mat-list>
         <mat-list-item routerLink="/inbox" routerLinkActive="active"  (click)="newMessagesCheckFalse() && isMobile && sidenav.close()" *ngIf="!newMessagesGet()">
-          <div class="icon-bar ic-inbox" (mouseover)="renewUserRights()"></div>
-          <span class="text-bar" translate (mouseover)="renewUserRights()">Inbox</span>
+          <div class="icon-bar ic-inbox" (mouseover)="renewUserRightsCheckKYC()"></div>
+          <span class="text-bar" translate (mouseover)="renewUserRightsCheckKYC()">Inbox</span>
         </mat-list-item>
         <mat-list-item routerLink="/inbox" routerLinkActive="active" (click)="newMessagesCheckFalse() && isMobile && sidenav.close()" *ngIf="newMessagesGet()">
 <!--          <div *ngIf="!newMessages" id="noNewMessages" class="icon-bar ic-inbox"></div>-->

@@ -65,7 +65,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
         cmo: ['', [Validators.required]],
         member: ['', [Validators.required]],
         role: ['', [Validators.required]],
-        kycData: [undefined, [Validators.required]]
+        kycData: [undefined, [Validators.required]],
+        accountExpirationDate: [new Date().getTime(), [Validators.required]]
       });
     } else {
       this.userForm = this.fb.group({
@@ -127,14 +128,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
                 // console.log(this.kycData);
                 await this.ipfsManager()
                     .then(() => {
-                      console.log(this.kycData);
+                      // console.log(this.kycData);
                       const user: UserModel = {
                         creationDate: new Date().getTime(),
                         firstName: this.userForm.get('firstName').value,
                         lastName: this.userForm.get('lastName').value,
                         memberId: this.userForm.get('member').value,
                         role: this.userForm.get('role').value,
-                        kycData: this.userForm.get('kycData').value
+                        kycData: this.userForm.get('kycData').value,
+                        accountExpirationDate: this.userForm.get('accountExpirationDate').value.getTime()
                       };
                       this.store.dispatch(new fromUserActions.SendUser(user));
                       console.log(user);
@@ -362,45 +364,41 @@ export class UserFormComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-  public onSubmitAutoFill() {
-    // @ts-ignore
-    const isFirefox = typeof InstallTrigger !== 'undefined';
-    console.log(isFirefox);
-    if (isFirefox) {
-      const user: UserModel = {
-        creationDate: new Date().getTime(),
-        firstName: 'Gonçal',
-        lastName: 'Calvo',
-        memberId: this.membersFiltered[0].memberId.toString(),
-        role: 'Admin',
-        kycData: undefined
-      };
-      console.log(user);
-      this.store.dispatch(new fromUserActions.SendUser(user));
-      this.router.navigate(['waiting-approve']);
-
-      console.log('AutoFill_ended');
-      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
-   // console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
-    } else { // Opera
-      const user: UserModel = {
-        creationDate: new Date().getTime(),
-        firstName: 'Alex',
-        lastName: 'Psychas',
-        memberId: this.membersFiltered[0].memberId.toString(),
-        role: 'Admin',
-        kycData: undefined
-      };
-      console.log(user);
-      this.store.dispatch(new fromUserActions.SendUser(user));
-      this.router.navigate(['waiting-approve']);
-
-      console.log('AutoFill_ended');
-      console.log('AutoFill_1 membersFiltered is ' + this.membersFiltered[0].memberId + ' ' + this.membersFiltered[0].cmo + ' ' + this.membersFiltered[0].name);
-   // console.log('AutoFill_2 membersFiltered is ' + this.membersFiltered[1].memberId + ' ' + this.membersFiltered[1].cmo + ' ' + this.membersFiltered[1].name);
-    }
-  }
+  //
+  // public onSubmitAutoFill() {
+  //   // @ts-ignore
+  //   const isFirefox = typeof InstallTrigger !== 'undefined';
+  //   console.log(isFirefox);
+  //   if (isFirefox) {
+  //     const user: UserModel = {
+  //       creationDate: new Date().getTime(),
+  //       firstName: 'Gonçal',
+  //       lastName: 'Calvo',
+  //       memberId: this.membersFiltered[0].memberId.toString(),
+  //       role: 'Admin',
+  //       kycData: undefined
+  //     };
+  //     console.log(user);
+  //     this.store.dispatch(new fromUserActions.SendUser(user));
+  //     this.router.navigate(['waiting-approve']);
+  //
+  //     console.log('AutoFill_ended');
+  //   } else { // Opera
+  //     const user: UserModel = {
+  //       creationDate: new Date().getTime(),
+  //       firstName: 'Alex',
+  //       lastName: 'Psychas',
+  //       memberId: this.membersFiltered[0].memberId.toString(),
+  //       role: 'Admin',
+  //       kycData: undefined
+  //     };
+  //     console.log(user);
+  //     this.store.dispatch(new fromUserActions.SendUser(user));
+  //     this.router.navigate(['waiting-approve']);
+  //
+  //     console.log('AutoFill_ended');
+  //   }
+  // }
 
   public onCancel() {
     this.store.dispatch(new fromMnemonicActions.RemoveMnemonic());

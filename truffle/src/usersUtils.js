@@ -91,12 +91,13 @@ async function updateUser() {
         { type: 'input', name: 'address', message: 'Specify the address:' },
         { type: 'input', name: 'tokens', message: 'Specify the tokens:' },
         { type: 'input', name: 'kycData', message: 'Specify the kycData IPFS address:' },
+        { type: 'input', name: 'accountExpirationDate', message: 'Specify the account expiration date:' },
     ];
 
     let answer = await inquirer.prompt(questions);
 
     contractInstance.methods.updateUser(answer.firstName, answer.lastName, answer.memberId, answer.role,
-        answer.address, answer.tokens, answer.kycData)
+        answer.address, answer.tokens, answer.kycData, answer.accountExpirationDate)
         .send(transactionObject).then(checkTransaction);
 }
 

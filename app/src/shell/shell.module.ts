@@ -11,6 +11,7 @@ import { BackButtonShellModule } from '@components/back-button-shell/back-button
 import { AddMemberDialogModule } from '@components/add-member-dialog/add-member-dialog.module';
 import {DeleteClaimModule} from '@components/delete-claim/delete-claim.module';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+import {KYCDialogUserDataModule} from '@components/kyc-dialog-user-data/kyc-dialog-user-data.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
     DirectivesModule,
     AddMemberDialogModule,
     DeleteClaimModule,
+    KYCDialogUserDataModule
     // AddClaimDialogModule,
   ],
   declarations: [ShellComponent],

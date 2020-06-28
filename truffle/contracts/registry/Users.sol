@@ -3,8 +3,9 @@ pragma experimental ABIEncoderV2;
 
 import "./Members.sol";
 import "./Claims.sol";
+import "./SignerRole.sol";
 
-contract Users {
+contract Users is SignerRole {
 
   Members private _Members;
   //  Users.User private currentUser;
@@ -14,10 +15,11 @@ contract Users {
     //    currentUser = _Users.getUserByAddress(msg.sender);
   }
 
-  modifier onlySigner() {
-    require(_Members.isSigner(msg.sender));
-    _;
-  }
+  // DO NOT DO THIS! Just inherit from here ('Users is SignerRole').
+  //  modifier onlySigner() {
+  //    require(_Members.isSigner(msg.sender));
+  //    _;
+  //  }
 
   struct User {
     uint256 creationDate;
@@ -50,7 +52,7 @@ contract Users {
   // PUBLIC
 
   function registerUserRequest(uint _creationDate, string _firstName, string _lastName, string _role, uint256 _memberId,
-    string _kycData) public {
+    string _kycData, uint _accountExpirationDate) public {
 
     require(_memberId != 0, "No valid memberId");
 //    require(_creationDate > 0, "CreationDate is mandatory");
@@ -58,12 +60,18 @@ contract Users {
     require(_Members._memberExists(_memberId), "Member not exists");
 
     uint256 _requestId = _Members.calcRandom(_creationDate);
-    _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 0);
+    if (users_[msg.sender].creationDate > 0) { // The user already exists.
+      _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 1);
+      _Members._addUserToMemberRequest(_memberId);
+    } else {
+      _saveUser(_creationDate, _firstName, _lastName, _memberId, _requestId, _role, 1, msg.sender, 0);
+    }
     users_[msg.sender].kycData = _kycData;
+    users_[msg.sender].accountExpirationDate = _accountExpirationDate;
   }
 
   function updateUser(uint _creationDate, string _firstName, string _lastName, uint256 _memberId, string _role, address owner,
-    uint _tokens, string _kycData) public {
+    uint _tokens, string _kycData, uint _accountExpirationDate) public {
 
     require(users_[owner].owner > address(0), "This user not exists");
     require(users_[owner].status == 2, "You are not accepted");
@@ -76,6 +84,7 @@ contract Users {
     }
     users_[owner].tokens = _tokens;
     users_[owner].kycData = _kycData;
+    users_[owner].accountExpirationDate = _accountExpirationDate;
 
     uint256 _requestId = users_[owner].requestId;
     _creationDate = users_[owner].creationDate;
@@ -94,12 +103,18 @@ contract Users {
     return usedTokens;
   }
 
+  function checkKYCExpire(address addr) public view returns (uint){
+    return users_[addr].accountExpirationDate;
+  }
+
   function updateSuperUser(string _firstName, string _lastName, uint256 _memberId, string _role, address owner,
     string[] _groups) public {
 
     users_[owner].firstName = _firstName;
     users_[owner].lastName = _lastName;
     users_[owner].groups = _groups;
+    users_[owner].role = _role; // currently disabled
+    users_[owner].memberId = _memberId; // currently disabled
 
     for (uint i = 0; i < usersList_.length; ++i) {
       if (keccak256(users_[usersList_[i]].cmo) == keccak256(users_[owner].cmo)) {
@@ -112,8 +127,8 @@ contract Users {
   function rejectUser(address _userToReject) public {
 
     require(users_[_userToReject].owner > address(0), "This user not exists");
-    require((users_[msg.sender].memberId == users_[_userToReject].memberId) || _Members.isSigner(msg.sender), "You cannot accept this user");
-    require(users_[msg.sender].status == 2 || _Members.isSigner(msg.sender), "You are not accepted");
+    require((users_[msg.sender].memberId == users_[_userToReject].memberId) || isSigner(msg.sender), "You cannot accept this user");
+    require(users_[msg.sender].status == 2 || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToReject].status == 1, "Only pending users can be rejected");
 
     users_[_userToReject].status = 0;
@@ -123,8 +138,8 @@ contract Users {
   function acceptUser(address _userToAccept) public {
 
     require(users_[_userToAccept].owner > address(0), "This user not exists");
-    require((users_[msg.sender].memberId == users_[_userToAccept].memberId) || _Members.isSigner(msg.sender), "You cannot accept this user");
-    require(users_[msg.sender].status == 2 || _Members.isSigner(msg.sender), "You are not accepted");
+    require((users_[msg.sender].memberId == users_[_userToAccept].memberId) || isSigner(msg.sender), "You cannot accept this user");
+    require(users_[msg.sender].status == 2 || isSigner(msg.sender), "You are not accepted");
     require(users_[_userToAccept].status == 1, "Only pending users can be accepted");
 
     // new functions
@@ -150,7 +165,7 @@ contract Users {
     return counter;
   }
 
-  function whitelistAdmin(address account, string _cmo) public onlySigner {
+  function whitelistAdmin(address account, string _cmo) onlySigner public {
     _Members._clearUserFromMemberRequest(users_[account].memberId, account);
     users_[account].role = "Super admin"; // DO NOT MODIFY
     users_[account].memberId = _Members.returnUpdatedMemberIdCounter();
@@ -158,7 +173,7 @@ contract Users {
 //    users_[account].tokens = 0; // should "Super admin" users have tokens?
     users_[account].status = 2;
     users_[account].groups = ["digit1"];
-    _Members.addSigner(account);
+    addSigner(account);
   }
 
   function getUsers(uint256 _page) public view returns(User[] memory) {

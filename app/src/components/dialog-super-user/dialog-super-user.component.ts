@@ -51,7 +51,8 @@ export class DialogSuperUserComponent implements OnInit {
       role: this.data.user.role,
       status: this.data.user.status,
       groups: this.editUserForm.get('groups').value,
-      kycData: this.data.user.kycData
+      kycData: this.data.user.kycData,
+      accountExpirationDate: this.data.user.accountExpirationDate
     };
     console.log('user from dialog-super-user');
     console.log(user);

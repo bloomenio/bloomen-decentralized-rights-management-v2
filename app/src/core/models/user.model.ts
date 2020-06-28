@@ -11,6 +11,7 @@ export interface UserModel {
     groups?: string[];
     tokens?: number;
     kycData: string;
+    accountExpirationDate: number;
 }
 
 // export enum StatusEnum {

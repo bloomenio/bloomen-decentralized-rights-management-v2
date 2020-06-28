@@ -22,12 +22,15 @@ import {AssetCardComponent} from '@components/asset-card/asset-card.component';
 import {ClaimsDataSource} from '@pages/claims/claims.datasource';
 import * as fromUserActions from '@stores/user/user.actions';
 import {ClaimsContract, UserContract} from '@services/web3/contracts';
-import {currentUser} from '@pages/inbox/inbox.component';
 import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
 import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {MemberModel} from '@models/member.model';
 import {version, build} from './../../package.json';
+import {KYCDialogUserDataComponent} from '@components/kyc-dialog-user-data/kyc-dialog-user-data.component';
+import * as fromMnemonicActions from "@stores/mnemonic/mnemonic.actions";
+import * as fromApplicationDataActions from "@stores/application-data/application-data.actions";
+import {THEMES} from "@constants/themes.constants";
 
 export let newMessagesE: boolean;
 
@@ -67,6 +70,8 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   // For Refresh Claims page.
   public dataSource: ClaimsDataSource;
+  public accountExpirationDate: number;
+  private isIn: Boolean;
 
   constructor(
     private titleService: Title,
@@ -79,7 +84,8 @@ export class ShellComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     public claimsContract: ClaimsContract,
     public userContract: UserContract,
-    private applicationDatabaseService: ApplicationDataDatabaseService
+    private applicationDatabaseService: ApplicationDataDatabaseService,
+    public dialog: MatDialog
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
@@ -101,7 +107,7 @@ export class ShellComponent implements OnInit, OnDestroy {
 
     this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
         skipWhile((user) => !user)
-    ).subscribe((user) => {
+    ).subscribe(async (user) => {
       if (user) {
         this.user = user;
         this.userName = `${user.firstName} ${user.lastName}`;
@@ -114,6 +120,10 @@ export class ShellComponent implements OnInit, OnDestroy {
         } else {
           this.powered = true;
         }
+        // To return user account expiration date.
+        await this.userContract.checkKYCExpire(this.user.owner).then((date) => {
+          this.accountExpirationDate = date;
+        });
       }
     });
 
@@ -158,9 +168,10 @@ export class ShellComponent implements OnInit, OnDestroy {
         //     ' and allowTransactionSubmissions is ', this.allowTransactionSubmissions);
       });
     }
+    this.isIn = false;
   }
 
-  public async renewUserRights() {
+  public async renewUserRightsCheckKYC() {
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
       creationDate: userBc.creationDate,
@@ -174,7 +185,8 @@ export class ShellComponent implements OnInit, OnDestroy {
       cmo: userBc.cmo,
       groups: userBc.groups,
       tokens: userBc.tokens,
-      kycData: userBc.kycData
+      kycData: userBc.kycData,
+      accountExpirationDate: userBc.accountExpirationDate
     };
     // console.log('FROM RENEW USER GROUP RIGHTS: ');
     // console.log(user);
@@ -184,6 +196,44 @@ export class ShellComponent implements OnInit, OnDestroy {
     // @ts-ignore
     this.user = user;
     // console.log(this.user);
+
+    // Check KYC expiration date.
+    if (this.user && this.user.role !== ROLES.SUPER_USER  /* && this.user.role !== ROLES.ADMIN */) {
+        if (this.accountExpirationDate) {
+          console.log('KYCExpireDate: ', this.accountExpirationDate);
+          console.log('Now: ', new Date().getTime());
+          if (new Date().getTime() > this.accountExpirationDate && !this.isIn) {
+            this.isIn = true;
+            // pop up user management, if not Admin then disable all other edit options.
+            const dialogRef = this.dialog.open(KYCDialogUserDataComponent, {
+              data: {
+                user: this.user,
+                usedTokens: 0,
+                member: this.currentMember
+              }
+            });
+            dialogRef.afterClosed().subscribe(value => {
+              if (value) {
+                this.store.dispatch(new fromUserActions.UpdateUser(value));
+                new Promise( resolve => setTimeout(resolve, 6000) )
+                    .then(() => {
+                      this.store.dispatch(new fromUserActions.SendUser(value));
+                      new Promise( resolve => setTimeout(resolve, 6000) )
+                          .then(() => {
+                            this.store.dispatch(new fromMnemonicActions.RemoveMnemonic());
+                            this.store.dispatch(new fromUserActions.RemoveUser());
+                            this.store.dispatch(new fromApplicationDataActions
+                                .ChangeTheme({theme: THEMES.blue}));
+                            this.router.navigate(['login']);
+                          });
+                    });
+              }
+              this.isIn = false;
+            });
+          }
+        }
+      // });
+    }
   }
 
   public newMessagesGet() {

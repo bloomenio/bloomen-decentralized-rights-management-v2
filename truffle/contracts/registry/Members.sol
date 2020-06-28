@@ -207,11 +207,11 @@ contract Members is Random, Registry {
   }
 
   // New; after separated Users from Members contract
-  function updateMemberTotalTokens(uint memberId, uint cost) {
+  function updateMemberTotalTokens(uint memberId, uint cost) public {
     members_[memberId].totalTokens -= cost;
   }
 
-  function increaseMemberTotalTokens(uint memberId, uint cost) {
+  function increaseMemberTotalTokens(uint memberId, uint cost) public {
     members_[memberId].totalTokens += cost;
   }
 
@@ -223,7 +223,7 @@ contract Members is Random, Registry {
     return members_[memberId].totalTokens;
   }
 
-  function calcRandom(uint seed) public view returns(uint) {
+  function calcRandom(uint seed) public pure returns(uint) {
     return Random.rand(seed);
   }
 

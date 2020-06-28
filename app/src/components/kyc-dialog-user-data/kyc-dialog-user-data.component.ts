@@ -3,18 +3,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ROLES } from '@core/constants/roles.constants';
 import { UserModel } from '@core/models/user.model';
-import {currentMember} from '@pages/inbox/inbox.component';
+// import {currentMember} from '@pages/inbox/inbox.component';
 import {UserContract} from '@services/web3/contracts';
 import * as fromUserActions from '@stores/user/user.actions';
 const IPFS = require('ipfs');
 
 @Component({
   selector: 'blo-dialog-user-data',
-  templateUrl: './dialog-user-data.component.html',
-  styleUrls: ['./dialog-user-data.component.scss']
+  templateUrl: './kyc-dialog-user-data.component.html',
+  styleUrls: ['./kyc-dialog-user-data.component.scss']
 })
 
-export class DialogUserDataComponent implements OnInit {
+export class KYCDialogUserDataComponent implements OnInit {
 
   public editUserForm: FormGroup;
   public nameIcon: string;
@@ -25,7 +25,7 @@ export class DialogUserDataComponent implements OnInit {
   private kycData: any;
 
   constructor(
-      public dialogRef: MatDialogRef<DialogUserDataComponent>,
+      public dialogRef: MatDialogRef<KYCDialogUserDataComponent>,
       private fb: FormBuilder,
       public userContract: UserContract,
       @Inject(MAT_DIALOG_DATA) public data: any
@@ -40,23 +40,24 @@ export class DialogUserDataComponent implements OnInit {
       id: [this.data.user.owner, [Validators.required]],
       tokens: [this.data.user.tokens, [Validators.required, Validators.min(0), Validators.max(this.data.member.totalTokens)]],
       kycData: [this.data.user.kycData, [Validators.required]],
-      accountExpirationDate: [new Date(parseInt(this.data.user.accountExpirationDate, 10))
-          || new Date().getTime(), [Validators.required]]
+      accountExpirationDate: [new Date(parseInt(this.data.user.accountExpirationDate, 10)
+                              || new Date().getTime()), [Validators.required]]
     });
-    this.currentMember = currentMember;
+
+    this.currentMember = this.data.member;
     this.usedTokens = this.data.usedTokens;
     this.max = this.data.member.totalTokens - this.usedTokens;
-    console.log('Total Tokens are ', this.data.member.totalTokens, ' and usedTokens are ', this.usedTokens);
+    // console.log('Total Tokens are ', this.data.member.totalTokens, ' and usedTokens are ', this.usedTokens);
     // usedTokens = this.usedTokens;
     this.roles = [ROLES.USER, ROLES.ADMIN];
     this.editUserForm.get('id').disable();
     this.editUserForm.get('role').disable();
     this.editUserForm.get('memberId').disable();
-    if (this.data.user.role === ROLES.USER) {
-      this.editUserForm.get('firstName').disable();
-      this.editUserForm.get('lastName').disable();
-      this.editUserForm.get('tokens').disable();
-    }
+    // if (this.data.user.role === ROLES.USER) {
+    this.editUserForm.get('firstName').disable();
+    this.editUserForm.get('lastName').disable();
+    this.editUserForm.get('tokens').disable();
+    // }
     this.nameIcon = this.data.user.firstName.trim()[0].toUpperCase() + this.data.user.lastName.trim()[0].toUpperCase();
   }
 
@@ -68,6 +69,7 @@ export class DialogUserDataComponent implements OnInit {
         this.editUserForm.get('role').value === this.data.user.role &&
         this.editUserForm.get('kycData').value === this.data.user.kycData) {
       // do nothing
+      alert('Should not upload the same documents.');
     } else {
       if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
         const user: UserModel = {
@@ -83,7 +85,7 @@ export class DialogUserDataComponent implements OnInit {
           kycData: this.data.user.kycData,
           accountExpirationDate: this.editUserForm.get('accountExpirationDate').value.getTime()
         };
-        this.dialogRef.close(user);
+        alert('Should not upload the same documents.');
       } else {  // new kycData
         Promise.resolve()
             .then(async () => {
@@ -91,6 +93,7 @@ export class DialogUserDataComponent implements OnInit {
               Promise.resolve()
                   .then(() => {
                     this.ipfsManager().then(r => {
+                      console.log(this.kycData);
                       const user: UserModel = {
                         creationDate: this.data.user.creationDate,
                         firstName: this.editUserForm.get('firstName').value,
@@ -115,7 +118,6 @@ export class DialogUserDataComponent implements OnInit {
   public async ipfsManager() {
     // Adding data to IPFS
     const node = await IPFS.create();
-
     // const version = await node.version();
     // console.log('Version:', version.version);
     const data = this.kycData; // 'kycData'; // this.userForm.get('kycData');
@@ -138,7 +140,7 @@ export class DialogUserDataComponent implements OnInit {
 
     // Getting data from IPFS
     // node = await IPFS.create();
-    //
+
     // const stream = node.cat(results.toString());
     // data = '';
     //
@@ -163,7 +165,7 @@ export class DialogUserDataComponent implements OnInit {
 
       reader.onload = (e: any) => {
         this.kycData = e.target.result;
-        // console.log(this.kycData);
+        console.log(this.kycData);
       };
 
       reader.readAsText(inputNode);

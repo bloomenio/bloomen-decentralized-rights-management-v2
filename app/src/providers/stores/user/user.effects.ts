@@ -68,7 +68,8 @@ export class UserEffects {
                 cmo: userBc.cmo,
                 groups: userBc.groups,
                 tokens: userBc.tokens,
-                kycData: userBc.kycData
+                kycData: userBc.kycData,
+                accountExpirationDate: userBc.accountExpirationDate
             };
             // console.log('FROM ADD USER: ');
             // console.log(user);

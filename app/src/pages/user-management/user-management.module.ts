@@ -17,7 +17,7 @@ import { UserManagementComponent } from './user-management.component';
 import { UserManagementDataSource } from './user-management.datasource';
 import { UserProfileShellModule } from '@components/user-profile-shell/user-profile-shell.module';
 import {ReactiveFormsModule} from '@angular/forms';
-// import {DialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
+// import {KycDialogUserDataComponent} from '@components/dialog-user-data/dialog-user-data.component';
 import {DialogUserDataModule} from '@components/dialog-user-data/dialog-user-data.module';
 
 /**
@@ -36,8 +36,8 @@ import {DialogUserDataModule} from '@components/dialog-user-data/dialog-user-dat
     ReactiveFormsModule,
     DialogUserDataModule
   ],
-  declarations: [UserManagementComponent], // DialogUserDataComponent],
+  declarations: [UserManagementComponent], // KycDialogUserDataComponent],
   providers: [UserManagementDataSource, DatePipe],
-  // entryComponents: [DialogUserDataComponent]
+  // entryComponents: [KycDialogUserDataComponent]
 })
 export class UserManagementModule { }
