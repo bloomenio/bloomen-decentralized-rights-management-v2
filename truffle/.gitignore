@@ -34,3 +34,5 @@ bin/
 ganache_db/*
 !ganache_db/.ignoreme
 /addMembers2.sh
+package-lock.json
+build/
