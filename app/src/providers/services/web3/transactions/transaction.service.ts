@@ -55,6 +55,7 @@ export class TransactionService {
       const now = new Date().getMilliseconds();
       callback().then(
         (response: any) => {
+          // console.log(response);
           if (response.transactionHash) {
             // send transaction
             newTr.txhash = response.transactionHash;
@@ -90,7 +91,7 @@ export class TransactionService {
           (txStatus: any) => {
             if (txStatus) {
               if (txStatus.status) {
-                console.log('tx-ok', tx.txhash );
+                // console.log('tx-ok', tx.txhash);
                 tx.resolve(txStatus);
               } else {
                 tx.reject(txStatus);

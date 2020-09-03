@@ -31,7 +31,7 @@ contract Users is Members {
   address[] private usersList_;
   uint256 constant private PAGE_SIZE = 10;
 
-  uint256 constant private userStartTokens = 10000;
+  uint256 constant private userStartTokens = 100000;
 
   // PUBLIC
 

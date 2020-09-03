@@ -1,5 +1,11 @@
-<div mat-dialog-title class="dialog-title">{{ 'add_member_dialog.add_member' | translate }}</div>
-<div mat-dialog-content>
+<div *ngIf="data" mat-dialog-title class="dialog-title">Inspecting the file...</div>
+<div *ngIf="data" class="loading-shade" fxLayoutAlign="center center"
+     style="background-color: transparent">
+<!--  Papaparse   -->
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!data" mat-dialog-title class="dialog-title">{{ 'add_member_dialog.add_member' | translate }}</div>
+<div *ngIf="!data" mat-dialog-content>
   <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" fxLayout="column">
     <div fxLayout="row">
       <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="space-between">

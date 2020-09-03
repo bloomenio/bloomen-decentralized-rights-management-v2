@@ -153,13 +153,13 @@ contract Members is Random, Registry {
 //    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
 //    members_[_memberId].claims.length--;
     //    }
-    if (found) {
+    if (found || (members_[_memberId].claims.length == 1 && members_[_memberId].claims[0] == _claimId)) {
 //      if (members_[_memberId].claims.length == 1) {
 //        delete members_[_memberId].claims;
 //      }
 //      else {
       delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
-        members_[_memberId].claims.length--;
+      members_[_memberId].claims.length--;
 //      }
     }
   }
@@ -174,7 +174,6 @@ contract Members is Random, Registry {
 
   function _removeClaimFromInbox(uint _memberId, uint _claimId) public {
     bool found = false;
-    // Remove index
     for (uint j = 0; j < members_[_memberId].claimInbox.length - 1; j++) {
       if(members_[_memberId].claimInbox[j] == _claimId) {
         found = true;
@@ -183,11 +182,37 @@ contract Members is Random, Registry {
         members_[_memberId].claimInbox[j] = members_[_memberId].claimInbox[j + 1];
       }
     }
-    if (found) {
+    //    if (found) {
+    //    delete members_[_memberId].claims[members_[_memberId].claims.length - 1];
+    //    members_[_memberId].claims.length--;
+    //    }
+    if (found || (members_[_memberId].claimInbox.length == 1 && members_[_memberId].claimInbox[0] == _claimId)) {
+      //      if (members_[_memberId].claims.length == 1) {
+      //        delete members_[_memberId].claims;
+      //      }
+      //      else {
       delete members_[_memberId].claimInbox[members_[_memberId].claimInbox.length - 1];
       members_[_memberId].claimInbox.length--;
+      //      }
     }
   }
+
+//  function _removeClaimFromInbox(uint _memberId, uint _claimId) public { // OLD
+//    bool found = false;
+//    // Remove index
+//    for (uint j = 0; j < members_[_memberId].claimInbox.length - 1; j++) {
+//      if(members_[_memberId].claimInbox[j] == _claimId) {
+//        found = true;
+//      }
+//      if(found) {
+//        members_[_memberId].claimInbox[j] = members_[_memberId].claimInbox[j + 1];
+//      }
+//    }
+//    if (found || (members_[_memberId].claims.length == 1 && members_[_memberId].claims[0] == _claimId)) {
+//      delete members_[_memberId].claimInbox[members_[_memberId].claimInbox.length - 1];
+//      members_[_memberId].claimInbox.length--;
+//    }
+//  }
 
   function _clearUserFromMemberRequest(uint _memberId, address userAddress) internal {
      bool found = false;

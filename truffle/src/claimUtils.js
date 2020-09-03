@@ -68,18 +68,18 @@ function getClaimById(claimId) {
 async function addClaim() {
 
     let questions = [
-        {type: 'number', name: 'type', message: 'Claim type:'},
-        {type: 'number', name: 'memberReceptor', message: 'Claim member receptor id:'},
-        {type: 'number', name: 'status', message: 'Claim status:'},
+        {type: 'bool', name: 'type', message: 'Claim type:'}, // true
+        {type: 'number', name: 'memberReceptor', message: 'Claim member receptor id:'}, // 2
+        // {type: 'number', name: 'status', message: 'Claim status:'}, //
     ];
 
     let answer = await inquirer.prompt(questions);
     let creationDate = new Date().getTime();
 
 
-    var data = RLP.encode([['test', 'value'], ['test2', 'value']]);
-    contractInstance.methods.registerClaim(creationDate, data, answer.type, answer.memberReceptor, 'testing')
-        .send(transactionObject).then(checkTransaction);
+    var data = RLP.encode([['ISRC', 'ABABG1212345'], ['countries', 'Italy']]);
+    contractInstance.methods.computeClaim(creationDate, data, answer.type, answer.memberReceptor, true, 1,
+        data, creationDate, false).send(transactionObject).then(checkTransaction);
 }
 
 // UPDATE
@@ -104,9 +104,10 @@ async function getClaimsCountByMemId() {
 }
 
 function checkTransaction(result) {
+    console.log(result);
     web3.eth.getTransactionReceipt(result,
         (status) => {
-            if (GAS == status.gasUsed) {
+            if (GAS === status.gasUsed) {
                 //transaction error
                 console.log('KO');
             } else {

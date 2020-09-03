@@ -11,7 +11,15 @@
                 <div style="padding: 4px"></div>
             </mat-panel-title>
             <mat-panel-description>
-                <div fxFlex fxLayout="column">
+                <div fxFlex fxLayout="column" *ngIf="!data.asset">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="space-between end">
+                        <div class="sections-container">
+                            <div class="data-section-title">There is no data for this music asset.</div>
+                            <div class="all-copy">--</div>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex fxLayout="column" *ngIf="data.asset">
                     <div fxFlex fxLayout="row" fxLayoutAlign="space-between end" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
                         <div class="sections-container" *ngIf="data.asset.ISRC">
                             <div class="data-section-title">{{ 'repertoire.ISRC' | translate | uppercase }}</div>
@@ -63,7 +71,7 @@
                 </div>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <div *ngIf="expanded">
+        <div *ngIf="expanded && data.asset">
         <div fxLayout="row" *ngIf="data.asset.ISRC || data.asset.type === 'Sound Recording'">
             <div fxFlex fxLayout="column">
 

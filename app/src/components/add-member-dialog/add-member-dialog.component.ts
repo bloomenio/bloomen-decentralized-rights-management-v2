@@ -50,8 +50,7 @@ export class AddMemberDialogComponent implements OnInit {
       if (user) {
         this.user = user;
         this.currentCMO = this.user.cmo;
-        console.log('this.currentCMO');
-        console.log(this.currentCMO);
+        // console.log('this.currentCMO is ', this.currentCMO);
         if (user.role === ROLES.SUPER_USER) {
           // console.log(this.user);
         }

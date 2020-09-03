@@ -278,7 +278,6 @@ export class AssetCardComponent implements OnInit {
       // console.log('GLOBAL ALL ASSETS');
       // console.log(globalAllAssets);
       console.log('We have ', objs.length, ' claims to upload: ', objs);
-      // let dialog;
       this.insertedClaimsCount = -1;
       if (objs.length * price > userTokens) {
         this.alertUser2(userTokens, price);
@@ -381,7 +380,7 @@ export class AssetCardComponent implements OnInit {
                           }
                         })
                         .then(() => {
-                          // console.log('claimsArray\'s new entry: ', c);
+                          console.log('claimsArray\'s new entry: ', c);
                           claimsArray.push(c);
                           // claimsArray.push(c);
                           // if (claimsArray.length <= 1) {

@@ -5,10 +5,10 @@
         </div>
         <mat-form-field>
             <input matInput autocomplete="off" class="input-placeholder" (keyup)="applyAnythingFilter($event.target.value)"
-                   style="font-size: 20px" placeholder="Search ISCs, titles, territories, use & right types.
-E.g.: Enter 'ISWC Greece from 1/31/2016 to 2/25/2020' to get all Musical Works related to Greece
-that have right dates between 1/31/2016 and 2/25/2020. For an asset relating to a specific year use: 'year 2020'.
-Tip: I am NOT case sensitive.">
+                   style="font-size: 20px" placeholder="Leave SPACE after each queried word. Examples:
+                   'CONFLICT ISWC Greece from 1/31/2016 to 2/25/2020', 'CONFLICT year 2020'.">
+<!-- Space Sensitive Search! 'ISWC Greece from 1/31/2016 to 2/25/2020' to find all Musical Works related to Greece
+ between 1/31/2016 & 2/25/2020. 'year 2020' = any asset relating to year 2020.-->
         </mat-form-field>
         <div class="table-container" [ngClass]="{ 'loading': (dataSource.loading$ | async) }">
             <table mat-table [dataSource]="dataSource.claims" class="table" matSort matSortDirection="asc" matSortDisableClear>
@@ -50,21 +50,22 @@ Tip: I am NOT case sensitive.">
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef>
-                        <mat-form-field>
-                            <mat-label>Status</mat-label>
-                            <mat-select [formControl]="sF" multiple (selectionChange)="applyStatusFilter($event)">
-<!--                                <input matInput autocomplete="off" (keyup)="searchStatusFilter($event.target.value)"-->
-<!--                                       style="font-size: 20px" placeholder="Search status...">-->
-                                <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.label }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+<!--                        <mat-form-field>-->
+<!--                            <mat-label>Status</mat-label>-->
+                        Status
+<!--                            <mat-select [formControl]="sF" multiple (selectionChange)="applyStatusFilter($event)">-->
+<!--&lt;!&ndash;                                <input matInput autocomplete="off" (keyup)="searchStatusFilter($event.target.value)"&ndash;&gt;-->
+<!--&lt;!&ndash;                                       style="font-size: 20px" placeholder="Search status...">&ndash;&gt;-->
+<!--                                <mat-option *ngFor="let status of statusList" [value]="status.value">{{ status.label }}-->
+<!--                                </mat-option>-->
+<!--                            </mat-select>-->
+<!--                        </mat-form-field>-->
                     </th>
                     <td mat-cell *matCellDef="let element" style="width: 50px">
                         <mat-chip-list fxLayoutAlign="center">
                             <mat-chip *ngIf="element.status === true || element.status === false">
                                 {{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip>
-<!--                            <mat-chip>{{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip>-->
+<!--                            <mat-chip>{{ 'claimStatus.' + element.status | translate | uppercase }}</mat-chip> -->
                         </mat-chip-list>
                     </td>
                 </ng-container>
@@ -120,7 +121,7 @@ Tip: I am NOT case sensitive.">
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <mat-paginator [length]="claimsCount" [pageSize]="claimsCount"></mat-paginator>
-                      <!-- pageSize must be the same as PAGE_SIZE in the corresponding *.sol file -->
+        <mat-paginator [length]="claimsCount" [pageSize]="pageSizeFromSol"></mat-paginator>
+                      <!-- pageSize must be pageSizeFromSol when pagianting -->
     </div>
 </div>

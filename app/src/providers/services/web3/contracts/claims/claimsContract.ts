@@ -41,12 +41,10 @@ export class ClaimsContract extends Contract {
             claimType = true;
         }
         // console.log('ClaimsContract.addClaim');
-        // console.log(claim.creationDate, claim.claimData, claimType, claim.memberOwner, true,
-        //     1, claim.claimData, new Date().getTime());
+        // console.log(this.contractAddress);
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType, claim.memberOwner, true,
-                1, encodeOldData, new Date().getTime(), false
-            ).send(this.args);
+            return this.contract.methods.computeClaim(claim.creationDate, encodeData, claimType,
+                claim.memberOwner, true, 1, encodeOldData, new Date().getTime()).send(this.args);
             });
     }
 
@@ -65,8 +63,7 @@ export class ClaimsContract extends Contract {
         //     claim.claimId, claim.oldClaimData, new Date().getTime(), updateClaimId);
         return this.transactionService.addTransaction(this.args.gas, () => {
             return this.contract.methods.computeClaim(claim.creationDate, encodeData, claim.claimType, claim.memberOwner, false,
-                claim.claimId, encodeOldData, new Date().getTime(), false
-            ).send(this.args);
+                claim.claimId, encodeOldData, new Date().getTime()).send(this.args);
         });
     }
 
@@ -83,9 +80,8 @@ export class ClaimsContract extends Contract {
         // console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
         //     claim.claimId, claim.oldClaimData, new Date().getTime());
         return this.transactionService.addTransaction(this.args.gas, () => {
-            return this.contract.methods.computeClaim(1, encodeData, claim.claimType, claim.memberOwner, false,
-                claim.claimId, encodeOldData, new Date().getTime(), false   // oldClaimData==claimData
-            ).send(this.args);
+            return this.contract.methods.computeClaim(0, encodeData, claim.claimType, claim.memberOwner, false,
+                claim.claimId, encodeOldData, new Date().getTime()).send(this.args);
         });
     }
 
@@ -156,6 +152,7 @@ export class ClaimsContract extends Contract {
                     map((claims: ClaimModel[]) => {
                         // console.log('ClaimsContract.getClaimByMemId.map1');
                         return claims.filter((claim: ClaimModel) => {
+                            // console.log(claim);
                             return (claim.claimId > 0 && claim.creationDate > 0);
                         });
                     }),

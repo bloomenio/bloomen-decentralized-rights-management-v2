@@ -34,7 +34,7 @@ contract Claims {
     uint256 memberOwner;    // should be 2^24 ~ 16 million members
     bool status;
     uint256 lastChange;
-    uint16[] log;
+//    uint16[] log;
     uint16 maxSplit;
   }
 
@@ -49,7 +49,7 @@ contract Claims {
   using strings for *;
 
   function computeClaim(uint256 _creationDate, bytes _claimData, bool _claimType, uint256 _memberOwner, bool register_or_update,
-    uint256 _claimId, bytes _oldClaimData, uint _lastChange, bool _updateClaimId) public {
+    uint256 _claimId, bytes _oldClaimData, uint _lastChange) public {
 
 //    Users.User memory currentUser = _Users.getUserByAddress(msg.sender);
 //    if (currentUser.tokens > transactionPrice) {
@@ -76,11 +76,12 @@ contract Claims {
         checkClaimStatus(_claimId, _claimType, _claimData, true);
         _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
 
-        if (_creationDate == 1) {  // Delete claim.
+        if (_creationDate == 0) {  // Delete claim.
           _Users._removeClaimFromMember(_memberOwner, _claimId);
           if (claims_[_claimId].status) {
             _Users._removeClaimFromInbox(_memberOwner, _claimId);
           }
+//          _saveClaim(_claimId, 0, "", false, 0, false, 0);
 //            _removeClaimFromMapping(_claimId);
 //            _saveClaim(_claimId, _creationDate, _claimData, _claimType, _memberOwner, claims_[_claimId].status, _lastChange);
         }
@@ -295,8 +296,8 @@ contract Claims {
                   tempMaxSplitOnce=false;
                   maxSplits_[_claimId] = maxSplits_[i];
                 }
-                claims_[1].log.push(split);
-                claims_[1].log.push(maxSplits_[i]);
+//                claims_[1].log.push(split);
+//                claims_[1].log.push(maxSplits_[i]);
               } else {
                 if (tempMaxSplitOnce) {
                   maxSplits_[_claimId]=split;
@@ -314,8 +315,8 @@ contract Claims {
                   }
                 }
                 if (maxSplits_[i] != 0) maxSplits_[i]-=split;                // recalculate maxSplits_[i]
-                claims_[2].log.push(split);
-                claims_[2].log.push(maxSplits_[i]);
+//                claims_[2].log.push(split);
+//                claims_[2].log.push(maxSplits_[i]);
               }
               claims_[i].maxSplit = maxSplits_[i];
             }  // hasOverlapResult territory

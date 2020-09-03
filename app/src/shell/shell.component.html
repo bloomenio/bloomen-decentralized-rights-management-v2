@@ -40,7 +40,7 @@
       </mat-list>
     </nav>
     <div style="color:#808080; position:absolute; bottom:0">
-     V^{{version}} {{copyright}}
+     V^{{ version }} {{ copyright }}
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -72,8 +72,22 @@
           <button mat-button (click)="openDialogAddMember()">{{ 'Add member' | translate | uppercase }}</button>
         </div>
         <div *ngIf="currentPageRoute === 'Claims' && user?.role !== roles.SUPER_USER">
-          <button mat-button (click)="allowTransactionSubmissions ? openInput() : alertUser()" class="upload-claims">{{ 'Upload claims' | uppercase }}</button>
-          <input id="fileInput" hidden name="file-field" (change)="uploadFile($event)" type="file" accept=".csv">
+            <button mat-button (click)="allowTransactionSubmissions ? openInput() : alertUser()" class="upload-claims">
+                {{ 'Upload claims' | uppercase }}</button>
+            <input id="uploadFile" class="hidden" (change)="uploadFile($event)" type="file" accept=".csv">
+            <input id="uploadFile2" class="hidden" (change)="uploadFile2($event)" type="file" accept=".csv">
+            <!--            <form [formGroup]="csvForm" fxLayout="row wrap" fxLayoutAlign="space-between">-->
+<!--                <mat-form-field fxFlex="45" appearance="outline">-->
+<!--                <ngx-mat-file-input #uploadFileNow [multiple]="false" [accept]="'.csv'" formControlName="csv"-->
+<!--                                    [color]="null" placeholder="Attach a claims CSV file.">-->
+<!--                    <mat-icon ngxMatFileInputIcon>attach_file</mat-icon>-->
+<!--                </ngx-mat-file-input>-->
+<!--                <button class="upload-claims" mat-button *ngIf="!uploadFileNow.empty" (click)="onSubmit()"-->
+<!--                        >Upload</button>-->
+<!--                </mat-form-field>-->
+<!--            </form>-->
+<!--            <angular-file-uploader class="upload-claims" [config]="afuConfig" (ApiResponse)="uploadFile($event)">-->
+<!--            </angular-file-uploader>-->
         </div>
 <!--        <div class="add-claim">-->
 <!--          <button mat-button (click)="openDialogAddClaim()">{{'Add claim' | translate | uppercase}}</button>-->

@@ -11,22 +11,26 @@ import { BackButtonShellModule } from '@components/back-button-shell/back-button
 import { AddMemberDialogModule } from '@components/add-member-dialog/add-member-dialog.module';
 import {DeleteClaimModule} from '@components/delete-claim/delete-claim.module';
 import {AssetCardComponent} from '@components/asset-card/asset-card.component';
+// import {NgxMatFileInputModule} from '@angular-material-components/file-input';
+import {ReactiveFormsModule} from '@angular/forms';
+// import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    FlexLayoutModule,
-    MaterialModule,
-    RouterModule,
-    BackButtonShellModule,
-    SharedModule,
-    DirectivesModule,
-    AddMemberDialogModule,
-    DeleteClaimModule,
-    // AddClaimDialogModule,
-  ],
-  declarations: [ShellComponent],
-  providers: [AssetCardComponent]
+    imports: [
+        CommonModule,
+        TranslateModule,
+        FlexLayoutModule,
+        MaterialModule,
+        RouterModule,
+        BackButtonShellModule,
+        SharedModule,
+        DirectivesModule,
+        AddMemberDialogModule,
+        DeleteClaimModule,
+        // NgxMatFileInputModule,
+        ReactiveFormsModule
+    ],
+    declarations: [ShellComponent],
+    providers: [AssetCardComponent]
 })
 export class ShellModule { }

@@ -52,7 +52,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.autoFillMultiCMO = false;
+    this.autoFillMultiCMO = true;
     this.autoFill = false;
     if (!this.autoFill) {
       this.userForm = this.fb.group({
