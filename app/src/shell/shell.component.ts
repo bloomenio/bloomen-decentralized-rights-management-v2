@@ -172,6 +172,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   }
 
   public async renewUserRightsCheckKYC() {
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
       creationDate: userBc.creationDate,
@@ -190,15 +191,22 @@ export class ShellComponent implements OnInit, OnDestroy {
     };
     // console.log('FROM RENEW USER GROUP RIGHTS: ');
     // console.log(user);
+    // console.log(user);
+    if (user.owner === '0x0000000000000000000000000000000000000000') {
+      this.store.dispatch(new fromMnemonicActions.RemoveMnemonic());
+      this.store.dispatch(new fromUserActions.RemoveUser());
+      this.store.dispatch(new fromApplicationDataActions
+          .ChangeTheme({theme: THEMES.blue}));
+      this.router.navigate(['login']).then();
+    }
     this.applicationDatabaseService.set(APPLICATION_DATA_CONSTANTS.USER, user);
     // this.store.dispatch(new fromUserActions.AddUserSuccess(user));
     this.store.dispatch(new fromMemberActions.SelectMember(user.memberId));
     // @ts-ignore
     this.user = user;
-    // console.log(this.user);
-
     // Check KYC expiration date.
-    if (this.user && this.user.role !== ROLES.SUPER_USER  /* && this.user.role !== ROLES.ADMIN */) {
+    if (this.user.owner !== '0x0000000000000000000000000000000000000000' &&
+        this.user && this.user.role !== ROLES.SUPER_USER  /* && this.user.role !== ROLES.ADMIN */) {
         if (this.accountExpirationDate) {
           // console.log('KYCExpireDate: ', this.accountExpirationDate);
           // console.log('Now: ', new Date().getTime());

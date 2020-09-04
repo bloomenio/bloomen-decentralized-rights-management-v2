@@ -84,6 +84,7 @@ export class UserProfileShellComponent implements OnInit {
   }
 
   public async updateUserInfo() {
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
       creationDate: userBc.creationDate,
