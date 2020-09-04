@@ -85,7 +85,6 @@ export class DialogUserDataComponent implements OnInit {
           kycData: this.data.user.kycData,
           accountExpirationDate: this.editUserForm.get('accountExpirationDate').value.getTime()
         };
-        // this.dialogRef.close(user);
         alert('Should not upload the same documents.');
       } else {  // new kycData
         Promise.resolve()
@@ -118,7 +117,6 @@ export class DialogUserDataComponent implements OnInit {
   public async ipfsManager() {
     // Adding data to IPFS
     const node = await IPFS.create();
-
     // const version = await node.version();
     // console.log('Version:', version.version);
     const data = this.kycData; // 'kycData'; // this.userForm.get('kycData');

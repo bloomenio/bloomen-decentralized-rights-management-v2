@@ -8,6 +8,8 @@ import {UserContract} from '@services/web3/contracts';
 import * as fromUserActions from '@stores/user/user.actions';
 const IPFS = require('ipfs');
 
+export let node: any;
+
 @Component({
   selector: 'blo-dialog-user-data',
   templateUrl: './kyc-dialog-user-data.component.html',
@@ -41,9 +43,8 @@ export class KYCDialogUserDataComponent implements OnInit {
       tokens: [this.data.user.tokens, [Validators.required, Validators.min(0), Validators.max(this.data.member.totalTokens)]],
       kycData: [this.data.user.kycData, [Validators.required]],
       accountExpirationDate: [new Date(parseInt(this.data.user.accountExpirationDate, 10)
-                              || new Date().getTime()), [Validators.required]]
+                              || new Date().getTime(), [Validators.required]]
     });
-
     this.currentMember = this.data.member;
     this.usedTokens = this.data.usedTokens;
     this.max = this.data.member.totalTokens - this.usedTokens;
@@ -67,8 +68,9 @@ export class KYCDialogUserDataComponent implements OnInit {
         this.editUserForm.get('memberId').value === this.data.user.memberId &&
         this.editUserForm.get('tokens').value === this.data.user.tokens &&
         this.editUserForm.get('role').value === this.data.user.role &&
-        this.editUserForm.get('kycData').value === this.data.user.kycData) {
-      // do nothing
+        this.editUserForm.get('kycData').value === this.data.user.kycData &&
+        this.editUserForm.get('accountExpirationDate').value.getTime() ===
+        new Date(parseInt(this.data.user.accountExpirationDate, 10)) ) {
       alert('Should not upload the same documents.');
     } else {
       if (this.editUserForm.get('kycData').value === this.data.user.kycData) {
@@ -93,7 +95,6 @@ export class KYCDialogUserDataComponent implements OnInit {
               Promise.resolve()
                   .then(() => {
                     this.ipfsManager().then(r => {
-                      // console.log('onSubmit ', this.kycData);
                       const user: UserModel = {
                         creationDate: this.data.user.creationDate,
                         firstName: this.editUserForm.get('firstName').value,
@@ -117,7 +118,9 @@ export class KYCDialogUserDataComponent implements OnInit {
 
   public async ipfsManager() {
     // Adding data to IPFS
-    const node = await IPFS.create();
+    if (node === undefined) {
+      node = await IPFS.create();
+    }
     // const version = await node.version();
     // console.log('Version:', version.version);
     const data = this.kycData; // 'kycData'; // this.userForm.get('kycData');
