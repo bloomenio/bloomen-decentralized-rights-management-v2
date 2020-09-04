@@ -8,6 +8,8 @@ import {UserContract} from '@services/web3/contracts';
 import * as fromUserActions from '@stores/user/user.actions';
 const IPFS = require('ipfs');
 
+export let node2: any;
+
 @Component({
   selector: 'blo-dialog-user-data',
   templateUrl: './dialog-user-data.component.html',
@@ -116,14 +118,16 @@ export class DialogUserDataComponent implements OnInit {
 
   public async ipfsManager() {
     // Adding data to IPFS
-    const node = await IPFS.create();
+    if (node2 === undefined) {
+      node2 = await IPFS.create();
+    }
     // const version = await node.version();
     // console.log('Version:', version.version);
     const data = this.kycData; // 'kycData'; // this.userForm.get('kycData');
     // add your data to to IPFS - this can be a string, a Buffer,
     // a stream of Buffers, etc
 
-    const results = node.add(data);
+    const results = node2.add(data);
     // we loop over the results because 'add' supports multiple
     // additions, but we only added one entry here so we only see
     // one log line in the output

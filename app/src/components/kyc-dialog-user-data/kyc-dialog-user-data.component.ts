@@ -40,10 +40,11 @@ export class KYCDialogUserDataComponent implements OnInit {
       memberId: [this.data.user.memberId, [Validators.required]],
       role: [this.data.user.role, [Validators.required]],
       id: [this.data.user.owner, [Validators.required]],
-      tokens: [this.data.user.tokens, [Validators.required, Validators.min(0), Validators.max(this.data.member.totalTokens)]],
+      tokens: [this.data.user.tokens, [Validators.required, Validators.min(0),
+                                       Validators.max(this.data.member.totalTokens)]],
       kycData: [this.data.user.kycData, [Validators.required]],
-      accountExpirationDate: [new Date(parseInt(this.data.user.accountExpirationDate, 10)
-                              || new Date().getTime(), [Validators.required]]
+      accountExpirationDate: [new Date(parseInt(this.data.user.accountExpirationDate, 10))
+      || new Date().getTime(), [Validators.required]]
     });
     this.currentMember = this.data.member;
     this.usedTokens = this.data.usedTokens;
