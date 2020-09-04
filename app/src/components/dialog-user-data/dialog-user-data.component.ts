@@ -46,7 +46,7 @@ export class DialogUserDataComponent implements OnInit {
     this.currentMember = currentMember;
     this.usedTokens = this.data.usedTokens;
     this.max = this.data.member.totalTokens - this.usedTokens;
-    console.log('Total Tokens are ', this.data.member.totalTokens, ' and usedTokens are ', this.usedTokens);
+    // console.log('Total Tokens are ', this.data.member.totalTokens, ' and usedTokens are ', this.usedTokens);
     // usedTokens = this.usedTokens;
     this.roles = [ROLES.USER, ROLES.ADMIN];
     this.editUserForm.get('id').disable();

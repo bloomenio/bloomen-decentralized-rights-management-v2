@@ -461,7 +461,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.assetsApiService.type = 'all';
     this.repertoire$ = this.store.select(fromRepertoireSelector.selectRepertoire);
     this.repertoireCount$ = this.store.select(fromRepertoireSelector.getRepertoireCount);
-    this.assetsApiService.groups = this.user.groups;
+    this.assetsApiService.groups = this.user ? this.user.groups : ['digit1'];
     // console.log('this.assetsApiService.groups is ', this.assetsApiService.groups);
     this.store.dispatch(new fromRepertoireActions.RepertoireSearch({
           filter: '',
