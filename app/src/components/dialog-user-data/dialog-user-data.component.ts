@@ -85,7 +85,8 @@ export class DialogUserDataComponent implements OnInit {
           kycData: this.data.user.kycData,
           accountExpirationDate: this.editUserForm.get('accountExpirationDate').value.getTime()
         };
-        this.dialogRef.close(user);
+        // this.dialogRef.close(user);
+        alert('Should not upload the same documents.');
       } else {  // new kycData
         Promise.resolve()
             .then(async () => {
