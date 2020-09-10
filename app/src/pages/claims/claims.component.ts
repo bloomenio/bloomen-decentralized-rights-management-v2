@@ -184,7 +184,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.applyAnythingFilter(this.anyFilter);
                     }
                     // console.log('prevAnyFilter:', this.prevAnyFilter[0], '+ anyFilter:', this.anyFilter[0]);
-                    if (this.prevAnyFilter !== this.anyFilter) {
+                    if (!this.equal(this.prevAnyFilter, this.anyFilter)) { // this.prevAnyFilter !== this.anyFilter) {
+                        // console.log('PREV !== ANY');
                         this.callAnythingFilter = false;
                         this.index = 0;
                         this.dataSourceClaims = [];
@@ -200,7 +201,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
                     // this.pageClaimsHood = this.groupClaims(this.pageClaimsHood);
                     // this.dataSource.claimsHood = this.pageClaimsHood;
                     // console.log(this.dataSourceClaims.length);
-                    // console.log(this.dataSource.claims.length);
+                    // console.log(this.dataSource.claims);
 
                     // this.dataSourceClaims = this.prev.length ? claims.concat(this.prev) : claims;
                     // // this.dataSource.claims = this.groupClaims(this.dataSourceClaims);
@@ -216,12 +217,24 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
+    public equal(prev: any[], any: any[]) {
+        if (prev.length !== any.length) {
+            return false;
+        }
+        for (let i = 0; i < prev.length; i++) {
+            if (prev[i] !== any[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public ngAfterViewInit() {
         this.claimsContract.getClaimsCountByMemId().then((count) => { this.claimsCount = count; });
         this.claimsContract.getPageSize().then(pageSize => { this.pageSizeFromSol = pageSize; });
         this.paginator.page.pipe(
             tap(() => {
-                if (this.anyFilter[0] !== '') {
+                if (this.anyFilter.length === 1 && this.anyFilter[0] !== '') {
                     const tempSourceClaims = this.dataSourceClaims.filter((c) => c.claimData.ISC === undefined);
                     const limitCheck = Number(this.paginator.pageIndex * this.pageSizeFromSol) + Number(this.pageSizeFromSol);
                     this.dataSource.claims = this.groupClaims(limitCheck < this.claimsCount
@@ -577,7 +590,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             // this.dataSource.claimsHood = this.dataSource.claimsHood.concat(this.dataSource.claims);
         }
         this.anyFilter = anyFilter;
-        if (this.prevAnyFilter !== this.anyFilter) {
+        if (!this.equal(this.prevAnyFilter, this.anyFilter)) { // this.prevAnyFilter !== this.anyFilter) {
             // console.log('prev:', this.prevAnyFilter, ', anyFilter:', this.anyFilter, this.paginator.pageIndex);
             this.callAnythingFilter = false;
             this.index = 0;

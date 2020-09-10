@@ -216,7 +216,7 @@ contract Users is Members {
 
   function updateTokens(address addr, uint transactionPrice) public {
     users_[addr].tokens -= transactionPrice;
-    members_[users_[addr].memberId].totalTokens -= transactionPrice;
+//    members_[users_[addr].memberId].totalTokens -= transactionPrice; ALREADY CALCULATED IN acceptUser(..)
   }
 
   function getUserTokensByAddress(address addr) view public returns(uint) {
