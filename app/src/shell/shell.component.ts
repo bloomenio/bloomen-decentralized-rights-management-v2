@@ -184,7 +184,7 @@ export class ShellComponent implements OnInit, OnDestroy {
   }
 
   public async renewUserRights() {
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    // await new Promise(resolve => setTimeout(resolve, 5000));
     const userBc = await this.userContract.getMe();
     const user: UserModel = {
       creationDate: userBc.creationDate,
