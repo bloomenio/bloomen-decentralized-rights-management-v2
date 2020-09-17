@@ -132,9 +132,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
         // FOR "NEW MESSAGES" INBOX NOTIFICATION.
         // tslint:disable-next-line:no-life-cycle-call
         this.inboxComponent.ngOnInit();
-        if (!this.shellComponent.newMessagesGet() && this.inboxComponent.inbox) {
-            this.inboxComponent.checkNewMessages();
-        }
+        // if (!this.shellComponent.newMessagesGet() && this.inboxComponent.inbox) {
+        //     this.inboxComponent.checkNewMessages();
+        // }
         // tslint:disable-next-line:no-life-cycle-call
         this.shellComponent.ngOnInit();
         // });
@@ -332,7 +332,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         dialog.afterClosed().subscribe(value => {
             if (value) {
-                this.claimsContract.updateCl(value).then(() => {
+                // console.log(value);
+                this.claimsContract.updateCl(value).then(async () => {
+                    // console.log(await this.claimsContract.getClaimById(element.claimId));
                     if (this.router.url.toString() === '/claims') {
                         this.router.navigate(['inbox'])
                             .then(() => {

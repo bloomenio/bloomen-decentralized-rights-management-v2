@@ -58,7 +58,7 @@ export class ClaimsContract extends Contract {
             updateClaimId = true;
         }
         // console.log('updateClaimId: ' + updateClaimId);
-        // console.log('ClaimsContract.updateCl');
+        // console.log(claim);
         // console.log(claim.creationDate, claim.claimData, claim.claimType, claim.memberOwner, false,
         //     claim.claimId, claim.oldClaimData, new Date().getTime(), updateClaimId);
         return this.transactionService.addTransaction(this.args.gas, () => {

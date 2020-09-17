@@ -148,6 +148,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     if (this.newMessagesInterval$) {
       this.newMessagesInterval$.unsubscribe();
     }
+    if (this.dialog.openDialogs) {
+      this.dialog.closeAll();
+    }
   }
 
   public onAcceptEvent(event) {
@@ -220,8 +223,18 @@ export class InboxComponent implements OnInit, OnDestroy {
     // console.log('this is fillInbox');
     const claimsArray = [];
     const usersArray = [];
-
-    for (let i = 0; i < this.member.claimInbox.length; ++i) {
+    if (this.user && this.user.role === ROLES.ADMIN) {
+      for (let j = 0; j < this.member.userRequests.length; ++j) {
+        const user = await this.userContract.getUserByAddress(this.member.userRequests[j]);
+        user.type = INBOX.TYPES.USER;
+        usersArray.push(user);
+      }
+    }
+    let i;
+    for (i = 0; i < this.member.claimInbox.length; ++i) {
+      if (!this.dialog.openDialogs.length && this.router.url.toString() === '/inbox') {
+        this.dialog.open(AssetCardReadOnlyComponent, {}); // only mat-spinner, when opened with config = {}
+      }
       const claim = await this.claimsContract.getClaimById(this.member.claimInbox[i]);
       claim.type = INBOX.TYPES.CLAIM;
 
@@ -233,58 +246,53 @@ export class InboxComponent implements OnInit, OnDestroy {
       // claim.messageLog = messages;
       // if (claim. == INBOX.STATUS_CLAIM)
       claimsArray.push(claim);
-    }
 
-    if (this.user && this.user.role === ROLES.ADMIN) {
-      for (let i = 0; i < this.member.userRequests.length; ++i) {
-        const user = await this.userContract.getUserByAddress(this.member.userRequests[i]);
-        user.type = INBOX.TYPES.USER;
-        usersArray.push(user);
-      }
-    }
+      this.inbox = [...claimsArray, ...usersArray].sort((a, b) => {
+        if (a.type === INBOX.TYPES.CLAIM && b.type === INBOX.TYPES.CLAIM) {
+          return b.lastChange - a.lastChange;
+        }
+        if (a.type === INBOX.TYPES.CLAIM && b.type === INBOX.TYPES.USER) {
+          return b.creationDate - a.lastChange;
+        }
+        if (a.type === INBOX.TYPES.USER && b.type === INBOX.TYPES.CLAIM) {
+          return b.lastChange - a.creationDate;
+        }
+        return b.creationDate - a.creationDate;
+      });
 
-    this.inbox = [...claimsArray, ...usersArray].sort((a, b) => {
-      if (a.type === INBOX.TYPES.CLAIM && b.type === INBOX.TYPES.CLAIM) {
-        return b.lastChange - a.lastChange;
-      }
-      if (a.type === INBOX.TYPES.CLAIM && b.type === INBOX.TYPES.USER) {
-        return b.creationDate - a.lastChange;
-      }
-      if (a.type === INBOX.TYPES.USER && b.type === INBOX.TYPES.CLAIM) {
-        return b.lastChange - a.creationDate;
-      }
-      return b.creationDate - a.creationDate;
-    });
+      this.clearMessage();
 
-    this.clearMessage();
-
-    // IN CASE CLAIMED CLAIMS ARE LEFT IN INBOX BY ACCIDENT.
-    // for (let i = 0; i < this.inbox.length; i++) {
-    //   console.log(this.inbox[i].status);
-    //   if (!this.inbox[i].status) {
-    //     this.inbox.splice(i, 1);
-    //     this.inbox = this.inbox.splice(i, 1);
-    //   }
-    // }
-    // 'delete claim' Garbage Collector
-    if (this.inbox !== this.inbox.filter((m) => m.status)) {
-      this.inbox = this.inbox.filter((m) => m.status);
-      // await this.memberContract.updateClaimInbox(this.member, this.inbox);
+      // IN CASE CLAIMED CLAIMS ARE LEFT IN INBOX BY ACCIDENT.
+      // for (let i = 0; i < this.inbox.length; i++) {
+      //   console.log(this.inbox[i].status);
+      //   if (!this.inbox[i].status) {
+      //     this.inbox.splice(i, 1);
+      //     this.inbox = this.inbox.splice(i, 1);
+      //   }
+      // }
+      // 'delete claim' Garbage Collector
+      if (this.inbox !== this.inbox.filter((m) => m.status)) {
+        this.inbox = this.inbox.filter((m) => m.status);
+        // await this.memberContract.updateClaimInbox(this.member, this.inbox);
+      }
+      if (this.inbox) {
+        this.checkNewMessages();
+      }
+      // In order to load repertoire under the hood, when user has no messages.
+      if (!this.inbox.length) {
+        // console.log(this.inbox);
+        await this.inboxIsEmptyLoadRepertoire();
+      }
+      // Remove duplicates from this.inbox
+      this.inbox = Array.from(new Set(this.inbox.map(a => a.claimId)))
+          .map(claimId => {
+            return this.inbox.find(a => a.claimId === claimId);
+          });
+      // console.log('INBOX', this.inbox);
     }
-    if (this.inbox) {
-      this.checkNewMessages();
+    if (this.dialog.openDialogs && i === this.member.claimInbox.length) {
+      this.dialog.closeAll();
     }
-    // In order to load repertoire under the hood, when user has no messages.
-    if (!this.inbox.length) {
-      // console.log(this.inbox);
-      await this.inboxIsEmptyLoadRepertoire();
-    }
-    // Remove duplicates from this.inbox
-    this.inbox = Array.from(new Set(this.inbox.map(a => a.claimId)))
-        .map(claimId => {
-          return this.inbox.find(a => a.claimId === claimId);
-        });
-    // console.log('INBOX', this.inbox);
   }
 
   public clearMessage() {
