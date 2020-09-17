@@ -293,6 +293,10 @@ export class InboxComponent implements OnInit, OnDestroy {
     if (this.dialog.openDialogs && i === this.member.claimInbox.length) {
       this.dialog.closeAll();
     }
+    if (!this.member.claimInbox.length) {
+      this.timePassed = true;
+      await this.inboxIsEmptyLoadRepertoire();
+    }
   }
 
   public clearMessage() {
