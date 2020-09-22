@@ -214,7 +214,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       this.checkNewMessages();
     }
     // In order to load repertoire under the hood, when user has no messages.
-    if (this.inbox === []) {
+    if (this.inbox && !this.inbox.length) {
       await this.inboxIsEmptyLoadRepertoire();
     }
   }
@@ -432,7 +432,9 @@ export class InboxComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.inbox.length; ++i) {
       const m = this.inbox[i];
       if ((m.claimId ? m.claimId : m.firstName) === string && m.creationDate === creationDate) {
-        (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName) === x.string ))[0].read = true;
+        // console.log(inboxReadClaims);
+        (inboxReadClaims.filter( (x) => m.creationDate === x.creationDate && (m.claimId ? m.claimId : m.firstName)
+            === x.string ))[0].read = true;
         m.read = true;
       }
     }
@@ -476,5 +478,13 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   public updateInfo() {
     // this.shellComponent.renewUserRights().then(r => {});
+  }
+
+  public logout() {
+    lastInboxLength = 0;
+    inboxReadClaims = undefined;
+    unreadMessages = undefined;
+    currentMember = undefined;
+    currentUser = undefined;
   }
 }

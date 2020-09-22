@@ -19,7 +19,7 @@ import * as fromMemberSelectors from '@stores/member/member.selectors';
 import {MemberModel} from '@models/member.model';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogSuperUserComponent} from '@components/dialog-super-user/dialog-super-user.component';
-import {currentUser} from '@pages/inbox/inbox.component';
+import {currentUser, InboxComponent} from '@pages/inbox/inbox.component';
 import {APPLICATION_DATA_CONSTANTS} from '@constants/application-data.constants';
 import * as fromMemberActions from '@stores/member/member.actions';
 import {ApplicationDataDatabaseService} from '@db/application-data-database.service';
@@ -50,7 +50,8 @@ export class UserProfileShellComponent implements OnInit {
     @Inject(MemberContract) private memberContract,
     public userContract: UserContract,
     private applicationDatabaseService: ApplicationDataDatabaseService,
-    private clipboard: ClipboardService
+    private clipboard: ClipboardService,
+    public inboxComponent: InboxComponent
   ) {
 
     this.store.select(fromMnemonicSelectors.getMnemonic).subscribe((mnemonic) => {
@@ -136,6 +137,7 @@ export class UserProfileShellComponent implements OnInit {
   }
 
   public doLogout() {
+    this.inboxComponent.logout();
     this.store.dispatch(new fromMnemonicActions.RemoveMnemonic());
     this.store.dispatch(new fromUserActions.RemoveUser());
     this.store.dispatch(new fromApplicationDataActions.ChangeTheme({ theme: THEMES.blue }));

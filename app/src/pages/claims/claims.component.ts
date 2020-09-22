@@ -4,7 +4,7 @@ import {MatDialog, MatPaginator, MatSnackBar, MatSort} from '@angular/material';
 import {Logger} from '@services/logger/logger.service';
 import {Router} from '@angular/router';
 import {ClaimsDataSource} from './claims.datasource';
-import {tap} from 'rxjs/operators';
+import {first, skipWhile, tap} from 'rxjs/operators';
 import {MusicalDialogComponent} from '@components/claim-dialog/musical-dialog/musical-dialog.component';
 import {SoundDialogComponent} from '@components/claim-dialog/sound-dialog/sound-dialog.component';
 import {Store} from '@ngrx/store';
@@ -22,6 +22,7 @@ import {RepertoireEffects} from '@stores/repertoire/repertoire.effects';
 import {AssetCardReadOnlyComponent} from '@components/asset-card-readOnly/asset-card-readOnly.component';
 import {globalFetched} from '@components/inbox-item-list/inbox-item-list.component';
 import {FormControl} from '@angular/forms';
+import * as fromUserSelectors from "@stores/user/user.selectors";
 
 const log = new Logger('claims.component');
 
@@ -38,6 +39,8 @@ export let tempUrlClaims: any;
 export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public newMessagesInterval$: any;
+    public user$: any;
+    public user: any;
     public displayedColumns: string[];
     public dataSource: ClaimsDataSource;
     public claimsCount: number;
@@ -92,8 +95,22 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.members = members;
             // console.log(members);
         });
-        if (currentUser === undefined) {
+        this.user$ = this.store.select(fromUserSelectors.getUser).pipe(
+            skipWhile(user => !user),
+            first()
+        ).subscribe((user) => {
+            if (user) {
+                this.user = user;
+                if (user.role === ROLES.SUPER_USER) {
+                    console.log(user);
+                }
+            }
+        });
+        if (this.user === undefined) {
             this.router.navigate(['inbox']);
+                // .then(() => { this.router.navigate(['repertoire'])
+                //     .then(() => { this.router.navigate(['claims']); });
+                // });
         }
         if (globalAllAssets === undefined) {
             // alert('Bloomen Decentralized Management App:\n\n\nPlease click your \'Repertoire Tab\'!\n\n' +
@@ -107,13 +124,13 @@ export class ClaimsComponent implements OnInit, AfterViewInit, OnDestroy {
             // })
             ;
         }
-        if (currentUser.role === ROLES.SUPER_USER) {
+        if (this.user && this.user.role === ROLES.SUPER_USER) {
             this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'view'];
         } else {
             this.displayedColumns = ['type', 'code', 'title', 'status', 'creationDate', 'edit', 'view', 'delete'];
         }
         this.dataSource = new ClaimsDataSource(this.claimsContract);
-        this.dataSource.cmo = this.members.filter((m) => m.cmo === currentUser.cmo)[0].cmo;
+        this.dataSource.cmo = this.members.filter((m) => m.cmo === this.user.cmo)[0].cmo;
         this.dataSource.user = currentUser;
         this.dataSource.members = this.members;
         // if (currentUser.role === ROLES.SUPER_USER) {
